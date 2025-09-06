@@ -1,0 +1,71 @@
+name: flavorizr
+description: "A new Flutter project."
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  cupertino_icons: ^1.0.8
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_flavorizr: ^2.4.1
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+
+flavorizr:
+  app:
+    android:
+      flavorDimensions: "flavor-type"
+    ios:
+      bundleId: com.example.flavorizr
+  flavors:
+    dev:
+      app:
+        name: "Flavorizr Dev"
+      android:
+        applicationId: "com.example.flavorizr.dev"
+        resValues:
+          app_name:
+            type: "string"
+            value: "Flavorizr Dev"
+      ios:
+        bundleId: "com.example.flavorizr.dev"
+        buildSettings:
+          PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr.dev"
+    staging:
+      app:
+        name: "Flavorizr Staging"
+      android:
+        applicationId: "com.example.flavorizr.staging"
+        resValues:
+          app_name:
+            type: "string"
+            value: "Flavorizr Staging"
+      ios:
+        bundleId: "com.example.flavorizr.staging"
+        buildSettings:
+          PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr.staging"
+    prod:
+      app:
+        name: "Flavorizr"
+      android:
+        applicationId: "com.example.flavorizr"
+        resValues:
+          app_name:
+            type: "string"
+            value: "Flavorizr"
+      ios:
+        bundleId: "com.example.flavorizr"
+        buildSettings:
+          PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr"
