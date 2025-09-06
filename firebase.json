@@ -1,0 +1,39 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "flavorizr-b3322",
+          "appId": "1:695921448768:android:6fc06c5817e8bba0600ca5",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/config/firebase/firebase_options/firebase_options_prod.dart": {
+          "projectId": "flavorizr-b3322",
+          "configurations": {
+            "android": "1:695921448768:android:6fc06c5817e8bba0600ca5",
+            "ios": "1:695921448768:ios:83ade3c5c165f6a8600ca5",
+            "web": "1:695921448768:web:f12c9269d7067ae7600ca5"
+          }
+        },
+        "lib/config/firebase/firebase_options/firebase_options_dev.dart": {
+          "projectId": "flavorizr-b3322-dev",
+          "configurations": {
+            "android": "1:190409895766:android:499d8dbe2ad68140a830f7",
+            "ios": "1:190409895766:ios:49f9dc22b240fc04a830f7",
+            "web": "1:190409895766:web:413c3fd598b49b90a830f7"
+          }
+        },
+        "lib/config/firebase/firebase_options/firebase_options_staging.dart": {
+          "projectId": "flavorizr-b3322-staging",
+          "configurations": {
+            "android": "1:680114093491:android:548fe36d78f8bf005b5fc6",
+            "ios": "1:680114093491:ios:97f682b9aceeae165b5fc6",
+            "web": "1:680114093491:web:ed0d703ced3f945b5b5fc6"
+          }
+        }
+      }
+    }
+  }
+}

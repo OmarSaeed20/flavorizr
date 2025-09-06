@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680114093491",
+    "project_id": "flavorizr-b3322-staging",
+    "storage_bucket": "flavorizr-b3322-staging.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680114093491:android:548fe36d78f8bf005b5fc6",
+        "android_client_info": {
+          "package_name": "com.example.flavorizr.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdxOI-zdIODk-zQoENkMxp1D2rMA-SxSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

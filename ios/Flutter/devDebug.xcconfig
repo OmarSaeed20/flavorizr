@@ -4,3 +4,5 @@
 ASSET_PREFIX=dev
 BUNDLE_NAME=Flavorizr Dev
 BUNDLE_DISPLAY_NAME=Flavorizr Dev
+
+PRODUCT_BUNDLE_IDENTIFIER = com.example.flavorizr.dev

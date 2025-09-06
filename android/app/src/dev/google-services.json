@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "190409895766",
+    "project_id": "flavorizr-b3322-dev",
+    "storage_bucket": "flavorizr-b3322-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190409895766:android:499d8dbe2ad68140a830f7",
+        "android_client_info": {
+          "package_name": "com.example.flavorizr.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM6txMzGUbIOR08BlGlGLMZNWaIga6Z1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

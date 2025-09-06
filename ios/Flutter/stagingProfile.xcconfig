@@ -4,3 +4,5 @@
 ASSET_PREFIX=staging
 BUNDLE_NAME=Flavorizr Staging
 BUNDLE_DISPLAY_NAME=Flavorizr Staging
+
+PRODUCT_BUNDLE_IDENTIFIER = com.example.flavorizr.staging
