@@ -1,0 +1,105 @@
+{
+  // Dart & Flutter Settings
+  "dart.flutterSdkPath": null,
+  "dart.sdkPath": null,
+  "dart.checkForSdkUpdates": true,
+  "dart.openDevTools": "flutter",
+  "dart.debugExternalLibraries": false,
+  "dart.debugSdkLibraries": false,
+  "dart.evaluateGettersInDebugViews": true,
+  "dart.previewFlutterUiGuides": true,
+  "dart.previewFlutterUiGuidesCustomTracking": true,
+  "dart.flutterCreateAndroidLanguage": "kotlin",
+  "dart.flutterCreateIOSLanguage": "swift",
+  "dart.flutterCreateOffline": false,
+  "dart.flutterCreatePlatforms": ["android", "ios"],
+  "dart.insertArgumentPlaceholders": true,
+  "dart.lineLength": 100,
+  "dart.showInspectorNotificationsForWidgetErrors": true,
+  "dart.triggerSignatureHelpAutomatically": true,
+  
+  // Editor Settings
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.rulers": [100],
+  "editor.selectionHighlight": false,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.suggestSelection": "first",
+  "editor.tabCompletion": "onlySnippets",
+  "editor.wordBasedSuggestions": "off",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  
+  // File Settings
+  "files.associations": {
+    "*.dart": "dart",
+    "*.arb": "json",
+    "*.yaml": "yaml",
+    "*.yml": "yaml"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.packages": true,
+    "**/.metadata": true,
+    "**/build/**": true,
+    "**/.gradle/**": true,
+    "**/android/.gradle/**": true,
+    "**/ios/.symlinks/**": true,
+    "**/ios/Flutter/Generated.xcconfig": true,
+    "**/ios/Flutter/flutter_export_environment.sh": true,
+    "**/ios/Runner/GeneratedPluginRegistrant.*": true,
+    "**/android/app/src/main/java/**/GeneratedPluginRegistrant.java": true,
+    "**/.fvm/**": true
+  },
+  
+  // Search Settings
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/build/**": true,
+    "**/.gradle/**": true,
+    "**/ios/Pods/**": true,
+    "**/ios/.symlinks/**": true,
+    "**/.fvm/**": true
+  },
+  
+  // Flutter Intl Settings
+  "flutter-intl.enabled": true,
+  "flutter-intl.arb-dir": "lib/l10n",
+  "flutter-intl.output-localization-file": "lib/generated/l10n.dart",
+  "flutter-intl.output-class": "S",
+  
+  // Git Settings
+  "git.enabled": true,
+  "git.path": null,
+  "git.autofetch": true,
+  
+  // Terminal Settings
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  
+  // Language Specific Settings
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [100],
+    "editor.selectionHighlight": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced"
+  },
+  "[json]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  }
+}

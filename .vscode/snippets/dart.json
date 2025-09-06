@@ -1,0 +1,176 @@
+{
+  "Stateless Widget": {
+    "prefix": "stless",
+    "body": [
+      "class ${1:WidgetName} extends StatelessWidget {",
+      "  const ${1:WidgetName}({super.key});",
+      "",
+      "  @override",
+      "  Widget build(BuildContext context) {",
+      "    return ${2:Container()};",
+      "  }",
+      "}"
+    ],
+    "description": "Create a StatelessWidget"
+  },
+  "Stateful Widget": {
+    "prefix": "stful",
+    "body": [
+      "class ${1:WidgetName} extends StatefulWidget {",
+      "  const ${1:WidgetName}({super.key});",
+      "",
+      "  @override",
+      "  State<${1:WidgetName}> createState() => _${1:WidgetName}State();",
+      "}",
+      "",
+      "class _${1:WidgetName}State extends State<${1:WidgetName}> {",
+      "  @override",
+      "  Widget build(BuildContext context) {",
+      "    return ${2:Container()};",
+      "  }",
+      "}"
+    ],
+    "description": "Create a StatefulWidget"
+  },
+  "Build Method": {
+    "prefix": "build",
+    "body": [
+      "@override",
+      "Widget build(BuildContext context) {",
+      "  return ${1:Container()};",
+      "}"
+    ],
+    "description": "Create a build method"
+  },
+  "Init State": {
+    "prefix": "initS",
+    "body": [
+      "@override",
+      "void initState() {",
+      "  super.initState();",
+      "  ${1:// TODO: implement initState}",
+      "}"
+    ],
+    "description": "Create initState method"
+  },
+  "Dispose": {
+    "prefix": "dispose",
+    "body": [
+      "@override",
+      "void dispose() {",
+      "  ${1:// TODO: implement dispose}",
+      "  super.dispose();",
+      "}"
+    ],
+    "description": "Create dispose method"
+  },
+  "Media Query": {
+    "prefix": "mq",
+    "body": [
+      "MediaQuery.of(context)"
+    ],
+    "description": "MediaQuery.of(context)"
+  },
+  "Theme": {
+    "prefix": "theme",
+    "body": [
+      "Theme.of(context)"
+    ],
+    "description": "Theme.of(context)"
+  },
+  "Navigator Push": {
+    "prefix": "navpush",
+    "body": [
+      "Navigator.of(context).push(",
+      "  MaterialPageRoute(",
+      "    builder: (context) => ${1:NewScreen}(),",
+      "  ),",
+      ");"
+    ],
+    "description": "Navigator push"
+  },
+  "Navigator Pop": {
+    "prefix": "navpop",
+    "body": [
+      "Navigator.of(context).pop();"
+    ],
+    "description": "Navigator pop"
+  },
+  "Scaffold": {
+    "prefix": "scaffold",
+    "body": [
+      "Scaffold(",
+      "  appBar: AppBar(",
+      "    title: const Text('${1:Title}'),",
+      "  ),",
+      "  body: ${2:const Center(",
+      "    child: Text('Hello World'),",
+      "  )},",
+      ")"
+    ],
+    "description": "Create a Scaffold"
+  },
+  "Container": {
+    "prefix": "container",
+    "body": [
+      "Container(",
+      "  ${1:child: ${2:Text('Hello World')}},",
+      ")"
+    ],
+    "description": "Create a Container"
+  },
+  "Column": {
+    "prefix": "col",
+    "body": [
+      "Column(",
+      "  children: [",
+      "    ${1:// TODO: Add children}",
+      "  ],",
+      ")"
+    ],
+    "description": "Create a Column"
+  },
+  "Row": {
+    "prefix": "row",
+    "body": [
+      "Row(",
+      "  children: [",
+      "    ${1:// TODO: Add children}",
+      "  ],",
+      ")"
+    ],
+    "description": "Create a Row"
+  },
+  "ListView Builder": {
+    "prefix": "lvb",
+    "body": [
+      "ListView.builder(",
+      "  itemCount: ${1:items.length},",
+      "  itemBuilder: (context, index) {",
+      "    return ${2:ListTile(",
+      "      title: Text(items[index]),",
+      "    )};",
+      "  },",
+      ")"
+    ],
+    "description": "Create a ListView.builder"
+  },
+  "Test Group": {
+    "prefix": "testGroup",
+    "body": [
+      "group('${1:description}', () {",
+      "  ${2:// TODO: Add tests}",
+      "});"
+    ],
+    "description": "Create a test group"
+  },
+  "Test": {
+    "prefix": "test",
+    "body": [
+      "test('${1:description}', () {",
+      "  ${2:// TODO: Add test}",
+      "});"
+    ],
+    "description": "Create a test"
+  }
+}

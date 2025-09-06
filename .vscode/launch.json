@@ -1,0 +1,134 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter (Debug - Dev)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=dev",
+        "--dart-define=FLAVOR=dev"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Debug - Staging)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=staging",
+        "--dart-define=FLAVOR=staging"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Debug - Prod)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=prod",
+        "--dart-define=FLAVOR=prod"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Profile - Dev)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=dev",
+        "--dart-define=FLAVOR=dev"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Profile - Staging)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=staging",
+        "--dart-define=FLAVOR=staging"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Profile - Prod)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=prod",
+        "--dart-define=FLAVOR=prod"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Release - Dev)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=dev",
+        "--dart-define=FLAVOR=dev"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Release - Staging)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=staging",
+        "--dart-define=FLAVOR=staging"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter (Release - Prod)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "program": "lib/main.dart",
+      "args": [
+        "--flavor=prod",
+        "--dart-define=FLAVOR=prod"
+      ],
+      "console": "debugConsole",
+      // "deviceId": "flutter-tester"
+    },
+    {
+      "name": "Flutter Test",
+      "request": "launch",
+      "type": "dart",
+      "program": "test/",
+      "console": "debugConsole"
+    },
+    {
+      "name": "Flutter Integration Test",
+      "request": "launch",
+      "type": "dart",
+      "program": "integration_test/",
+      "args": ["--host-vmservice-port", "9753", "--disable-service-auth-codes"],
+      "console": "debugConsole"
+    }
+  ]
+}
