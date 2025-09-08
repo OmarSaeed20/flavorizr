@@ -6,6 +6,13 @@
           "projectId": "flavorizr-b3322",
           "appId": "1:695921448768:android:6fc06c5817e8bba0600ca5",
           "fileOutput": "android/app/google-services.json"
+        },
+        "buildConfigurations": {
+          "src\\dev": {
+            "projectId": "flavorizr-b3322-dev",
+            "appId": "1:190409895766:android:499d8dbe2ad68140a830f7",
+            "fileOutput": "android/app/src/dev/google-services.json"
+          }
         }
       },
       "dart": {

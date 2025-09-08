@@ -72,4 +72,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'flavorizr-b3322-dev.firebasestorage.app',
     iosBundleId: 'com.example.flavorizr.dev',
   );
+
 }
