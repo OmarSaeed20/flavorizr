@@ -7,7 +7,8 @@
   "dart.debugExternalLibraries": false,
   "dart.debugSdkLibraries": false,
   "dart.evaluateGettersInDebugViews": true,
-  "dart.previewFlutterUiGuides": true,
+  "editor.bracketPairColorization.enabled": true, // Optional: Improves readability
+  "dart.previewFlutterUiGuides": true, // Optional: Helps visualize widget trees
   "dart.previewFlutterUiGuidesCustomTracking": true,
   "dart.flutterCreateAndroidLanguage": "kotlin",
   "dart.flutterCreateIOSLanguage": "swift",

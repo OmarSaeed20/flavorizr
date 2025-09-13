@@ -8,7 +8,18 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(F.title)),
-      body: Center(child: Text('Hello ${F.title}')),
+      body: Center(
+        child: Column(
+          children: [
+            Text('Hello ${F.title}'),
+
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () => Navigator.of(context).pushNamed('/home'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

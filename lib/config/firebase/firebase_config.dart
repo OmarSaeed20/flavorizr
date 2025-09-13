@@ -1,18 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flavorizr/config/flavors.dart' as f show Flavor, F;
+import 'package:flavorizr/config/flavors.dart' as f show F;
 import 'package:flavorizr/config/flavors.dart';
-import 'package:flutter/services.dart' show appFlavor;
+
 import 'firebase_options/firebase_options_dev.dart' as fb_options_dev;
-import 'firebase_options/firebase_options_staging.dart' as fb_options_staging;
 import 'firebase_options/firebase_options_prod.dart' as fb_options_prod;
+import 'firebase_options/firebase_options_staging.dart' as fb_options_staging;
 
 class FirebaseConfig {
-  static setup() async {
-    getCurrentFlavor();
+  const FirebaseConfig();
+
+  static Future<void> setup() async {
+    // getCurrentFlavor();
     await Firebase.initializeApp(options: getFirebaseOptions());
   }
 
-  static f.Flavor getCurrentFlavor() {
+  /* static f.Flavor getCurrentFlavor() {
     f.Flavor flavor;
     // const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
     try {
@@ -26,8 +28,8 @@ class FirebaseConfig {
 
     return flavor;
   }
-
-  static FirebaseOptions getFirebaseOptions() => switch (getCurrentFlavor()) {
+ */
+  static FirebaseOptions getFirebaseOptions() => switch (f.F.appFlavor) {
     Flavor.dev => fb_options_dev.DefaultFirebaseOptions.currentPlatform,
     Flavor.staging => fb_options_staging.DefaultFirebaseOptions.currentPlatform,
     Flavor.prod => fb_options_prod.DefaultFirebaseOptions.currentPlatform,
@@ -35,13 +37,13 @@ class FirebaseConfig {
 
   static String get projectId => getFirebaseOptions().projectId;
 
-  static String get flavorName => switch (getCurrentFlavor()) {
+  static String get flavorName => switch (f.F.appFlavor) {
     Flavor.dev => 'Development',
     Flavor.staging => 'Staging',
     Flavor.prod => 'Production',
   };
 
-  static String get flavorDisplayName => switch (getCurrentFlavor()) {
+  static String get flavorDisplayName => switch (f.F.appFlavor) {
     Flavor.dev => 'Flavorizr Dev',
     Flavor.staging => 'Flavorizr Staging',
     Flavor.prod => 'Flavorizr',

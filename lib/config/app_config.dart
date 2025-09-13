@@ -1,11 +1,12 @@
-import 'package:flavorizr/config/flavors.dart' show Flavor;
+import 'package:flavorizr/config/flavors.dart' show F, Flavor;
 import 'package:flutter/foundation.dart';
 
 import 'firebase/firebase_config.dart';
 
 class AppConfig {
-  static String get apiUrl {
-    switch (FirebaseConfig.getCurrentFlavor()) {
+  const AppConfig();
+  static String get baseUrl {
+    switch (F.appFlavor) {
       case Flavor.dev:
         return 'https://dev-api.example.com';
       case Flavor.staging:
@@ -15,7 +16,7 @@ class AppConfig {
     }
   }
 
-  static bool get debugMode => switch (FirebaseConfig.getCurrentFlavor()) {
+  static bool get isDebugMode => switch (F.appFlavor) {
     Flavor.dev => true,
     Flavor.staging => true,
     Flavor.prod => kDebugMode,
@@ -24,10 +25,10 @@ class AppConfig {
   static Map<String, dynamic> get firebaseConfig {
     return {
       'projectId': FirebaseConfig.projectId,
-      'flavor': FirebaseConfig.flavorName,
-      'debugMode': debugMode,
+      'flavor': flavorName,
+      'debugMode': isDebugMode,
     };
   }
 
-  static String get flavorName => FirebaseConfig.flavorName;
+  static String get flavorName => F.name;
 }
