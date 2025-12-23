@@ -158,7 +158,7 @@ class AppErrorHandler {
         'Platform Error: $error',
         () async {},
         level: LogLevel.critical,
-        // parameters: stack,
+        parameters: {"stack": stack.toString()},
         category: LogCategory.crash,
       );
       return true;
@@ -186,9 +186,9 @@ class LoggedMethod {
 
 // Extension for easy method logging
 extension LoggedMethodExtension on Object {
-  Future<T> logMethod<T>(
+  Future<T?> logMethod<T>(
     String methodName,
-    Future<T> Function() method, {
+    Future<T?> Function()? method, {
     LogLevel level = LogLevel.debug,
     LogCategory category = LogCategory.business,
     Map<String, dynamic>? parameters,
@@ -205,12 +205,12 @@ extension LoggedMethodExtension on Object {
     );
 
     try {
-      final result = await method();
+      final result = method != null ? await method() : () {};
       stopwatch.stop();
 
       final data = <String, dynamic>{};
       if (logDuration) data['duration'] = stopwatch.elapsedMilliseconds;
-      if (logResult) data['result'] = result?.toString();
+      if (method != null && logResult) data['result'] = result?.toString();
 
       await AppLogger.instance.logV(
         level,
@@ -219,7 +219,7 @@ extension LoggedMethodExtension on Object {
         data.isNotEmpty ? data : null,
       );
 
-      return result;
+      // return method != null ? result : null;
     } catch (error, stackTrace) {
       stopwatch.stop();
 
