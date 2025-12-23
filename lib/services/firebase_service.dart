@@ -6,6 +6,11 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import '../config/firebase/firebase_config.dart';
 
 class FirebaseService {
+  FirebaseService._internal();
+  static FirebaseService? _instance;
+  static FirebaseService get instance =>
+      _instance ??= FirebaseService._internal();
+
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;

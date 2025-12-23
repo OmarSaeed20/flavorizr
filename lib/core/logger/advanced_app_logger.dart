@@ -62,6 +62,7 @@ class LogEntry {
 }
 
 class AppLoggerConfig {
+  // Default values
   const AppLoggerConfig({
     this.enableFileLogging = true,
     this.enableConsoleLogging = true,
@@ -71,6 +72,19 @@ class AppLoggerConfig {
     this.maxLogFiles = 5,
     this.encryptLogs = false,
     this.enabledCategories = LogCategory.values,
+    this.remoteEndpoint,
+    this.customHeaders = const {},
+  });
+  // Production values
+  const AppLoggerConfig.prodction({
+    this.enableFileLogging = false,
+    this.enableConsoleLogging = false,
+    this.enableRemoteLogging = true,
+    this.minLogLevel = LogLevel.info,
+    this.maxFileSize = 10 * 1024 * 1024, // 10MB
+    this.maxLogFiles = 5,
+    this.encryptLogs = true,
+    this.enabledCategories = const [],
     this.remoteEndpoint,
     this.customHeaders = const {},
   });
@@ -107,10 +121,7 @@ class AppLogger {
     await _loadUserSession();
 
     // Log app initialization
-    await logInfo(
-      'App Logger initialized',
-      data: await _getSystemInfo(),
-    );
+    await logInfo('App Logger initialized', data: await _getSystemInfo());
   }
 
   Future<void> _setupLogDirectory() async {
@@ -126,9 +137,7 @@ class AppLogger {
 
     final logger = TalkerLogger(
       formatter: const CustomLogFormatter(),
-      settings: TalkerLoggerSettings(
-        maxLineWidth: 120,
-      ),
+      settings: TalkerLoggerSettings(maxLineWidth: 120),
     );
 
     _talker = TalkerFlutter.init(
@@ -339,17 +348,12 @@ class AppLogger {
     bool isIncident = false,
   }) async {
     final level = isIncident ? LogLevel.critical : LogLevel.warning;
-    await _log(
-      level,
-      'Security Event: $event',
-      LogCategory.security,
-      {
-        'event': event,
-        'details': details,
-        'isIncident': isIncident,
-        'timestamp': DateTime.now().toIso8601String(),
-      },
-    );
+    await _log(level, 'Security Event: $event', LogCategory.security, {
+      'event': event,
+      'details': details,
+      'isIncident': isIncident,
+      'timestamp': DateTime.now().toIso8601String(),
+    });
   }
 
   Future<void> _log(
