@@ -1,0 +1,31 @@
+// lib/features/auth/domain/usecases/get_current_user_usecase.dart
+import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/features/auth/domain/entities/user.dart';
+import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
+import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+
+/// Use case for getting the currently authenticated user.
+///
+/// Returns null if no user is logged in.
+class GetCurrentUserUseCase implements UseCase<User?, NoParams> {
+  GetCurrentUserUseCase(this._repository);
+  final AuthRepository _repository;
+
+  @override
+  UseCaseResult<User?> call(NoParams params) async {
+    return _repository.getCurrentUser();
+  }
+}
+
+/// Stream-based use case for observing authentication state changes.
+class ObserveAuthStateUseCase extends StreamUseCase<User?, NoParams> {
+  ObserveAuthStateUseCase(this._repository);
+  final AuthRepository _repository;
+
+  @override
+  Stream<({User? data, Failure? failure})> call(NoParams params) {
+    return _repository.authStateChanges.map((user) {
+      return (data: user, failure: null);
+    });
+  }
+}

@@ -7,6 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flavorizr/core/router/route_guards.dart';
 import 'package:flavorizr/core/router/routes.dart';
+import 'package:flavorizr/features/auth/presentation/pages/login_page.dart';
+import 'package:flavorizr/features/auth/presentation/pages/register_page.dart';
+import 'package:flavorizr/features/auth/presentation/pages/forgot_password_page.dart';
 
 /// Provider for the GoRouter instance.
 ///
@@ -126,7 +129,7 @@ class AppRouter {
       observers: [_RouterObserver(onRouteChange: _handleRouteChange)],
       redirect: _handleRedirect,
       routes: [..._buildRoutes(), ...(additionalRoutes ?? [])],
-      errorBuilder: _errorBuilder,
+      // errorBuilder: _errorBuilder,
       onException: _handleException,
     );
 
@@ -202,25 +205,16 @@ class AppRouter {
     ),
 
     // Auth Routes
-    GoRoute(
-      path: Routes.login,
-      name: 'login',
-      builder: (context, state) =>
-          const _PlaceholderScreen(title: 'Login', message: 'Login screen placeholder'),
-    ),
+    GoRoute(path: Routes.login, name: 'login', builder: (context, state) => const LoginPage()),
     GoRoute(
       path: Routes.register,
       name: 'register',
-      builder: (context, state) =>
-          const _PlaceholderScreen(title: 'Register', message: 'Register screen placeholder'),
+      builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
       path: Routes.forgotPassword,
       name: 'forgotPassword',
-      builder: (context, state) => const _PlaceholderScreen(
-        title: 'Forgot Password',
-        message: 'Forgot password screen placeholder',
-      ),
+      builder: (context, state) => const ForgotPasswordPage(),
     ),
     GoRoute(
       path: Routes.onboarding,

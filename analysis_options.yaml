@@ -23,6 +23,9 @@ analyzer:
     todo: warning
     deprecated_member_use_from_same_package: warning
     prefer_int_literals: ignore
+    avoid_positional_boolean_parameters: ignore
+    strict_raw_type: ignore
+    inference_failure_on_function_invocation: ignore
 
 linter:
   rules:    
