@@ -1,16 +1,15 @@
 // lib/features/auth/presentation/pages/login_page.dart
 import 'dart:io';
 
+import 'package:flavorizr/core/router/routes.dart';
+import 'package:flavorizr/features/auth/presentation/controllers/login_controller.dart';
+import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flavorizr/features/auth/presentation/widgets/social_login_buttons.dart';
+import 'package:flavorizr/shared/presentation/widgets/buttons/app_button.dart';
+import 'package:flavorizr/shared/presentation/widgets/inputs/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../../core/router/routes.dart';
-import '../../../../shared/presentation/widgets/buttons/app_button.dart';
-import '../../../../shared/presentation/widgets/inputs/app_text_field.dart';
-import '../controllers/login_controller.dart';
-import '../providers/auth_providers.dart';
-import '../widgets/social_login_buttons.dart';
 
 /// Login page for email/password and social authentication.
 ///

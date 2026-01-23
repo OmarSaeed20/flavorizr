@@ -1,8 +1,8 @@
 // lib/features/profile/domain/usecases/profile_usecases.dart
 import 'package:flavorizr/core/error/failures.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 import 'package:flavorizr/features/profile/domain/entities/profile.dart';
 import 'package:flavorizr/features/profile/domain/repositories/profile_repository.dart';
+import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 
 /// Use case for getting the current user's profile.
 class GetCurrentProfileUseCase implements UseCase<Profile, NoParams> {
@@ -108,6 +108,17 @@ class RemoveProfilePhotoUseCase implements UseCase<Profile, NoParams> {
   @override
   Future<({Profile? data, Failure? failure})> call(NoParams params) {
     return _repository.removeProfilePhoto();
+  }
+}
+
+/// Use case for removing cover photo.
+class RemoveCoverPhotoUseCase implements UseCase<Profile, NoParams> {
+  const RemoveCoverPhotoUseCase(this._repository);
+  final ProfileRepository _repository;
+
+  @override
+  Future<({Profile? data, Failure? failure})> call(NoParams params) {
+    return _repository.removeCoverPhoto();
   }
 }
 

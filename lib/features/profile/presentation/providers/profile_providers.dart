@@ -48,6 +48,11 @@ final removeProfilePhotoUseCaseProvider = Provider<RemoveProfilePhotoUseCase>((r
   return RemoveProfilePhotoUseCase(ref.watch(profileRepositoryProvider));
 });
 
+/// Provider for RemoveCoverPhotoUseCase.
+final removeCoverPhotoUseCaseProvider = Provider<RemoveCoverPhotoUseCase>((ref) {
+  return RemoveCoverPhotoUseCase(ref.watch(profileRepositoryProvider));
+});
+
 /// Provider for FollowUserUseCase.
 final followUserUseCaseProvider = Provider<FollowUserUseCase>((ref) {
   return FollowUserUseCase(ref.watch(profileRepositoryProvider));

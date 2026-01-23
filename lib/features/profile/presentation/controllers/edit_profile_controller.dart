@@ -84,6 +84,7 @@ class EditProfileController extends Notifier<EditProfileState> {
   late final UpdateProfilePhotoUseCase _updateProfilePhoto;
   late final UpdateCoverPhotoUseCase _updateCoverPhoto;
   late final RemoveProfilePhotoUseCase _removeProfilePhoto;
+  late final RemoveCoverPhotoUseCase _removeCoverPhoto;
 
   @override
   EditProfileState build() {
@@ -92,6 +93,7 @@ class EditProfileController extends Notifier<EditProfileState> {
     _updateProfilePhoto = ref.watch(updateProfilePhotoUseCaseProvider);
     _updateCoverPhoto = ref.watch(updateCoverPhotoUseCaseProvider);
     _removeProfilePhoto = ref.watch(removeProfilePhotoUseCaseProvider);
+    _removeCoverPhoto = ref.watch(removeCoverPhotoUseCaseProvider);
     return const EditProfileState();
   }
 
@@ -266,6 +268,25 @@ class EditProfileController extends Notifier<EditProfileState> {
     state = state.copyWith(isPhotoUploading: true, clearError: true);
 
     final result = await _removeProfilePhoto(const NoParams());
+
+    if (result.failure != null) {
+      state = state.copyWith(isPhotoUploading: false, errorMessage: result.failure!.message);
+      return;
+    }
+
+    state = state.copyWith(isPhotoUploading: false, profile: result.data);
+
+    // Invalidate the current profile provider to refresh data
+    ref.invalidate(currentProfileProvider);
+  }
+
+  /// Removes the cover photo.
+  Future<void> removeCoverPhoto() async {
+    if (state.isPhotoUploading) return;
+
+    state = state.copyWith(isPhotoUploading: true, clearError: true);
+
+    final result = await _removeCoverPhoto(const NoParams());
 
     if (result.failure != null) {
       state = state.copyWith(isPhotoUploading: false, errorMessage: result.failure!.message);

@@ -8,7 +8,14 @@ import 'package:flavorizr/core/router/widgets/widgets.dart';
 import 'package:flavorizr/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:flavorizr/features/auth/presentation/pages/login_page.dart';
 import 'package:flavorizr/features/auth/presentation/pages/register_page.dart';
+import 'package:flavorizr/features/auth/presentation/pages/reset_password_page.dart';
+import 'package:flavorizr/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:flavorizr/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:flavorizr/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:flavorizr/features/settings/presentation/pages/appearance_settings_page.dart';
+import 'package:flavorizr/features/settings/presentation/pages/language_settings_page.dart';
+import 'package:flavorizr/features/settings/presentation/pages/notification_settings_page.dart';
+import 'package:flavorizr/features/settings/presentation/pages/settings_page.dart';
 import 'package:flavorizr/features/splash/presentation/pages/splash_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -189,6 +196,18 @@ class AppRouter {
       name: Routes.notFoundName,
       builder: (context, state) => const NotFoundScreen(),
     ),
+    GoRoute(
+      path: Routes.help,
+      name: Routes.helpName,
+      builder: (context, state) =>
+          const PlaceholderScreen(title: 'Help Center', message: 'Help center placeholder'),
+    ),
+    GoRoute(
+      path: Routes.feedback,
+      name: Routes.feedbackName,
+      builder: (context, state) =>
+          const PlaceholderScreen(title: 'Send Feedback', message: 'Feedback form placeholder'),
+    ),
   ];
 
   List<GoRoute> _buildAuthRoutes() => [
@@ -206,6 +225,24 @@ class AppRouter {
       path: Routes.forgotPassword,
       name: Routes.forgotPasswordName,
       builder: (context, state) => const ForgotPasswordPage(),
+    ),
+    GoRoute(
+      path: Routes.resetPassword,
+      name: Routes.resetPasswordName,
+      builder: (context, state) {
+        // Extract token from query parameters or extra
+        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
+        return ResetPasswordPage(token: token);
+      },
+    ),
+    GoRoute(
+      path: Routes.verifyEmail,
+      name: Routes.verifyEmailName,
+      builder: (context, state) {
+        // Extract token from query parameters or extra
+        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
+        return VerifyEmailPage(token: token);
+      },
     ),
     GoRoute(
       path: Routes.onboarding,
@@ -234,9 +271,14 @@ class AppRouter {
           GoRoute(
             path: Routes.editProfilePath,
             name: Routes.editProfileName,
+            builder: (context, state) => const EditProfilePage(),
+          ),
+          GoRoute(
+            path: Routes.profileSettingsPath,
+            name: Routes.profileSettingsName,
             builder: (context, state) => const PlaceholderScreen(
-              title: 'Edit Profile',
-              message: 'Edit profile screen placeholder',
+              title: 'Profile Settings',
+              message: 'Profile settings screen placeholder',
             ),
           ),
         ],
@@ -244,24 +286,42 @@ class AppRouter {
       GoRoute(
         path: Routes.settings,
         name: Routes.settingsName,
-        builder: (context, state) =>
-            const PlaceholderScreen(title: 'Settings', message: 'Settings screen placeholder'),
+        builder: (context, state) => const SettingsPage(),
         routes: [
           GoRoute(
             path: Routes.appearanceSettingsPath,
             name: Routes.appearanceSettingsName,
-            builder: (context, state) => const PlaceholderScreen(
-              title: 'Appearance',
-              message: 'Appearance settings placeholder',
-            ),
+            builder: (context, state) => const AppearanceSettingsPage(),
           ),
           GoRoute(
             path: Routes.notificationSettingsPath,
             name: Routes.notificationSettingsName,
+            builder: (context, state) => const NotificationSettingsPage(),
+          ),
+          GoRoute(
+            path: Routes.privacySettingsPath,
+            name: Routes.privacySettingsName,
+            builder: (context, state) =>
+                const PlaceholderScreen(title: 'Privacy', message: 'Privacy settings placeholder'),
+          ),
+          GoRoute(
+            path: Routes.securitySettingsPath,
+            name: Routes.securitySettingsName,
             builder: (context, state) => const PlaceholderScreen(
-              title: 'Notifications',
-              message: 'Notification settings placeholder',
+              title: 'Security',
+              message: 'Security settings placeholder',
             ),
+          ),
+          GoRoute(
+            path: Routes.languageSettingsPath,
+            name: Routes.languageSettingsName,
+            builder: (context, state) => const LanguageSettingsPage(),
+          ),
+          GoRoute(
+            path: Routes.aboutPath,
+            name: Routes.aboutName,
+            builder: (context, state) =>
+                const PlaceholderScreen(title: 'About', message: 'About page placeholder'),
           ),
         ],
       ),
