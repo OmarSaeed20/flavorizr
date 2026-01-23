@@ -1,38 +1,44 @@
-// lib/core/network/network_info.dart
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-/// Utility class for checking network connectivity.
+/// Interface for checking network connectivity
 abstract class NetworkInfo {
-  /// Returns true if the device has an active internet connection.
+  /// Check if the device has an active network connection
   Future<bool> get isConnected;
 
-  /// Stream of connectivity changes.
-  Stream<bool> get onConnectivityChanged;
+  /// Stream of connectivity changes
+  Stream<List<ConnectivityResult>> get onConnectivityChanged;
 }
 
-/// Implementation of [NetworkInfo] using connectivity_plus.
+/// Implementation of NetworkInfo using connectivity_plus
 class NetworkInfoImpl implements NetworkInfo {
-  NetworkInfoImpl({Connectivity? connectivity}) : _connectivity = connectivity ?? Connectivity();
+  NetworkInfoImpl([Connectivity? connectivity]) : _connectivity = connectivity ?? Connectivity();
   final Connectivity _connectivity;
 
   @override
   Future<bool> get isConnected async {
-    final result = await _connectivity.checkConnectivity();
-    return _isConnected(result);
+    final results = await _connectivity.checkConnectivity();
+    return !results.contains(ConnectivityResult.none);
   }
 
   @override
-  Stream<bool> get onConnectivityChanged {
-    return _connectivity.onConnectivityChanged.map(_isConnected);
+  Stream<List<ConnectivityResult>> get onConnectivityChanged => _connectivity.onConnectivityChanged;
+
+  /// Check the current connectivity type
+  Future<ConnectivityResult> get connectivityType async {
+    final results = await _connectivity.checkConnectivity();
+    if (results.isEmpty) return ConnectivityResult.none;
+    return results.first;
   }
 
-  bool _isConnected(List<ConnectivityResult> results) {
-    return results.isNotEmpty &&
-        results.any(
-          (result) =>
-              result == ConnectivityResult.mobile ||
-              result == ConnectivityResult.wifi ||
-              result == ConnectivityResult.ethernet,
-        );
+  /// Check if connected via WiFi
+  Future<bool> get isConnectedViaWifi async {
+    final results = await _connectivity.checkConnectivity();
+    return results.contains(ConnectivityResult.wifi);
+  }
+
+  /// Check if connected via mobile data
+  Future<bool> get isConnectedViaMobile async {
+    final results = await _connectivity.checkConnectivity();
+    return results.contains(ConnectivityResult.mobile);
   }
 }

@@ -1,142 +1,166 @@
-import 'package:awesome_dio_interceptor/awesome_dio_interceptor.dart';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:flavorizr/core/logger/app_logger.dart';
+import 'package:flavorizr/core/network/interceptors/auth_interceptor.dart';
+import 'package:flavorizr/core/network/interceptors/logging_interceptor.dart';
+import 'package:flutter/foundation.dart';
 
-import '/config/flavors.dart';
-import '/core/network/interceptors/analytics_interceptor.dart'
-    show AnalyticsInterceptor;
-import '/core/network/interceptors/jwt_interceptor.dart' show JwtInterceptor;
-import '/core/network/interceptors/performance_interceptor.dart'
-    show PerformanceInterceptor;
-import '/core/network/interceptors/retry_interceptor.dart'
-    show RetryInterceptor;
-import 'exception/dio_exception_handler.dart';
-import 'exception/network_exceptions.dart';
-
+/// API Client for making HTTP requests using Dio
 class ApiClient {
+  /// Factory constructor for DI
+  factory ApiClient() => instance;
+
   ApiClient._internal() {
-    _dio = Dio();
-    _setupDio();
+    _dio = Dio(_baseOptions);
+    _setupInterceptors();
   }
-
-  ApiClient get instance => _instance ??= ApiClient._internal();
-
-  static ApiClient? _instance;
-  static Flavor _currentEnvironment = F.appFlavor;
-
   late final Dio _dio;
-  CancelToken? _cancelToken;
+  static ApiClient? _instance;
 
-  static void setEnvironment(Flavor environment) {
-    _currentEnvironment = environment;
-    _instance = null; // Reset instance to recreate with new environment
+  /// Base URL for API - configure based on environment
+  static String baseUrl = const String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'https://api.example.com/v1',
+  );
+
+  /// Singleton instance getter
+  static ApiClient get instance {
+    _instance ??= ApiClient._internal();
+    return _instance!;
   }
 
-  void _setupDio() {
-    _dio.options = BaseOptions(
-      baseUrl: _currentEnvironment.baseUrl,
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      sendTimeout: const Duration(seconds: 30),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
+  /// Get the underlying Dio instance
+  Dio get dio => _dio;
 
-    // Add interceptors in order
-    _dio.interceptors.addAll([
-      // JWT Interceptor (should be first for auth)
-      JwtInterceptor(dio: _dio),
+  /// Base options for all requests
+  BaseOptions get _baseOptions => BaseOptions(
+    baseUrl: baseUrl,
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 30),
+    sendTimeout: const Duration(seconds: 30),
+    headers: {
+      HttpHeaders.contentTypeHeader: ContentType.json.value,
+      HttpHeaders.acceptHeader: ContentType.json.value,
+    },
+    validateStatus: (status) => status != null && status < 500,
+  );
 
-      // Retry Interceptor
-      RetryInterceptor(),
-
-      // Performance Interceptor
-      PerformanceInterceptor(),
-
-      // Analytics Interceptor
-      AnalyticsInterceptor(),
-
-      // Logging Interceptor (should be last for complete logs)
-      if (!_currentEnvironment.isProduction)
-        AwesomeDioInterceptor(
-          logger: (message) {
-            // ignore: avoid_print
-            print('🌐 HTTP: $message');
-          },
-        ),
-    ]);
+  /// Setup interceptors
+  void _setupInterceptors() {
+    _dio.interceptors.addAll([AuthInterceptor(), if (kDebugMode) LoggingInterceptor()]);
   }
 
-  // GET request
+  /// Update authorization token
+  void setAuthToken(String? token) {
+    if (token != null) {
+      _dio.options.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
+    } else {
+      _dio.options.headers.remove(HttpHeaders.authorizationHeader);
+    }
+  }
+
+  /// GET request
   Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
+    void Function(int, int)? onReceiveProgress,
   }) async {
     try {
-      final response = await _dio.get<T>(
+      return await _dio.get<T>(
         path,
         queryParameters: queryParameters,
         options: options,
-        cancelToken: cancelToken ?? _cancelToken,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
       );
-      return response;
     } on DioException catch (e) {
-      final networkException = await DioExceptionHandler.handleDioException(e);
-      throw networkException;
+      AppLogger.e('GET $path failed', e, e.stackTrace);
+      rethrow;
     }
   }
 
-  // POST request
+  /// POST request
   Future<Response<T>> post<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
   }) async {
     try {
-      final response = await _dio.post<T>(
+      return await _dio.post<T>(
         path,
         data: data,
         queryParameters: queryParameters,
         options: options,
-        cancelToken: cancelToken ?? _cancelToken,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
       );
-      return response;
     } on DioException catch (e) {
-      final networkException = await DioExceptionHandler.handleDioException(e);
-      throw networkException;
+      AppLogger.e('POST $path failed', e, e.stackTrace);
+      rethrow;
     }
   }
 
-  // PUT request
+  /// PUT request
   Future<Response<T>> put<T>(
     String path, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
   }) async {
     try {
-      final response = await _dio.put<T>(
+      return await _dio.put<T>(
         path,
         data: data,
         queryParameters: queryParameters,
         options: options,
-        cancelToken: cancelToken ?? _cancelToken,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
       );
-      return response;
     } on DioException catch (e) {
-      final networkException = await DioExceptionHandler.handleDioException(e);
-      throw networkException;
+      AppLogger.e('PUT $path failed', e, e.stackTrace);
+      rethrow;
     }
   }
 
-  // DELETE request
+  /// PATCH request
+  Future<Response<T>> patch<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    void Function(int, int)? onSendProgress,
+    void Function(int, int)? onReceiveProgress,
+  }) async {
+    try {
+      return await _dio.patch<T>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+    } on DioException catch (e) {
+      AppLogger.e('PATCH $path failed', e, e.stackTrace);
+      rethrow;
+    }
+  }
+
+  /// DELETE request
   Future<Response<T>> delete<T>(
     String path, {
     dynamic data,
@@ -145,50 +169,26 @@ class ApiClient {
     CancelToken? cancelToken,
   }) async {
     try {
-      final response = await _dio.delete<T>(
+      return await _dio.delete<T>(
         path,
         data: data,
         queryParameters: queryParameters,
         options: options,
-        cancelToken: cancelToken ?? _cancelToken,
+        cancelToken: cancelToken,
       );
-      return response;
     } on DioException catch (e) {
-      final networkException = await DioExceptionHandler.handleDioException(e);
-      throw networkException;
+      AppLogger.e('DELETE $path failed', e, e.stackTrace);
+      rethrow;
     }
   }
 
-  // PATCH request
-  Future<Response<T>> patch<T>(
-    String path, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    try {
-      final response = await _dio.patch<T>(
-        path,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken ?? _cancelToken,
-      );
-      return response;
-    } on DioException catch (e) {
-      final networkException = await DioExceptionHandler.handleDioException(e);
-      throw networkException;
-    }
-  }
-
-  // File upload
+  /// Upload file using multipart form data
   Future<Response<T>> uploadFile<T>(
-    String path,
-    String filePath, {
-    String fieldName = 'file',
+    String path, {
+    required String filePath,
+    required String fieldName,
     Map<String, dynamic>? additionalData,
-    ProgressCallback? onSendProgress,
+    void Function(int, int)? onSendProgress,
     CancelToken? cancelToken,
   }) async {
     try {
@@ -197,201 +197,50 @@ class ApiClient {
         if (additionalData != null) ...additionalData,
       });
 
-      final response = await _dio.post<T>(
+      return await _dio.post<T>(
         path,
         data: formData,
         onSendProgress: onSendProgress,
-        cancelToken: cancelToken ?? _cancelToken,
-      );
-      return response;
-    } on DioException catch (e) {
-      final networkException = await DioExceptionHandler.handleDioException(e);
-      throw networkException;
-    }
-  }
-
-  // Cancel requests
-  void cancelRequests() {
-    _cancelToken?.cancel('Request cancelled by user');
-    _cancelToken = CancelToken();
-  }
-
-  // Create new cancel token
-  CancelToken createCancelToken() {
-    return CancelToken();
-  }
-
-  // Get current environment
-  Flavor get currentEnvironment => _currentEnvironment;
-
-  // Access underlying Dio instance if needed
-  Dio get dio => _dio;
-
-  // POST request
-  Future<Response<T>> postTest<T>(
-    String path, {
-    required T Function(dynamic) dataParser,
-    Map<String, dynamic> data = const {},
-    Map<String, dynamic> queryParameters = const {},
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    final extra = <String, dynamic>{};
-    final query = <String, dynamic>{}..addAll(queryParameters);
-    final headers = <String, dynamic>{}..removeWhere((k, v) => v == null);
-    final data0 = <String, dynamic>{}..addAll(data);
-    final options0 = _setStreamType<T>(
-      Options(method: 'POST', headers: headers, extra: extra)
-          .compose(_dio.options, path, queryParameters: query)
-          .copyWith(
-            baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              _currentEnvironment.baseUrl,
-            ),
-            data: data0,
-          ),
-    );
-    final result = await _dio.fetch<Map<String, dynamic>>(options0);
-    late Response<T> value;
-    try {
-      value = Response<T>(
-        data: dataParser(result.data),
-        requestOptions: result.requestOptions,
-      );
-    } on DioException catch (e) {
-      final networkException = await DioExceptionHandler.handleDioException(e);
-      throw networkException;
-    } on Object catch (e, s) {
-      await AppLogger.instance.logError(
-        e.toString(),
-        stackTrace: s.toString(),
-        data: result.requestOptions.data as Map<String, dynamic>?,
-      );
-      value = Response<T>(
-        headers: result.headers,
-        extra: result.extra,
-        requestOptions: result.requestOptions,
-        statusMessage: 'An unexpected error occurred',
-        statusCode: 0,
-      );
-      rethrow;
-    }
-    return value;
-  }
-
-  // Generic request method
-  Future<Response<T>> request<T>({
-    required String method,
-    required String path,
-    required T Function(dynamic) dataParser,
-    dynamic data,
-    Map<String, dynamic> queryParameters = const {},
-    Map<String, dynamic> headers = const {},
-    Map<String, dynamic> extra = const {},
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onSendProgress,
-    ProgressCallback? onReceiveProgress,
-  }) async {
-    try {
-      // Check connectivity
-      // final connectivityResult = await _connectivity.checkConnectivity();
-      // if (connectivityResult.first == ConnectivityResult.none) {
-      //   throw NetworkException(
-      //     message: 'No internet connection',
-      //     statusCode: 0,
-      //     errorCode: 'NO_CONNECTION',
-      //   );
-      // }
-     /*  final options0 = _setStreamType<T>(
-        Options(method: method, headers: headers, extra: extra)
-            .compose(_dio.options, path, queryParameters: queryParameters)
-            .copyWith(
-              baseUrl: _combineBaseUrls(
-                _dio.options.baseUrl,
-                _currentEnvironment.baseUrl,
-              ),
-              data: data,
-            ),
-      ); */
-      final response = await _dio.request(
-        path,
-        data: data,
-        queryParameters: queryParameters,
-        options: Options(method: method, headers: headers, extra: extra),
         cancelToken: cancelToken,
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
-      );
-
-      return Response<T>(
-        data: dataParser(response.data),
-        requestOptions: response.requestOptions,
-        extra: response.extra,
-        headers: response.headers,
-        statusMessage: response.statusMessage,
-        // message: 'Success',
-        // success: true,
-        statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      // _logger.e('Dio error: ${e.message}', error: e, stackTrace: e.stackTrace);
-
-      final networkException = NetworkException(
-        message:
-            (e.response?.data?['message'] as String?) ??
-            e.message ??
-            'Unknown error',
-        statusCode: e.response?.statusCode ?? 0,
-        errorCode: e.response?.data?['code'] as String?,
-      );
-
-      return Response<T>(
-        requestOptions: e.requestOptions,
-        statusMessage: networkException.message,
-        statusCode: networkException.statusCode,
-      );
-      /* return Response<T>(
-        message: networkException.message,
-        success: false,
-        statusCode: networkException.statusCode,
-      ); */
-    } catch (e) {
-      // _logger.e('Unexpected error: $e', error: e, stackTrace: stackTrace);
-
-      // return Response<T>(
-      //   message: 'An unexpected error occurred',
-      //   success: false,
-      //   statusCode: 0,
-      // );
+      AppLogger.e('Upload to $path failed', e, e.stackTrace);
       rethrow;
     }
   }
 
-  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
-    if (T != dynamic &&
-        !(requestOptions.responseType == ResponseType.bytes ||
-            requestOptions.responseType == ResponseType.stream)) {
-      if (T == String) {
-        requestOptions.responseType = ResponseType.plain;
-      } else {
-        requestOptions.responseType = ResponseType.json;
-      }
+  /// Download file
+  Future<Response> downloadFile(
+    String url,
+    String savePath, {
+    void Function(int, int)? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      return await _dio.download(
+        url,
+        savePath,
+        onReceiveProgress: onReceiveProgress,
+        cancelToken: cancelToken,
+      );
+    } on DioException catch (e) {
+      AppLogger.e('Download from $url failed', e, e.stackTrace);
+      rethrow;
     }
-    return requestOptions;
   }
 
-  String _combineBaseUrls(String dioBaseUrl, String? baseUrl) {
-    if (baseUrl == null || baseUrl.trim().isEmpty) {
-      return dioBaseUrl;
-    }
+  /// Cancel all pending requests
+  void cancelAllRequests([CancelToken? cancelToken]) {
+    cancelToken?.cancel('Cancelled by user');
+  }
 
-    final url = Uri.parse(baseUrl);
+  /// Clear all interceptors
+  void clearInterceptors() {
+    _dio.interceptors.clear();
+  }
 
-    if (url.isAbsolute) {
-      return url.toString();
-    }
-
-    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
+  /// Reset client
+  static void reset() {
+    _instance = null;
   }
 }

@@ -5,6 +5,7 @@ import 'package:flavorizr/core/error/failures.dart';
 import 'package:flavorizr/core/network/network_info.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:flavorizr/features/auth/data/models/user_model.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_tokens.dart';
 import 'package:flavorizr/features/auth/domain/entities/user.dart';
@@ -515,7 +516,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   // ==================== Private Helpers ====================
 
-  Future<void> _saveAuthData(dynamic userModel, AuthTokens tokens) async {
+  Future<void> _saveAuthData(UserModel userModel, AuthTokens tokens) async {
     await _localDataSource.saveTokens(tokens);
     await _localDataSource.saveUser(userModel);
     _currentUser = userModel.toEntity();

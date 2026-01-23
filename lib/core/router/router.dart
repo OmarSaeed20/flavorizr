@@ -6,10 +6,16 @@
 /// - Route definitions
 /// - Route guards
 /// - Route transitions
+/// - Route configuration
+/// - Navigation state
 /// - App router configuration
 library;
 
 export 'app_router.dart';
+export 'navigation_state.dart';
+export 'route_config.dart';
 export 'route_guards.dart';
 export 'route_transitions.dart';
+export 'router_observer.dart';
 export 'routes.dart';
+export 'widgets/widgets.dart';

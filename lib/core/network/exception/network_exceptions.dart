@@ -1,234 +1,205 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 
-class NetworkException implements Exception {
-  const NetworkException({
-    required this.message,
-    this.statusCode,
-    this.errorCode,
-    this.underlyingException,
-    this.uri,
+/// Base class for all network exceptions
+sealed class NetworkException implements Exception {
+  const NetworkException({required this.message, this.statusCode, this.data});
+  final String message;
+  final int? statusCode;
+  final dynamic data;
+
+  @override
+  String toString() => 'NetworkException: $message (statusCode: $statusCode)';
+}
+
+/// No internet connection
+class NoInternetException extends NetworkException {
+  const NoInternetException()
+    : super(message: 'No internet connection. Please check your network.', statusCode: null);
+}
+
+/// Request timeout
+class TimeoutException extends NetworkException {
+  const TimeoutException()
+    : super(message: 'Request timed out. Please try again.', statusCode: 408);
+}
+
+/// Server error (5xx)
+class ServerException extends NetworkException {
+  const ServerException({
+    super.message = 'Server error. Please try again later.',
+    super.statusCode = 500,
+    super.data,
   });
+}
 
-  factory NetworkException.noInternetConnection() {
-    return const NetworkException(
-      message: 'No internet connection',
-      errorCode: 'NO_INTERNET',
-    );
-  }
+/// Bad request (400)
+class BadRequestException extends NetworkException {
+  const BadRequestException({super.message = 'Bad request. Please check your input.', super.data})
+    : super(statusCode: 400);
+}
 
-  factory NetworkException.requestTimeout() {
-    return const NetworkException(
-      message: 'Request timeout',
-      errorCode: 'TIMEOUT',
-    );
-  }
+/// Unauthorized (401)
+class UnauthorizedException extends NetworkException {
+  const UnauthorizedException({super.message = 'Unauthorized. Please login again.', super.data})
+    : super(statusCode: 401);
+}
 
-  factory NetworkException.serverError(int statusCode) {
-    return NetworkException(
-      message: 'Server error occurred',
-      statusCode: statusCode,
-      errorCode: 'SERVER_ERROR',
-    );
-  }
+/// Forbidden (403)
+class ForbiddenException extends NetworkException {
+  const ForbiddenException({super.message = 'Access forbidden.', super.data})
+    : super(statusCode: 403);
+}
 
-  factory NetworkException.unauthorizedRequest() {
-    return const NetworkException(
-      message: 'Unauthorized request',
-      statusCode: 401,
-      errorCode: 'UNAUTHORIZED',
-    );
-  }
+/// Not found (404)
+class NotFoundException extends NetworkException {
+  const NotFoundException({super.message = 'Resource not found.', super.data})
+    : super(statusCode: 404);
+}
 
-  factory NetworkException.forbidden() {
-    return const NetworkException(
-      message: 'Access forbidden',
-      statusCode: 403,
-      errorCode: 'FORBIDDEN',
-    );
-  }
+/// Conflict (409)
+class ConflictException extends NetworkException {
+  const ConflictException({super.message = 'Conflict with current state.', super.data})
+    : super(statusCode: 409);
+}
 
-  factory NetworkException.notFound() {
-    return const NetworkException(
-      message: 'Resource not found',
-      statusCode: 404,
-      errorCode: 'NOT_FOUND',
-    );
-  }
+/// Unprocessable entity (422)
+class ValidationException extends NetworkException {
+  const ValidationException({super.message = 'Validation failed.', super.data, this.errors})
+    : super(statusCode: 422);
+  final Map<String, List<String>>? errors;
+}
 
-  factory NetworkException.requestCancelled() {
-    return const NetworkException(
-      message: 'Request was cancelled',
-      errorCode: 'REQUEST_CANCELLED',
-    );
-  }
+/// Rate limit exceeded (429)
+class RateLimitException extends NetworkException {
+  const RateLimitException({
+    super.message = 'Too many requests. Please wait and try again.',
+    this.retryAfter,
+    super.data,
+  }) : super(statusCode: 429);
+  final Duration? retryAfter;
+}
 
-  factory NetworkException.unexpectedError() {
-    return const NetworkException(
-      message: 'Unexpected error occurred',
-      errorCode: 'UNEXPECTED_ERROR',
-    );
-  }
+/// Request cancelled
+class RequestCancelledException extends NetworkException {
+  const RequestCancelledException() : super(message: 'Request was cancelled.', statusCode: null);
+}
 
-  factory NetworkException.unableToProcessException() {
-    return const NetworkException(
-      message: 'Unable to process exception error occurred',
-      errorCode: 'UNABLE_TO_PROCESS_EXCEPTION',
-    );
-  }
+/// Unknown/generic error
+class UnknownNetworkException extends NetworkException {
+  const UnknownNetworkException({
+    super.message = 'An unknown error occurred.',
+    super.statusCode,
+    super.data,
+    this.originalError,
+  });
+  final Object? originalError;
+}
 
-  // New factory constructors
-  factory NetworkException.badRequest({String? message}) {
-    return NetworkException(
-      message: message ?? 'Bad request',
-      statusCode: 400,
-      errorCode: 'BAD_REQUEST',
-    );
-  }
-
-  factory NetworkException.conflict({String? message}) {
-    return NetworkException(
-      message: message ?? 'Conflict occurred',
-      statusCode: 409,
-      errorCode: 'CONFLICT',
-    );
-  }
-
-  factory NetworkException.tooManyRequests() {
-    return const NetworkException(
-      message: 'Too many requests',
-      statusCode: 429,
-      errorCode: 'TOO_MANY_REQUESTS',
-    );
-  }
-
-  factory NetworkException.gatewayTimeout() {
-    return const NetworkException(
-      message: 'Gateway timeout',
-      statusCode: 504,
-      errorCode: 'GATEWAY_TIMEOUT',
-    );
-  }
-
-  factory NetworkException.serviceUnavailable() {
-    return const NetworkException(
-      message: 'Service unavailable',
-      statusCode: 503,
-      errorCode: 'SERVICE_UNAVAILABLE',
-    );
-  }
-
-  factory NetworkException.fromDioException(DioException dioError) {
-    switch (dioError.type) {
+/// Factory for creating appropriate exception from DioException
+class NetworkExceptionFactory {
+  static NetworkException fromDioException(DioException e) {
+    switch (e.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-        return NetworkException.requestTimeout();
+        return const TimeoutException();
+
       case DioExceptionType.badCertificate:
-        return NetworkException.unauthorizedRequest();
-      case DioExceptionType.badResponse:
-        return NetworkException._fromResponse(dioError.response);
-      case DioExceptionType.cancel:
-        return NetworkException.requestCancelled();
+        return const UnknownNetworkException(message: 'Invalid SSL certificate.');
+
       case DioExceptionType.connectionError:
-        return NetworkException.noInternetConnection();
+        if (e.error is SocketException) {
+          return const NoInternetException();
+        }
+        return const UnknownNetworkException(
+          message: 'Connection error. Please check your network.',
+        );
+
+      case DioExceptionType.cancel:
+        return const RequestCancelledException();
+
+      case DioExceptionType.badResponse:
+        return _handleStatusCode(e.response);
+
       case DioExceptionType.unknown:
-        return NetworkException.unexpectedError();
-    }
-  }
-
-  factory NetworkException._fromResponse(Response? response) {
-    final statusCode = response?.statusCode;
-    final message = response?.statusMessage ?? 'Network error occurred';
-
-    switch (statusCode) {
-      case 400:
-        return NetworkException.badRequest(message: message);
-      case 401:
-        return NetworkException.unauthorizedRequest();
-      case 403:
-        return NetworkException.forbidden();
-      case 404:
-        return NetworkException.notFound();
-      case 409:
-        return NetworkException.conflict(message: message);
-      case 429:
-        return NetworkException.tooManyRequests();
-      case 500:
-        return NetworkException.serverError(500);
-      case 503:
-        return NetworkException.serviceUnavailable();
-      case 504:
-        return NetworkException.gatewayTimeout();
-      default:
-        return NetworkException(
-          message: message,
-          statusCode: statusCode,
-          errorCode: 'HTTP_$statusCode',
+        if (e.error is SocketException) {
+          return const NoInternetException();
+        }
+        return UnknownNetworkException(
+          message: e.message ?? 'An unknown error occurred.',
+          originalError: e.error,
         );
     }
   }
 
-  final String message;
-  final int? statusCode;
-  final String? errorCode;
-  final Exception? underlyingException;
-  final Uri? uri;
+  static NetworkException _handleStatusCode(Response? response) {
+    final statusCode = response?.statusCode;
+    final data = response?.data;
+    final message = _extractMessage(data);
 
-  bool get isNoInternet => errorCode == 'NO_INTERNET';
-  bool get isTimeout => errorCode == 'TIMEOUT';
-  bool get isServerError => statusCode != null && statusCode! >= 500;
-  bool get isClientError =>
-      statusCode != null && statusCode! >= 400 && statusCode! < 500;
-  bool get isUnauthorized => statusCode == 401;
-  bool get isForbidden => statusCode == 403;
-  bool get isNotFound => statusCode == 404;
-
-  @override
-  String toString() {
-    final buffer = StringBuffer('NetworkException: $message');
-
-    if (statusCode != null) {
-      buffer.write(' (Status: $statusCode)');
+    switch (statusCode) {
+      case 400:
+        return BadRequestException(message: message, data: data);
+      case 401:
+        return UnauthorizedException(message: message, data: data);
+      case 403:
+        return ForbiddenException(message: message, data: data);
+      case 404:
+        return NotFoundException(message: message, data: data);
+      case 409:
+        return ConflictException(message: message, data: data);
+      case 422:
+        return ValidationException(
+          message: message,
+          data: data,
+          errors: _extractValidationErrors(data),
+        );
+      case 429:
+        return RateLimitException(
+          message: message,
+          data: data,
+          retryAfter: _extractRetryAfter(response),
+        );
+      case 500:
+      case 501:
+      case 502:
+      case 503:
+      case 504:
+        return ServerException(message: message, statusCode: statusCode, data: data);
+      default:
+        return UnknownNetworkException(message: message, statusCode: statusCode, data: data);
     }
-
-    if (errorCode != null) {
-      buffer.write(' [Code: $errorCode]');
-    }
-
-    if (uri != null) {
-      buffer.write(' - URI: $uri');
-    }
-
-    if (underlyingException != null) {
-      buffer.write(' - Caused by: $underlyingException');
-    }
-
-    return buffer.toString();
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'message': message,
-      'statusCode': statusCode,
-      'errorCode': errorCode,
-      'uri': uri?.toString(),
-      'underlyingException': underlyingException?.toString(),
-    };
+  static String _extractMessage(dynamic data) {
+    if (data == null) return 'An error occurred';
+    if (data is String) return data;
+    if (data is Map) {
+      return data['message'] ?? data['error'] ?? data['error_description'] ?? 'An error occurred';
+    }
+    return 'An error occurred';
   }
 
-  NetworkException copyWith({
-    String? message,
-    int? statusCode,
-    String? errorCode,
-    Exception? underlyingException,
-    Uri? uri,
-  }) {
-    return NetworkException(
-      message: message ?? this.message,
-      statusCode: statusCode ?? this.statusCode,
-      errorCode: errorCode ?? this.errorCode,
-      underlyingException: underlyingException ?? this.underlyingException,
-      uri: uri ?? this.uri,
-    );
+  static Map<String, List<String>>? _extractValidationErrors(dynamic data) {
+    if (data is! Map) return null;
+    final errors = data['errors'];
+    if (errors is! Map) return null;
+
+    return errors.map((key, value) {
+      if (value is List) {
+        return MapEntry(key.toString(), value.map((e) => e.toString()).toList());
+      }
+      return MapEntry(key.toString(), [value.toString()]);
+    });
+  }
+
+  static Duration? _extractRetryAfter(Response? response) {
+    final retryAfter = response?.headers.value('retry-after');
+    if (retryAfter == null) return null;
+
+    final seconds = int.tryParse(retryAfter);
+    return seconds != null ? Duration(seconds: seconds) : null;
   }
 }

@@ -1,5 +1,5 @@
 // lib/core/router/routes.dart
-/// Defines all route paths used in the application.
+/// Defines all route paths and names used in the application.
 ///
 /// Using constants for route paths prevents typos and enables
 /// easy refactoring. All paths should be defined here.
@@ -7,100 +7,135 @@
 /// Naming convention:
 /// - Use lowercase with hyphens for paths
 /// - Use descriptive names that match the page purpose
+/// - Names should be camelCase and match the route identifier
 abstract class Routes {
-  Routes._();
+  const Routes._();
 
   // ==================== Root Routes ====================
 
   /// Splash/loading screen shown during app initialization.
   static const String splash = '/';
+  static const String splashName = 'splash';
 
   /// Main home screen after authentication.
   static const String home = '/home';
+  static const String homeName = 'home';
 
   /// Error page for generic errors.
   static const String error = '/error';
+  static const String errorName = 'error';
 
   /// 404 Not found page.
   static const String notFound = '/404';
+  static const String notFoundName = 'notFound';
 
   // ==================== Auth Routes ====================
 
   /// Login page.
   static const String login = '/auth/login';
+  static const String loginName = 'login';
 
   /// Registration page.
   static const String register = '/auth/register';
+  static const String registerName = 'register';
 
   /// Forgot password page.
   static const String forgotPassword = '/auth/forgot-password';
+  static const String forgotPasswordName = 'forgotPassword';
 
   /// Reset password page (with token).
   static const String resetPassword = '/auth/reset-password';
+  static const String resetPasswordName = 'resetPassword';
 
   /// Email verification page.
   static const String verifyEmail = '/auth/verify-email';
+  static const String verifyEmailName = 'verifyEmail';
 
   /// Onboarding flow.
   static const String onboarding = '/onboarding';
+  static const String onboardingName = 'onboarding';
 
   // ==================== Profile Routes ====================
 
   /// User profile page.
   static const String profile = '/profile';
+  static const String profileName = 'profile';
 
-  /// Edit profile page.
+  /// Edit profile page (relative path for nested route).
   static const String editProfile = '/profile/edit';
+  static const String editProfilePath = 'edit';
+  static const String editProfileName = 'editProfile';
 
-  /// Profile settings page.
+  /// Profile settings page (relative path for nested route).
   static const String profileSettings = '/profile/settings';
+  static const String profileSettingsPath = 'settings';
+  static const String profileSettingsName = 'profileSettings';
 
   // ==================== Settings Routes ====================
 
   /// Main settings page.
   static const String settings = '/settings';
+  static const String settingsName = 'settings';
 
-  /// Notification settings.
+  /// Notification settings (relative path for nested route).
   static const String notificationSettings = '/settings/notifications';
+  static const String notificationSettingsPath = 'notifications';
+  static const String notificationSettingsName = 'notificationSettings';
 
-  /// Privacy settings.
+  /// Privacy settings (relative path for nested route).
   static const String privacySettings = '/settings/privacy';
+  static const String privacySettingsPath = 'privacy';
+  static const String privacySettingsName = 'privacySettings';
 
-  /// Security settings.
+  /// Security settings (relative path for nested route).
   static const String securitySettings = '/settings/security';
+  static const String securitySettingsPath = 'security';
+  static const String securitySettingsName = 'securitySettings';
 
-  /// Appearance/Theme settings.
+  /// Appearance/Theme settings (relative path for nested route).
   static const String appearanceSettings = '/settings/appearance';
+  static const String appearanceSettingsPath = 'appearance';
+  static const String appearanceSettingsName = 'appearanceSettings';
 
-  /// Language settings.
+  /// Language settings (relative path for nested route).
   static const String languageSettings = '/settings/language';
+  static const String languageSettingsPath = 'language';
+  static const String languageSettingsName = 'languageSettings';
 
-  /// About page.
+  /// About page (relative path for nested route).
   static const String about = '/settings/about';
+  static const String aboutPath = 'about';
+  static const String aboutName = 'about';
 
   // ==================== Feature Routes ====================
 
   /// Search page.
   static const String search = '/search';
+  static const String searchName = 'search';
 
   /// Notifications list.
   static const String notifications = '/notifications';
+  static const String notificationsName = 'notifications';
 
   /// Help/Support page.
   static const String help = '/help';
+  static const String helpName = 'help';
 
   /// Feedback page.
   static const String feedback = '/feedback';
+  static const String feedbackName = 'feedback';
 
   // ==================== Deep Link Routes ====================
 
   /// Generic deep link handler.
   /// Pattern: /link/:type/:id
   static const String deepLink = '/link/:type/:id';
+  static const String deepLinkName = 'deepLink';
 
   /// Share link handler.
   /// Pattern: /share/:type/:id
   static const String share = '/share/:type/:id';
+  static const String shareName = 'share';
 
   // ==================== Helper Methods ====================
 

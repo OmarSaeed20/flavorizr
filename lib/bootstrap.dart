@@ -2,7 +2,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flavorizr/app.dart';
 import 'package:flavorizr/config/app_config.dart';
 import 'package:flavorizr/config/firebase/firebase_config.dart';
@@ -10,11 +12,14 @@ import 'package:flavorizr/config/flavors.dart';
 import 'package:flavorizr/core/error/error_handler.dart';
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flavorizr/core/router/app_router.dart';
+import 'package:flavorizr/core/services/notification_service.dart';
+import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Bootstraps the application with the specified [flavor].
 ///
@@ -44,24 +49,46 @@ Future<void> bootstrap(Flavor flavor) async {
       // 4. Initialize Firebase
       await FirebaseConfig.setup();
 
-      // 5. Initialize app configuration
+      // 5. Set up Firebase Messaging background handler
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+      // 6. Initialize app configuration
       AppConfig.initialize(flavor);
 
-      // 6. Initialize logger
+      // 7. Initialize logger
       await AppLogger.instance.initialize(
         config: flavor.isProduction ? const AppLoggerConfig.prodction() : const AppLoggerConfig(),
       );
 
-      // 7. Initialize error handling
+      // 8. Initialize error handling
       ErrorHandler.initialize(enableCrashReporting: flavor.enableCrashReporting);
 
-      // 8. Set preferred orientations
+      // 9. Initialize notification service
+      final notificationInitialized = await NotificationService.instance.initialize();
+      if (notificationInitialized) {
+        // Set foreground notification presentation options for iOS
+        await NotificationService.instance.setForegroundNotificationPresentationOptions();
+
+        await AppLogger.instance.logInfo(
+          'Notification service initialized',
+          data: {
+            'fcmToken': NotificationService.instance.fcmToken?.substring(0, 20),
+            'isAuthorized': NotificationService.instance.isAuthorized,
+          },
+        );
+      } else {
+        await AppLogger.instance.logWarning(
+          'Notification service initialization failed or permission denied',
+        );
+      }
+
+      // 10. Set preferred orientations
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ]);
 
-      // 9. Set system UI style
+      // 11. Set system UI style
       SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
@@ -70,24 +97,46 @@ Future<void> bootstrap(Flavor flavor) async {
         ),
       );
 
-      // 10. Ensure screen size is initialized
+      // 12. Ensure screen size is initialized
       await ScreenUtil.ensureScreenSize();
 
-      // 11. Initialize router
+      // 13. Initialize router
       await AppRouter.instance.initialize();
 
-      // 12. Log app startup
+      // 14. Initialize SharedPreferences
+      final sharedPreferences = await SharedPreferences.getInstance();
+
+      // 15. Initialize Dio
+      final dio = Dio(
+        BaseOptions(
+          connectTimeout: const Duration(seconds: 30),
+          receiveTimeout: const Duration(seconds: 30),
+          sendTimeout: const Duration(seconds: 30),
+        ),
+      );
+
+      // 16. Log app startup
       await AppLogger.instance.logInfo(
         'App bootstrapped',
         data: {
           'flavor': flavor.name,
           'buildMode': kReleaseMode ? 'release' : 'debug',
           'timestamp': DateTime.now().toIso8601String(),
+          'notificationsEnabled': notificationInitialized,
         },
       );
 
-      // 13. Run the app
-      runApp(ProviderScope(observers: kDebugMode ? [_ProviderLogger()] : [], child: const App()));
+      // 17. Run the app with provider overrides
+      runApp(
+        ProviderScope(
+          observers: kDebugMode ? [_ProviderLogger()] : [],
+          overrides: [
+            sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+            dioProvider.overrideWithValue(dio),
+          ],
+          child: const App(),
+        ),
+      );
     },
     (error, stackTrace) {
       // Handle uncaught errors
