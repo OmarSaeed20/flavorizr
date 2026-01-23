@@ -1,7 +1,6 @@
 // lib/core/error/error_boundary.dart
-import 'package:flutter/material.dart';
-
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:flutter/material.dart';
 
 /// Widget that catches and handles errors in its child widget tree.
 ///

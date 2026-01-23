@@ -1,12 +1,11 @@
 // lib/features/auth/presentation/controllers/login_controller.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
+import 'package:flavorizr/features/auth/domain/usecases/biometric_auth_usecase.dart';
 import 'package:flavorizr/features/auth/domain/usecases/login_usecase.dart';
 import 'package:flavorizr/features/auth/domain/usecases/social_auth_usecase.dart';
-import 'package:flavorizr/features/auth/domain/usecases/biometric_auth_usecase.dart';
 import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the login form.
 class LoginState {

@@ -72,7 +72,7 @@ class ChatInput extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.emoji_emotions_outlined),
                       onPressed: () {
-                        // TODO: Show emoji picker
+                        // TO-DO: Show emoji picker
                       },
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -150,7 +150,7 @@ class _VoiceButton extends StatelessWidget {
         onPressed:
             onPressed ??
             () {
-              // TODO: Implement voice recording
+              // TO-DO: Implement voice recording
             },
         color: theme.colorScheme.onPrimary,
       ),

@@ -1,10 +1,9 @@
 // lib/core/router/route_guards.dart
 import 'dart:async';
 
+import 'package:flavorizr/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:flavorizr/core/router/routes.dart';
 
 /// Base class for route guards.
 ///

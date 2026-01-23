@@ -1,7 +1,6 @@
 // lib/features/chat/presentation/widgets/message_bubble.dart
-import 'package:flutter/material.dart';
-
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
+import 'package:flutter/material.dart';
 
 /// A bubble widget displaying a single message.
 class MessageBubble extends StatelessWidget {

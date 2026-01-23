@@ -1,9 +1,8 @@
 // lib/features/auth/presentation/controllers/register_controller.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
 import 'package:flavorizr/features/auth/domain/usecases/register_usecase.dart';
 import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the registration form.
 class RegisterState {

@@ -2,18 +2,17 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
-import 'package:path_provider/path_provider.dart';
-
 import 'package:flavorizr/core/error/failures.dart';
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flavorizr/core/network/exception/network_exceptions.dart';
 import 'package:flavorizr/core/network/websocket/websocket.dart';
+import 'package:flavorizr/features/chat/data/datasources/chat_local_datasource.dart';
+import 'package:flavorizr/features/chat/data/datasources/chat_remote_datasource.dart';
 import 'package:flavorizr/features/chat/domain/entities/conversation.dart';
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
 import 'package:flavorizr/features/chat/domain/entities/typing_indicator.dart';
 import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart';
-import 'package:flavorizr/features/chat/data/datasources/chat_local_datasource.dart';
-import 'package:flavorizr/features/chat/data/datasources/chat_remote_datasource.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Implementation of [ChatRepository].
 ///

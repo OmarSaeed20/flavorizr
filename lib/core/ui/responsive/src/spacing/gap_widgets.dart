@@ -1,7 +1,6 @@
+import 'package:flavorizr/core/ui/responsive/src/spacing/spacing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'spacing_constants.dart';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GAP WIDGETS

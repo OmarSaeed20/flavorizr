@@ -16,6 +16,8 @@ typedef UseCaseResult<T> = Future<({T? data, Failure? failure})>;
 /// - [T] - The success return type
 /// - [Params] - The input parameters type (use [NoParams] if none needed)
 abstract class UseCase<T, Params> {
+  const UseCase();
+
   /// Executes the use case with the given parameters.
   UseCaseResult<T> call(Params params);
 }
@@ -29,6 +31,8 @@ class NoParams {
 ///
 /// Use for real-time data like chat messages or notifications.
 abstract class StreamUseCase<T, Params> {
+  const StreamUseCase();
+
   /// Returns a stream of data.
   Stream<({T? data, Failure? failure})> call(Params params);
 }

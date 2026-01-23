@@ -1,8 +1,7 @@
+import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
+import 'package:flavorizr/core/ui/responsive/src/responsive_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../device_info.dart';
-import '../responsive_data.dart';
 
 /// A responsive container that constrains content width
 ///

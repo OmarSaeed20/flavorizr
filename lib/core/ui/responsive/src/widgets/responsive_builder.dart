@@ -1,7 +1,6 @@
+import 'package:flavorizr/core/ui/responsive/src/breakpoints.dart';
+import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
 import 'package:flutter/material.dart';
-
-import '../breakpoints.dart';
-import '../device_info.dart';
 
 /// A builder widget that rebuilds based on device type
 ///

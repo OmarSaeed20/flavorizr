@@ -23,10 +23,6 @@ library;
 
 import 'package:flavorizr/core/network/websocket/websocket.dart'
     show WebSocketClient, WebSocketEventHandler, WebSocketManager;
-import 'package:flavorizr/core/network/websocket/websocket_client.dart' show WebSocketClient;
-import 'package:flavorizr/core/network/websocket/websocket_event_handler.dart'
-    show WebSocketEventHandler;
-import 'package:flavorizr/core/network/websocket/websocket_manager.dart' show WebSocketManager;
 
 export 'websocket_client.dart';
 export 'websocket_event_handler.dart';

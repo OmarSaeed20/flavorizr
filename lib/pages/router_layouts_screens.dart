@@ -1,21 +1,20 @@
-// lib/shared/presentation/layouts/main_layout.dart
+/* // lib/shared/presentation/layouts/main_layout.dart
+// import '../../core/router/app_router.dart';
+// import '../../core/navigation/navigation_service.dart';
+
+import 'package:flavorizr/core/router/app_router.dart';
+import 'package:flavorizr/core/router/navigation_state.dart';
+import 'package:flavorizr/core/router/routes.dart';
 import 'package:flavorizr/pages/router_supporting_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-// import '../../core/router/app_router.dart';
-// import '../../core/navigation/navigation_service.dart';
-import 'advanced_app_router.dart';
 
 class MainLayout extends ConsumerStatefulWidget {
   final Widget child;
   final String currentRoute;
 
-  const MainLayout({
-    super.key,
-    required this.child,
-    required this.currentRoute,
-  });
+  const MainLayout({super.key, required this.child, required this.currentRoute});
 
   @override
   ConsumerState<MainLayout> createState() => _MainLayoutState();
@@ -53,11 +52,11 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
   ];
 
   final List<String> _routes = [
-    AppRoutes.home,
-    AppRoutes.shop,
-    AppRoutes.cart,
-    AppRoutes.orders,
-    AppRoutes.profile,
+    Routes.home,
+    Routes.shop,
+    Routes.cart,
+    Routes.orders,
+    Routes.profile,
   ];
 
   @override
@@ -76,7 +75,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
 
   void _updateSelectedIndex() {
     final currentRoute = widget.currentRoute;
-    for (int i = 0; i < _routes.length; i++) {
+    for (var i = 0; i < _routes.length; i++) {
       if (currentRoute.startsWith(_routes[i])) {
         if (mounted) {
           setState(() => _selectedIndex = i);
@@ -103,8 +102,8 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
       body: Stack(
         children: [
           widget.child,
-          if (navigationState.value?.isLoading == true)
-            Container(
+          if (navigationState.value?.isLoading ?? false)
+            ColoredBox(
               color: Colors.black.withValues(alpha: 0.3),
               child: const Center(child: CircularProgressIndicator()),
             ),
@@ -128,10 +127,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
       foregroundColor: Colors.white,
       elevation: 0,
       actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () => _showSearchDialog(context),
-        ),
+        IconButton(icon: const Icon(Icons.search), onPressed: () => _showSearchDialog(context)),
         IconButton(
           icon: const Icon(Icons.notifications_outlined),
           onPressed: () => context.push('/notifications'),
@@ -171,16 +167,16 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
   }
 
   bool _shouldHideAppBar(String route) {
-    return route.startsWith('/auth') || route == AppRoutes.splash;
+    return route.startsWith('/auth') || route == Routes.splash;
   }
 
   String _getAppBarTitle(String route) {
-    if (route.startsWith(AppRoutes.home)) return 'Home';
-    if (route.startsWith(AppRoutes.shop)) return 'Shop';
-    if (route.startsWith(AppRoutes.cart)) return 'Cart';
-    if (route.startsWith(AppRoutes.orders)) return 'Orders';
-    if (route.startsWith(AppRoutes.profile)) return 'Profile';
-    if (route.startsWith(AppRoutes.settings)) return 'Settings';
+    if (route.startsWith(Routes.home)) return 'Home';
+    if (route.startsWith(Routes.shop)) return 'Shop';
+    if (route.startsWith(Routes.cart)) return 'Cart';
+    if (route.startsWith(Routes.orders)) return 'Orders';
+    if (route.startsWith(Routes.profile)) return 'Profile';
+    if (route.startsWith(Routes.settings)) return 'Settings';
     return 'App';
   }
 
@@ -201,7 +197,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
 
   bool _shouldHideBottomNavigation(String route) {
     return route.startsWith('/auth') ||
-        route == AppRoutes.splash ||
+        route == Routes.splash ||
         route.startsWith('/checkout') ||
         route.startsWith('/admin');
   }
@@ -224,45 +220,34 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.blue, Colors.blueAccent],
-              ),
+              gradient: LinearGradient(colors: [Colors.blue, Colors.blueAccent]),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundImage: NetworkImage(
-                    'https://via.placeholder.com/150',
-                  ),
+                  backgroundImage: NetworkImage('https://via.placeholder.com/150'),
                 ),
                 SizedBox(height: 12),
                 Text(
                   'John Doe',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  'john.doe@example.com',
-                  style: TextStyle(color: Colors.white70, fontSize: 14),
-                ),
+                Text('john.doe@example.com', style: TextStyle(color: Colors.white70, fontSize: 14)),
               ],
             ),
           ),
           _buildDrawerItem(
             icon: Icons.home,
             title: 'Home',
-            route: AppRoutes.home,
+            route: Routes.home,
             context: context,
           ),
           _buildDrawerItem(
             icon: Icons.store,
             title: 'Shop',
-            route: AppRoutes.shop,
+            route: Routes.shop,
             context: context,
           ),
           _buildDrawerItem(
@@ -275,7 +260,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
           _buildDrawerItem(
             icon: Icons.settings,
             title: 'Settings',
-            route: AppRoutes.settings,
+            route: Routes.settings,
             context: context,
           ),
           _buildDrawerItem(
@@ -284,12 +269,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
             route: '/help',
             context: context,
           ),
-          _buildDrawerItem(
-            icon: Icons.info,
-            title: 'About',
-            route: '/about',
-            context: context,
-          ),
+          _buildDrawerItem(icon: Icons.info, title: 'About', route: '/about', context: context),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.red),
@@ -302,7 +282,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
   }
 
   bool _shouldHideDrawer(String route) {
-    return route.startsWith('/auth') || route == AppRoutes.splash;
+    return route.startsWith('/auth') || route == Routes.splash;
   }
 
   Widget _buildDrawerItem({
@@ -314,10 +294,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
     final isSelected = widget.currentRoute.startsWith(route);
 
     return ListTile(
-      leading: Icon(
-        icon,
-        color: isSelected ? Theme.of(context).primaryColor : null,
-      ),
+      leading: Icon(icon, color: isSelected ? Theme.of(context).primaryColor : null),
       title: Text(
         title,
         style: TextStyle(
@@ -336,7 +313,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
   void _handleMenuSelection(String value) {
     switch (value) {
       case 'settings':
-        context.go(AppRoutes.settings);
+        context.go(Routes.settings);
         break;
       case 'help':
         context.push('/help');
@@ -354,10 +331,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
         title: const Text('Logout'),
         content: const Text('Are you sure you want to logout?'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -382,10 +356,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -440,26 +411,19 @@ class AuthLayout extends StatelessWidget {
 
                 Text(
                   'Your one-stop shopping destination',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
                 ),
                 const SizedBox(height: 48),
 
                 // Auth Content
-                Container(
-                  constraints: const BoxConstraints(maxWidth: 400),
-                  child: child,
-                ),
+                Container(constraints: const BoxConstraints(maxWidth: 400), child: child),
 
                 const SizedBox(height: 24),
 
                 // Footer
                 Text(
                   '© 2024 Shopping App. All rights reserved.',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.grey[500]),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[500]),
                 ),
               ],
             ),
@@ -478,8 +442,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
@@ -488,23 +451,22 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
+    _animationController = AnimationController(duration: const Duration(seconds: 2), vsync: this);
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeIn));
 
-    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 0.5,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.elasticOut));
 
     _startAnimation();
   }
 
-  void _startAnimation() async {
+  Future<void> _startAnimation() async {
     await _animationController.forward();
 
     // Navigate based on auth state
@@ -514,9 +476,9 @@ class _SplashScreenState extends State<SplashScreen>
 
       if (mounted) {
         if (isAuthenticated) {
-          context.go(AppRoutes.home);
+          context.go(Routes.home);
         } else {
-          context.go(AppRoutes.login);
+          context.go(Routes.login);
         }
       }
     }
@@ -546,15 +508,8 @@ class _SplashScreenState extends State<SplashScreen>
                     Container(
                       width: 150,
                       height: 150,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.store,
-                        size: 80,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                      child: Icon(Icons.store, size: 80, color: Theme.of(context).primaryColor),
                     ),
                     const SizedBox(height: 32),
                     const Text(
@@ -635,9 +590,7 @@ class ErrorScreen extends StatelessWidget {
 
               Text(
                 'We apologize for the inconvenience. Please try again or go back to the home screen.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -659,7 +612,7 @@ class ErrorScreen extends StatelessWidget {
                   ],
 
                   OutlinedButton.icon(
-                    onPressed: () => context.go(AppRoutes.home),
+                    onPressed: () => context.go(Routes.home),
                     icon: const Icon(Icons.home),
                     label: const Text('Go Home'),
                   ),
@@ -707,25 +660,20 @@ class NotFoundScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               Text(
-                'The page you are looking for doesn\'t exist or has been moved.',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                "The page you are looking for doesn't exist or has been moved.",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
 
               ElevatedButton.icon(
-                onPressed: () => context.go(AppRoutes.home),
+                onPressed: () => context.go(Routes.home),
                 icon: const Icon(Icons.home),
                 label: const Text('Go Home'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 16,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                 ),
               ),
             ],
@@ -774,10 +722,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await AppRouter.instance.navigateAfterLogin();
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Invalid email or password'),
-            backgroundColor: Colors.red,
-          ),
+          const SnackBar(content: Text('Invalid email or password'), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -799,9 +744,9 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Text(
                 'Welcome Back',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -833,12 +778,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   prefixIcon: const Icon(Icons.lock_outlined),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
+                      _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                     ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   border: const OutlineInputBorder(),
                 ),
@@ -869,9 +811,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   backgroundColor: Theme.of(context).primaryColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 child: _isLoading
                     ? const SizedBox(
@@ -879,9 +819,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white,
-                          ),
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       )
                     : const Text('Login'),
@@ -891,9 +829,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Don\'t have an account? '),
+                  const Text("Don't have an account? "),
                   TextButton(
-                    onPressed: () => context.go(AppRoutes.register),
+                    onPressed: () => context.go(Routes.register),
                     child: const Text('Sign Up'),
                   ),
                 ],
@@ -959,12 +897,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if (success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Registration successful!'),
-            backgroundColor: Colors.green,
-          ),
+          const SnackBar(content: Text('Registration successful!'), backgroundColor: Colors.green),
         );
-        context.go(AppRoutes.home);
+        context.go(Routes.home);
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -992,9 +927,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               Text(
                 'Create Account',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -1041,12 +976,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   prefixIcon: const Icon(Icons.lock_outlined),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
+                      _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                     ),
-                    onPressed: () =>
-                        setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   border: const OutlineInputBorder(),
                 ),
@@ -1074,9 +1006,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                     ),
-                    onPressed: () => setState(
-                      () => _obscureConfirmPassword = !_obscureConfirmPassword,
-                    ),
+                    onPressed: () =>
+                        setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
                   ),
                   border: const OutlineInputBorder(),
                 ),
@@ -1096,8 +1027,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   Checkbox(
                     value: _acceptTerms,
-                    onChanged: (value) =>
-                        setState(() => _acceptTerms = value ?? false),
+                    onChanged: (value) => setState(() => _acceptTerms = value ?? false),
                   ),
                   Expanded(
                     child: GestureDetector(
@@ -1137,9 +1067,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   backgroundColor: Theme.of(context).primaryColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 child: _isLoading
                     ? const SizedBox(
@@ -1147,9 +1075,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white,
-                          ),
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       )
                     : const Text('Create Account'),
@@ -1161,7 +1087,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 children: [
                   const Text('Already have an account? '),
                   TextButton(
-                    onPressed: () => context.go(AppRoutes.login),
+                    onPressed: () => context.go(Routes.login),
                     child: const Text('Sign In'),
                   ),
                 ],
@@ -1239,9 +1165,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     elevation: 8,
                     child: Padding(
                       padding: const EdgeInsets.all(32.0),
-                      child: _emailSent
-                          ? _buildSuccessContent()
-                          : _buildFormContent(),
+                      child: _emailSent ? _buildSuccessContent() : _buildFormContent(),
                     ),
                   ),
                 ),
@@ -1265,18 +1189,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
           Text(
             'Reset Password',
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
 
           Text(
-            'Enter your email address and we\'ll send you a link to reset your password.',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+            "Enter your email address and we'll send you a link to reset your password.",
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
@@ -1306,9 +1226,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             child: _isLoading
                 ? const SizedBox(
@@ -1324,7 +1242,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           const SizedBox(height: 16),
 
           TextButton(
-            onPressed: () => context.go(AppRoutes.login),
+            onPressed: () => context.go(Routes.login),
             child: const Text('Back to Login'),
           ),
           /*           
@@ -1392,7 +1310,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             children: [
               const Text('Don\'t have an account? '),
               TextButton(
-                onPressed: () => context.go(AppRoutes.register),
+                onPressed: () => context.go(Routes.register),
                 child: const Text('Sign Up'),
               ),
             ],
@@ -1412,24 +1330,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
         Text(
           'Email Sent!',
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
 
         Text(
-          'We\'ve sent a password reset link to ${_emailController.text}. Please check your email and follow the instructions.',
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+          "We've sent a password reset link to ${_emailController.text}. Please check your email and follow the instructions.",
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
 
         ElevatedButton(
-          onPressed: () => context.go(AppRoutes.login),
+          onPressed: () => context.go(Routes.login),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
             foregroundColor: Colors.white,
@@ -1506,7 +1420,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        context.go(AppRoutes.home);
+        context.go(Routes.home);
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -1597,7 +1511,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const SizedBox(height: 16),
           
           TextButton(
-            onPressed: () => context.go(AppRoutes.login),
+            onPressed: () => context.go(Routes.login),
             child: const Text('Back to Login'),
           ),
         ],
@@ -1635,7 +1549,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(height: 32),
         
         ElevatedButton(
-          onPressed: () => context.go(AppRoutes.login),
+          onPressed: () => context.go(Routes.login),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
             foregroundColor: Colors.white,
@@ -1731,9 +1645,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     elevation: 8,
                     child: Padding(
                       padding: const EdgeInsets.all(32.0),
-                      child: _passwordReset
-                          ? _buildSuccessContent()
-                          : _buildFormContent(),
+                      child: _passwordReset ? _buildSuccessContent() : _buildFormContent(),
                     ),
                   ),
                 ),
@@ -1757,18 +1669,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
           Text(
             'Create New Password',
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
 
           Text(
             'Please create a new password for your account.',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
@@ -1781,12 +1689,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               prefixIcon: const Icon(Icons.lock_outlined),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _obscurePassword
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
+                  _obscurePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                 ),
-                onPressed: () =>
-                    setState(() => _obscurePassword = !_obscurePassword),
+                onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
               ),
               border: const OutlineInputBorder(),
             ),
@@ -1814,9 +1719,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
                 ),
-                onPressed: () => setState(
-                  () => _obscureConfirmPassword = !_obscureConfirmPassword,
-                ),
+                onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
               ),
               border: const OutlineInputBorder(),
             ),
@@ -1836,9 +1739,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             child: _isLoading
                 ? const SizedBox(
@@ -1865,24 +1766,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
         Text(
           'Password Reset!',
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
 
         Text(
           'Your password has been successfully reset. You can now login with your new password.',
-          style: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
 
         ElevatedButton(
-          onPressed: () => context.go(AppRoutes.login),
+          onPressed: () => context.go(Routes.login),
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
             foregroundColor: Colors.white,
@@ -1908,10 +1805,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Icon(Icons.home, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Home Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Home Screen', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),
@@ -1931,11 +1825,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.person,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.person, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
             Text(
               userId != null ? 'User Profile: $userId' : 'My Profile',
@@ -1958,16 +1848,9 @@ class SettingsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.settings,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.settings, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Settings Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Settings Screen', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),
@@ -1980,12 +1863,7 @@ class ShopScreen extends StatelessWidget {
   final String? category;
   final String? searchQuery;
 
-  const ShopScreen({
-    super.key,
-    this.categoryId,
-    this.category,
-    this.searchQuery,
-  });
+  const ShopScreen({super.key, this.categoryId, this.category, this.searchQuery});
 
   @override
   Widget build(BuildContext context) {
@@ -1996,10 +1874,7 @@ class ShopScreen extends StatelessWidget {
           children: [
             Icon(Icons.store, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Shop Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Shop Screen', style: Theme.of(context).textTheme.headlineMedium),
             if (categoryId != null) Text('Category: $categoryId'),
             if (category != null) Text('Filter: $category'),
             if (searchQuery != null) Text('Search: $searchQuery'),
@@ -2014,11 +1889,7 @@ class ProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String? variant;
 
-  const ProductDetailsScreen({
-    super.key,
-    required this.productId,
-    this.variant,
-  });
+  const ProductDetailsScreen({super.key, required this.productId, this.variant});
 
   @override
   Widget build(BuildContext context) {
@@ -2027,16 +1898,9 @@ class ProductDetailsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.inventory,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.inventory, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Product Details',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Product Details', style: Theme.of(context).textTheme.headlineMedium),
             Text('Product ID: $productId'),
             if (variant != null) Text('Variant: $variant'),
           ],
@@ -2056,16 +1920,9 @@ class CartScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.shopping_cart,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.shopping_cart, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Cart Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Cart Screen', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),
@@ -2083,16 +1940,9 @@ class CheckoutScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.payment,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.payment, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Checkout Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Checkout Screen', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),
@@ -2112,16 +1962,9 @@ class CheckoutPaymentScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.credit_card,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.credit_card, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Payment Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Payment Screen', style: Theme.of(context).textTheme.headlineMedium),
             if (orderId != null) Text('Order ID: $orderId'),
           ],
         ),
@@ -2144,10 +1987,7 @@ class CheckoutConfirmScreen extends StatelessWidget {
           children: [
             const Icon(Icons.check_circle, size: 100, color: Colors.green),
             const SizedBox(height: 16),
-            Text(
-              'Order Confirmed',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Order Confirmed', style: Theme.of(context).textTheme.headlineMedium),
             Text('Order ID: $orderId'),
           ],
         ),
@@ -2166,16 +2006,9 @@ class OrdersScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.receipt_long,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.receipt_long, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Orders Screen',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Orders Screen', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),
@@ -2195,16 +2028,9 @@ class OrderDetailsScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.receipt,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.receipt, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Order Details',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Order Details', style: Theme.of(context).textTheme.headlineMedium),
             Text('Order ID: $orderId'),
           ],
         ),
@@ -2221,10 +2047,7 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Edit Profile Screen',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        child: Text('Edit Profile Screen', style: Theme.of(context).textTheme.headlineMedium),
       ),
     );
   }
@@ -2237,10 +2060,7 @@ class NotificationSettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Notification Settings',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        child: Text('Notification Settings', style: Theme.of(context).textTheme.headlineMedium),
       ),
     );
   }
@@ -2253,10 +2073,7 @@ class PrivacySettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Privacy Settings',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        child: Text('Privacy Settings', style: Theme.of(context).textTheme.headlineMedium),
       ),
     );
   }
@@ -2269,10 +2086,7 @@ class SecuritySettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Security Settings',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        child: Text('Security Settings', style: Theme.of(context).textTheme.headlineMedium),
       ),
     );
   }
@@ -2292,10 +2106,7 @@ class ProductReviewsScreen extends StatelessWidget {
           children: [
             const Icon(Icons.star, size: 100, color: Colors.amber),
             const SizedBox(height: 16),
-            Text(
-              'Product Reviews',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Product Reviews', style: Theme.of(context).textTheme.headlineMedium),
             Text('Product ID: $productId'),
           ],
         ),
@@ -2314,16 +2125,9 @@ class AdminDashboardScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.admin_panel_settings,
-              size: 100,
-              color: Theme.of(context).primaryColor,
-            ),
+            Icon(Icons.admin_panel_settings, size: 100, color: Theme.of(context).primaryColor),
             const SizedBox(height: 16),
-            Text(
-              'Admin Dashboard',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('Admin Dashboard', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),
@@ -2338,10 +2142,7 @@ class AdminUsersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Admin Users Management',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        child: Text('Admin Users Management', style: Theme.of(context).textTheme.headlineMedium),
       ),
     );
   }
@@ -2354,10 +2155,7 @@ class AdminProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Admin Products Management',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        child: Text('Admin Products Management', style: Theme.of(context).textTheme.headlineMedium),
       ),
     );
   }
@@ -2370,11 +2168,9 @@ class AdminOrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          'Admin Orders Management',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
+        child: Text('Admin Orders Management', style: Theme.of(context).textTheme.headlineMedium),
       ),
     );
   }
 }
+ */

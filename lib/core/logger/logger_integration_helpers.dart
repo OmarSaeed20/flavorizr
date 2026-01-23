@@ -1,9 +1,8 @@
 // lib/core/logger/logger_interceptors.dart
 import 'package:dio/dio.dart';
+import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import 'advanced_app_logger.dart';
 
 // HTTP Logger Interceptor for Dio
 class LoggerInterceptor extends Interceptor {
@@ -158,7 +157,7 @@ class AppErrorHandler {
         'Platform Error: $error',
         () async {},
         level: LogLevel.critical,
-        parameters: {"stack": stack.toString()},
+        parameters: {'stack': stack.toString()},
         category: LogCategory.crash,
       );
       return true;
@@ -236,5 +235,6 @@ extension LoggedMethodExtension on Object {
 
       rethrow;
     }
+    return null;
   }
 }

@@ -1,12 +1,5 @@
 // lib/features/auth/presentation/providers/auth_providers.dart
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 import 'package:flavorizr/core/network/network_info.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -20,6 +13,12 @@ import 'package:flavorizr/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:flavorizr/features/auth/domain/usecases/password_reset_usecase.dart';
 import 'package:flavorizr/features/auth/domain/usecases/register_usecase.dart';
 import 'package:flavorizr/features/auth/domain/usecases/social_auth_usecase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 // ==================== External Dependencies ====================
 

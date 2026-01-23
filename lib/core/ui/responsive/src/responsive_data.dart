@@ -1,7 +1,6 @@
+import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'device_info.dart';
 
 /// Responsive data containing all responsive values
 ///

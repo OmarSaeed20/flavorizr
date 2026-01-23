@@ -217,7 +217,7 @@ class PostCard extends StatelessWidget {
           padding: EdgeInsets.zero,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           visualDensity: VisualDensity.compact,
-          backgroundColor: theme.colorScheme.primaryContainer.withOpacity(0.5),
+          backgroundColor: theme.colorScheme.primaryContainer.withValues(alpha: 0.5),
           side: BorderSide.none,
         );
       }).toList(),

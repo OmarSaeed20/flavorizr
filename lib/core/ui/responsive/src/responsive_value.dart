@@ -1,7 +1,6 @@
+import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
+import 'package:flavorizr/core/ui/responsive/src/responsive_context.dart';
 import 'package:flutter/material.dart';
-
-import 'device_info.dart';
-import 'responsive_context.dart';
 
 /// A responsive value that changes based on device type or screen size
 ///

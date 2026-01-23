@@ -3,14 +3,13 @@ import 'dart:convert' show JsonEncoder;
 
 import 'package:dio/dio.dart' show Dio, InterceptorsWrapper;
 import 'package:flavorizr/config/flavors.dart' show F;
+import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flavorizr/core/logger/logger_integration_helpers.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:talker_flutter/talker_flutter.dart' hide LogLevel;
-
-import 'advanced_app_logger.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -1283,7 +1282,7 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
       subtitle: Text(subtitle, style: TextStyle(color: Colors.grey[400])),
       value: value,
       onChanged: onChanged,
-      activeColor: Colors.blue,
+      activeThumbColor: Colors.blue,
     );
   }
 

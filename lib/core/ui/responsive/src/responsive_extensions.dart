@@ -1,8 +1,7 @@
+import 'package:flavorizr/core/ui/responsive/src/responsive_context.dart';
+import 'package:flavorizr/core/ui/responsive/src/responsive_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'responsive_context.dart';
-import 'responsive_data.dart';
 
 /// Extensions on BuildContext for responsive utilities
 extension ResponsiveContextExtension on BuildContext {

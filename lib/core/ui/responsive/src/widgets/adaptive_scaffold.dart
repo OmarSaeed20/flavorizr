@@ -1,9 +1,8 @@
+import 'package:flavorizr/core/ui/responsive/src/breakpoints.dart';
+import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
+import 'package:flavorizr/core/ui/responsive/src/responsive_data.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../breakpoints.dart';
-import '../device_info.dart';
-import '../responsive_data.dart';
 
 /// Navigation type for adaptive scaffold
 enum NavigationType {
@@ -659,7 +658,6 @@ class ResponsiveScaffold extends StatelessWidget {
           ? AppBar(
               title: titleWidget ?? (title != null ? Text(title) : null),
               actions: actions,
-              automaticallyImplyLeading: true,
             )
           : null,
     );
@@ -689,7 +687,7 @@ class ResponsiveScaffold extends StatelessWidget {
       maxBodyWidth: maxBodyWidth,
       appBar:
           appBar ??
-          (title != null ? AppBar(title: Text(title), automaticallyImplyLeading: true) : null),
+          (title != null ? AppBar(title: Text(title)) : null),
     );
   }
 }

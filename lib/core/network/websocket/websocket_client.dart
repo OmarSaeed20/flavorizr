@@ -2,10 +2,9 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:web_socket_channel/web_socket_channel.dart';
-
 import 'package:flavorizr/config/app_config.dart';
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 /// WebSocket connection states.
 enum WebSocketState {

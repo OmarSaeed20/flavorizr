@@ -4,10 +4,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
-
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:flutter/foundation.dart';
 
 /// Global error handler for the application.
 ///

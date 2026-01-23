@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flavorizr/config/firebase/firebase_options/firebase_options_dev.dart' as fb_options_dev;
+import 'package:flavorizr/config/firebase/firebase_options/firebase_options_prod.dart' as fb_options_prod;
+import 'package:flavorizr/config/firebase/firebase_options/firebase_options_staging.dart' as fb_options_staging;
 import 'package:flavorizr/config/flavors.dart' as f show F;
 import 'package:flavorizr/config/flavors.dart';
-
-import 'firebase_options/firebase_options_dev.dart' as fb_options_dev;
-import 'firebase_options/firebase_options_prod.dart' as fb_options_prod;
-import 'firebase_options/firebase_options_staging.dart' as fb_options_staging;
 
 class FirebaseConfig {
   const FirebaseConfig();

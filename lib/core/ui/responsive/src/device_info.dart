@@ -1,6 +1,5 @@
+import 'package:flavorizr/core/ui/responsive/src/breakpoints.dart';
 import 'package:flutter/material.dart';
-
-import 'breakpoints.dart';
 
 /// Comprehensive device information for responsive layouts
 ///

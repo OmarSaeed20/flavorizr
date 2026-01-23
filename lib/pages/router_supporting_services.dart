@@ -1,25 +1,26 @@
-// lib/core/navigation/navigation_service.dart
+/* // lib/core/navigation/navigation_service.dart
 import 'dart:convert';
 
+import 'package:flavorizr/core/router/app_router.dart';
+import 'package:flavorizr/core/router/routes.dart';
 import 'package:flavorizr/pages/advanced_app_router.dart';
+import 'package:flavorizr/pages/router_layouts_screens.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'router_layouts_screens.dart';
-
 class NavigationService {
   static NavigationService? _instance;
-  static NavigationService get instance =>
-      _instance ??= NavigationService._internal();
+  static NavigationService get instance => _instance ??= NavigationService._internal();
 
   late GoRouter _router;
-  final BehaviorSubject<NavigationState> _navigationState =
-      BehaviorSubject.seeded(const NavigationState(currentRoute: '/'));
+  final BehaviorSubject<NavigationState> _navigationState = BehaviorSubject.seeded(
+    const NavigationState(currentRoute: '/'),
+  );
   final List<String> _routeHistory = [];
 
   NavigationService._internal();
@@ -67,7 +68,6 @@ class NavigationService {
       routeData: data ?? {},
       routeHistory: List.from(_routeHistory),
       canGoBack: _router.canPop(),
-      isLoading: false,
     );
 
     _navigationState.add(newState);
@@ -120,8 +120,7 @@ class RouteAnalyticsEvent {
 class RouteAnalytics {
   RouteAnalytics._internal();
   static RouteAnalytics? _instance;
-  static RouteAnalytics get instance =>
-      _instance ??= RouteAnalytics._internal();
+  static RouteAnalytics get instance => _instance ??= RouteAnalytics._internal();
 
   final List<RouteAnalyticsEvent> _events = [];
   final Map<String, DateTime> _routeStartTimes = {};
@@ -143,11 +142,7 @@ class RouteAnalytics {
     }
   }
 
-  Future<void> trackNavigation(
-    String route,
-    String action, [
-    Map<String, dynamic>? params,
-  ]) async {
+  Future<void> trackNavigation(String route, String action, [Map<String, dynamic>? params]) async {
     // Track visit count
     _routeVisitCounts[route] = (_routeVisitCounts[route] ?? 0) + 1;
 
@@ -182,9 +177,7 @@ class RouteAnalytics {
 
     // Log in debug mode
     if (kDebugMode) {
-      debugPrint(
-        'Route Analytics: $route ($action) ${duration?.inMilliseconds ?? 0}ms',
-      );
+      debugPrint('Route Analytics: $route ($action) ${duration?.inMilliseconds ?? 0}ms');
     }
 
     await _saveAnalyticsData();
@@ -198,19 +191,14 @@ class RouteAnalytics {
     try {
       final prefs = await SharedPreferences.getInstance();
       // Save visit counts
-      await prefs.setString(
-        'route_visit_counts',
-        jsonEncode(_routeVisitCounts),
-      );
+      await prefs.setString('route_visit_counts', jsonEncode(_routeVisitCounts));
     } catch (e) {
       debugPrint('Failed to save analytics data: $e');
     }
   }
 
   List<RouteAnalyticsEvent> getEvents({String? route, int? limit}) {
-    var events = _events
-        .where((e) => route == null || e.route == route)
-        .toList();
+    var events = _events.where((e) => route == null || e.route == route).toList();
     events.sort((a, b) => b.timestamp.compareTo(a.timestamp));
 
     if (limit != null && events.length > limit) {
@@ -226,9 +214,7 @@ class RouteAnalytics {
     final totalEvents = _events.length;
     final totalRoutes = _routeVisitCounts.keys.length;
     final mostVisitedRoute = _routeVisitCounts.isNotEmpty
-        ? _routeVisitCounts.entries
-              .reduce((a, b) => a.value > b.value ? a : b)
-              .key
+        ? _routeVisitCounts.entries.reduce((a, b) => a.value > b.value ? a : b).key
         : 'None';
 
     final avgDuration =
@@ -362,9 +348,7 @@ class User {
     name: json['name'],
     role: UserRole.values.byName(json['role']),
     isVerified: json['isVerified'] ?? false,
-    lastLogin: json['lastLogin'] != null
-        ? DateTime.parse(json['lastLogin'])
-        : null,
+    lastLogin: json['lastLogin'] != null ? DateTime.parse(json['lastLogin']) : null,
   );
 }
 
@@ -452,7 +436,6 @@ class AuthService {
         email: email,
         name: name,
         role: UserRole.user,
-        isVerified: false,
       );
 
       await _storeUser(user);
@@ -511,10 +494,7 @@ class RouteTransitions {
         const end = Offset.zero;
         const curve = Curves.ease;
 
-        final tween = Tween(
-          begin: begin,
-          end: end,
-        ).chain(CurveTween(curve: curve));
+        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(position: animation.drive(tween), child: child);
       },
@@ -592,7 +572,7 @@ class AuthMiddleware implements RouteMiddleware {
 
   @override
   Future<bool> canEnter(BuildContext context, GoRouterState state) async {
-    return await _authService.isAuthenticated();
+    return _authService.isAuthenticated();
   }
 
   @override
@@ -647,9 +627,7 @@ class DeepLinkHandler extends StatelessWidget {
       future: _handleDeepLink(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
         if (snapshot.hasError) {
@@ -752,56 +730,47 @@ final authServiceProvider = Provider<AuthService>((ref) {
 });
 
 final currentRouteProvider = StreamProvider<String>((ref) {
-  return NavigationService.instance.navigationState.map(
-    (state) => state.currentRoute,
-  );
+  return NavigationService.instance.navigationState.map((state) => state.currentRoute);
 });
 
 final canGoBackProvider = StreamProvider<bool>((ref) {
-  return NavigationService.instance.navigationState.map(
-    (state) => state.canGoBack,
-  );
+  return NavigationService.instance.navigationState.map((state) => state.canGoBack);
 });
 
 final routeHistoryProvider = StreamProvider<List<String>>((ref) {
-  return NavigationService.instance.navigationState.map(
-    (state) => state.routeHistory,
-  );
+  return NavigationService.instance.navigationState.map((state) => state.routeHistory);
 });
 
 // Extension for easy routing
 extension AppRouterExtension on BuildContext {
   bool get canGoBack => AppRouter.instance.canGoBack;
   String get currentRoute => AppRouter.instance.currentRoute;
-  void goToHome() => go(AppRoutes.home);
-  void goToLogin() => go(AppRoutes.login);
-  void goToProfile() => go(AppRoutes.profile);
-  void goToSettings() => go(AppRoutes.settings);
+  void goToHome() => go(Routes.home);
+  void goToLogin() => go(Routes.login);
+  void goToProfile() => go(Routes.profile);
+  void goToSettings() => go(Routes.settings);
   void goToShop({String? category}) {
     final uri = Uri(
-      path: AppRoutes.shop,
+      path: Routes.shop,
       queryParameters: category != null ? {'category': category} : null,
     );
     go(uri.toString());
   }
 
   void goToProduct(String productId, {String? variant}) {
-    final path = AppRoutes.product.replaceAll(':productId', productId);
-    final uri = Uri(
-      path: path,
-      queryParameters: variant != null ? {'variant': variant} : null,
-    );
+    final path = Routes.product.replaceAll(':productId', productId);
+    final uri = Uri(path: path, queryParameters: variant != null ? {'variant': variant} : null);
     go(uri.toString());
   }
 }
 
 extension NavigationServiceExtension on BuildContext {
   void setLandingRoute() => NavigationService.instance.setLoading(true);
-  void setLoading(bool loading) =>
-      NavigationService.instance.setLoading(loading);
+  void setLoading(bool loading) => NavigationService.instance.setLoading(loading);
 
   void clearNavigationHistory() => NavigationService.instance.clearHistory();
 
   List<String> getRecentRoutes({int limit = 10}) =>
       NavigationService.instance.getRecentRoutes(limit: limit);
 }
+ */

@@ -1,11 +1,10 @@
 // lib/core/theme/app_theme.dart
-import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:flavorizr/core/theme/color_schemes.dart';
 import 'package:flavorizr/core/theme/theme_settings.dart';
 import 'package:flavorizr/core/theme/typography.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Builds Material 3 themes using flex_color_scheme.
 ///
@@ -20,7 +19,7 @@ class AppTheme {
 
   /// Creates a light theme based on the provided [settings].
   ///
-  /// If [dynamicScheme] is provided and [settings.useDynamicColor] is true,
+  /// If [dynamicScheme] is provided and [settings./useDynamicColor] is true,
   /// it will be used instead of the selected color scheme.
   static ThemeData light({required ThemeSettings settings, ColorScheme? dynamicScheme}) {
     final useDynamic = settings.useDynamicColor && dynamicScheme != null;
@@ -43,10 +42,10 @@ class AppTheme {
 
   /// Creates a dark theme based on the provided [settings].
   ///
-  /// If [dynamicScheme] is provided and [settings.useDynamicColor] is true,
+  /// If [dynamicScheme] is provided and [settings./useDynamicColor] is true,
   /// it will be used instead of the selected color scheme.
   ///
-  /// If [settings.useOledBlack] is true, surfaces will use true black.
+  /// If [settings./useOledBlack] is true, surfaces will use true black.
   static ThemeData dark({required ThemeSettings settings, ColorScheme? dynamicScheme}) {
     final useDynamic = settings.useDynamicColor && dynamicScheme != null;
     final scheme = AppColorSchemes.getScheme(settings.colorSchemeIndex);

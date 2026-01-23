@@ -1,6 +1,5 @@
+import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
 import 'package:flutter/material.dart';
-
-import '../device_info.dart';
 
 /// Text scale utilities for responsive typography
 class TextScale {

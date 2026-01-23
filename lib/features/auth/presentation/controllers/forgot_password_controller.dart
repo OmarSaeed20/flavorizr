@@ -1,8 +1,7 @@
 // lib/features/auth/presentation/controllers/forgot_password_controller.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:flavorizr/features/auth/domain/usecases/password_reset_usecase.dart';
 import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the forgot password form.
 class ForgotPasswordState {

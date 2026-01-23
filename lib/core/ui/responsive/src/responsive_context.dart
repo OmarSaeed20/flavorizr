@@ -1,8 +1,7 @@
+import 'package:flavorizr/core/ui/responsive/src/breakpoints.dart';
+import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
+import 'package:flavorizr/core/ui/responsive/src/responsive_data.dart';
 import 'package:flutter/material.dart';
-
-import 'breakpoints.dart';
-import 'device_info.dart';
-import 'responsive_data.dart';
 
 /// Responsive context that provides access to all responsive utilities
 ///

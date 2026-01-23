@@ -51,7 +51,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              // TODO: Navigate to create post page
+              // TO-DO: Navigate to create post page
             },
           ),
         ],
@@ -150,7 +150,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
             const SizedBox(height: 24),
             FilledButton.icon(
               onPressed: () {
-                // TODO: Navigate to create post
+                // TO-DO: Navigate to create post
               },
               icon: const Icon(Icons.add),
               label: const Text('Create Post'),
@@ -168,16 +168,16 @@ class _FeedPageState extends ConsumerState<FeedPage> {
         ref.read(feedControllerProvider.notifier).toggleReaction(post.id, type);
       },
       onComment: () {
-        // TODO: Navigate to comments
+        // TO-DO: Navigate to comments
       },
       onShare: () {
-        // TODO: Implement share
+        // TO-DO: Implement share
       },
       onTap: () {
-        // TODO: Navigate to post detail
+        // TO-DO: Navigate to post detail
       },
       onAuthorTap: () {
-        // TODO: Navigate to author profile
+        // TO-DO: Navigate to author profile
       },
       onDelete: () async {
         final confirmed = await _showDeleteConfirmation();

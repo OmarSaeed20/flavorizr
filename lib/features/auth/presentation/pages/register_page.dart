@@ -1,14 +1,13 @@
 // lib/features/auth/presentation/pages/register_page.dart
+import 'package:flavorizr/core/router/routes.dart';
+import 'package:flavorizr/features/auth/presentation/controllers/register_controller.dart';
+import 'package:flavorizr/features/auth/presentation/widgets/social_login_buttons.dart';
+import 'package:flavorizr/shared/presentation/widgets/buttons/app_button.dart';
+import 'package:flavorizr/shared/presentation/widgets/inputs/app_text_field.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:flavorizr/core/router/routes.dart';
-import 'package:flavorizr/shared/presentation/widgets/buttons/app_button.dart';
-import 'package:flavorizr/shared/presentation/widgets/inputs/app_text_field.dart';
-import 'package:flavorizr/features/auth/presentation/controllers/register_controller.dart';
-import 'package:flavorizr/features/auth/presentation/widgets/social_login_buttons.dart';
 
 /// Registration page for creating new accounts.
 ///

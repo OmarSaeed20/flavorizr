@@ -1,7 +1,6 @@
 // lib/features/chat/presentation/widgets/conversation_tile.dart
-import 'package:flutter/material.dart';
-
 import 'package:flavorizr/features/chat/domain/entities/conversation.dart';
+import 'package:flutter/material.dart';
 
 /// A tile widget displaying a conversation in a list.
 class ConversationTile extends StatelessWidget {

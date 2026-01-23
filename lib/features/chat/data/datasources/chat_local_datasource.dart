@@ -1,10 +1,9 @@
 // lib/features/chat/data/datasources/chat_local_datasource.dart
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:flavorizr/features/chat/domain/entities/conversation.dart';
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for caching chat data.
 ///

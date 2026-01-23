@@ -1,11 +1,10 @@
 // lib/features/chat/presentation/screens/conversation_screen.dart
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
 import 'package:flavorizr/features/chat/presentation/providers/chat_providers.dart';
-import 'package:flavorizr/features/chat/presentation/widgets/message_bubble.dart';
 import 'package:flavorizr/features/chat/presentation/widgets/chat_input.dart';
+import 'package:flavorizr/features/chat/presentation/widgets/message_bubble.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Screen displaying messages in a conversation.
 class ConversationScreen extends ConsumerStatefulWidget {
@@ -100,11 +99,11 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
         },
         onCopy: () {
           Navigator.pop(context);
-          // TODO: Copy message
+          // TO-DO: Copy message
         },
         onEdit:
             message.senderId ==
-                'current_user_id' // TODO: Get actual user ID
+                'current_user_id' // TO-DO: Get actual user ID
             ? () {
                 Navigator.pop(context);
                 _showEditDialog(message);
@@ -223,7 +222,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () {
-              // TODO: Show conversation options
+              // TO-DO: Show conversation options
             },
           ),
         ],
@@ -237,7 +236,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
             focusNode: _focusNode,
             onSend: _onSendMessage,
             onAttachment: () {
-              // TODO: Show attachment options
+              // TO-DO: Show attachment options
             },
           ),
         ],
@@ -295,7 +294,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
           }
 
           final message = state.messages[index];
-          final isMe = message.senderId == 'current_user_id'; // TODO: Get actual user ID
+          final isMe = message.senderId == 'current_user_id'; // TO-DO: Get actual user ID
 
           // Check if we should show date separator
           final showDateSeparator = _shouldShowDateSeparator(state.messages, index);

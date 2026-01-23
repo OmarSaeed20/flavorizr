@@ -9,6 +9,10 @@
 /// - WebSocket-based real-time updates
 library;
 
+// Data layer
+export 'data/datasources/chat_local_datasource.dart';
+export 'data/datasources/chat_remote_datasource.dart';
+export 'data/repositories/chat_repository_impl.dart';
 // Domain layer
 export 'domain/entities/entities.dart';
 export 'domain/repositories/chat_repository.dart';
@@ -17,12 +21,6 @@ export 'domain/usecases/get_conversations.dart';
 export 'domain/usecases/get_messages.dart';
 export 'domain/usecases/message_actions.dart';
 export 'domain/usecases/send_message.dart';
-
-// Data layer
-export 'data/datasources/chat_local_datasource.dart';
-export 'data/datasources/chat_remote_datasource.dart';
-export 'data/repositories/chat_repository_impl.dart';
-
 // Presentation layer
 export 'presentation/providers/chat_providers.dart';
 export 'presentation/screens/screens.dart';

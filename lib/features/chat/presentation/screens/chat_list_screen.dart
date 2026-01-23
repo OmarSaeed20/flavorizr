@@ -1,11 +1,10 @@
 // lib/features/chat/presentation/screens/chat_list_screen.dart
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:flavorizr/features/chat/domain/entities/conversation.dart';
 import 'package:flavorizr/features/chat/presentation/providers/chat_providers.dart';
-import 'package:flavorizr/features/chat/presentation/widgets/conversation_tile.dart';
 import 'package:flavorizr/features/chat/presentation/screens/conversation_screen.dart';
+import 'package:flavorizr/features/chat/presentation/widgets/conversation_tile.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Screen displaying the list of conversations.
 class ChatListScreen extends ConsumerStatefulWidget {
@@ -57,7 +56,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
   }
 
   void _onNewChat() {
-    // TODO: Show new chat dialog/screen
+    // TO-DO: Show new chat dialog/screen
     _showNewChatOptions();
   }
 
@@ -91,14 +90,14 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
   }
 
   void _showUserPicker() {
-    // TODO: Implement user picker for new direct message
+    // TO-DO: Implement user picker for new direct message
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('User picker not implemented yet')));
   }
 
   void _showCreateGroupDialog() {
-    // TODO: Implement create group dialog
+    // TO-DO: Implement create group dialog
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Create group not implemented yet')));
@@ -115,7 +114,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              // TODO: Implement search
+              // TO-DO: Implement search
             },
           ),
         ],
