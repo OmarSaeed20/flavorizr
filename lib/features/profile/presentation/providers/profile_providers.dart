@@ -1,4 +1,9 @@
 // lib/features/profile/presentation/providers/profile_providers.dart
+import 'package:flavorizr/core/network/api_client.dart';
+import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flavorizr/features/profile/data/datasources/profile_local_datasource.dart';
+import 'package:flavorizr/features/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:flavorizr/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:flavorizr/features/profile/domain/entities/profile.dart';
 import 'package:flavorizr/features/profile/domain/repositories/profile_repository.dart';
 import 'package:flavorizr/features/profile/domain/usecases/profile_usecases.dart';
@@ -7,13 +12,37 @@ import 'package:flavorizr/features/profile/presentation/controllers/profile_cont
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Note: ProfileRepository implementation would be provided here
-// For now, we'll throw UnimplementedError since we haven't created
-// the repository implementation yet.
+// ==================== Data Sources ====================
+
+/// Provider for ApiClient singleton.
+final apiClientProvider = Provider<ApiClient>((ref) {
+  return ApiClient.instance;
+});
+
+/// Provider for ProfileRemoteDataSource.
+final profileRemoteDataSourceProvider = Provider<ProfileRemoteDataSource>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return ProfileRemoteDataSourceImpl(apiClient);
+});
+
+/// Provider for ProfileLocalDataSource.
+final profileLocalDataSourceProvider = Provider<ProfileLocalDataSource>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return ProfileLocalDataSourceImpl(prefs: prefs);
+});
+
+// ==================== Repository ====================
 
 /// Provider for ProfileRepository.
 final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
-  throw UnimplementedError('ProfileRepository must be overridden');
+  final remoteDataSource = ref.watch(profileRemoteDataSourceProvider);
+  final localDataSource = ref.watch(profileLocalDataSourceProvider);
+  final networkInfo = ref.watch(networkInfoProvider);
+  return ProfileRepositoryImpl(
+    remoteDataSource: remoteDataSource,
+    localDataSource: localDataSource,
+    networkInfo: networkInfo,
+  );
 });
 
 // ==================== Use Cases ====================

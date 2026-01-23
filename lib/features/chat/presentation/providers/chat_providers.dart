@@ -395,11 +395,8 @@ class MessagesNotifier {
 // ==================== Dependency Providers ====================
 
 /// Provider for ApiClient singleton.
-/// Must be overridden with the actual instance in main.dart using ProviderScope.
 final apiClientProvider = Provider<ApiClient>((ref) {
-  throw UnimplementedError(
-    'apiClientProvider must be overridden with the actual ApiClient instance',
-  );
+  return ApiClient.instance;
 });
 
 /// Provider for WebSocket manager singleton.

@@ -4,3 +4,4 @@ library;
 
 export 'profile_avatar_picker.dart';
 export 'profile_cover_picker.dart';
+export 'user_avatar.dart';

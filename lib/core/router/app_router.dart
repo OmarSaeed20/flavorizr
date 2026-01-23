@@ -12,6 +12,8 @@ import 'package:flavorizr/features/auth/presentation/pages/reset_password_page.d
 import 'package:flavorizr/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:flavorizr/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:flavorizr/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:flavorizr/features/profile/presentation/pages/profile_page.dart';
+import 'package:flavorizr/features/profile/presentation/pages/profile_settings_page.dart';
 import 'package:flavorizr/features/settings/presentation/pages/appearance_settings_page.dart';
 import 'package:flavorizr/features/settings/presentation/pages/language_settings_page.dart';
 import 'package:flavorizr/features/settings/presentation/pages/notification_settings_page.dart';
@@ -265,8 +267,7 @@ class AppRouter {
       GoRoute(
         path: Routes.profile,
         name: Routes.profileName,
-        builder: (context, state) =>
-            const PlaceholderScreen(title: 'Profile', message: 'Profile screen placeholder'),
+        builder: (context, state) => const ProfilePage(),
         routes: [
           GoRoute(
             path: Routes.editProfilePath,
@@ -276,10 +277,7 @@ class AppRouter {
           GoRoute(
             path: Routes.profileSettingsPath,
             name: Routes.profileSettingsName,
-            builder: (context, state) => const PlaceholderScreen(
-              title: 'Profile Settings',
-              message: 'Profile settings screen placeholder',
-            ),
+            builder: (context, state) => const ProfileSettingsPage(),
           ),
         ],
       ),

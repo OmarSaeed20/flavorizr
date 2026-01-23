@@ -3,3 +3,5 @@
 library;
 
 export 'edit_profile_page.dart';
+export 'profile_page.dart';
+export 'profile_settings_page.dart';

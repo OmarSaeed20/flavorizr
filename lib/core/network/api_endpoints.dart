@@ -137,4 +137,42 @@ abstract class ApiEndpoints {
 
   /// Track page view.
   static const String trackPageView = '/analytics/pageviews';
+
+  // ==================== Profile Endpoints ====================
+
+  /// Get current user's profile.
+  static const String currentProfile = '/profile/me';
+
+  /// Get profile by user ID.
+  static String profile(String userId) => '/profile/$userId';
+
+  /// Get profile by username.
+  static String profileByUsername(String username) => '/profile/username/$username';
+
+  /// Update/Delete profile photo.
+  static const String profilePhoto = '/profile/me/photo';
+
+  /// Update/Delete profile cover photo.
+  static const String profileCoverPhoto = '/profile/me/cover';
+
+  /// Get/Update profile preferences.
+  static const String profilePreferences = '/profile/me/preferences';
+
+  /// Follow a user.
+  static String followUser(String userId) => '/profile/$userId/follow';
+
+  /// Get followers of a user.
+  static String followers(String userId) => '/profile/$userId/followers';
+
+  /// Get following list of a user.
+  static String following(String userId) => '/profile/$userId/following';
+
+  /// Check if following a user.
+  static String isFollowing(String userId) => '/profile/$userId/is-following';
+
+  /// Delete user account.
+  static const String deleteAccount = '/account';
+
+  /// Export user data.
+  static const String exportData = '/account/export';
 }
