@@ -1,0 +1,208 @@
+# Continuous Integration workflow
+# Runs on every push and pull request
+
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - "feature/**"
+      - "bugfix/**"
+  pull_request:
+    branches:
+      - main
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: "3.24.0"
+  JAVA_VERSION: "17"
+
+jobs:
+  # ==================== Code Quality ====================
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+          cache-key: flutter-${{ env.FLUTTER_VERSION }}-${{ runner.os }}
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: flutter analyze --fatal-infos
+
+      - name: Check for unused code
+        run: dart run dart_code_linter:metrics analyze lib --fatal-unused
+
+  # ==================== Tests ====================
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: analyze
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test --coverage --reporter=github
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: coverage/lcov.info
+          fail_ci_if_error: false
+          verbose: true
+
+  # ==================== Build Android ====================
+  build-android:
+    name: Build Android (${{ matrix.flavor }})
+    runs-on: ubuntu-latest
+    needs: [analyze, test]
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [dev, staging, prod]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: "gradle"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --flavor=${{ matrix.flavor }} --dart-define=FLAVOR=${{ matrix.flavor }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ matrix.flavor }}-apk
+          path: build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+          retention-days: 7
+
+  # ==================== Build iOS ====================
+  build-ios:
+    name: Build iOS (${{ matrix.flavor }})
+    runs-on: macos-latest
+    needs: [analyze, test]
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [dev, staging, prod]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build iOS (no codesign)
+        run: flutter build ios --flavor=${{ matrix.flavor }} --dart-define=FLAVOR=${{ matrix.flavor }} --no-codesign
+
+      - name: Upload iOS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-${{ matrix.flavor }}-build
+          path: build/ios/iphoneos
+          retention-days: 7
+
+  # ==================== Build Web ====================
+  build-web:
+    name: Build Web
+    runs-on: ubuntu-latest
+    needs: [analyze, test]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Web
+        run: flutter build web --release
+
+      - name: Upload Web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+          retention-days: 7
+
+  # ==================== Summary ====================
+  ci-success:
+    name: CI Success
+    runs-on: ubuntu-latest
+    needs: [analyze, test, build-android, build-ios, build-web]
+    if: always()
+    steps:
+      - name: Check all jobs
+        run: |
+          if [[ "${{ needs.analyze.result }}" == "success" && \
+                "${{ needs.test.result }}" == "success" && \
+                "${{ needs.build-android.result }}" == "success" && \
+                "${{ needs.build-ios.result }}" == "success" && \
+                "${{ needs.build-web.result }}" == "success" ]]; then
+            echo "All CI jobs passed! ✅"
+            exit 0
+          else
+            echo "Some CI jobs failed! ❌"
+            echo "Analyze: ${{ needs.analyze.result }}"
+            echo "Test: ${{ needs.test.result }}"
+            echo "Build Android: ${{ needs.build-android.result }}"
+            echo "Build iOS: ${{ needs.build-ios.result }}"
+            echo "Build Web: ${{ needs.build-web.result }}"
+            exit 1
+          fi

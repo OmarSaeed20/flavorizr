@@ -1,0 +1,278 @@
+# Release workflow
+# Triggered manually or on tag push
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g., 1.0.0)"
+        required: true
+        type: string
+      flavor:
+        description: "Build flavor"
+        required: true
+        default: "prod"
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      platforms:
+        description: "Platforms to build"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - android
+          - ios
+          - web
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: "3.24.0"
+  JAVA_VERSION: "17"
+
+jobs:
+  # ==================== Prepare Release ====================
+  prepare:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      flavor: ${{ steps.config.outputs.flavor }}
+      build_android: ${{ steps.config.outputs.build_android }}
+      build_ios: ${{ steps.config.outputs.build_ios }}
+      build_web: ${{ steps.config.outputs.build_web }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            # Extract version from tag (remove 'v' prefix)
+            VERSION=${GITHUB_REF#refs/tags/v}
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure build
+        id: config
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            FLAVOR="${{ inputs.flavor }}"
+            PLATFORMS="${{ inputs.platforms }}"
+          else
+            FLAVOR="prod"
+            PLATFORMS="all"
+          fi
+
+          echo "flavor=$FLAVOR" >> $GITHUB_OUTPUT
+
+          if [[ "$PLATFORMS" == "all" || "$PLATFORMS" == "android" ]]; then
+            echo "build_android=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_android=false" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ "$PLATFORMS" == "all" || "$PLATFORMS" == "ios" ]]; then
+            echo "build_ios=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_ios=false" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ "$PLATFORMS" == "all" || "$PLATFORMS" == "web" ]]; then
+            echo "build_web=true" >> $GITHUB_OUTPUT
+          else
+            echo "build_web=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Display configuration
+        run: |
+          echo "📦 Release Configuration:"
+          echo "  Version: ${{ steps.version.outputs.version }}"
+          echo "  Flavor: ${{ steps.config.outputs.flavor }}"
+          echo "  Build Android: ${{ steps.config.outputs.build_android }}"
+          echo "  Build iOS: ${{ steps.config.outputs.build_ios }}"
+          echo "  Build Web: ${{ steps.config.outputs.build_web }}"
+
+  # ==================== Build Android Release ====================
+  build-android-release:
+    name: Build Android Release
+    runs-on: ubuntu-latest
+    needs: prepare
+    if: needs.prepare.outputs.build_android == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: "gradle"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Decode keystore
+        if: ${{ needs.prepare.outputs.flavor == 'prod' }}
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
+
+      - name: Build APK
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          flutter build apk \
+            --flavor=${{ needs.prepare.outputs.flavor }} \
+            --dart-define=FLAVOR=${{ needs.prepare.outputs.flavor }} \
+            --build-number=${{ github.run_number }}
+
+      - name: Build App Bundle
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          flutter build appbundle \
+            --flavor=${{ needs.prepare.outputs.flavor }} \
+            --dart-define=FLAVOR=${{ needs.prepare.outputs.flavor }} \
+            --build-number=${{ github.run_number }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ needs.prepare.outputs.flavor }}-apk-v${{ needs.prepare.outputs.version }}
+          path: build/app/outputs/flutter-apk/app-${{ needs.prepare.outputs.flavor }}-release.apk
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ needs.prepare.outputs.flavor }}-aab-v${{ needs.prepare.outputs.version }}
+          path: build/app/outputs/bundle/${{ needs.prepare.outputs.flavor }}Release/app-${{ needs.prepare.outputs.flavor }}-release.aab
+
+  # ==================== Build iOS Release ====================
+  build-ios-release:
+    name: Build iOS Release
+    runs-on: macos-latest
+    needs: prepare
+    if: needs.prepare.outputs.build_ios == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+
+      - name: Build iOS
+        run: |
+          flutter build ios \
+            --flavor=${{ needs.prepare.outputs.flavor }} \
+            --dart-define=FLAVOR=${{ needs.prepare.outputs.flavor }} \
+            --build-number=${{ github.run_number }} \
+            --no-codesign
+
+      - name: Upload iOS build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-${{ needs.prepare.outputs.flavor }}-v${{ needs.prepare.outputs.version }}
+          path: build/ios/iphoneos
+
+  # ==================== Build Web Release ====================
+  build-web-release:
+    name: Build Web Release
+    runs-on: ubuntu-latest
+    needs: prepare
+    if: needs.prepare.outputs.build_web == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build Web
+        run: |
+          flutter build web \
+            --dart-define=FLAVOR=${{ needs.prepare.outputs.flavor }} \
+            --release
+
+      - name: Upload Web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-${{ needs.prepare.outputs.flavor }}-v${{ needs.prepare.outputs.version }}
+          path: build/web
+
+  # ==================== Create GitHub Release ====================
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs:
+      [prepare, build-android-release, build-ios-release, build-web-release]
+    if: always() && needs.prepare.result == 'success' && (needs.build-android-release.result == 'success' || needs.build-android-release.result == 'skipped') && (needs.build-ios-release.result == 'success' || needs.build-ios-release.result == 'skipped') && (needs.build-web-release.result == 'success' || needs.build-web-release.result == 'skipped')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.prepare.outputs.version }}
+          name: Release v${{ needs.prepare.outputs.version }}
+          draft: true
+          prerelease: ${{ needs.prepare.outputs.flavor != 'prod' }}
+          generate_release_notes: true
+          files: |
+            release-artifacts/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
