@@ -16,14 +16,17 @@ dependencies:
   cupertino_icons: ^1.0.8
   device_info_plus: ^12.1.0
   dio: ^5.9.0
+  dropdown_button2: ^2.3.9
   firebase_analytics: ^12.0.1
   firebase_auth: ^6.0.2
   firebase_core: ^4.1.0
   firebase_crashlytics: ^5.0.1
   firebase_messaging: ^16.0.1
   firebase_remote_config: ^6.0.1
+  flex_color_scheme: ^8.4.0
   flutter:
     sdk: flutter
+  flutter_localization: ^0.3.3
   flutter_riverpod: ^3.0.0
   flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^9.2.4
@@ -31,6 +34,7 @@ dependencies:
   go_router: ^16.2.1
   intl: ^0.20.2
   jwt_decoder: ^2.0.1
+  modal_bottom_sheet: ^3.0.0
   package_info_plus: ^9.0.0
   path_provider: ^2.1.5
   rxdart: ^0.28.0
@@ -50,50 +54,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-flavorizr:
-  app:
-    android:
-      flavorDimensions: "flavor-type"
-    ios:
-      bundleId: com.example.flavorizr
-  flavors:
-    dev:
-      app:
-        name: "Flavorizr Dev"
-      android:
-        applicationId: "com.example.flavorizr.dev"
-        resValues:
-          app_name:
-            type: "string"
-            value: "Flavorizr Dev"
-      ios:
-        bundleId: "com.example.flavorizr.dev"
-        buildSettings:
-          PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr.dev"
-    staging:
-      app:
-        name: "Flavorizr Staging"
-      android:
-        applicationId: "com.example.flavorizr.staging"
-        resValues:
-          app_name:
-            type: "string"
-            value: "Flavorizr Staging"
-      ios:
-        bundleId: "com.example.flavorizr.staging"
-        buildSettings:
-          PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr.staging"
-    prod:
-      app:
-        name: "Flavorizr"
-      android:
-        applicationId: "com.example.flavorizr"
-        resValues:
-          app_name:
-            type: "string"
-            value: "Flavorizr"
-      ios:
-        bundleId: "com.example.flavorizr"
-        buildSettings:
-          PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr"

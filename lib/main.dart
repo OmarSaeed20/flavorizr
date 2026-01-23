@@ -14,7 +14,7 @@ import 'app.dart';
 import 'config/firebase/firebase_config.dart' show FirebaseConfig;
 import 'config/flavors.dart';
 import 'core/logger/advanced_app_logger.dart';
-import 'observers.dart' show Observers;
+// import 'observers.dart' show Observers;
 
 void main() async {
   await runZonedGuarded<Future<void>>(
