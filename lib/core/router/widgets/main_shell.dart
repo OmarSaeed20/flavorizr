@@ -36,6 +36,11 @@ class MainShell extends StatelessWidget {
           label: 'Notifications',
         ),
         NavigationDestination(
+          icon: Icon(Icons.settings_outlined),
+          selectedIcon: Icon(Icons.settings),
+          label: 'Settings',
+        ),
+        NavigationDestination(
           icon: Icon(Icons.person_outline),
           selectedIcon: Icon(Icons.person),
           label: 'Profile',
@@ -48,12 +53,13 @@ class MainShell extends StatelessWidget {
     if (currentRoute.startsWith(Routes.home)) return 0;
     if (currentRoute.startsWith(Routes.search)) return 1;
     if (currentRoute.startsWith(Routes.notifications)) return 2;
-    if (currentRoute.startsWith(Routes.profile)) return 3;
+    if (currentRoute.startsWith(Routes.settings)) return 3;
+    if (currentRoute.startsWith(Routes.profile)) return 4;
     return 0;
   }
 
   void _onDestinationSelected(BuildContext context, int index) {
-    final routes = [Routes.home, Routes.search, Routes.notifications, Routes.profile];
+    final routes = [Routes.home, Routes.search, Routes.notifications, Routes.settings, Routes.profile];
 
     if (index >= 0 && index < routes.length) {
       context.go(routes[index]);
