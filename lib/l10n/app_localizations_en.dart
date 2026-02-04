@@ -113,4 +113,148 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String minutesAgo(Object count) {
+    return '${count}m ago';
+  }
+
+  @override
+  String hoursAgo(Object count) {
+    return '${count}h ago';
+  }
+
+  @override
+  String daysAgo(Object count) {
+    return '${count}d ago';
+  }
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String durationHoursMinutes(Object hours, Object minutes) {
+    return '${hours}h ${minutes}m';
+  }
+
+  @override
+  String durationMinutesSeconds(Object minutes, Object seconds) {
+    return '${minutes}m ${seconds}s';
+  }
+
+  @override
+  String durationSeconds(Object seconds) {
+    return '${seconds}s';
+  }
+
+  @override
+  String get bytes => 'B';
+
+  @override
+  String get kb => 'KB';
+
+  @override
+  String get mb => 'MB';
+
+  @override
+  String get gb => 'GB';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get success => 'Success';
+
+  @override
+  String get warning => 'Warning';
+
+  @override
+  String get info => 'Info';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get sort => 'Sort';
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String get paste => 'Paste';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get previous => 'Previous';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get finish => 'Finish';
 }

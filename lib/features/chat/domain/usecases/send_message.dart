@@ -1,7 +1,5 @@
 // lib/features/chat/domain/usecases/send_message.dart
-import 'package:dartz/dartz.dart';
-
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
 import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart';
 
@@ -17,7 +15,7 @@ class SendMessage {
   /// [replyToId] - Optional ID of message being replied to.
   /// [mentions] - Optional list of user IDs mentioned.
   /// [localId] - Optional local ID for optimistic updates.
-  Future<Either<Failure, Message>> call({
+  Future<ApiResult<Message>> call({
     required String conversationId,
     required String content,
     String? replyToId,

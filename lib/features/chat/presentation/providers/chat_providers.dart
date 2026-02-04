@@ -1,5 +1,6 @@
 // lib/features/chat/presentation/providers/chat_providers.dart
-import 'package:flavorizr/core/network/api_client.dart';
+import 'package:flavorizr/core/di/providers.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/core/network/websocket/websocket.dart';
 import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flavorizr/features/chat/data/datasources/chat_local_datasource.dart';
@@ -115,9 +116,9 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
 
     final result = await getConversations();
 
-    result.fold(
-      (failure) => state = state.copyWith(isLoading: false, error: failure.message),
-      (paginatedResult) => state = state.copyWith(
+    result.when(
+      exception: (error) => state = state.copyWith(isLoading: false, error: error.message),
+      success: (paginatedResult, _) => state = state.copyWith(
         isLoading: false,
         conversations: paginatedResult.items,
         hasMore: paginatedResult.hasMore,
@@ -127,7 +128,9 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
   }
 
   Future<void> loadMore() async {
-    if (state.isLoadingMore || !state.hasMore || state.nextCursor == null) return;
+    if (state.isLoadingMore || !state.hasMore || state.nextCursor == null) {
+      return;
+    }
 
     final getConversations = ref.read(getConversationsUseCaseProvider);
 
@@ -135,9 +138,9 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
 
     final result = await getConversations(cursor: state.nextCursor);
 
-    result.fold(
-      (failure) => state = state.copyWith(isLoadingMore: false, error: failure.message),
-      (paginatedResult) => state = state.copyWith(
+    result.when(
+      exception: (error) => state = state.copyWith(isLoadingMore: false, error: error.message),
+      success: (paginatedResult, _) => state = state.copyWith(
         isLoadingMore: false,
         conversations: [...state.conversations, ...paginatedResult.items],
         hasMore: paginatedResult.hasMore,
@@ -151,12 +154,12 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
 
     final result = await createConversation(otherUserId: participantId);
 
-    return result.fold(
-      (failure) {
-        state = state.copyWith(error: failure.message);
+    return result.when(
+      exception: (error) {
+        state = state.copyWith(error: error.message);
         return null;
       },
-      (conversation) {
+      success: (conversation, _) {
         state = state.copyWith(conversations: [conversation, ...state.conversations]);
         return conversation;
       },
@@ -178,12 +181,12 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
       imageUrl: imageUrl,
     );
 
-    return result.fold(
-      (failure) {
-        state = state.copyWith(error: failure.message);
+    return result.when(
+      exception: (error) {
+        state = state.copyWith(error: error.message);
         return null;
       },
-      (conversation) {
+      success: (conversation, _) {
         state = state.copyWith(conversations: [conversation, ...state.conversations]);
         return conversation;
       },
@@ -242,9 +245,9 @@ class MessagesNotifier {
 
     final result = await getMessages(conversationId: conversationId);
 
-    result.fold(
-      (failure) => _updateState(_state.copyWith(isLoading: false, error: failure.message)),
-      (paginatedResult) => _updateState(
+    result.when(
+      exception: (error) => _updateState(_state.copyWith(isLoading: false, error: error.message)),
+      success: (paginatedResult, _) => _updateState(
         _state.copyWith(
           isLoading: false,
           messages: paginatedResult.items,
@@ -256,7 +259,9 @@ class MessagesNotifier {
   }
 
   Future<void> loadMore() async {
-    if (_state.isLoadingMore || !_state.hasMore || _state.nextCursor == null) return;
+    if (_state.isLoadingMore || !_state.hasMore || _state.nextCursor == null) {
+      return;
+    }
 
     final getMessages = _ref.read(getMessagesUseCaseProvider);
 
@@ -264,9 +269,10 @@ class MessagesNotifier {
 
     final result = await getMessages(conversationId: conversationId, cursor: _state.nextCursor);
 
-    result.fold(
-      (failure) => _updateState(_state.copyWith(isLoadingMore: false, error: failure.message)),
-      (paginatedResult) => _updateState(
+    result.when(
+      exception: (error) =>
+          _updateState(_state.copyWith(isLoadingMore: false, error: error.message)),
+      success: (paginatedResult, _) => _updateState(
         _state.copyWith(
           isLoadingMore: false,
           messages: [..._state.messages, ...paginatedResult.items],
@@ -286,12 +292,12 @@ class MessagesNotifier {
       replyToId: replyToId,
     );
 
-    return result.fold(
-      (failure) {
-        _updateState(_state.copyWith(error: failure.message));
+    return result.when(
+      exception: (error) {
+        _updateState(_state.copyWith(error: error.message));
         return null;
       },
-      (message) {
+      success: (message, _) {
         _updateState(_state.copyWith(messages: [message, ..._state.messages]));
         return message;
       },
@@ -303,12 +309,12 @@ class MessagesNotifier {
 
     final result = await editMessage(messageId: messageId, content: newContent);
 
-    return result.fold(
-      (failure) {
-        _updateState(_state.copyWith(error: failure.message));
+    return result.when(
+      exception: (error) {
+        _updateState(_state.copyWith(error: error.message));
         return false;
       },
-      (updatedMessage) {
+      success: (updatedMessage, _) {
         final index = _state.messages.indexWhere((m) => m.id == messageId);
         if (index != -1) {
           final updated = List<Message>.from(_state.messages);
@@ -325,12 +331,12 @@ class MessagesNotifier {
 
     final result = await deleteMessage(messageId: messageId, forEveryone: forEveryone);
 
-    return result.fold(
-      (failure) {
-        _updateState(_state.copyWith(error: failure.message));
+    return result.when(
+      exception: (error) {
+        _updateState(_state.copyWith(error: error.message));
         return false;
       },
-      (_) {
+      success: (_, __) {
         _updateState(
           _state.copyWith(messages: _state.messages.where((m) => m.id != messageId).toList()),
         );
@@ -344,10 +350,13 @@ class MessagesNotifier {
 
     final result = await addReactionUseCase(messageId: messageId, reaction: reaction);
 
-    return result.fold((failure) {
-      _updateState(_state.copyWith(error: failure.message));
-      return false;
-    }, (_) => true);
+    return result.when(
+      exception: (error) {
+        _updateState(_state.copyWith(error: error.message));
+        return false;
+      },
+      success: (_, __) => true,
+    );
   }
 
   void addMessage(Message message) {
@@ -394,11 +403,6 @@ class MessagesNotifier {
 
 // ==================== Dependency Providers ====================
 
-/// Provider for ApiClient singleton.
-final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient.instance;
-});
-
 /// Provider for WebSocket manager singleton.
 final webSocketManagerProvider = Provider<WebSocketManager>((ref) {
   return WebSocketManager.instance;
@@ -413,7 +417,7 @@ final chatRemoteDataSourceProvider = Provider<ChatRemoteDataSource>((ref) {
 /// Provider for local data source.
 final chatLocalDataSourceProvider = Provider<ChatLocalDataSource>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
-  return ChatLocalDataSource(prefs);
+  return ChatLocalDataSourceImpl(prefs: prefs);
 });
 
 /// Provider for chat repository.
@@ -421,10 +425,12 @@ final chatRepositoryProvider = Provider<ChatRepository>((ref) {
   final remoteDataSource = ref.watch(chatRemoteDataSourceProvider);
   final localDataSource = ref.watch(chatLocalDataSourceProvider);
   final webSocketManager = ref.watch(webSocketManagerProvider);
+  final networkInfo = ref.watch(networkInfoProvider);
   return ChatRepositoryImpl(
     remoteDataSource: remoteDataSource,
     localDataSource: localDataSource,
     webSocketManager: webSocketManager,
+    networkInfo: networkInfo,
   );
 });
 

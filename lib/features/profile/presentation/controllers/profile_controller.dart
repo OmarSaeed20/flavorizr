@@ -40,7 +40,7 @@ class ProfileState {
 }
 
 /// Controller for viewing profiles.
-class ProfileController extends Notifier<ProfileState> {
+class ProfileController extends AutoDisposeNotifier<ProfileState> {
   late final GetCurrentProfileUseCase _getCurrentProfile;
   late final GetProfileByUserIdUseCase _getProfileByUserId;
   late final FollowUserUseCase _followUser;
@@ -63,8 +63,8 @@ class ProfileController extends Notifier<ProfileState> {
 
     final result = await _getCurrentProfile(const NoParams());
 
-    if (result.failure != null) {
-      state = state.copyWith(isLoading: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
       return;
     }
 
@@ -79,8 +79,8 @@ class ProfileController extends Notifier<ProfileState> {
 
     final result = await _getProfileByUserId(userId);
 
-    if (result.failure != null) {
-      state = state.copyWith(isLoading: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
       return;
     }
 
@@ -114,7 +114,7 @@ class ProfileController extends Notifier<ProfileState> {
 
     final result = wasFollowing ? await _unfollowUser(userId) : await _followUser(userId);
 
-    if (result.failure != null) {
+    if (result.error != null) {
       // Revert on failure
       state = state.copyWith(
         isFollowLoading: false,
@@ -122,7 +122,7 @@ class ProfileController extends Notifier<ProfileState> {
         profile: state.profile!.copyWith(
           followersCount: state.profile!.followersCount + (wasFollowing ? 1 : -1),
         ),
-        errorMessage: result.failure!.message,
+        errorMessage: result.error!.message,
       );
       return;
     }

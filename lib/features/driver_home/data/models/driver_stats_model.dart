@@ -1,0 +1,54 @@
+import '../../domain/entities/driver_stats.dart';
+
+/// Model for driver statistics
+class DriverStatsModel extends DriverStats {
+  const DriverStatsModel({
+    required int totalTrips,
+    required int completedTrips,
+    required int cancelledTrips,
+    required double completionRate,
+    required double averageRating,
+    required int totalReviews,
+    required double acceptanceRate,
+    required int totalHoursOnline,
+    required DateTime lastUpdated,
+  }) : super(
+          totalTrips: totalTrips,
+          completedTrips: completedTrips,
+          cancelledTrips: cancelledTrips,
+          completionRate: completionRate,
+          averageRating: averageRating,
+          totalReviews: totalReviews,
+          acceptanceRate: acceptanceRate,
+          totalHoursOnline: totalHoursOnline,
+          lastUpdated: lastUpdated,
+        );
+
+  factory DriverStatsModel.fromJson(Map<String, dynamic> json) {
+    return DriverStatsModel(
+      totalTrips: json['totalTrips'] ?? 0,
+      completedTrips: json['completedTrips'] ?? 0,
+      cancelledTrips: json['cancelledTrips'] ?? 0,
+      completionRate: (json['completionRate'] ?? 0.0).toDouble(),
+      averageRating: (json['averageRating'] ?? 0.0).toDouble(),
+      totalReviews: json['totalReviews'] ?? 0,
+      acceptanceRate: (json['acceptanceRate'] ?? 0.0).toDouble(),
+      totalHoursOnline: json['totalHoursOnline'] ?? 0,
+      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'totalTrips': totalTrips,
+      'completedTrips': completedTrips,
+      'cancelledTrips': cancelledTrips,
+      'completionRate': completionRate,
+      'averageRating': averageRating,
+      'totalReviews': totalReviews,
+      'acceptanceRate': acceptanceRate,
+      'totalHoursOnline': totalHoursOnline,
+      'lastUpdated': lastUpdated.toIso8601String(),
+    };
+  }
+}

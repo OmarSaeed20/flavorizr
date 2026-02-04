@@ -1,11 +1,31 @@
 // lib/features/auth/domain/repositories/auth_repository.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart'
+    show
+        ConflictException,
+        NoInternetException,
+        NotFoundException,
+        ServerException,
+        UnauthorizedException,
+        ValidationException;
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/auth/data/parameters/change_password_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/logout_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/register_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/reset_password_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/save_biometric_credentials_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_magic_link_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_otp_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_password_reset_email_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/sign_in_with_email_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/sign_in_with_magic_link_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/sign_in_with_otp_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/verify_email_parameters.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_tokens.dart';
 import 'package:flavorizr/features/auth/domain/entities/user.dart';
 
-/// Type alias for Either-like result handling.
-typedef AuthEither<T> = Future<({T? data, Failure? failure})>;
+/// Type alias for ApiResult-based result handling.
+typedef AuthEither<T> = Future<ApiResult<T>>;
 
 /// Abstract repository defining authentication operations.
 ///
@@ -20,19 +40,19 @@ abstract class AuthRepository {
   /// Returns [AuthResult] on success.
   ///
   /// Possible failures:
-  /// - [InvalidCredentialsFailure] - Wrong email or password
-  /// - [NetworkFailure] - No internet connection
-  /// - [ServerFailure] - Server error
-  AuthEither<AuthResult> signInWithEmail({required String email, required String password});
+  /// - [UnauthorizedException] - Wrong email or password
+  /// - [NoInternetException] - No internet connection
+  /// - [ServerException] - Server error
+  AuthEither<AuthResult> signInWithEmail(SignInWithEmailParameters parameters);
 
   /// Signs in with Google OAuth.
   ///
   /// Opens Google sign-in flow and exchanges the token with backend.
   ///
   /// Possible failures:
-  /// - [CancelledFailure] - User cancelled sign-in
-  /// - [NetworkFailure] - No internet connection
-  /// - [ServerFailure] - Server error
+  /// - [CancelledException] - User cancelled sign-in
+  /// - [NoInternetException] - No internet connection
+  /// - [ServerException] - Server error
   AuthEither<AuthResult> signInWithGoogle();
 
   /// Signs in with Apple OAuth (iOS/macOS).
@@ -40,47 +60,31 @@ abstract class AuthRepository {
   /// Opens Apple sign-in flow and exchanges the token with backend.
   ///
   /// Possible failures:
-  /// - [CancelledFailure] - User cancelled sign-in
-  /// - [NetworkFailure] - No internet connection
-  /// - [ServerFailure] - Server error
+  /// - [CancelledException] - User cancelled sign-in
+  /// - [NoInternetException] - No internet connection
+  /// - [ServerException] - Server error
   AuthEither<AuthResult> signInWithApple();
 
   /// Signs in with phone number OTP.
   ///
   /// First call [sendOtp] to get the verification ID,
   /// then use this method with the OTP code.
-  ///
-  /// Parameters:
-  /// - [verificationId] - ID returned from [sendOtp]
-  /// - [otpCode] - 6-digit code entered by user
-  AuthEither<AuthResult> signInWithOtp({required String verificationId, required String otpCode});
+  AuthEither<AuthResult> signInWithOtp(SignInWithOtpParameters parameters);
 
   /// Signs in with magic link (passwordless).
   ///
   /// User clicks a link in their email to authenticate.
-  ///
-  /// Parameters:
-  /// - [token] - Token from the magic link URL
-  AuthEither<AuthResult> signInWithMagicLink({required String token});
+  AuthEither<AuthResult> signInWithMagicLink(SignInWithMagicLinkParameters parameters);
 
   // ==================== Registration ====================
 
   /// Creates a new user account with email and password.
   ///
-  /// Parameters:
-  /// - [email] - User's email address
-  /// - [password] - Password (min 8 chars, mixed case, number)
-  /// - [displayName] - Optional display name
-  ///
   /// Possible failures:
-  /// - [ValidationFailure] - Invalid email or weak password
-  /// - [ConflictFailure] - Email already in use
-  /// - [NetworkFailure] - No internet connection
-  AuthEither<AuthResult> signUp({
-    required String email,
-    required String password,
-    String? displayName,
-  });
+  /// - [ValidationException] - Invalid email or weak password
+  /// - [ConflictException] - Email already in use
+  /// - [NoInternetException] - No internet connection
+  AuthEither<AuthResult> signUp(RegisterParameters parameters);
 
   // ==================== Password Recovery ====================
 
@@ -89,40 +93,33 @@ abstract class AuthRepository {
   /// User receives an email with a link to reset their password.
   ///
   /// Possible failures:
-  /// - [NotFoundFailure] - Email not registered
-  /// - [NetworkFailure] - No internet connection
-  AuthEither<void> sendPasswordResetEmail({required String email});
+  /// - [NotFoundException] - Email not registered
+  /// - [NoInternetException] - No internet connection
+  AuthEither<void> sendPasswordResetEmail(SendPasswordResetEmailParameters parameters);
 
   /// Resets the password using a reset token.
-  ///
-  /// Parameters:
-  /// - [token] - Token from the reset email link
-  /// - [newPassword] - New password to set
-  AuthEither<void> resetPassword({required String token, required String newPassword});
+  AuthEither<void> resetPassword(ResetPasswordParameters parameters);
 
   /// Changes the current user's password.
   ///
   /// Requires the current password for verification.
-  AuthEither<void> changePassword({required String currentPassword, required String newPassword});
+  AuthEither<void> changePassword(ChangePasswordParameters parameters);
 
   // ==================== OTP / Verification ====================
 
   /// Sends OTP to a phone number for verification.
   ///
   /// Returns a verification ID to use with [signInWithOtp].
-  ///
-  /// Parameters:
-  /// - [phoneNumber] - E.164 format (e.g., +1234567890)
-  AuthEither<String> sendOtp({required String phoneNumber});
+  AuthEither<String> sendOtp(SendOtpParameters parameters);
 
   /// Sends a magic link to an email for passwordless login.
-  AuthEither<void> sendMagicLink({required String email});
+  AuthEither<void> sendMagicLink(SendMagicLinkParameters parameters);
 
   /// Resends email verification link.
   AuthEither<void> resendEmailVerification();
 
   /// Verifies email with token from verification link.
-  AuthEither<void> verifyEmail({required String token});
+  AuthEither<void> verifyEmail(VerifyEmailParameters parameters);
 
   // ==================== Session Management ====================
 
@@ -140,7 +137,7 @@ abstract class AuthRepository {
   /// Signs out the current user.
   ///
   /// Clears local tokens and invalidates server session.
-  AuthEither<void> signOut();
+  AuthEither<void> signOut(LogoutParameters parameters);
 
   /// Signs out from all devices.
   ///
@@ -158,7 +155,7 @@ abstract class AuthRepository {
   /// Enables biometric authentication.
   ///
   /// Stores credentials securely for biometric unlock.
-  AuthEither<void> enableBiometric();
+  AuthEither<void> enableBiometric(SaveBiometricCredentialsParameters parameters);
 
   /// Disables biometric authentication.
   AuthEither<void> disableBiometric();

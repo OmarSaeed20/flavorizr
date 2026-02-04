@@ -39,7 +39,7 @@ class ForgotPasswordState {
 }
 
 /// Controller for the forgot password page using Riverpod 3.x Notifier.
-class ForgotPasswordController extends Notifier<ForgotPasswordState> {
+class ForgotPasswordController extends AutoDisposeNotifier<ForgotPasswordState> {
   late final ForgotPasswordUseCase _forgotPasswordUseCase;
 
   @override
@@ -50,11 +50,7 @@ class ForgotPasswordController extends Notifier<ForgotPasswordState> {
 
   /// Updates the email field.
   void setEmail(String email) {
-    state = state.copyWith(
-      email: email,
-      clearError: true,
-      clearFieldErrors: true,
-    );
+    state = state.copyWith(email: email, clearError: true, clearFieldErrors: true);
   }
 
   /// Clears all errors.
@@ -82,9 +78,7 @@ class ForgotPasswordController extends Notifier<ForgotPasswordState> {
   }
 
   bool _isValidEmail(String email) {
-    final emailRegex = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-    );
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegex.hasMatch(email.trim());
   }
 
@@ -98,25 +92,17 @@ class ForgotPasswordController extends Notifier<ForgotPasswordState> {
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
-      final result = await _forgotPasswordUseCase(ForgotPasswordParams(
-        email: state.email.trim(),
-      ));
+      final result = await _forgotPasswordUseCase(ForgotPasswordParams(email: state.email.trim()));
 
-      if (result.failure != null) {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: result.failure!.message,
-        );
+      if (result.error != null) {
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return false;
       }
 
       state = state.copyWith(isLoading: false, isSuccess: true);
       return true;
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'An unexpected error occurred',
-      );
+      state = state.copyWith(isLoading: false, errorMessage: 'An unexpected error occurred');
       return false;
     }
   }
@@ -130,5 +116,5 @@ class ForgotPasswordController extends Notifier<ForgotPasswordState> {
 /// Provider for the forgot password controller.
 final forgotPasswordControllerProvider =
     NotifierProvider.autoDispose<ForgotPasswordController, ForgotPasswordState>(
-  ForgotPasswordController.new,
-);
+      ForgotPasswordController.new,
+    );

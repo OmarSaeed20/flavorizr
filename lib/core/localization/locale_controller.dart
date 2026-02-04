@@ -36,6 +36,40 @@ class LocaleController extends Notifier<Locale> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_localeKey, locale.languageCode);
   }
+
+  /// Returns true if the current locale is RTL (Right-to-Left).
+  bool get isRTL => state.languageCode == 'ar';
+
+  /// Returns the text direction for the current locale.
+  TextDirection get textDirection => isRTL ? TextDirection.rtl : TextDirection.ltr;
+
+  /// Returns the alignment for the current locale.
+  Alignment get alignment => isRTL ? Alignment.centerRight : Alignment.centerLeft;
+
+  /// Returns the padding for the current locale (swaps start/end).
+  EdgeInsetsDirectional get directionalPadding =>
+      EdgeInsetsDirectional.only(start: isRTL ? 16 : 16, end: isRTL ? 16 : 16);
+
+  /// Returns the margin for the current locale (swaps start/end).
+  EdgeInsetsDirectional get directionalMargin =>
+      EdgeInsetsDirectional.only(start: isRTL ? 16 : 16, end: isRTL ? 16 : 16);
+
+  /// Formats a number according to the current locale.
+  String formatNumber(int number) {
+    return number.toString();
+  }
+
+  /// Formats a date according to the current locale.
+  String formatDate(DateTime date) {
+    // TODO: Implement proper date formatting using intl package
+    return date.toString().split(' ')[0];
+  }
+
+  /// Formats a currency amount according to the current locale.
+  String formatCurrency(double amount, {String? currencyCode}) {
+    // TODO: Implement proper currency formatting using intl package
+    return '$amount ${currencyCode ?? 'USD'}';
+  }
 }
 
 final localeControllerProvider = NotifierProvider<LocaleController, Locale>(LocaleController.new);

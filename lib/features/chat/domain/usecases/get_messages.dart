@@ -1,7 +1,5 @@
 // lib/features/chat/domain/usecases/get_messages.dart
-import 'package:dartz/dartz.dart';
-
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
 import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart';
 
@@ -16,7 +14,7 @@ class GetMessages {
   /// [cursor] - Pagination cursor (usually a message ID).
   /// [limit] - Maximum number of messages to return.
   /// [direction] - 'before' or 'after' the cursor.
-  Future<Either<Failure, PaginatedResult<Message>>> call({
+  Future<ApiResult<PaginatedResult<Message>>> call({
     required String conversationId,
     String? cursor,
     int limit = 50,

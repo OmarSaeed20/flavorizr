@@ -4,7 +4,7 @@
 /// Using constants for endpoints prevents typos and enables
 /// easy maintenance. All endpoints should be defined here.
 abstract class ApiEndpoints {
-  ApiEndpoints._();
+  const ApiEndpoints._();
 
   // ==================== Auth Endpoints ====================
 
@@ -147,7 +147,8 @@ abstract class ApiEndpoints {
   static String profile(String userId) => '/profile/$userId';
 
   /// Get profile by username.
-  static String profileByUsername(String username) => '/profile/username/$username';
+  static String profileByUsername(String username) =>
+      '/profile/username/$username';
 
   /// Update/Delete profile photo.
   static const String profilePhoto = '/profile/me/photo';

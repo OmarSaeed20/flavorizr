@@ -1,5 +1,9 @@
 // lib/features/auth/domain/usecases/password_reset_usecase.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart' show ApiResult;
+import 'package:flavorizr/features/auth/data/parameters/change_password_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/reset_password_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_password_reset_email_parameters.dart';
 import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 
@@ -12,15 +16,13 @@ class ForgotPasswordUseCase implements UseCase<void, ForgotPasswordParams> {
   UseCaseResult<void> call(ForgotPasswordParams params) async {
     // Validate email format
     if (!_isValidEmail(params.email)) {
-      return Result.failure(
-        const ValidationFailure(
-          message: 'Please enter a valid email address',
-          code: 'INVALID_EMAIL',
-        ),
+      return const ApiResult.exception(
+        ValidationException(message: 'Please enter a valid email address'),
       );
     }
 
-    return _repository.sendPasswordResetEmail(email: params.email.trim().toLowerCase());
+    final sendParams = SendPasswordResetEmailParameters(email: params.email.trim().toLowerCase());
+    return _repository.sendPasswordResetEmail(sendParams);
   }
 
   bool _isValidEmail(String email) {
@@ -45,23 +47,26 @@ class ResetPasswordUseCase implements UseCase<void, ResetPasswordParams> {
     // Validate new password
     final passwordErrors = _validatePassword(params.newPassword);
     if (passwordErrors.isNotEmpty) {
-      return Result.failure(
-        ValidationFailure(
+      return ApiResult.exception(
+        ValidationException(
           message: 'Please fix the password errors',
-          code: 'WEAK_PASSWORD',
-          fieldErrors: {'password': passwordErrors},
+          errors: {'password': passwordErrors},
         ),
       );
     }
 
     // Validate password confirmation
     if (params.newPassword != params.confirmPassword) {
-      return Result.failure(
-        const ValidationFailure(message: 'Passwords do not match', code: 'PASSWORD_MISMATCH'),
-      );
+      return const ApiResult.exception(ValidationException(message: 'Passwords do not match'));
     }
 
-    return _repository.resetPassword(token: params.token, newPassword: params.newPassword);
+    final resetParams = ResetPasswordParameters(
+      phone: params.phone ?? '',
+      token: params.token,
+      password: params.newPassword,
+      passwordConfirmation: params.confirmPassword,
+    );
+    return _repository.resetPassword(resetParams);
   }
 
   List<String> _validatePassword(String password) {
@@ -90,10 +95,12 @@ class ResetPasswordParams {
     required this.token,
     required this.newPassword,
     required this.confirmPassword,
+    this.phone,
   });
   final String token;
   final String newPassword;
   final String confirmPassword;
+  final String? phone;
 }
 
 /// Use case for changing the current user's password.
@@ -105,40 +112,34 @@ class ChangePasswordUseCase implements UseCase<void, ChangePasswordParams> {
   UseCaseResult<void> call(ChangePasswordParams params) async {
     // Validate current password is not empty
     if (params.currentPassword.isEmpty) {
-      return Result.failure(
-        const ValidationFailure(
-          message: 'Current password is required',
-          code: 'EMPTY_CURRENT_PASSWORD',
-        ),
+      return const ApiResult.exception(
+        ValidationException(message: 'Current password is required'),
       );
     }
 
     // Validate new password
     final passwordErrors = _validatePassword(params.newPassword);
     if (passwordErrors.isNotEmpty) {
-      return Result.failure(
-        ValidationFailure(
+      return ApiResult.exception(
+        ValidationException(
           message: 'Please fix the password errors',
-          code: 'WEAK_PASSWORD',
-          fieldErrors: {'newPassword': passwordErrors},
+          errors: {'newPassword': passwordErrors},
         ),
       );
     }
 
     // Check new password is different
     if (params.currentPassword == params.newPassword) {
-      return Result.failure(
-        const ValidationFailure(
-          message: 'New password must be different from current password',
-          code: 'SAME_PASSWORD',
-        ),
+      return const ApiResult.exception(
+        ValidationException(message: 'New password must be different from current password'),
       );
     }
 
-    return _repository.changePassword(
+    final changeParams = ChangePasswordParameters(
       currentPassword: params.currentPassword,
       newPassword: params.newPassword,
     );
+    return _repository.changePassword(changeParams);
   }
 
   List<String> _validatePassword(String password) {

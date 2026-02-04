@@ -1,6 +1,8 @@
 // lib/features/auth/data/datasources/auth_local_datasource.dart
 import 'dart:convert';
 
+import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/auth/data/models/user_model.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_tokens.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -13,46 +15,49 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// - SharedPreferences for user data (not sensitive)
 abstract class AuthLocalDataSource {
   /// Saves auth tokens securely.
-  Future<void> saveTokens(AuthTokens tokens);
+  Future<ApiResult<AuthTokens>> saveTokens(AuthTokens tokens);
 
   /// Gets saved auth tokens.
-  Future<AuthTokens?> getTokens();
+  Future<ApiResult<AuthTokens>> getTokens();
 
   /// Deletes auth tokens.
-  Future<void> deleteTokens();
+  Future<ApiResult<void>> deleteTokens();
 
   /// Saves user data.
-  Future<void> saveUser(UserModel user);
+  Future<ApiResult<UserModel>> saveUser(UserModel user);
 
   /// Gets saved user data.
-  Future<UserModel?> getUser();
+  Future<ApiResult<UserModel>> getUser();
 
   /// Deletes user data.
-  Future<void> deleteUser();
+  Future<ApiResult<void>> deleteUser();
 
   /// Checks if user is logged in (has tokens).
-  Future<bool> isLoggedIn();
+  Future<ApiResult<bool>> isLoggedIn();
 
   /// Clears all auth data.
-  Future<void> clearAll();
+  Future<ApiResult<void>> clearAll();
 
   // Biometric-related storage
 
   /// Saves credentials for biometric login.
-  Future<void> saveBiometricCredentials({required String email, required String password});
+  Future<ApiResult<void>> saveBiometricCredentials({
+    required String email,
+    required String password,
+  });
 
   /// Gets biometric credentials.
-  Future<({String email, String password})?> getBiometricCredentials();
+  Future<ApiResult<({String email, String password})>> getBiometricCredentials();
 
   /// Checks if biometric credentials are saved.
-  Future<bool> hasBiometricCredentials();
+  Future<ApiResult<bool>> hasBiometricCredentials();
 
   /// Deletes biometric credentials.
-  Future<void> deleteBiometricCredentials();
+  Future<ApiResult<void>> deleteBiometricCredentials();
 }
 
-/// Implementation of [AuthLocalDataSource].
-class AuthLocalDataSourceImpl implements AuthLocalDataSource {
+/// Implementation of [AuthLocalDataSource] using BaseLocalDataSource.
+class AuthLocalDataSourceImpl with BaseLocalDataSource implements AuthLocalDataSource {
   AuthLocalDataSourceImpl({
     required FlutterSecureStorage secureStorage,
     required SharedPreferences prefs,
@@ -72,120 +77,184 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const String _biometricPasswordKey = 'biometric_password';
 
   @override
-  Future<void> saveTokens(AuthTokens tokens) async {
-    await Future.wait([
-      _secureStorage.write(key: _accessTokenKey, value: tokens.accessToken),
-      _secureStorage.write(key: _refreshTokenKey, value: tokens.refreshToken),
-      _secureStorage.write(
-        key: _accessTokenExpiryKey,
-        value: tokens.accessTokenExpiresAt.toIso8601String(),
-      ),
-      if (tokens.refreshTokenExpiresAt != null)
-        _secureStorage.write(
-          key: _refreshTokenExpiryKey,
-          value: tokens.refreshTokenExpiresAt!.toIso8601String(),
-        ),
-      _secureStorage.write(key: _tokenTypeKey, value: tokens.tokenType),
-    ]);
-  }
-
-  @override
-  Future<AuthTokens?> getTokens() async {
-    final accessToken = await _secureStorage.read(key: _accessTokenKey);
-    final refreshToken = await _secureStorage.read(key: _refreshTokenKey);
-    final accessTokenExpiry = await _secureStorage.read(key: _accessTokenExpiryKey);
-    final refreshTokenExpiry = await _secureStorage.read(key: _refreshTokenExpiryKey);
-    final tokenType = await _secureStorage.read(key: _tokenTypeKey);
-
-    if (accessToken == null || refreshToken == null || accessTokenExpiry == null) {
-      return null;
-    }
-
-    return AuthTokens(
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      accessTokenExpiresAt: DateTime.parse(accessTokenExpiry),
-      refreshTokenExpiresAt: refreshTokenExpiry != null ? DateTime.parse(refreshTokenExpiry) : null,
-      tokenType: tokenType ?? 'Bearer',
+  Future<ApiResult<AuthTokens>> saveTokens(AuthTokens tokens) async {
+    return saveLocalData<AuthTokens>(
+      key: _accessTokenKey,
+      data: tokens,
+      saver: (data) async {
+        await Future.wait([
+          _secureStorage.write(key: _accessTokenKey, value: data.accessToken),
+          _secureStorage.write(key: _refreshTokenKey, value: data.refreshToken),
+          _secureStorage.write(
+            key: _accessTokenExpiryKey,
+            value: data.accessTokenExpiresAt.toIso8601String(),
+          ),
+          if (data.refreshTokenExpiresAt != null)
+            _secureStorage.write(
+              key: _refreshTokenExpiryKey,
+              value: data.refreshTokenExpiresAt!.toIso8601String(),
+            ),
+          _secureStorage.write(key: _tokenTypeKey, value: data.tokenType),
+        ]);
+      },
     );
   }
 
   @override
-  Future<void> deleteTokens() async {
-    await Future.wait([
-      _secureStorage.delete(key: _accessTokenKey),
-      _secureStorage.delete(key: _refreshTokenKey),
-      _secureStorage.delete(key: _accessTokenExpiryKey),
-      _secureStorage.delete(key: _refreshTokenExpiryKey),
-      _secureStorage.delete(key: _tokenTypeKey),
-    ]);
+  Future<ApiResult<AuthTokens>> getTokens() async {
+    return getLocalData<AuthTokens>(
+      key: _accessTokenKey,
+      fetcher: () async {
+        final accessToken = await _secureStorage.read(key: _accessTokenKey);
+        final refreshToken = await _secureStorage.read(key: _refreshTokenKey);
+        final accessTokenExpiry = await _secureStorage.read(key: _accessTokenExpiryKey);
+        final refreshTokenExpiry = await _secureStorage.read(key: _refreshTokenExpiryKey);
+        final tokenType = await _secureStorage.read(key: _tokenTypeKey);
+
+        if (accessToken == null || refreshToken == null || accessTokenExpiry == null) {
+          return null;
+        }
+
+        return AuthTokens(
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          accessTokenExpiresAt: DateTime.parse(accessTokenExpiry),
+          refreshTokenExpiresAt: refreshTokenExpiry != null
+              ? DateTime.parse(refreshTokenExpiry)
+              : null,
+          tokenType: tokenType ?? 'Bearer',
+        );
+      },
+    );
   }
 
   @override
-  Future<void> saveUser(UserModel user) async {
-    final json = jsonEncode(user.toJson());
-    await _prefs.setString(_userKey, json);
+  Future<ApiResult<void>> deleteTokens() async {
+    return deleteLocalData(
+      key: _accessTokenKey,
+      deleter: () async {
+        await Future.wait([
+          _secureStorage.delete(key: _accessTokenKey),
+          _secureStorage.delete(key: _refreshTokenKey),
+          _secureStorage.delete(key: _accessTokenExpiryKey),
+          _secureStorage.delete(key: _refreshTokenExpiryKey),
+          _secureStorage.delete(key: _tokenTypeKey),
+        ]);
+      },
+    );
   }
 
   @override
-  Future<UserModel?> getUser() async {
-    final json = _prefs.getString(_userKey);
-    if (json == null) return null;
-
-    try {
-      final map = jsonDecode(json) as Map<String, dynamic>;
-      return UserModel.fromJson(map);
-    } catch (_) {
-      return null;
-    }
+  Future<ApiResult<UserModel>> saveUser(UserModel user) async {
+    return saveLocalData<UserModel>(
+      key: _userKey,
+      data: user,
+      saver: (data) async {
+        final json = jsonEncode(data.toJson());
+        await _prefs.setString(_userKey, json);
+      },
+    );
   }
 
   @override
-  Future<void> deleteUser() async {
-    await _prefs.remove(_userKey);
+  Future<ApiResult<UserModel>> getUser() async {
+    return getLocalData<UserModel>(
+      key: _userKey,
+      fetcher: () async {
+        final json = _prefs.getString(_userKey);
+        if (json == null) return null;
+
+        try {
+          final map = jsonDecode(json) as Map<String, dynamic>;
+          return UserModel.fromJson(map);
+        } catch (_) {
+          return null;
+        }
+      },
+    );
   }
 
   @override
-  Future<bool> isLoggedIn() async {
-    final tokens = await getTokens();
-    return tokens != null && !tokens.isFullyExpired;
+  Future<ApiResult<void>> deleteUser() async {
+    return deleteLocalData(key: _userKey, deleter: () => _prefs.remove(_userKey));
   }
 
   @override
-  Future<void> clearAll() async {
-    await Future.wait([deleteTokens(), deleteUser()]);
+  Future<ApiResult<bool>> isLoggedIn() async {
+    return hasLocalData(
+      key: _accessTokenKey,
+      checker: () async {
+        final tokensResult = await getTokens();
+        return tokensResult.isSuccess &&
+            tokensResult.data != null &&
+            !tokensResult.data!.isFullyExpired;
+      },
+    );
   }
 
   @override
-  Future<void> saveBiometricCredentials({required String email, required String password}) async {
-    await Future.wait([
-      _secureStorage.write(key: _biometricEmailKey, value: email),
-      _secureStorage.write(key: _biometricPasswordKey, value: password),
-    ]);
+  Future<ApiResult<void>> clearAll() async {
+    return clearAllLocalData(
+      clearer: () async {
+        await Future.wait([deleteTokens(), deleteUser()]);
+      },
+    );
   }
 
   @override
-  Future<({String email, String password})?> getBiometricCredentials() async {
-    final email = await _secureStorage.read(key: _biometricEmailKey);
-    final password = await _secureStorage.read(key: _biometricPasswordKey);
-
-    if (email == null || password == null) return null;
-
-    return (email: email, password: password);
+  Future<ApiResult<void>> saveBiometricCredentials({
+    required String email,
+    required String password,
+  }) async {
+    return saveLocalData<void>(
+      key: _biometricEmailKey,
+      data: (email: email, password: password),
+      saver: (data) async {
+        await Future.wait([
+          _secureStorage.write(key: _biometricEmailKey, value: email),
+          _secureStorage.write(key: _biometricPasswordKey, value: password),
+        ]);
+      },
+    );
   }
 
   @override
-  Future<bool> hasBiometricCredentials() async {
-    final email = await _secureStorage.read(key: _biometricEmailKey);
-    final password = await _secureStorage.read(key: _biometricPasswordKey);
-    return email != null && password != null;
+  Future<ApiResult<({String email, String password})>> getBiometricCredentials() async {
+    return getLocalData<({String email, String password})>(
+      key: _biometricEmailKey,
+      fetcher: () async {
+        final email = await _secureStorage.read(key: _biometricEmailKey);
+        final password = await _secureStorage.read(key: _biometricPasswordKey);
+
+        if (email == null || password == null) return null;
+
+        return (email: email, password: password);
+      },
+    );
   }
 
   @override
-  Future<void> deleteBiometricCredentials() async {
-    await Future.wait([
-      _secureStorage.delete(key: _biometricEmailKey),
-      _secureStorage.delete(key: _biometricPasswordKey),
-    ]);
+  Future<ApiResult<bool>> hasBiometricCredentials() async {
+    return hasLocalData(
+      key: _biometricEmailKey,
+      checker: () async {
+        final email = await _secureStorage.read(key: _biometricEmailKey);
+        final password = await _secureStorage.read(key: _biometricPasswordKey);
+        return email != null && password != null;
+      },
+    );
+  }
+
+  @override
+  Future<ApiResult<void>> deleteBiometricCredentials() async {
+    return deleteLocalData(
+      key: _biometricEmailKey,
+      deleter: () async {
+        await Future.wait([
+          _secureStorage.delete(key: _biometricEmailKey),
+          _secureStorage.delete(key: _biometricPasswordKey),
+        ]);
+      },
+    );
   }
 }

@@ -19,7 +19,7 @@ class ApiClient {
   static ApiClient? _instance;
 
   /// Base URL for API - configure based on environment
-  static String baseUrl = const String.fromEnvironment(
+  static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
     defaultValue: 'https://api.example.com/v1',
   );

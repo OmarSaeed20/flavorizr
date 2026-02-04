@@ -1,16 +1,33 @@
 // lib/features/auth/data/repositories/auth_repository_impl.dart
 import 'dart:async';
 
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/base/repo/base_repository.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
 import 'package:flavorizr/core/network/network_info.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:flavorizr/features/auth/data/models/user_model.dart';
+import 'package:flavorizr/features/auth/data/parameters/change_password_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/forget_password_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/login_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/logout_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/register_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/reset_password_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/save_biometric_credentials_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_magic_link_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_otp_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_password_reset_email_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/send_verification_code_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/sign_in_with_email_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/sign_in_with_magic_link_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/sign_in_with_otp_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/verify_email_parameters.dart';
+import 'package:flavorizr/features/auth/data/parameters/verify_phone_parameters.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_tokens.dart';
 import 'package:flavorizr/features/auth/domain/entities/user.dart';
 import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 import 'package:local_auth/local_auth.dart';
 
 /// Callback type for Google Sign-In.
@@ -23,7 +40,8 @@ typedef AppleSignInCallback = Future<({String idToken, String authorizationCode}
 ///
 /// Coordinates between remote and local data sources,
 /// handles network connectivity, and manages auth state.
-class AuthRepositoryImpl implements AuthRepository {
+/// Extends BaseRepository.
+class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   AuthRepositoryImpl({
     required AuthRemoteDataSource remoteDataSource,
     required AuthLocalDataSource localDataSource,
@@ -37,8 +55,14 @@ class AuthRepositoryImpl implements AuthRepository {
        _localAuth = localAuth ?? LocalAuthentication() {
     _initializeAuthState();
   }
+
   final AuthRemoteDataSource _remoteDataSource;
+
   final AuthLocalDataSource _localDataSource;
+
+  @override
+  NetworkInfo get networkInfo => _networkInfo;
+
   final NetworkInfo _networkInfo;
   final LocalAuthentication _localAuth;
 
@@ -56,9 +80,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   /// Initializes auth state from local storage.
   Future<void> _initializeAuthState() async {
-    final user = await _localDataSource.getUser();
-    if (user != null) {
-      _currentUser = user.toEntity();
+    final userResult = await _localDataSource.getUser();
+    if (userResult.isValid) {
+      _currentUser = userResult.data!.toEntity();
       _authStateController.add(_currentUser);
     }
   }
@@ -72,266 +96,223 @@ class AuthRepositoryImpl implements AuthRepository {
   // ==================== Authentication ====================
 
   @override
-  AuthEither<AuthResult> signInWithEmail({required String email, required String password}) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
+  AuthEither<AuthResult> signInWithEmail(SignInWithEmailParameters parameters) async {
+    // Note: This method is deprecated. Use login() with LoginParameters instead.
+    // Kept for backward compatibility.
+    final loginParams = LoginParameters(
+      phone: parameters.email, // Using email as phone for now - adjust based on API requirements
+      password: parameters.password,
+      firebaseToken: '', // Firebase token should be provided
+      deviceType: 'mobile',
+      cancelToken: parameters.cancelToken,
+    );
+
+    final result = await executeRemoteRequest<AuthResult>(
+      request: () => _remoteDataSource.login(loginParams),
+    );
+
+    if (result.isSuccess && result.data != null) {
+      await _saveAuthData(result.data!.user.toModel(), result.data!.tokens);
     }
 
-    try {
-      final result = await _remoteDataSource.signInWithEmail(email: email, password: password);
+    return result;
+  }
 
-      await _saveAuthData(result.user, result.tokens);
+  /// Login with phone and password using parameter class.
+  AuthEither<AuthResult> login(LoginParameters parameters) async {
+    final result = await executeRemoteRequest<AuthResult>(
+      request: () => _remoteDataSource.login(parameters),
+    );
 
-      final authResult = AuthResult(user: result.user.toEntity(), tokens: result.tokens);
-
-      return Result.success(authResult);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
+    if (result.isSuccess && result.data != null) {
+      await _saveAuthData(result.data!.user.toModel(), result.data!.tokens);
     }
+
+    return result;
   }
 
   @override
   AuthEither<AuthResult> signInWithGoogle() async {
-    if (googleSignIn == null) {
-      return Result.failure(const UnsupportedFailure(message: 'Google Sign-In is not configured'));
-    }
-
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
-
-    try {
-      final idToken = await googleSignIn!();
-      if (idToken == null) {
-        return Result.failure(const CancelledFailure(message: 'Google sign-in was cancelled'));
-      }
-
-      final result = await _remoteDataSource.signInWithGoogle(idToken: idToken);
-
-      await _saveAuthData(result.user, result.tokens);
-
-      final authResult = AuthResult(user: result.user.toEntity(), tokens: result.tokens);
-
-      return Result.success(authResult);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+    // Note: This method is not supported by the new API.
+    return const ApiResult.exception(
+      UnknownNetworkException(message: 'Google Sign-In is not supported by the current API.'),
+    );
   }
 
   @override
   AuthEither<AuthResult> signInWithApple() async {
-    if (appleSignIn == null) {
-      return Result.failure(const UnsupportedFailure(message: 'Apple Sign-In is not configured'));
-    }
-
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
-
-    try {
-      final credentials = await appleSignIn!();
-      if (credentials == null) {
-        return Result.failure(const CancelledFailure(message: 'Apple sign-in was cancelled'));
-      }
-
-      final result = await _remoteDataSource.signInWithApple(
-        idToken: credentials.idToken,
-        authorizationCode: credentials.authorizationCode,
-      );
-
-      await _saveAuthData(result.user, result.tokens);
-
-      final authResult = AuthResult(user: result.user.toEntity(), tokens: result.tokens);
-
-      return Result.success(authResult);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+    // Note: This method is not supported by the new API.
+    return const ApiResult.exception(
+      UnknownNetworkException(message: 'Apple Sign-In is not supported by the current API.'),
+    );
   }
 
   @override
-  AuthEither<AuthResult> signInWithOtp({
-    required String verificationId,
-    required String otpCode,
-  }) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
+  AuthEither<AuthResult> signInWithOtp(SignInWithOtpParameters parameters) async {
+    // Note: This method is deprecated. Use verifyPhone() with VerifyPhoneParameters instead.
+    final verifyParams = VerifyPhoneParameters(
+      phone: parameters.verificationId, // Using verificationId as phone for compatibility
+      verificationCode: parameters.otpCode,
+      firebaseToken: '', // Firebase token should be provided
+      cancelToken: parameters.cancelToken,
+    );
+    final result = await executeRemoteRequest<AuthResult>(
+      request: () => _remoteDataSource.verifyPhone(verifyParams),
+    );
+
+    if (result.isSuccess && result.data != null) {
+      await _saveAuthData(result.data!.user.toModel(), result.data!.tokens);
     }
 
-    try {
-      final result = await _remoteDataSource.verifyOtp(
-        verificationId: verificationId,
-        otpCode: otpCode,
-      );
-
-      await _saveAuthData(result.user, result.tokens);
-
-      final authResult = AuthResult(user: result.user.toEntity(), tokens: result.tokens);
-
-      return Result.success(authResult);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+    return result;
   }
 
   @override
-  AuthEither<AuthResult> signInWithMagicLink({required String token}) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
-
-    try {
-      final result = await _remoteDataSource.verifyMagicLink(token: token);
-
-      await _saveAuthData(result.user, result.tokens);
-
-      final authResult = AuthResult(user: result.user.toEntity(), tokens: result.tokens);
-
-      return Result.success(authResult);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+  AuthEither<AuthResult> signInWithMagicLink(SignInWithMagicLinkParameters parameters) async {
+    // Note: This method is not supported by the new API.
+    return const ApiResult.exception(
+      UnknownNetworkException(message: 'Magic link sign-in is not supported by the current API.'),
+    );
   }
 
   // ==================== Registration ====================
 
   @override
-  AuthEither<AuthResult> signUp({
-    required String email,
-    required String password,
-    String? displayName,
-  }) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
+  AuthEither<AuthResult> signUp(RegisterParameters parameters) async {
+    // Note: This method is deprecated. Use register() with RegisterParameters instead.
+    // Kept for backward compatibility.
+    final result = await executeRemoteRequest<AuthResult>(
+      request: () => _remoteDataSource.register(parameters),
+    );
+
+    if (result.isSuccess && result.data != null) {
+      await _saveAuthData(
+        result.data!.copyWith(isNewUser: true).user.toModel(),
+        result.data!.tokens,
+      );
     }
 
-    try {
-      final result = await _remoteDataSource.signUp(
-        email: email,
-        password: password,
-        displayName: displayName,
+    return result;
+  }
+
+  /// Register new user with parameter class.
+  AuthEither<AuthResult> register(RegisterParameters parameters) async {
+    final result = await executeRemoteRequest<AuthResult>(
+      request: () => _remoteDataSource.register(parameters),
+    );
+
+    if (result.isSuccess && result.data != null) {
+      await _saveAuthData(
+        result.data!.copyWith(isNewUser: true).user.toModel(),
+        result.data!.tokens,
       );
-
-      await _saveAuthData(result.user, result.tokens);
-
-      final authResult = AuthResult(
-        user: result.user.toEntity(),
-        tokens: result.tokens,
-        isNewUser: true,
-      );
-
-      return Result.success(authResult);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
     }
+
+    return result;
   }
 
   // ==================== Password Recovery ====================
 
   @override
-  AuthEither<void> sendPasswordResetEmail({required String email}) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
+  AuthEither<void> sendPasswordResetEmail(SendPasswordResetEmailParameters parameters) async {
+    // Note: This method is deprecated. Use forgetPassword() with ForgetPasswordParameters instead.
+    final forgetParams = ForgetPasswordParameters(
+      phone: parameters.email,
+      cancelToken: parameters.cancelToken,
+    );
+    return executeRemoteRequest<void>(
+      request: () => _remoteDataSource.forgetPassword(forgetParams),
+    );
+  }
 
-    try {
-      await _remoteDataSource.sendPasswordResetEmail(email: email);
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+  /// Request password reset code with parameter class.
+  AuthEither<void> forgetPassword(ForgetPasswordParameters parameters) async {
+    return executeRemoteRequest<void>(request: () => _remoteDataSource.forgetPassword(parameters));
   }
 
   @override
-  AuthEither<void> resetPassword({required String token, required String newPassword}) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
-
-    try {
-      await _remoteDataSource.resetPassword(token: token, newPassword: newPassword);
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+  AuthEither<void> resetPassword(ResetPasswordParameters parameters) async {
+    return executeRemoteRequest<void>(request: () => _remoteDataSource.resetPassword(parameters));
   }
 
   @override
-  AuthEither<void> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  }) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
-
-    try {
-      await _remoteDataSource.changePassword(
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      );
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+  AuthEither<void> changePassword(ChangePasswordParameters parameters) async {
+    // Note: This method is not supported by the new API.
+    // Use resetPasswordWithParams() instead.
+    return const ApiResult.exception(
+      UnknownNetworkException(
+        message: 'changePassword is not supported. Use resetPasswordWithParams instead.',
+      ),
+    );
   }
 
   // ==================== OTP / Verification ====================
 
   @override
-  AuthEither<String> sendOtp({required String phoneNumber}) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
+  AuthEither<String> sendOtp(SendOtpParameters parameters) async {
+    // Note: This method is deprecated. Use sendVerificationCode() with SendVerificationCodeParameters instead.
+    final verifyParams = SendVerificationCodeParameters(
+      phone: parameters.phoneNumber,
+      cancelToken: parameters.cancelToken,
+    );
+    final result = await executeRemoteRequest<void>(
+      request: () => _remoteDataSource.sendVerificationCode(verifyParams),
+    );
 
-    try {
-      final verificationId = await _remoteDataSource.sendOtp(phoneNumber: phoneNumber);
-      return Result.success(verificationId);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
+    // Return phone as verification ID for compatibility
+    if (result.isSuccess) {
+      return ApiResult.success(parameters.phoneNumber);
+    } else {
+      return ApiResult.exception(result.error ?? const UnknownNetworkException());
     }
   }
 
-  @override
-  AuthEither<void> sendMagicLink({required String email}) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
+  /// Send verification code with parameter class.
+  AuthEither<void> sendVerificationCode(SendVerificationCodeParameters parameters) async {
+    return executeRemoteRequest<void>(
+      request: () => _remoteDataSource.sendVerificationCode(parameters),
+    );
+  }
 
-    try {
-      await _remoteDataSource.sendMagicLink(email: email);
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+  @override
+  AuthEither<void> sendMagicLink(SendMagicLinkParameters parameters) async {
+    // Note: This method is not supported by the new API.
+    return const ApiResult.exception(
+      UnknownNetworkException(
+        message: 'sendMagicLink is not supported. Use sendVerificationCode instead.',
+      ),
+    );
   }
 
   @override
   AuthEither<void> resendEmailVerification() async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
-
-    try {
-      await _remoteDataSource.resendEmailVerification();
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+    // Note: This method is deprecated. Use sendVerificationCode() with SendVerificationCodeParameters instead.
+    return const ApiResult.exception(
+      UnknownNetworkException(
+        message: 'resendEmailVerification is deprecated. Use sendVerificationCode instead.',
+      ),
+    );
   }
 
   @override
-  AuthEither<void> verifyEmail({required String token}) async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
+  AuthEither<void> verifyEmail(VerifyEmailParameters parameters) async {
+    // Note: This method is deprecated. Use verifyPhone() with VerifyPhoneParameters instead.
+    return const ApiResult.exception(
+      UnknownNetworkException(message: 'verifyEmail is deprecated. Use verifyPhone instead.'),
+    );
+  }
+
+  /// Verify user phone number with parameter class.
+  AuthEither<AuthResult> verifyPhone(VerifyPhoneParameters parameters) async {
+    final result = await executeRemoteRequest<AuthResult>(
+      request: () => _remoteDataSource.verifyPhone(parameters),
+    );
+
+    if (result.isSuccess && result.data != null) {
+      await _saveAuthData(result.data!.user.toModel(), result.data!.tokens);
     }
 
-    try {
-      await _remoteDataSource.verifyEmail(token: token);
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+    return result;
   }
 
   // ==================== Session Management ====================
@@ -340,90 +321,83 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthEither<User?> getCurrentUser() async {
     // First check local cache
     if (_currentUser != null) {
-      return (data: _currentUser, failure: null);
+      return ApiResult.success(_currentUser);
     }
 
     // Check local storage
-    final cachedUser = await _localDataSource.getUser();
-    if (cachedUser != null) {
-      _currentUser = cachedUser.toEntity();
-      return (data: _currentUser, failure: null);
+    final cachedUserResult = await _localDataSource.getUser();
+    if (cachedUserResult.isSuccess && cachedUserResult.data != null) {
+      _currentUser = cachedUserResult.data!.toEntity();
+      return ApiResult.success(_currentUser);
     }
 
     // Try to fetch from remote if we have tokens
-    final tokens = await _localDataSource.getTokens();
-    if (tokens == null || tokens.isFullyExpired) {
-      return (data: null, failure: null);
+    final tokensResult = await _localDataSource.getTokens();
+    if (tokensResult.isError || tokensResult.data == null || tokensResult.data!.isFullyExpired) {
+      return const ApiResult.success(null);
     }
 
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: null);
-    }
+    final result = await executeRemoteRequest<UserModel>(request: _remoteDataSource.getCurrentUser);
 
-    try {
-      final userModel = await _remoteDataSource.getCurrentUser();
-      await _localDataSource.saveUser(userModel);
-      _currentUser = userModel.toEntity();
+    if (result.isSuccess && result.data != null) {
+      await _localDataSource.saveUser(result.data!);
+      _currentUser = result.data!.toEntity();
       _authStateController.add(_currentUser);
-      return (data: _currentUser, failure: null);
-    } catch (e) {
-      return (data: null, failure: null);
+      return ApiResult.success(_currentUser);
     }
+
+    return result.error != null ? ApiResult.exception(result.error!) : const ApiResult.success(null);
   }
 
   @override
   AuthEither<AuthTokens> refreshTokens() async {
-    final currentTokens = await _localDataSource.getTokens();
-    if (currentTokens == null) {
-      return Result.failure(const UnauthenticatedFailure(message: 'No tokens available'));
-    }
+    // Note: Token refresh is not currently supported by the user API.
+    // The driver API has a refresh endpoint at /driver/auth/refresh.
+    // For now, we'll return an error indicating this is not supported.
+    return const ApiResult.exception(
+      UnknownNetworkException(message: 'Token refresh is not currently supported by the user API.'),
+    );
 
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
-    }
-
-    try {
-      final newTokens = await _remoteDataSource.refreshTokens(
-        refreshToken: currentTokens.refreshToken,
-      );
-      await _localDataSource.saveTokens(newTokens);
-      _tokenRefreshController.add(newTokens);
-      return Result.success(newTokens);
-    } catch (e) {
-      // If refresh fails, sign out the user
-      await _clearAuthData();
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+    // TODO: Implement driver token refresh if needed
+    // final currentTokensResult = await _localDataSource.getTokens();
+    // if (currentTokensResult.isError || currentTokensResult.data == null) {
+    //   return const ApiResult.error(UnauthorizedException(message: 'No tokens available'));
+    // }
+    //
+    // final result = await executeRemoteRequest<AuthTokens>(
+    //   request: () => _remoteDataSource.refreshToken(),
+    // );
+    //
+    // if (result.isSuccess && result.data != null) {
+    //   await _localDataSource.saveTokens(result.data!);
+    //   _tokenRefreshController.add(result.data!);
+    // }
   }
 
   @override
-  AuthEither<void> signOut() async {
+  AuthEither<void> signOut(LogoutParameters parameters) async {
     try {
-      final tokens = await _localDataSource.getTokens();
-      if (tokens != null && await _networkInfo.isConnected) {
-        await _remoteDataSource.signOut(refreshToken: tokens.refreshToken);
+      final tokensResult = await _localDataSource.getTokens();
+      if (tokensResult.isSuccess && tokensResult.data != null && await isConnected) {
+        await _remoteDataSource.logout(parameters);
       }
     } catch (_) {
       // Ignore errors during sign out
     }
 
     await _clearAuthData();
-    return Result.success(null);
+    return const ApiResult.success(null);
   }
 
   @override
   AuthEither<void> signOutAllDevices() async {
-    if (!await _networkInfo.isConnected) {
-      return Result.failure(const NetworkFailure());
+    final result = await executeRemoteRequest<void>(request: _remoteDataSource.signOutAllDevices);
+
+    if (result.isSuccess) {
+      await _clearAuthData();
     }
 
-    try {
-      await _remoteDataSource.signOutAllDevices();
-      await _clearAuthData();
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
-    }
+    return result;
   }
 
   // ==================== Biometric Authentication ====================
@@ -441,41 +415,34 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isBiometricEnabled() async {
-    return _localDataSource.hasBiometricCredentials();
+    final result = await _localDataSource.hasBiometricCredentials();
+    return result.isSuccess && (result.data ?? false);
   }
 
   @override
-  AuthEither<void> enableBiometric() async {
+  AuthEither<void> enableBiometric(SaveBiometricCredentialsParameters parameters) async {
     // Get current credentials from a recent login
     // This should be called after a successful email/password login
     final user = _currentUser;
     if (user == null) {
-      return Result.failure(const UnauthenticatedFailure(message: 'Please sign in first'));
+      return const ApiResult.exception(UnauthorizedException(message: 'Please sign in first'));
     }
 
-    // Note: In a real implementation, you would get the email/password
-    // from the login form before calling this method
-    return Result.failure(
-      const UnsupportedFailure(
-        message: 'Call saveBiometricCredentials after login to enable biometrics',
-      ),
+    // Save credentials for biometric authentication
+    await _localDataSource.saveBiometricCredentials(
+      email: parameters.email,
+      password: parameters.password,
     );
-  }
-
-  /// Saves credentials for biometric authentication.
-  /// Call this after a successful email/password login.
-  Future<void> saveBiometricCredentials({required String email, required String password}) async {
-    await _localDataSource.saveBiometricCredentials(email: email, password: password);
+    return const ApiResult.success(null);
   }
 
   @override
   AuthEither<void> disableBiometric() async {
-    try {
-      await _localDataSource.deleteBiometricCredentials();
-      return Result.success(null);
-    } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
+    final result = await _localDataSource.deleteBiometricCredentials();
+    if (result.isError) {
+      return ApiResult.exception(result.error!);
     }
+    return result;
   }
 
   @override
@@ -483,18 +450,20 @@ class AuthRepositoryImpl implements AuthRepository {
     // Check if biometric is available
     final isAvailable = await isBiometricAvailable();
     if (!isAvailable) {
-      return Result.failure(
-        const UnsupportedFailure(message: 'Biometric authentication is not available'),
+      return const ApiResult.exception(
+        UnknownNetworkException(message: 'Biometric authentication is not available'),
       );
     }
 
     // Get saved credentials
-    final credentials = await _localDataSource.getBiometricCredentials();
-    if (credentials == null) {
-      return Result.failure(
-        const UnauthenticatedFailure(message: 'Biometric credentials not set up'),
+    final credentialsResult = await _localDataSource.getBiometricCredentials();
+    if (credentialsResult.isError || credentialsResult.data == null) {
+      return const ApiResult.exception(
+        UnauthorizedException(message: 'Biometric credentials not set up'),
       );
     }
+
+    final credentials = credentialsResult.data!;
 
     // Authenticate with biometrics
     try {
@@ -504,13 +473,17 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       if (!authenticated) {
-        return Result.failure(const CancelledFailure(message: 'Biometric authentication failed'));
+        return const ApiResult.exception(RequestCancelledException());
       }
 
       // Sign in with saved credentials
-      return signInWithEmail(email: credentials.email, password: credentials.password);
+      final params = SignInWithEmailParameters(
+        email: credentials.email,
+        password: credentials.password,
+      );
+      return signInWithEmail(params);
     } catch (e) {
-      return Result.failure(_mapExceptionToFailure(e));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
     }
   }
 
@@ -527,28 +500,6 @@ class AuthRepositoryImpl implements AuthRepository {
     await _localDataSource.clearAll();
     _currentUser = null;
     _authStateController.add(null);
-  }
-
-  Failure _mapExceptionToFailure(dynamic exception) {
-    // Handle DioException
-    if (exception.toString().contains('DioException')) {
-      final message = exception.toString();
-      if (message.contains('401')) {
-        return const InvalidCredentialsFailure();
-      }
-      if (message.contains('409')) {
-        return const ConflictFailure(message: 'Email already in use');
-      }
-      if (message.contains('404')) {
-        return const NotFoundFailure();
-      }
-      if (message.contains('timeout')) {
-        return const TimeoutFailure();
-      }
-      return ServerFailure(message: exception.toString());
-    }
-
-    return UnexpectedFailure(message: 'An unexpected error occurred', exception: exception);
   }
 
   /// Disposes the repository and closes streams.

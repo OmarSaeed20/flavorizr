@@ -1,5 +1,5 @@
 // lib/features/profile/presentation/providers/profile_providers.dart
-import 'package:flavorizr/core/network/api_client.dart';
+import 'package:flavorizr/core/di/providers.dart';
 import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flavorizr/features/profile/data/datasources/profile_local_datasource.dart';
 import 'package:flavorizr/features/profile/data/datasources/profile_remote_datasource.dart';
@@ -13,11 +13,6 @@ import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ==================== Data Sources ====================
-
-/// Provider for ApiClient singleton.
-final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient.instance;
-});
 
 /// Provider for ProfileRemoteDataSource.
 final profileRemoteDataSourceProvider = Provider<ProfileRemoteDataSource>((ref) {

@@ -1,5 +1,5 @@
 // lib/features/auth/domain/usecases/get_current_user_usecase.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/auth/domain/entities/user.dart';
 import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
@@ -23,9 +23,9 @@ class ObserveAuthStateUseCase extends StreamUseCase<User?, NoParams> {
   final AuthRepository _repository;
 
   @override
-  Stream<({User? data, Failure? failure})> call(NoParams params) {
+  UseCaseStreamResult<User?> call(NoParams params) {
     return _repository.authStateChanges.map((user) {
-      return (data: user, failure: null);
+      return ApiResult.success(user);
     });
   }
 }

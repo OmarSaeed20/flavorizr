@@ -1,5 +1,7 @@
 // lib/features/auth/domain/usecases/register_usecase.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart' show ApiResult;
+import 'package:flavorizr/features/auth/data/parameters/register_parameters.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
 import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
@@ -48,17 +50,28 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
 
     // Return validation failure if there are errors
     if (errors.isNotEmpty) {
-      return Result.failure(
-        ValidationFailure(message: 'Please fix the errors below', fieldErrors: errors),
+      return ApiResult.exception(
+        ValidationException(message: 'Please fix the errors below', errors: errors),
       );
     }
 
     // Attempt registration
-    final result = await _repository.signUp(
-      email: params.email.trim().toLowerCase(),
+    final registerParams = RegisterParameters(
+      companyType: params.companyType,
+      name: params.displayName?.trim() ?? params.name,
+      nickname: params.nickname,
+      phone: params.email.trim().toLowerCase(), // Using email as phone for now
       password: params.password,
-      displayName: params.displayName?.trim(),
+      passwordConfirmation: params.confirmPassword,
+      country: params.country,
+      governorate: params.governorate,
+      birthdate: params.birthdate,
+      gender: params.gender,
+      deviceType: params.deviceType,
+      deviceToken: params.deviceToken,
+      deviceId: params.deviceId,
     );
+    final result = await _repository.signUp(registerParams);
 
     return result;
   }
@@ -95,9 +108,30 @@ class RegisterParams {
     required this.password,
     required this.confirmPassword,
     this.displayName,
+    this.name = '',
+    this.nickname,
+    this.companyType = 'customer',
+    this.country = 'Unknown',
+    this.governorate = 'Unknown',
+    this.birthdate = '2000',
+    this.gender = 'male',
+    this.deviceType = 'mobile',
+    this.deviceToken,
+    this.deviceId,
   });
+
   final String email;
   final String password;
   final String confirmPassword;
   final String? displayName;
+  final String name;
+  final String? nickname;
+  final String companyType;
+  final String country;
+  final String governorate;
+  final String birthdate;
+  final String gender;
+  final String deviceType;
+  final String? deviceToken;
+  final String? deviceId;
 }

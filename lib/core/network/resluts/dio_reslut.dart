@@ -3,89 +3,84 @@ import 'dart:async';
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flavorizr/core/network/exception/network_exceptions.dart';
 import 'package:flutter/foundation.dart' show compute, kDebugMode;
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:worker_manager/worker_manager.dart' show workerManager;
 
-class ApiResultSuccess<T> extends ApiResult<T> {
-  const ApiResultSuccess(this.data);
-  @override
-  final T data;
+part 'dio_reslut.freezed.dart';
 
-  @override
-  String toString() => 'ApiResultSuccess: $data';
-}
+@freezed
+sealed class ApiResult<T> with _$ApiResult<T> {
+  const ApiResult._();
 
-class ApiResultError<T> extends ApiResult<T> {
-  const ApiResultError(this.error);
-  @override
-  final NetworkException error;
+  const factory ApiResult.success(T data, [NetworkException? info]) =
+      ApiResultSuccess<T>;
+  const factory ApiResult.exception(NetworkException exception) =
+      ApiResultError<T>;
 
-  @override
-  String toString() => 'ApiResultError: $error => ${error.message}';
-}
+  bool get isSuccess => maybeWhen(success: (_, _) => true, orElse: () => false);
 
-sealed class ApiResult<T> {
-  const ApiResult();
+  bool get isError => maybeWhen(exception: (_) => true, orElse: () => false);
 
-  const factory ApiResult.success(T data) = ApiResultSuccess;
-  const factory ApiResult.error(NetworkException error) = ApiResultError;
+  T? get data => maybeWhen(success: (data, _) => data, orElse: () => null);
 
-  bool get isSuccess => this is ApiResultSuccess<T>;
-
-  bool get isError => this is ApiResultError<T>;
-
-  T? get data => (this is ApiResultSuccess<T>) ? (this as ApiResultSuccess<T>).data : null;
+  bool get isValid => isSuccess && data != null;
 
   NetworkException? get error =>
-      (this is ApiResultError<T>) ? (this as ApiResultError<T>).error : null;
+      maybeWhen(exception: (error) => error, orElse: () => null);
 
-  ApiResult<T> when({
+  ApiResult<T> whenVoid({
     required void Function(T success) success,
     required void Function(NetworkException error) error,
   }) {
-    switch (this) {
-      case ApiResultSuccess<T>():
-        success((this as ApiResultSuccess<T>).data);
-      case ApiResultError<T>():
-        error((this as ApiResultError<T>).error);
-    }
-    return this;
+    return when(
+      success: (data, _) {
+        success(data);
+        return this;
+      },
+      exception: (err) {
+        error(err);
+        return this;
+      },
+    );
   }
 
   S map<S>({
     required S Function(ApiResultSuccess<T> data) success,
-    required S Function(ApiResultError<T> error) error,
+    required S Function(ApiResultError<T> error) exception,
   }) {
-    return switch (this) {
-      ApiResultSuccess<T>() => success(this as ApiResultSuccess<T>),
-      ApiResultError<T>() => error(this as ApiResultError<T>),
-    };
+    return when(
+      success: (data, _) => success(ApiResultSuccess(data)),
+      exception: (err) => exception(ApiResultError(err)),
+    );
   }
 
   Future<S> mapAsync<S>({
     required Future<S> Function(ApiResultSuccess<T> data) success,
     required Future<S> Function(ApiResultError<T> error) error,
   }) async {
-    return switch (this) {
-      ApiResultSuccess<T>() => success(this as ApiResultSuccess<T>),
-      ApiResultError<T>() => error(this as ApiResultError<T>),
-    };
+    return when(
+      success: (data, _) async => success(ApiResultSuccess(data)),
+      exception: (err) async => error(ApiResultError(err)),
+    );
   }
 
-  FutureOr<ApiResult<S>> mapDataAsync<S>({required Mapper<T, ApiResult<S>> mapper}) async {
-    return switch (this) {
-      ApiResultSuccess<T>() => await mapper((this as ApiResultSuccess<T>).data),
-      ApiResultError<T>() => ApiResult.error((this as ApiResultError<T>).error),
-    };
+  FutureOr<ApiResult<S>> mapDataAsync<S>({
+    required Mapper<T, ApiResult<S>> mapper,
+  }) {
+    return when(
+      success: (data, _) => mapper(data),
+      exception: ApiResult.exception,
+    );
   }
 
   FutureOr<S?> mapDataAsyncOrNull<S>({
     required Mapper<T, S> mapper,
     Mapper<NetworkException, S>? errorMapper,
-  }) async {
-    return switch (this) {
-      ApiResultSuccess<T>() => await mapper((this as ApiResultSuccess<T>).data),
-      ApiResultError<T>() => errorMapper?.call((this as ApiResultError<T>).error),
-    };
+  }) {
+    return when(
+      success: (data, _) => mapper(data),
+      exception: (err) => errorMapper?.call(err),
+    );
   }
 
   Future<ApiResult<S>> mapDataAsyncInIsolate<S>({
@@ -96,12 +91,14 @@ sealed class ApiResult<T> {
     try {
       return await mapAsyncInIsolate(
         success: mapper,
-        error: (error) async => ApiResult.error(error),
+        error: (error) async => ApiResult.exception(error),
         useWorkManager: useWorkManager,
       );
     } catch (e, _) {
-      return ApiResult.error(
-        UnknownNetworkException(message: exceptionMessage ?? 'Unable to process data'),
+      return ApiResult.exception(
+        UnknownNetworkException(
+          message: exceptionMessage ?? 'Unable to process data',
+        ),
       );
     }
   }
@@ -113,11 +110,11 @@ sealed class ApiResult<T> {
   }) async {
     return MapUtils.mapAsyncInIsolate(
       data: this,
-      mapper: (ApiResult<T> res) async {
-        return switch (res) {
-          ApiResultSuccess<T>() => await success(res.data),
-          ApiResultError<T>() => await error(res.error),
-        };
+      mapper: (ApiResult<T> res) {
+        return res.when(
+          success: (data, _) => success(data),
+          exception: (err) => error(err),
+        );
       },
       useWorkManager: useWorkManager,
     );
@@ -176,8 +173,10 @@ class MapUtils {
 }
 
 extension MapAsync<T> on T {
-  Future<S> mapAsync<S>({required Mapper<T, S> mapper, bool printError = kDebugMode}) =>
-      MapUtils.mapAsync(data: this, mapper: mapper, printError: printError);
+  Future<S> mapAsync<S>({
+    required Mapper<T, S> mapper,
+    bool printError = kDebugMode,
+  }) => MapUtils.mapAsync(data: this, mapper: mapper, printError: printError);
 
   Future<S> mapAsyncInIsolate<S>({
     required Mapper<T, S> mapper,

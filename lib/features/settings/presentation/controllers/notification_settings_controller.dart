@@ -47,7 +47,7 @@ class NotificationSettingsState {
 }
 
 /// Controller for notification settings.
-class NotificationSettingsController extends Notifier<NotificationSettingsState> {
+class NotificationSettingsController extends AutoDisposeNotifier<NotificationSettingsState> {
   late final NotificationSettingsRepository _repository;
 
   @override
@@ -64,8 +64,8 @@ class NotificationSettingsController extends Notifier<NotificationSettingsState>
 
     final result = await _repository.getSettings();
 
-    if (result.failure != null) {
-      state = state.copyWith(isLoading: false, errorMessage: result.failure!.message);
+    if (result.isError) {
+      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
       return;
     }
 
@@ -86,8 +86,8 @@ class NotificationSettingsController extends Notifier<NotificationSettingsState>
 
     final result = await _repository.updateSettings(state.settings);
 
-    if (result.failure != null) {
-      state = state.copyWith(isSaving: false, errorMessage: result.failure!.message);
+    if (result.isError) {
+      state = state.copyWith(isSaving: false, errorMessage: result.error!.message);
       return false;
     }
 
@@ -109,8 +109,8 @@ class NotificationSettingsController extends Notifier<NotificationSettingsState>
 
     final result = await _repository.resetToDefaults();
 
-    if (result.failure != null) {
-      state = state.copyWith(isSaving: false, errorMessage: result.failure!.message);
+    if (result.isError) {
+      state = state.copyWith(isSaving: false, errorMessage: result.error!.message);
       return;
     }
 

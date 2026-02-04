@@ -11,7 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Provider for NotificationSettingsRepository.
 final notificationSettingsRepositoryProvider = Provider<NotificationSettingsRepository>((ref) {
   final prefs = ref.watch(sharedPreferencesProvider);
-  return NotificationSettingsRepositoryImpl(prefs: prefs);
+  final networkInfo = ref.watch(networkInfoProvider);
+  return NotificationSettingsRepositoryImpl(prefs: prefs, networkInfo: networkInfo);
 });
 
 // ==================== State Providers ====================

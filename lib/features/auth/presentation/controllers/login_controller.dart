@@ -73,7 +73,7 @@ class LoginState {
 }
 
 /// Controller for the login page using Riverpod 3.x Notifier.
-class LoginController extends Notifier<LoginState> {
+class LoginController extends AutoDisposeNotifier<LoginState> {
   late final LoginUseCase _loginUseCase;
   late final GoogleSignInUseCase _googleSignInUseCase;
   late final AppleSignInUseCase _appleSignInUseCase;
@@ -159,8 +159,8 @@ class LoginController extends Notifier<LoginState> {
         LoginParams(email: state.email.trim(), password: state.password),
       );
 
-      if (result.failure != null) {
-        state = state.copyWith(isLoading: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return null;
       }
 
@@ -181,8 +181,8 @@ class LoginController extends Notifier<LoginState> {
     try {
       final result = await _googleSignInUseCase(const NoParams());
 
-      if (result.failure != null) {
-        state = state.copyWith(isGoogleLoading: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isGoogleLoading: false, errorMessage: result.error!.message);
         return null;
       }
 
@@ -203,8 +203,8 @@ class LoginController extends Notifier<LoginState> {
     try {
       final result = await _appleSignInUseCase(const NoParams());
 
-      if (result.failure != null) {
-        state = state.copyWith(isAppleLoading: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isAppleLoading: false, errorMessage: result.error!.message);
         return null;
       }
 
@@ -225,8 +225,8 @@ class LoginController extends Notifier<LoginState> {
     try {
       final result = await _biometricSignInUseCase(const NoParams());
 
-      if (result.failure != null) {
-        state = state.copyWith(isBiometricLoading: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isBiometricLoading: false, errorMessage: result.error!.message);
         return null;
       }
 

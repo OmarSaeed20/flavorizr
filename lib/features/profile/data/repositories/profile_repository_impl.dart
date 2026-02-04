@@ -1,8 +1,10 @@
 // lib/features/profile/data/repositories/profile_repository_impl.dart
 import 'dart:async';
 
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/base/repo/base_repository.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
 import 'package:flavorizr/core/network/network_info.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/profile/data/datasources/profile_local_datasource.dart';
 import 'package:flavorizr/features/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:flavorizr/features/profile/data/models/profile_model.dart';
@@ -13,7 +15,8 @@ import 'package:flavorizr/features/profile/domain/repositories/profile_repositor
 ///
 /// Coordinates between remote and local data sources,
 /// handles network connectivity, and manages profile state.
-class ProfileRepositoryImpl implements ProfileRepository {
+/// Extends BaseRepository for consistent error handling and network checks.
+class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository {
   ProfileRepositoryImpl({
     required ProfileRemoteDataSource remoteDataSource,
     required ProfileLocalDataSource localDataSource,
@@ -24,6 +27,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   final ProfileRemoteDataSource _remoteDataSource;
   final ProfileLocalDataSource _localDataSource;
+
+  @override
+  NetworkInfo get networkInfo => _networkInfo;
+
   final NetworkInfo _networkInfo;
 
   // Stream controller for profile updates
@@ -37,354 +44,319 @@ class ProfileRepositoryImpl implements ProfileRepository {
   // ==================== Profile CRUD ====================
 
   @override
-  Future<({Profile? data, Failure? failure})> getCurrentProfile() async {
+  Future<ApiResult<Profile>> getCurrentProfile() async {
     // First try to return cached profile if available
     if (_currentProfile != null) {
-      return (data: _currentProfile, failure: null);
+      return ApiResult.success(_currentProfile!);
     }
 
-    // Check local cache
-    final cachedProfile = await _localDataSource.getProfile();
-    if (cachedProfile != null) {
-      _currentProfile = cachedProfile.toEntity();
-      _profileController.add(_currentProfile);
-    }
+    final result = await fetchWithCache<ProfileModel>(
+      cacheKey: 'current_profile',
+      remoteFetcher: _remoteDataSource.getCurrentProfile,
+      localFetcher: _localDataSource.getProfile,
+      cacheSaver: _localDataSource.saveProfile,
+      strategy: CacheStrategy.networkFirst,
+      maxCacheAge: const Duration(minutes: 5),
+    );
 
-    // If no network, return cached or error
-    if (!await _networkInfo.isConnected) {
-      if (_currentProfile != null) {
-        return (data: _currentProfile, failure: null);
-      }
-      return (data: null, failure: const NetworkFailure());
-    }
-
-    try {
-      final profileModel = await _remoteDataSource.getCurrentProfile();
-      _currentProfile = profileModel.toEntity();
-
-      // Cache the profile
-      await _localDataSource.saveProfile(profileModel);
-      _profileController.add(_currentProfile);
-
-      return (data: _currentProfile, failure: null);
-    } catch (e) {
-      // If we have cached data, return it with the failure
-      if (_currentProfile != null) {
-        return (data: _currentProfile, failure: _mapExceptionToFailure(e));
-      }
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) {
+        _currentProfile = profileModel.toEntity();
+        _profileController.add(_currentProfile);
+        return ApiResult.success(_currentProfile!);
+      },
+      exception: (error) {
+        // If we have cached data, return it with the failure
+        if (_currentProfile != null) {
+          return ApiResult.success(_currentProfile!, error);
+        }
+        return ApiResult.exception(error);
+      },
+    );
   }
 
   @override
-  Future<({Profile? data, Failure? failure})> getProfileByUserId(String userId) async {
-    // Check local cache first
-    final cachedProfile = await _localDataSource.getProfileById(userId);
-    if (cachedProfile != null && !await _networkInfo.isConnected) {
-      return (data: cachedProfile.toEntity(), failure: null);
-    }
+  Future<ApiResult<Profile>> getProfileByUserId(String userId) async {
+    final result = await fetchWithCache<ProfileModel>(
+      cacheKey: 'profile_$userId',
+      remoteFetcher: () => _remoteDataSource.getProfileByUserId(userId),
+      localFetcher: () async {
+        final cached = await _localDataSource.getProfileById(userId);
+        return cached;
+      },
+      cacheSaver: (profile) => _localDataSource.saveProfileById(userId, profile),
+      maxCacheAge: const Duration(minutes: 10),
+    );
 
-    if (!await _networkInfo.isConnected) {
-      return (data: cachedProfile?.toEntity(), failure: const NetworkFailure());
-    }
-
-    try {
-      final profileModel = await _remoteDataSource.getProfileByUserId(userId);
-      // Cache the profile
-      await _localDataSource.saveProfileById(userId, profileModel);
-      return (data: profileModel.toEntity(), failure: null);
-    } catch (e) {
-      if (cachedProfile != null) {
-        return (data: cachedProfile.toEntity(), failure: _mapExceptionToFailure(e));
-      }
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) => ApiResult.success(profileModel.toEntity()),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({Profile? data, Failure? failure})> getProfileByUsername(String username) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<Profile>> getProfileByUsername(String username) async {
+    final result = await executeRemoteRequest<ProfileModel>(
+      request: () => _remoteDataSource.getProfileByUsername(username),
+    );
 
-    try {
-      final profileModel = await _remoteDataSource.getProfileByUsername(username);
-      return (data: profileModel.toEntity(), failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) => ApiResult.success(profileModel.toEntity()),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({Profile? data, Failure? failure})> updateProfile(ProfileUpdateData data) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
-
+  Future<ApiResult<Profile>> updateProfile(ProfileUpdateData data) async {
     if (data.isEmpty) {
-      return (data: _currentProfile, failure: null);
+      return ApiResult.success(_currentProfile!);
     }
 
-    try {
-      final profileModel = await _remoteDataSource.updateProfile(data);
-      _currentProfile = profileModel.toEntity();
+    final result = await executeRemoteRequest<ProfileModel>(
+      request: () => _remoteDataSource.updateProfile(data),
+    );
 
-      // Update cache
-      await _localDataSource.saveProfile(profileModel);
-      _profileController.add(_currentProfile);
-
-      return (data: _currentProfile, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) {
+        _currentProfile = profileModel.toEntity();
+        // Update cache
+        _localDataSource.saveProfile(profileModel);
+        _profileController.add(_currentProfile);
+        return ApiResult.success(_currentProfile!);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({Profile? data, Failure? failure})> updateProfilePhoto(String imagePath) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<Profile>> updateProfilePhoto(String imagePath) async {
+    final result = await executeRemoteRequest<ProfileModel>(
+      request: () => _remoteDataSource.updateProfilePhoto(imagePath),
+    );
 
-    try {
-      final profileModel = await _remoteDataSource.updateProfilePhoto(imagePath);
-      _currentProfile = profileModel.toEntity();
-
-      // Update cache
-      await _localDataSource.saveProfile(profileModel);
-      _profileController.add(_currentProfile);
-
-      return (data: _currentProfile, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) {
+        _currentProfile = profileModel.toEntity();
+        // Update cache
+        _localDataSource.saveProfile(profileModel);
+        _profileController.add(_currentProfile);
+        return ApiResult.success(_currentProfile!);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({Profile? data, Failure? failure})> updateCoverPhoto(String imagePath) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<Profile>> updateCoverPhoto(String imagePath) async {
+    final result = await executeRemoteRequest<ProfileModel>(
+      request: () => _remoteDataSource.updateCoverPhoto(imagePath),
+    );
 
-    try {
-      final profileModel = await _remoteDataSource.updateCoverPhoto(imagePath);
-      _currentProfile = profileModel.toEntity();
-
-      // Update cache
-      await _localDataSource.saveProfile(profileModel);
-      _profileController.add(_currentProfile);
-
-      return (data: _currentProfile, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) {
+        _currentProfile = profileModel.toEntity();
+        // Update cache
+        _localDataSource.saveProfile(profileModel);
+        _profileController.add(_currentProfile);
+        return ApiResult.success(_currentProfile!);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({Profile? data, Failure? failure})> removeProfilePhoto() async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<Profile>> removeProfilePhoto() async {
+    final result = await executeRemoteRequest<ProfileModel>(
+      request: _remoteDataSource.removeProfilePhoto,
+    );
 
-    try {
-      final profileModel = await _remoteDataSource.removeProfilePhoto();
-      _currentProfile = profileModel.toEntity();
-
-      // Update cache
-      await _localDataSource.saveProfile(profileModel);
-      _profileController.add(_currentProfile);
-
-      return (data: _currentProfile, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) {
+        _currentProfile = profileModel.toEntity();
+        // Update cache
+        _localDataSource.saveProfile(profileModel);
+        _profileController.add(_currentProfile);
+        return ApiResult.success(_currentProfile!);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({Profile? data, Failure? failure})> removeCoverPhoto() async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<Profile>> removeCoverPhoto() async {
+    final result = await executeRemoteRequest<ProfileModel>(
+      request: _remoteDataSource.removeCoverPhoto,
+    );
 
-    try {
-      final profileModel = await _remoteDataSource.removeCoverPhoto();
-      _currentProfile = profileModel.toEntity();
-
-      // Update cache
-      await _localDataSource.saveProfile(profileModel);
-      _profileController.add(_currentProfile);
-
-      return (data: _currentProfile, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModel, _) {
+        _currentProfile = profileModel.toEntity();
+        // Update cache
+        _localDataSource.saveProfile(profileModel);
+        _profileController.add(_currentProfile);
+        return ApiResult.success(_currentProfile!);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   // ==================== Preferences ====================
 
   @override
-  Future<({ProfilePreferences? data, Failure? failure})> getPreferences() async {
-    // Check local cache first
-    final cachedPrefs = await _localDataSource.getPreferences();
-    if (!await _networkInfo.isConnected) {
-      if (cachedPrefs != null) {
-        return (data: cachedPrefs, failure: null);
-      }
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<ProfilePreferences>> getPreferences() async {
+    final result = await fetchWithCache<ProfilePreferences>(
+      cacheKey: 'profile_preferences',
+      remoteFetcher: _remoteDataSource.getPreferences,
+      localFetcher: _localDataSource.getPreferences,
+      cacheSaver: _localDataSource.savePreferences,
+      strategy: CacheStrategy.staleWhileRevalidate,
+      maxCacheAge: const Duration(minutes: 15),
+    );
 
-    try {
-      final prefsModel = await _remoteDataSource.getPreferences();
-      // Cache preferences
-      await _localDataSource.savePreferences(prefsModel);
-      return (data: prefsModel, failure: null);
-    } catch (e) {
-      if (cachedPrefs != null) {
-        return (data: cachedPrefs, failure: _mapExceptionToFailure(e));
-      }
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (prefsModel, _) => ApiResult.success(prefsModel),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({ProfilePreferences? data, Failure? failure})> updatePreferences(
-    ProfilePreferences preferences,
-  ) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<ProfilePreferences>> updatePreferences(ProfilePreferences preferences) async {
+    final result = await executeRemoteRequest<ProfilePreferences>(
+      request: () => _remoteDataSource.updatePreferences(preferences),
+    );
 
-    try {
-      final prefsModel = await _remoteDataSource.updatePreferences(preferences);
-      // Update cache
-      await _localDataSource.savePreferences(prefsModel);
-      return (data: prefsModel, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (prefsModel, _) {
+        // Update cache
+        _localDataSource.savePreferences(prefsModel);
+        return ApiResult.success(prefsModel);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   // ==================== Social ====================
 
   @override
-  Future<({bool? data, Failure? failure})> followUser(String userId) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<bool>> followUser(String userId) async {
+    final result = await executeRemoteRequest<void>(
+      request: () => _remoteDataSource.followUser(userId),
+    );
 
-    try {
-      await _remoteDataSource.followUser(userId);
-      return (data: true, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (_, __) => const ApiResult.success(true),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({bool? data, Failure? failure})> unfollowUser(String userId) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<bool>> unfollowUser(String userId) async {
+    final result = await executeRemoteRequest<void>(
+      request: () => _remoteDataSource.unfollowUser(userId),
+    );
 
-    try {
-      await _remoteDataSource.unfollowUser(userId);
-      return (data: true, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (_, __) => const ApiResult.success(true),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({List<Profile>? data, Failure? failure})> getFollowers(
+  Future<ApiResult<List<Profile>>> getFollowers(
     String userId, {
     int page = 1,
     int limit = 20,
   }) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+    final result = await fetchWithCache<List<ProfileModel>>(
+      cacheKey: 'followers_${userId}_${page}_$limit',
+      remoteFetcher: () => _remoteDataSource.getFollowers(userId, page: page, limit: limit),
+      localFetcher: () async => const ApiResult.exception(NotFoundException()),
+      cacheSaver: (_) async {}, // No local caching for followers list
+      strategy: CacheStrategy.networkFirst,
+      maxCacheAge: const Duration(minutes: 5),
+    );
 
-    try {
-      final profileModels = await _remoteDataSource.getFollowers(userId, page: page, limit: limit);
-      final profiles = profileModels.map((m) => m.toEntity()).toList();
-      return (data: profiles, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModels, _) {
+        final profiles = profileModels.map((m) => m.toEntity()).toList();
+        return ApiResult.success(profiles);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({List<Profile>? data, Failure? failure})> getFollowing(
+  Future<ApiResult<List<Profile>>> getFollowing(
     String userId, {
     int page = 1,
     int limit = 20,
   }) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+    final result = await fetchWithCache<List<ProfileModel>>(
+      cacheKey: 'following_${userId}_${page}_$limit',
+      remoteFetcher: () => _remoteDataSource.getFollowing(userId, page: page, limit: limit),
+      localFetcher: () async => const ApiResult.exception(NotFoundException()),
+      cacheSaver: (_) async {}, // No local caching for following list
+      strategy: CacheStrategy.networkFirst,
+      maxCacheAge: const Duration(minutes: 5),
+    );
 
-    try {
-      final profileModels = await _remoteDataSource.getFollowing(userId, page: page, limit: limit);
-      final profiles = profileModels.map((m) => m.toEntity()).toList();
-      return (data: profiles, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (profileModels, _) {
+        final profiles = profileModels.map((m) => m.toEntity()).toList();
+        return ApiResult.success(profiles);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({bool? data, Failure? failure})> isFollowing(String userId) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<bool>> isFollowing(String userId) async {
+    final result = await executeRemoteRequest<bool>(
+      request: () => _remoteDataSource.isFollowing(userId),
+    );
 
-    try {
-      final isFollowing = await _remoteDataSource.isFollowing(userId);
-      return (data: isFollowing, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (isFollowing, _) => ApiResult.success(isFollowing),
+      exception: ApiResult.exception,
+    );
   }
 
   // ==================== Account ====================
 
   @override
-  Future<({bool? data, Failure? failure})> deleteAccount(String password) async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<bool>> deleteAccount(String password) async {
+    final result = await executeRemoteRequest<void>(
+      request: () => _remoteDataSource.deleteAccount(password),
+    );
 
-    try {
-      await _remoteDataSource.deleteAccount(password);
-      // Clear all local data
-      await _localDataSource.clearAll();
-      _currentProfile = null;
-      _profileController.add(null);
-      return (data: true, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (_, __) async {
+        // Clear all local data
+        await _localDataSource.clearAll();
+        _currentProfile = null;
+        _profileController.add(null);
+        return const ApiResult.success(true);
+      },
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<({String? data, Failure? failure})> exportUserData() async {
-    if (!await _networkInfo.isConnected) {
-      return (data: null, failure: const NetworkFailure());
-    }
+  Future<ApiResult<String?>> exportUserData() async {
+    final result = await executeRemoteRequest<String?>(request: _remoteDataSource.exportUserData);
 
-    try {
-      final downloadUrl = await _remoteDataSource.exportUserData();
-      return (data: downloadUrl, failure: null);
-    } catch (e) {
-      return (data: null, failure: _mapExceptionToFailure(e));
-    }
+    return result.when(
+      success: (downloadUrl, _) => ApiResult.success(downloadUrl),
+      exception: ApiResult.exception,
+    );
   }
 
   // ==================== Cache ====================
 
   @override
-  Future<Profile?> getCachedProfile() async {
+  Future<ApiResult<Profile?>> getCachedProfile() async {
     final cached = await _localDataSource.getProfile();
-    return cached?.toEntity();
+    return cached;
   }
 
   @override
@@ -394,42 +366,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<void> clearCache() async {
+  Future<void> clearProfileCache() async {
     await _localDataSource.clearAll();
     _currentProfile = null;
     _profileController.add(null);
-  }
-
-  // ==================== Private Helpers ====================
-
-  Failure _mapExceptionToFailure(dynamic exception) {
-    final message = exception.toString();
-
-    if (message.contains('401') || message.contains('Unauthorized')) {
-      return const UnauthenticatedFailure();
-    }
-    if (message.contains('403') || message.contains('Forbidden')) {
-      return const UnauthorizedFailure(
-        message: 'You do not have permission to access this profile',
-      );
-    }
-    if (message.contains('404') || message.contains('Not Found')) {
-      return const NotFoundFailure(message: 'Profile not found');
-    }
-    if (message.contains('409') || message.contains('Conflict')) {
-      return const ConflictFailure(message: 'A conflict occurred while updating profile');
-    }
-    if (message.contains('timeout')) {
-      return const TimeoutFailure();
-    }
-    if (message.contains('413') || message.contains('too large')) {
-      return const ValidationFailure(message: 'File size is too large');
-    }
-    if (message.contains('415') || message.contains('Unsupported Media')) {
-      return const ValidationFailure(message: 'Unsupported file format');
-    }
-
-    return UnexpectedFailure(message: 'An unexpected error occurred', exception: exception);
   }
 
   /// Disposes the repository and closes streams.

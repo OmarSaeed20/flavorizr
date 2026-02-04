@@ -47,5 +47,5 @@ final isOnboardingCompletedUseCaseProvider = Provider<IsOnboardingCompletedUseCa
 final isOnboardingCompletedProvider = FutureProvider<bool>((ref) async {
   final useCase = ref.watch(isOnboardingCompletedUseCaseProvider);
   final result = await useCase();
-  return result.getOrElse(() => false);
+  return result.data ?? false;
 });

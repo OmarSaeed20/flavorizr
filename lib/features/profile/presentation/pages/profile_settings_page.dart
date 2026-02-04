@@ -64,10 +64,10 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     setState(() => _isLoading = false);
 
     if (mounted) {
-      if (result.failure != null) {
+      if (result.error != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(result.failure!.message),
+            content: Text(result.error!.message),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -122,10 +122,10 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
       setState(() => _isLoading = false);
 
       if (mounted) {
-        if (result.failure != null) {
+        if (result.error != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(result.failure!.message),
+              content: Text(result.error!.message),
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
           );

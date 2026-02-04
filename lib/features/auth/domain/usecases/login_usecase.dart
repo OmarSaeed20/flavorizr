@@ -1,5 +1,7 @@
 // lib/features/auth/domain/usecases/login_usecase.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/auth/data/parameters/sign_in_with_email_parameters.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
 import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
@@ -20,7 +22,7 @@ import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 /// if (result.isSuccess) {
 ///   navigateToHome(result.data!.user);
 /// } else {
-///   showError(result.failure!.message);
+///   showError(result.error!.message);
 /// }
 /// ```
 class LoginUseCase implements UseCase<AuthResult, LoginParams> {
@@ -32,26 +34,34 @@ class LoginUseCase implements UseCase<AuthResult, LoginParams> {
   UseCaseResult<AuthResult> call(LoginParams params) async {
     // Validate email format
     if (!_isValidEmail(params.email)) {
-      return Result.failure(
-        const ValidationFailure(
+      return const ApiResult.exception(
+        ValidationException(
           message: 'Please enter a valid email address',
-          code: 'INVALID_EMAIL',
+          errors: {
+            'email': ['Invalid email format'],
+          },
         ),
       );
     }
 
     // Validate password is not empty
     if (params.password.isEmpty) {
-      return Result.failure(
-        const ValidationFailure(message: 'Password cannot be empty', code: 'EMPTY_PASSWORD'),
+      return const ApiResult.exception(
+        ValidationException(
+          message: 'Password cannot be empty',
+          errors: {
+            'password': ['Password is required'],
+          },
+        ),
       );
     }
 
     // Attempt login
-    final result = await _repository.signInWithEmail(
+    final signInParams = SignInWithEmailParameters(
       email: params.email.trim().toLowerCase(),
       password: params.password,
     );
+    final result = await _repository.signInWithEmail(signInParams);
 
     return result;
   }

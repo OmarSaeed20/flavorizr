@@ -1,7 +1,5 @@
 // lib/features/chat/domain/usecases/create_conversation.dart
-import 'package:dartz/dartz.dart';
-
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/chat/domain/entities/conversation.dart';
 import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart';
 
@@ -14,7 +12,7 @@ class CreateDirectConversation {
   ///
   /// [otherUserId] - ID of the other user.
   /// Returns existing conversation if one already exists.
-  Future<Either<Failure, Conversation>> call({required String otherUserId}) {
+  Future<ApiResult<Conversation>> call({required String otherUserId}) {
     return _repository.createDirectConversation(otherUserId: otherUserId);
   }
 }
@@ -30,7 +28,7 @@ class CreateGroupConversation {
   /// [participantIds] - List of participant user IDs.
   /// [description] - Optional group description.
   /// [imageUrl] - Optional group avatar URL.
-  Future<Either<Failure, Conversation>> call({
+  Future<ApiResult<Conversation>> call({
     required String name,
     required List<String> participantIds,
     String? description,

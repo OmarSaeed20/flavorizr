@@ -1,7 +1,5 @@
 // lib/features/chat/domain/usecases/message_actions.dart
-import 'package:dartz/dartz.dart';
-
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
 import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart';
 
@@ -11,7 +9,7 @@ class EditMessage {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<Either<Failure, Message>> call({required String messageId, required String content}) {
+  Future<ApiResult<Message>> call({required String messageId, required String content}) {
     return _repository.editMessage(messageId: messageId, content: content);
   }
 }
@@ -24,7 +22,7 @@ class DeleteMessage {
   /// Executes the use case.
   ///
   /// [forEveryone] - If true, deletes for all users.
-  Future<Either<Failure, void>> call({required String messageId, bool forEveryone = false}) {
+  Future<ApiResult<void>> call({required String messageId, bool forEveryone = false}) {
     return _repository.deleteMessage(messageId: messageId, forEveryone: forEveryone);
   }
 }
@@ -35,7 +33,7 @@ class AddReaction {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<Either<Failure, void>> call({required String messageId, required String reaction}) {
+  Future<ApiResult<void>> call({required String messageId, required String reaction}) {
     return _repository.addReaction(messageId: messageId, reaction: reaction);
   }
 }
@@ -46,7 +44,7 @@ class RemoveReaction {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<Either<Failure, void>> call({required String messageId, required String reaction}) {
+  Future<ApiResult<void>> call({required String messageId, required String reaction}) {
     return _repository.removeReaction(messageId: messageId, reaction: reaction);
   }
 }
@@ -57,7 +55,7 @@ class MarkMessagesAsRead {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<Either<Failure, void>> call({required String conversationId, String? upToMessageId}) {
+  Future<ApiResult<void>> call({required String conversationId, String? upToMessageId}) {
     return _repository.markAsRead(conversationId: conversationId, upToMessageId: upToMessageId);
   }
 }
@@ -68,7 +66,7 @@ class SendMediaMessage {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<Either<Failure, Message>> call({
+  Future<ApiResult<Message>> call({
     required String conversationId,
     required String filePath,
     required String type,

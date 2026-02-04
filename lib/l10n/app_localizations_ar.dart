@@ -113,4 +113,148 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get version => 'الإصدار';
+
+  @override
+  String get justNow => 'الآن';
+
+  @override
+  String minutesAgo(Object count) {
+    return 'منذ $count دقيقة';
+  }
+
+  @override
+  String hoursAgo(Object count) {
+    return 'منذ $count ساعة';
+  }
+
+  @override
+  String daysAgo(Object count) {
+    return 'منذ $count يوم';
+  }
+
+  @override
+  String get yesterday => 'أمس';
+
+  @override
+  String durationHoursMinutes(Object hours, Object minutes) {
+    return '$hoursس $minutesد';
+  }
+
+  @override
+  String durationMinutesSeconds(Object minutes, Object seconds) {
+    return '$minutesد $secondsث';
+  }
+
+  @override
+  String durationSeconds(Object seconds) {
+    return '$secondsث';
+  }
+
+  @override
+  String get bytes => 'بايت';
+
+  @override
+  String get kb => 'كيلوبايت';
+
+  @override
+  String get mb => 'ميجابايت';
+
+  @override
+  String get gb => 'جيجابايت';
+
+  @override
+  String get loading => 'جاري التحميل...';
+
+  @override
+  String get error => 'خطأ';
+
+  @override
+  String get success => 'نجح';
+
+  @override
+  String get warning => 'تحذير';
+
+  @override
+  String get info => 'معلومات';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String get ok => 'موافق';
+
+  @override
+  String get yes => 'نعم';
+
+  @override
+  String get no => 'لا';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get add => 'إضافة';
+
+  @override
+  String get remove => 'إزالة';
+
+  @override
+  String get search => 'بحث';
+
+  @override
+  String get filter => 'تصفية';
+
+  @override
+  String get sort => 'ترتيب';
+
+  @override
+  String get refresh => 'تحديث';
+
+  @override
+  String get share => 'مشاركة';
+
+  @override
+  String get copy => 'نسخ';
+
+  @override
+  String get paste => 'لصق';
+
+  @override
+  String get clear => 'مسح';
+
+  @override
+  String get submit => 'إرسال';
+
+  @override
+  String get confirm => 'تأكيد';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get next => 'التالي';
+
+  @override
+  String get previous => 'السابق';
+
+  @override
+  String get done => 'تم';
+
+  @override
+  String get skip => 'تخطي';
+
+  @override
+  String get continueAction => 'متابعة';
+
+  @override
+  String get finish => 'إنهاء';
 }

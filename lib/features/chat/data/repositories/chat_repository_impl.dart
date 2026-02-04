@@ -1,10 +1,11 @@
 // lib/features/chat/data/repositories/chat_repository_impl.dart
 import 'dart:async';
 
-import 'package:dartz/dartz.dart';
-import 'package:flavorizr/core/error/failures.dart';
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:flavorizr/core/network/base/repo/base_repository.dart';
 import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+import 'package:flavorizr/core/network/network_info.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/core/network/websocket/websocket.dart';
 import 'package:flavorizr/features/chat/data/datasources/chat_local_datasource.dart';
 import 'package:flavorizr/features/chat/data/datasources/chat_remote_datasource.dart';
@@ -17,16 +18,23 @@ import 'package:path_provider/path_provider.dart';
 /// Implementation of [ChatRepository].
 ///
 /// Combines remote and local data sources with real-time WebSocket events.
-class ChatRepositoryImpl implements ChatRepository {
+class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   ChatRepositoryImpl({
     required ChatRemoteDataSource remoteDataSource,
     required ChatLocalDataSource localDataSource,
     required WebSocketManager webSocketManager,
+    required NetworkInfo networkInfo,
   }) : _remoteDataSource = remoteDataSource,
        _localDataSource = localDataSource,
-       _webSocketManager = webSocketManager {
+       _webSocketManager = webSocketManager,
+       _networkInfo = networkInfo {
     _setupWebSocketListeners();
   }
+  final NetworkInfo _networkInfo;
+
+  @override
+  NetworkInfo get networkInfo => _networkInfo;
+
   final ChatRemoteDataSource _remoteDataSource;
   final ChatLocalDataSource _localDataSource;
   final WebSocketManager _webSocketManager;
@@ -91,13 +99,14 @@ class ChatRepositoryImpl implements ChatRepository {
     });
   }
 
-  void _updateConversationLastMessage(Message message) {
+  Future<void> _updateConversationLastMessage(Message message) async {
     // Update the conversation's last message in cache
-    final conversations = _localDataSource.getCachedConversations();
-    if (conversations != null) {
-      final index = conversations.indexWhere((c) => c.id == message.conversationId);
+    final conversations = await _localDataSource.getCachedConversations();
+    final conversationData = conversations.data;
+    if (conversationData != null) {
+      final index = conversationData.indexWhere((c) => c.id == message.conversationId);
       if (index >= 0) {
-        final updated = conversations[index].copyWith(
+        final updated = conversationData[index].copyWith(
           lastMessage: message,
           updatedAt: message.createdAt,
         );
@@ -110,7 +119,7 @@ class ChatRepositoryImpl implements ChatRepository {
   // ==================== Conversations ====================
 
   @override
-  Future<Either<Failure, PaginatedResult<Conversation>>> getConversations({
+  Future<ApiResult<PaginatedResult<Conversation>>> getConversations({
     String? cursor,
     int limit = 20,
     bool includeArchived = false,
@@ -118,37 +127,44 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       // Try to get cached data first (only for first page)
       if (cursor == null) {
-        final cached = _localDataSource.getCachedConversations();
-        if (cached != null && cached.isNotEmpty) {
+        final cached = await _localDataSource.getCachedConversations();
+        if (cached.data != null && (cached.data?.isNotEmpty ?? false)) {
           // Return cached data and fetch fresh data in background
           _fetchAndCacheConversations(limit: limit, includeArchived: includeArchived);
-          return Right(
-            PaginatedResult(items: cached.take(limit).toList(), hasMore: cached.length > limit),
+          return ApiResult.success(
+            PaginatedResult(
+              items: cached.data!.take(limit).toList(),
+              hasMore: cached.data!.length > limit,
+            ),
           );
         }
       }
 
-      final result = await _remoteDataSource.getConversations(
-        cursor: cursor,
-        limit: limit,
-        includeArchived: includeArchived,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.getConversations(
+          cursor: cursor,
+          limit: limit,
+          includeArchived: includeArchived,
+        ),
       );
 
       // Cache if first page
-      if (cursor == null) {
-        _localDataSource.cacheConversations(result.items);
+      if (cursor == null && result.isSuccess) {
+        _localDataSource.cacheConversations(result.data!.items);
       }
 
-      return Right(result);
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to get conversations',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to load conversations'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to load conversations', exception: e),
+      );
     }
   }
 
@@ -157,260 +173,314 @@ class ChatRepositoryImpl implements ChatRepository {
     required bool includeArchived,
   }) async {
     try {
-      final result = await _remoteDataSource.getConversations(
-        limit: limit,
-        includeArchived: includeArchived,
+      final result = await executeRemoteRequest(
+        request: () =>
+            _remoteDataSource.getConversations(limit: limit, includeArchived: includeArchived),
       );
-      _localDataSource.cacheConversations(result.items);
+      if (result.isSuccess) {
+        _localDataSource.cacheConversations(result.data!.items);
+      }
     } catch (e) {
       AppLogger.instance.logWarning('Failed to refresh conversations cache');
     }
   }
 
   @override
-  Future<Either<Failure, Conversation>> getConversation(String id) async {
+  Future<ApiResult<Conversation>> getConversation(String id) async {
     try {
-      final result = await _remoteDataSource.getConversation(id);
-      _localDataSource.updateCachedConversation(result);
-      return Right(result);
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.getConversation(id),
+      );
+      if (result.isSuccess) {
+        _localDataSource.updateCachedConversation(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to get conversation',
         data: {'id': id, 'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to load conversation'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to load conversation', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, Conversation>> createDirectConversation({
-    required String otherUserId,
-  }) async {
+  Future<ApiResult<Conversation>> createDirectConversation({required String otherUserId}) async {
     try {
-      final result = await _remoteDataSource.createDirectConversation(otherUserId: otherUserId);
-      _localDataSource.updateCachedConversation(result);
-      return Right(result);
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.createDirectConversation(otherUserId: otherUserId),
+      );
+      if (result.isSuccess) {
+        _localDataSource.updateCachedConversation(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to create direct conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to create conversation'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to create conversation', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, Conversation>> createGroupConversation({
+  Future<ApiResult<Conversation>> createGroupConversation({
     required String name,
     required List<String> participantIds,
     String? description,
     String? imageUrl,
   }) async {
     try {
-      final result = await _remoteDataSource.createGroupConversation(
-        name: name,
-        participantIds: participantIds,
-        description: description,
-        imageUrl: imageUrl,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.createGroupConversation(
+          name: name,
+          participantIds: participantIds,
+          description: description,
+          imageUrl: imageUrl,
+        ),
       );
-      _localDataSource.updateCachedConversation(result);
-      return Right(result);
+      if (result.isSuccess) {
+        _localDataSource.updateCachedConversation(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to create group conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to create group'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to create group', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, Conversation>> updateConversation({
+  Future<ApiResult<Conversation>> updateConversation({
     required String conversationId,
     String? name,
     String? description,
     String? imageUrl,
   }) async {
     try {
-      final result = await _remoteDataSource.updateConversation(
-        conversationId: conversationId,
-        name: name,
-        description: description,
-        imageUrl: imageUrl,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.updateConversation(
+          conversationId: conversationId,
+          name: name,
+          description: description,
+          imageUrl: imageUrl,
+        ),
       );
-      _localDataSource.updateCachedConversation(result);
-      return Right(result);
+      if (result.isSuccess) {
+        _localDataSource.updateCachedConversation(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to update conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to update conversation'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to update conversation', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, Conversation>> addParticipants({
+  Future<ApiResult<Conversation>> addParticipants({
     required String conversationId,
     required List<String> userIds,
   }) async {
     try {
-      final result = await _remoteDataSource.addParticipants(
-        conversationId: conversationId,
-        userIds: userIds,
+      final result = await executeRemoteRequest(
+        request: () =>
+            _remoteDataSource.addParticipants(conversationId: conversationId, userIds: userIds),
       );
-      _localDataSource.updateCachedConversation(result);
-      return Right(result);
+      if (result.isSuccess) {
+        _localDataSource.updateCachedConversation(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to add participants',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to add participants'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to add participants', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> removeParticipant({
+  Future<ApiResult<void>> removeParticipant({
     required String conversationId,
     required String userId,
   }) async {
     try {
-      await _remoteDataSource.removeParticipant(conversationId: conversationId, userId: userId);
-      return const Right(null);
+      await executeRemoteRequest(
+        request: () =>
+            _remoteDataSource.removeParticipant(conversationId: conversationId, userId: userId),
+      );
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to remove participant',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to remove participant'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to remove participant', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> leaveConversation(String conversationId) async {
+  Future<ApiResult<void>> leaveConversation(String conversationId) async {
     try {
-      await _remoteDataSource.leaveConversation(conversationId);
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.leaveConversation(conversationId),
+      );
       _localDataSource.removeCachedConversation(conversationId);
-      return const Right(null);
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to leave conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to leave conversation'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to leave conversation', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> deleteConversation(String conversationId) async {
+  Future<ApiResult<void>> deleteConversation(String conversationId) async {
     try {
-      await _remoteDataSource.deleteConversation(conversationId);
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.deleteConversation(conversationId),
+      );
       _localDataSource.removeCachedConversation(conversationId);
       _localDataSource.clearMessagesCache(conversationId);
-      return const Right(null);
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to delete conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to delete conversation'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to delete conversation', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> muteConversation({
+  Future<ApiResult<void>> muteConversation({
     required String conversationId,
     required bool mute,
     Duration? duration,
   }) async {
     try {
-      await _remoteDataSource.muteConversation(
-        conversationId: conversationId,
-        mute: mute,
-        duration: duration,
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.muteConversation(
+          conversationId: conversationId,
+          mute: mute,
+          duration: duration,
+        ),
       );
-      return const Right(null);
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to mute conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to update mute settings'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to update mute settings', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> pinConversation({
+  Future<ApiResult<void>> pinConversation({
     required String conversationId,
     required bool pin,
   }) async {
     try {
-      await _remoteDataSource.pinConversation(conversationId: conversationId, pin: pin);
-      return const Right(null);
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.pinConversation(conversationId: conversationId, pin: pin),
+      );
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to pin conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to update pin settings'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to update pin settings', exception: e),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> archiveConversation({
+  Future<ApiResult<void>> archiveConversation({
     required String conversationId,
     required bool archive,
   }) async {
     try {
-      await _remoteDataSource.archiveConversation(conversationId: conversationId, archive: archive);
-      return const Right(null);
+      await executeRemoteRequest(
+        request: () =>
+            _remoteDataSource.archiveConversation(conversationId: conversationId, archive: archive),
+      );
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to archive conversation',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to update archive settings'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to update archive settings', exception: e),
+      );
     }
   }
 
   // ==================== Messages ====================
 
   @override
-  Future<Either<Failure, PaginatedResult<Message>>> getMessages({
+  Future<ApiResult<PaginatedResult<Message>>> getMessages({
     required String conversationId,
     String? cursor,
     int limit = 50,
@@ -419,71 +489,79 @@ class ChatRepositoryImpl implements ChatRepository {
     try {
       // Try cache first (only for first page)
       if (cursor == null) {
-        final cached = _localDataSource.getCachedMessages(conversationId);
-        if (cached != null && cached.isNotEmpty) {
+        final cached = await _localDataSource.getCachedMessages(conversationId);
+        if (cached.data != null && (cached.data?.isNotEmpty ?? false)) {
           _fetchAndCacheMessages(conversationId, limit: limit);
-          return Right(
-            PaginatedResult(items: cached.take(limit).toList(), hasMore: cached.length > limit),
+          return ApiResult.success(
+            PaginatedResult(
+              items: cached.data!.take(limit).toList(),
+              hasMore: cached.data!.length > limit,
+            ),
           );
         }
       }
 
-      final result = await _remoteDataSource.getMessages(
-        conversationId: conversationId,
-        cursor: cursor,
-        limit: limit,
-        direction: direction,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.getMessages(
+          conversationId: conversationId,
+          cursor: cursor,
+          limit: limit,
+          direction: direction,
+        ),
       );
 
       // Cache if first page
-      if (cursor == null) {
-        _localDataSource.cacheMessages(conversationId, result.items);
+      if (cursor == null && result.isSuccess) {
+        _localDataSource.cacheMessages(conversationId, result.data!.items);
       }
 
-      return Right(result);
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to get messages',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to load messages'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   Future<void> _fetchAndCacheMessages(String conversationId, {required int limit}) async {
     try {
-      final result = await _remoteDataSource.getMessages(
-        conversationId: conversationId,
-        limit: limit,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.getMessages(conversationId: conversationId, limit: limit),
       );
-      _localDataSource.cacheMessages(conversationId, result.items);
+      if (result.isSuccess) {
+        _localDataSource.cacheMessages(conversationId, result.data!.items);
+      }
     } catch (e) {
       AppLogger.instance.logWarning('Failed to refresh messages cache');
     }
   }
 
   @override
-  Future<Either<Failure, Message>> getMessage(String messageId) async {
+  Future<ApiResult<Message>> getMessage(String messageId) async {
     try {
-      final result = await _remoteDataSource.getMessage(messageId);
-      return Right(result);
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.getMessage(messageId),
+      );
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to get message',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to load message'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, Message>> sendMessage({
+  Future<ApiResult<Message>> sendMessage({
     required String conversationId,
     required String content,
     String? replyToId,
@@ -491,29 +569,33 @@ class ChatRepositoryImpl implements ChatRepository {
     String? localId,
   }) async {
     try {
-      final result = await _remoteDataSource.sendMessage(
-        conversationId: conversationId,
-        content: content,
-        replyToId: replyToId,
-        mentions: mentions,
-        localId: localId,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.sendMessage(
+          conversationId: conversationId,
+          content: content,
+          replyToId: replyToId,
+          mentions: mentions,
+          localId: localId,
+        ),
       );
-      _localDataSource.addMessageToCache(result);
-      return Right(result);
+      if (result.isSuccess) {
+        _localDataSource.addMessageToCache(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to send message',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to send message'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, Message>> sendMediaMessage({
+  Future<ApiResult<Message>> sendMediaMessage({
     required String conversationId,
     required String filePath,
     required String type,
@@ -523,188 +605,210 @@ class ChatRepositoryImpl implements ChatRepository {
     void Function(double progress)? onProgress,
   }) async {
     try {
-      final result = await _remoteDataSource.sendMediaMessage(
-        conversationId: conversationId,
-        filePath: filePath,
-        type: type,
-        caption: caption,
-        replyToId: replyToId,
-        localId: localId,
-        onProgress: onProgress,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.sendMediaMessage(
+          conversationId: conversationId,
+          filePath: filePath,
+          type: type,
+          caption: caption,
+          replyToId: replyToId,
+          localId: localId,
+          onProgress: onProgress,
+        ),
       );
-      _localDataSource.addMessageToCache(result);
-      return Right(result);
+      if (result.isSuccess) {
+        _localDataSource.addMessageToCache(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to send media message',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to send message'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, Message>> forwardMessage({
+  Future<ApiResult<Message>> forwardMessage({
     required String messageId,
     required String toConversationId,
   }) async {
     try {
-      final result = await _remoteDataSource.forwardMessage(
-        messageId: messageId,
-        toConversationId: toConversationId,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.forwardMessage(
+          messageId: messageId,
+          toConversationId: toConversationId,
+        ),
       );
-      _localDataSource.addMessageToCache(result);
-      return Right(result);
+      if (result.isSuccess) {
+        _localDataSource.addMessageToCache(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to forward message',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to forward message'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, Message>> editMessage({
+  Future<ApiResult<Message>> editMessage({
     required String messageId,
     required String content,
   }) async {
     try {
-      final result = await _remoteDataSource.editMessage(messageId: messageId, content: content);
-      _localDataSource.updateCachedMessage(result);
-      return Right(result);
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.editMessage(messageId: messageId, content: content),
+      );
+      if (result.isSuccess) {
+        _localDataSource.updateCachedMessage(result.data!);
+      }
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to edit message',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to edit message'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, void>> deleteMessage({
+  Future<ApiResult<void>> deleteMessage({
     required String messageId,
     bool forEveryone = false,
   }) async {
     try {
-      await _remoteDataSource.deleteMessage(messageId: messageId, forEveryone: forEveryone);
-      return const Right(null);
+      await executeRemoteRequest(
+        request: () =>
+            _remoteDataSource.deleteMessage(messageId: messageId, forEveryone: forEveryone),
+      );
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to delete message',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to delete message'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, void>> markAsRead({
+  Future<ApiResult<void>> markAsRead({
     required String conversationId,
     String? upToMessageId,
   }) async {
     try {
-      await _remoteDataSource.markAsRead(
-        conversationId: conversationId,
-        upToMessageId: upToMessageId,
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.markAsRead(
+          conversationId: conversationId,
+          upToMessageId: upToMessageId,
+        ),
       );
-      return const Right(null);
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to mark as read',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to mark as read'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, void>> addReaction({
-    required String messageId,
-    required String reaction,
-  }) async {
+  Future<ApiResult<void>> addReaction({required String messageId, required String reaction}) async {
     try {
-      await _remoteDataSource.addReaction(messageId: messageId, reaction: reaction);
-      return const Right(null);
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.addReaction(messageId: messageId, reaction: reaction),
+      );
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to add reaction',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to add reaction'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, void>> removeReaction({
+  Future<ApiResult<void>> removeReaction({
     required String messageId,
     required String reaction,
   }) async {
     try {
-      await _remoteDataSource.removeReaction(messageId: messageId, reaction: reaction);
-      return const Right(null);
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.removeReaction(messageId: messageId, reaction: reaction),
+      );
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to remove reaction',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to remove reaction'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, void>> pinMessage({required String messageId, required bool pin}) async {
+  Future<ApiResult<void>> pinMessage({required String messageId, required bool pin}) async {
     try {
-      await _remoteDataSource.pinMessage(messageId: messageId, pin: pin);
-      return const Right(null);
+      await executeRemoteRequest(
+        request: () => _remoteDataSource.pinMessage(messageId: messageId, pin: pin),
+      );
+      return const ApiResult.success(null);
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to pin message',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to pin message'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, List<Message>>> getPinnedMessages(String conversationId) async {
+  Future<ApiResult<List<Message>>> getPinnedMessages(String conversationId) async {
     try {
-      final result = await _remoteDataSource.getPinnedMessages(conversationId);
-      return Right(result);
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.getPinnedMessages(conversationId),
+      );
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to get pinned messages',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to load pinned messages'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
@@ -763,86 +867,89 @@ class ChatRepositoryImpl implements ChatRepository {
   // ==================== Search ====================
 
   @override
-  Future<Either<Failure, PaginatedResult<Message>>> searchMessages({
+  Future<ApiResult<PaginatedResult<Message>>> searchMessages({
     required String conversationId,
     required String query,
     String? cursor,
     int limit = 20,
   }) async {
     try {
-      final result = await _remoteDataSource.searchMessages(
-        conversationId: conversationId,
-        query: query,
-        cursor: cursor,
-        limit: limit,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.searchMessages(
+          conversationId: conversationId,
+          query: query,
+          cursor: cursor,
+          limit: limit,
+        ),
       );
-      return Right(result);
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to search messages',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Search failed'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, PaginatedResult<Message>>> searchAllMessages({
+  Future<ApiResult<PaginatedResult<Message>>> searchAllMessages({
     required String query,
     String? cursor,
     int limit = 20,
   }) async {
     try {
-      final result = await _remoteDataSource.searchAllMessages(
-        query: query,
-        cursor: cursor,
-        limit: limit,
+      final result = await executeRemoteRequest(
+        request: () =>
+            _remoteDataSource.searchAllMessages(query: query, cursor: cursor, limit: limit),
       );
-      return Right(result);
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to search all messages',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Search failed'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   // ==================== Media ====================
 
   @override
-  Future<Either<Failure, String>> uploadAttachment({
+  Future<ApiResult<String>> uploadAttachment({
     required String filePath,
     required String conversationId,
     void Function(double progress)? onProgress,
   }) async {
     try {
-      final result = await _remoteDataSource.uploadAttachment(
-        filePath: filePath,
-        conversationId: conversationId,
-        onProgress: onProgress,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.uploadAttachment(
+          filePath: filePath,
+          conversationId: conversationId,
+          onProgress: onProgress,
+        ),
       );
-      return Right(result);
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to upload attachment',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to upload file'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 
   @override
-  Future<Either<Failure, String>> downloadAttachment({
+  Future<ApiResult<String>> downloadAttachment({
     required String url,
     required String fileName,
     void Function(double progress)? onProgress,
@@ -851,21 +958,23 @@ class ChatRepositoryImpl implements ChatRepository {
       final directory = await getApplicationDocumentsDirectory();
       final savePath = '${directory.path}/downloads/$fileName';
 
-      final result = await _remoteDataSource.downloadAttachment(
-        url: url,
-        savePath: savePath,
-        onProgress: onProgress,
+      final result = await executeRemoteRequest(
+        request: () => _remoteDataSource.downloadAttachment(
+          url: url,
+          savePath: savePath,
+          onProgress: onProgress,
+        ),
       );
-      return Right(result);
+      return result;
     } on NetworkException catch (e) {
-      return Left(ServerFailure(message: e.message, statusCode: e.statusCode));
+      return ApiResult.exception(e);
     } catch (e, s) {
       AppLogger.instance.logError(
         'Failed to download attachment',
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return const Left(ServerFailure(message: 'Failed to download file'));
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
     }
   }
 

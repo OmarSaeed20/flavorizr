@@ -1,6 +1,6 @@
 // lib/features/splash/data/repositories/splash_repository_impl.dart
-import 'package:dartz/dartz.dart';
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/splash/data/datasources/splash_local_datasource.dart';
 import 'package:flavorizr/features/splash/domain/repositories/splash_repository.dart';
 
@@ -12,64 +12,74 @@ class SplashRepositoryImpl implements SplashRepository {
   final SplashLocalDataSource _localDataSource;
 
   @override
-  Future<Either<Failure, bool>> isAuthenticated() async {
+  Future<ApiResult<bool>> isAuthenticated() async {
     try {
       final hasToken = await _localDataSource.hasValidToken();
-      return Right(hasToken);
+      return ApiResult.success(hasToken);
     } catch (e) {
-      return Left(CacheFailure(message: 'Failed to check authentication status: $e'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to check authentication status: $e'),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, bool>> isOnboardingCompleted() async {
+  Future<ApiResult<bool>> isOnboardingCompleted() async {
     try {
       final completed = await _localDataSource.isOnboardingCompleted();
-      return Right(completed);
+      return ApiResult.success(completed);
     } catch (e) {
-      return Left(CacheFailure(message: 'Failed to check onboarding status: $e'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to check onboarding status: $e'),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, bool>> isFirstLaunch() async {
+  Future<ApiResult<bool>> isFirstLaunch() async {
     try {
       final isFirst = await _localDataSource.isFirstLaunch();
-      return Right(isFirst);
+      return ApiResult.success(isFirst);
     } catch (e) {
-      return Left(CacheFailure(message: 'Failed to check first launch status: $e'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to check first launch status: $e'),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> markFirstLaunchCompleted() async {
+  Future<ApiResult<void>> markFirstLaunchCompleted() async {
     try {
       await _localDataSource.markFirstLaunchCompleted();
-      return const Right(null);
+      return const ApiResult.success(null);
     } catch (e) {
-      return Left(CacheFailure(message: 'Failed to mark first launch completed: $e'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to mark first launch completed: $e'),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, String?>> getCachedToken() async {
+  Future<ApiResult<String?>> getCachedToken() async {
     try {
       final token = await _localDataSource.getCachedToken();
-      return Right(token);
+      return ApiResult.success(token);
     } catch (e) {
-      return Left(CacheFailure(message: 'Failed to get cached token: $e'));
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to get cached token: $e'),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, void>> initializeApp() async {
+  Future<ApiResult<void>> initializeApp() async {
     try {
       // Add any app initialization logic here
       // For example: checking app version, migrations, etc.
       await Future<void>.delayed(const Duration(milliseconds: 500));
-      return const Right(null);
+      return const ApiResult.success(null);
     } catch (e) {
-      return Left(CacheFailure(message: 'Failed to initialize app: $e'));
+      return ApiResult.exception(UnknownNetworkException(message: 'Failed to initialize app: $e'));
     }
   }
 }

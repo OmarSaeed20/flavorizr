@@ -1,8 +1,9 @@
 // lib/shared/domain/usecases/usecase.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 
 /// Type alias for use case result handling.
-typedef UseCaseResult<T> = Future<({T? data, Failure? failure})>;
+typedef UseCaseResult<T> = Future<ApiResult<T>>;
+typedef UseCaseStreamResult<T> = Stream<ApiResult<T>>;
 
 /// Base interface for all use cases.
 ///
@@ -34,43 +35,5 @@ abstract class StreamUseCase<T, Params> {
   const StreamUseCase();
 
   /// Returns a stream of data.
-  Stream<({T? data, Failure? failure})> call(Params params);
-}
-
-/// Helper extension for working with use case results.
-extension UseCaseResultExtension<T> on ({T? data, Failure? failure}) {
-  /// Returns true if the result is successful.
-  bool get isSuccess => failure == null && data != null;
-
-  /// Returns true if the result is a failure.
-  bool get isFailure => failure != null;
-
-  /// Maps the success value to another type.
-  ({R? data, Failure? failure}) map<R>(R Function(T data) mapper) {
-    if (isSuccess) {
-      return (data: mapper(data as T), failure: null);
-    }
-    return (data: null, failure: failure);
-  }
-
-  /// Handles both success and failure cases.
-  R fold<R>(R Function(Failure failure) onFailure, R Function(T data) onSuccess) {
-    if (isFailure) {
-      return onFailure(failure!);
-    }
-    return onSuccess(data as T);
-  }
-}
-
-/// Helper class to create results easily.
-class Result {
-  /// Creates a success result.
-  static ({T? data, Failure? failure}) success<T>(T data) {
-    return (data: data, failure: null);
-  }
-
-  /// Creates a failure result.
-  static ({T? data, Failure? failure}) failure<T>(Failure failure) {
-    return (data: null, failure: failure);
-  }
+  UseCaseStreamResult<T> call(Params params);
 }

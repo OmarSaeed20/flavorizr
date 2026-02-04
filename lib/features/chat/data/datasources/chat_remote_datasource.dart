@@ -1,7 +1,10 @@
 // lib/features/chat/data/datasources/chat_remote_datasource.dart
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flavorizr/core/network/api_client.dart';
+import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
+import 'package:flavorizr/features/chat/data/endpoints/chat_endpoints.dart';
 import 'package:flavorizr/features/chat/domain/entities/conversation.dart';
 import 'package:flavorizr/features/chat/domain/entities/message.dart';
 import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart';
@@ -9,9 +12,15 @@ import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart
 /// Remote data source for chat operations.
 ///
 /// Handles all REST API calls for chat functionality.
-class ChatRemoteDataSource {
+class ChatRemoteDataSource with BaseRemoteDataSource {
   ChatRemoteDataSource(this._apiClient);
   final ApiClient _apiClient;
+
+  @override
+  Dio get dio => _apiClient.dio;
+
+  @override
+  String get baseUrl => _apiClient.dio.options.baseUrl;
 
   // ==================== Conversations ====================
 
@@ -20,8 +29,8 @@ class ChatRemoteDataSource {
     int limit = 20,
     bool includeArchived = false,
   }) async {
-    final response = await _apiClient.get(
-      '/conversations',
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.conversations,
       queryParameters: {
         if (cursor != null) 'cursor': cursor,
         'limit': limit,
@@ -29,7 +38,11 @@ class ChatRemoteDataSource {
       },
     );
 
-    final data = response.data as Map<String, dynamic>;
+    if (result.isError) {
+      throw result.error!;
+    }
+
+    final data = result.data!;
     final items = (data['items'] as List<dynamic>)
         .map((e) => Conversation.fromMap(e as Map<String, dynamic>))
         .toList();
@@ -43,16 +56,22 @@ class ChatRemoteDataSource {
   }
 
   Future<Conversation> getConversation(String id) async {
-    final response = await _apiClient.get('/conversations/$id');
-    return Conversation.fromMap(response.data as Map<String, dynamic>);
+    final result = await get<Map<String, dynamic>>(path: ChatEndpoints.conversationById(id));
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Conversation.fromMap(result.data!);
   }
 
   Future<Conversation> createDirectConversation({required String otherUserId}) async {
-    final response = await _apiClient.post(
-      '/conversations/direct',
+    final result = await post<Map<String, dynamic>>(
+      path: ChatEndpoints.createDirectConversation,
       data: {'other_user_id': otherUserId},
     );
-    return Conversation.fromMap(response.data as Map<String, dynamic>);
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Conversation.fromMap(result.data!);
   }
 
   Future<Conversation> createGroupConversation({
@@ -61,8 +80,8 @@ class ChatRemoteDataSource {
     String? description,
     String? imageUrl,
   }) async {
-    final response = await _apiClient.post(
-      '/conversations/group',
+    final result = await post<Map<String, dynamic>>(
+      path: ChatEndpoints.createGroupConversation,
       data: {
         'name': name,
         'participant_ids': participantIds,
@@ -70,7 +89,10 @@ class ChatRemoteDataSource {
         if (imageUrl != null) 'image_url': imageUrl,
       },
     );
-    return Conversation.fromMap(response.data as Map<String, dynamic>);
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Conversation.fromMap(result.data!);
   }
 
   Future<Conversation> updateConversation({
@@ -79,38 +101,55 @@ class ChatRemoteDataSource {
     String? description,
     String? imageUrl,
   }) async {
-    final response = await _apiClient.patch(
-      '/conversations/$conversationId',
+    final result = await patch<Map<String, dynamic>>(
+      path: ChatEndpoints.updateConversation(conversationId),
       data: {
         if (name != null) 'name': name,
         if (description != null) 'description': description,
         if (imageUrl != null) 'image_url': imageUrl,
       },
     );
-    return Conversation.fromMap(response.data as Map<String, dynamic>);
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Conversation.fromMap(result.data!);
   }
 
   Future<Conversation> addParticipants({
     required String conversationId,
     required List<String> userIds,
   }) async {
-    final response = await _apiClient.post(
-      '/conversations/$conversationId/participants',
+    final result = await post<Map<String, dynamic>>(
+      path: ChatEndpoints.addParticipants(conversationId),
       data: {'user_ids': userIds},
     );
-    return Conversation.fromMap(response.data as Map<String, dynamic>);
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Conversation.fromMap(result.data!);
   }
 
   Future<void> removeParticipant({required String conversationId, required String userId}) async {
-    await _apiClient.delete('/conversations/$conversationId/participants/$userId');
+    final result = await delete<void>(
+      path: ChatEndpoints.removeParticipant(conversationId, userId),
+    );
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> leaveConversation(String conversationId) async {
-    await _apiClient.post('/conversations/$conversationId/leave');
+    final result = await post<void>(path: ChatEndpoints.leaveConversation(conversationId));
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> deleteConversation(String conversationId) async {
-    await _apiClient.delete('/conversations/$conversationId');
+    final result = await delete<void>(path: ChatEndpoints.deleteConversation(conversationId));
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> muteConversation({
@@ -118,18 +157,33 @@ class ChatRemoteDataSource {
     required bool mute,
     Duration? duration,
   }) async {
-    await _apiClient.post(
-      '/conversations/$conversationId/mute',
+    final result = await post<void>(
+      path: ChatEndpoints.muteConversation(conversationId),
       data: {'mute': mute, if (duration != null) 'duration_seconds': duration.inSeconds},
     );
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> pinConversation({required String conversationId, required bool pin}) async {
-    await _apiClient.post('/conversations/$conversationId/pin', data: {'pin': pin});
+    final result = await post<void>(
+      path: ChatEndpoints.pinConversation(conversationId),
+      data: {'pin': pin},
+    );
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> archiveConversation({required String conversationId, required bool archive}) async {
-    await _apiClient.post('/conversations/$conversationId/archive', data: {'archive': archive});
+    final result = await post<void>(
+      path: ChatEndpoints.archiveConversation(conversationId),
+      data: {'archive': archive},
+    );
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   // ==================== Messages ====================
@@ -140,8 +194,8 @@ class ChatRemoteDataSource {
     int limit = 50,
     String direction = 'before',
   }) async {
-    final response = await _apiClient.get(
-      '/conversations/$conversationId/messages',
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.getMessages(conversationId),
       queryParameters: {
         if (cursor != null) 'cursor': cursor,
         'limit': limit,
@@ -149,7 +203,11 @@ class ChatRemoteDataSource {
       },
     );
 
-    final data = response.data as Map<String, dynamic>;
+    if (result.isError) {
+      throw result.error!;
+    }
+
+    final data = result.data!;
     final items = (data['items'] as List<dynamic>)
         .map((e) => Message.fromMap(e as Map<String, dynamic>))
         .toList();
@@ -162,8 +220,11 @@ class ChatRemoteDataSource {
   }
 
   Future<Message> getMessage(String messageId) async {
-    final response = await _apiClient.get('/messages/$messageId');
-    return Message.fromMap(response.data as Map<String, dynamic>);
+    final result = await get<Map<String, dynamic>>(path: ChatEndpoints.getMessage(messageId));
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Message.fromMap(result.data!);
   }
 
   Future<Message> sendMessage({
@@ -173,8 +234,8 @@ class ChatRemoteDataSource {
     List<String>? mentions,
     String? localId,
   }) async {
-    final response = await _apiClient.post(
-      '/conversations/$conversationId/messages',
+    final result = await post<Map<String, dynamic>>(
+      path: ChatEndpoints.sendMessage(conversationId),
       data: {
         'content': content,
         if (replyToId != null) 'reply_to_id': replyToId,
@@ -182,7 +243,10 @@ class ChatRemoteDataSource {
         if (localId != null) 'local_id': localId,
       },
     );
-    return Message.fromMap(response.data as Map<String, dynamic>);
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Message.fromMap(result.data!);
   }
 
   Future<Message> sendMediaMessage({
@@ -194,65 +258,102 @@ class ChatRemoteDataSource {
     String? localId,
     void Function(double progress)? onProgress,
   }) async {
-    final response = await _apiClient.uploadFile(
-      '/conversations/$conversationId/messages/media',
-      filePath: filePath,
-      fieldName: 'file',
-      additionalData: {
+    final formData = createFormData(
+      fields: {
         'type': type,
         if (caption != null) 'caption': caption,
         if (replyToId != null) 'reply_to_id': replyToId,
         if (localId != null) 'local_id': localId,
       },
+      files: [FileInfo(field: 'file', path: filePath)],
+    );
+
+    final result = await upload<Map<String, dynamic>>(
+      path: ChatEndpoints.sendMediaMessage(conversationId),
+      formData: formData,
       onSendProgress: onProgress != null ? (int sent, int total) => onProgress(sent / total) : null,
     );
-    return Message.fromMap(response.data as Map<String, dynamic>);
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Message.fromMap(result.data!);
   }
 
   Future<Message> forwardMessage({
     required String messageId,
     required String toConversationId,
   }) async {
-    final response = await _apiClient.post(
-      '/messages/$messageId/forward',
+    final result = await post<Map<String, dynamic>>(
+      path: ChatEndpoints.forwardMessage(messageId),
       data: {'to_conversation_id': toConversationId},
     );
-    return Message.fromMap(response.data as Map<String, dynamic>);
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Message.fromMap(result.data!);
   }
 
   Future<Message> editMessage({required String messageId, required String content}) async {
-    final response = await _apiClient.patch('/messages/$messageId', data: {'content': content});
-    return Message.fromMap(response.data as Map<String, dynamic>);
+    final result = await patch<Map<String, dynamic>>(
+      path: ChatEndpoints.editMessage(messageId),
+      data: {'content': content},
+    );
+    if (result.isError) {
+      throw result.error!;
+    }
+    return Message.fromMap(result.data!);
   }
 
   Future<void> deleteMessage({required String messageId, bool forEveryone = false}) async {
-    await _apiClient.delete('/messages/$messageId', queryParameters: {'for_everyone': forEveryone});
+    final result = await delete<void>(
+      path: ChatEndpoints.deleteMessage(messageId),
+      queryParameters: {'for_everyone': forEveryone},
+    );
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> markAsRead({required String conversationId, String? upToMessageId}) async {
-    await _apiClient.post(
-      '/conversations/$conversationId/read',
+    final result = await post<void>(
+      path: ChatEndpoints.markConversationAsRead(conversationId),
       data: {if (upToMessageId != null) 'up_to_message_id': upToMessageId},
     );
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> addReaction({required String messageId, required String reaction}) async {
-    await _apiClient.post('/messages/$messageId/reactions', data: {'reaction': reaction});
+    final result = await post<void>(
+      path: ChatEndpoints.addReaction(messageId),
+      data: {'reaction': reaction},
+    );
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> removeReaction({required String messageId, required String reaction}) async {
-    await _apiClient.delete('/messages/$messageId/reactions/$reaction');
+    final result = await delete<void>(path: ChatEndpoints.removeReaction(messageId, reaction));
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<void> pinMessage({required String messageId, required bool pin}) async {
-    await _apiClient.post('/messages/$messageId/pin', data: {'pin': pin});
+    final result = await post<void>(path: ChatEndpoints.pinMessage(messageId), data: {'pin': pin});
+    if (result.isError) {
+      throw result.error!;
+    }
   }
 
   Future<List<Message>> getPinnedMessages(String conversationId) async {
-    final response = await _apiClient.get('/conversations/$conversationId/messages/pinned');
-    return (response.data as List<dynamic>)
-        .map((e) => Message.fromMap(e as Map<String, dynamic>))
-        .toList();
+    final result = await get<List<dynamic>>(path: ChatEndpoints.getPinnedMessages(conversationId));
+    if (result.isError) {
+      throw result.error!;
+    }
+    return result.data!.map((e) => Message.fromMap(e as Map<String, dynamic>)).toList();
   }
 
   // ==================== Search ====================
@@ -263,12 +364,16 @@ class ChatRemoteDataSource {
     String? cursor,
     int limit = 20,
   }) async {
-    final response = await _apiClient.get(
-      '/conversations/$conversationId/messages/search',
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.searchMessages(conversationId),
       queryParameters: {'q': query, if (cursor != null) 'cursor': cursor, 'limit': limit},
     );
 
-    final data = response.data as Map<String, dynamic>;
+    if (result.isError) {
+      throw result.error!;
+    }
+
+    final data = result.data!;
     final items = (data['items'] as List<dynamic>)
         .map((e) => Message.fromMap(e as Map<String, dynamic>))
         .toList();
@@ -285,12 +390,16 @@ class ChatRemoteDataSource {
     String? cursor,
     int limit = 20,
   }) async {
-    final response = await _apiClient.get(
-      '/messages/search',
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.searchAllMessages,
       queryParameters: {'q': query, if (cursor != null) 'cursor': cursor, 'limit': limit},
     );
 
-    final data = response.data as Map<String, dynamic>;
+    if (result.isError) {
+      throw result.error!;
+    }
+
+    final data = result.data!;
     final items = (data['items'] as List<dynamic>)
         .map((e) => Message.fromMap(e as Map<String, dynamic>))
         .toList();
@@ -309,15 +418,22 @@ class ChatRemoteDataSource {
     required String conversationId,
     void Function(double progress)? onProgress,
   }) async {
-    final response = await _apiClient.uploadFile(
-      '/attachments/upload',
-      filePath: filePath,
-      fieldName: 'file',
-      additionalData: {'conversation_id': conversationId},
+    final formData = createFormData(
+      fields: {'conversation_id': conversationId},
+      files: [FileInfo(field: 'file', path: filePath)],
+    );
+
+    final result = await upload<Map<String, dynamic>>(
+      path: ChatEndpoints.uploadAttachment,
+      formData: formData,
       onSendProgress: onProgress != null ? (int sent, int total) => onProgress(sent / total) : null,
     );
 
-    return response.data['url'] as String;
+    if (result.isError) {
+      throw result.error!;
+    }
+
+    return result.data!['url'] as String;
   }
 
   Future<String> downloadAttachment({
@@ -325,14 +441,18 @@ class ChatRemoteDataSource {
     required String savePath,
     void Function(double progress)? onProgress,
   }) async {
-    // Use Dio directly for download
-    await _apiClient.dio.download(
-      url,
-      savePath,
+    final result = await download(
+      urlPath: url,
+      savePath: savePath,
       onReceiveProgress: onProgress != null
           ? (int received, int total) => onProgress(received / total)
           : null,
     );
-    return savePath;
+
+    if (result.isError) {
+      throw result.error!;
+    }
+
+    return result.data!;
   }
 }

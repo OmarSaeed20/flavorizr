@@ -1,5 +1,5 @@
 // lib/features/auth/presentation/providers/auth_providers.dart
-import 'package:dio/dio.dart';
+import 'package:flavorizr/core/di/providers.dart';
 import 'package:flavorizr/core/network/network_info.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:flavorizr/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -35,11 +35,6 @@ final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
   );
 });
 
-/// Provider for Dio HTTP client.
-final dioProvider = Provider<Dio>((ref) {
-  throw UnimplementedError('Dio must be overridden');
-});
-
 /// Provider for NetworkInfo.
 final networkInfoProvider = Provider<NetworkInfo>((ref) {
   return NetworkInfoImpl();
@@ -59,8 +54,8 @@ final googleSignInProvider = Provider<GoogleSignIn>((ref) {
 
 /// Provider for AuthRemoteDataSource.
 final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
-  final dio = ref.watch(dioProvider);
-  return AuthRemoteDataSourceImpl(dio);
+  final apiClient = ref.watch(apiClientProvider);
+  return AuthRemoteDataSourceImpl(apiClient);
 });
 
 /// Provider for AuthLocalDataSource.

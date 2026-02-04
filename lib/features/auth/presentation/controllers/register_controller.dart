@@ -78,7 +78,7 @@ class RegisterState {
 }
 
 /// Controller for the registration page using Riverpod 3.x Notifier.
-class RegisterController extends Notifier<RegisterState> {
+class RegisterController extends AutoDisposeNotifier<RegisterState> {
   late final RegisterUseCase _registerUseCase;
 
   @override
@@ -233,8 +233,8 @@ class RegisterController extends Notifier<RegisterState> {
         ),
       );
 
-      if (result.failure != null) {
-        state = state.copyWith(isLoading: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return null;
       }
 

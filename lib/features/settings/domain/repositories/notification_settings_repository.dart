@@ -1,5 +1,5 @@
 // lib/features/settings/domain/repositories/notification_settings_repository.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/settings/domain/entities/notification_settings.dart';
 
 /// Repository interface for notification settings operations.
@@ -10,19 +10,17 @@ abstract class NotificationSettingsRepository {
   /// Gets the current notification settings.
   ///
   /// Returns the settings if found, or default settings if not.
-  Future<({NotificationSettings? data, Failure? failure})> getSettings();
+  Future<ApiResult<NotificationSettings>> getSettings();
 
   /// Updates the notification settings.
   ///
   /// Returns the updated settings on success.
-  Future<({NotificationSettings? data, Failure? failure})> updateSettings(
-    NotificationSettings settings,
-  );
+  Future<ApiResult<NotificationSettings>> updateSettings(NotificationSettings settings);
 
   /// Resets the notification settings to defaults.
   ///
   /// Returns the default settings on success.
-  Future<({NotificationSettings? data, Failure? failure})> resetToDefaults();
+  Future<ApiResult<NotificationSettings>> resetToDefaults();
 
   /// Gets the cached notification settings.
   Future<NotificationSettings?> getCachedSettings();
@@ -31,7 +29,7 @@ abstract class NotificationSettingsRepository {
   Future<void> cacheSettings(NotificationSettings settings);
 
   /// Clears the cached settings.
-  Future<void> clearCache();
+  Future<void> clearSettingsCache();
 
   /// Stream of notification settings updates.
   Stream<NotificationSettings> get settingsUpdates;

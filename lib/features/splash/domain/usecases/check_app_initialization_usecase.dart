@@ -1,6 +1,5 @@
 // lib/features/splash/domain/usecases/check_app_initialization_usecase.dart
-import 'package:dartz/dartz.dart';
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/splash/domain/repositories/splash_repository.dart';
 
 /// Result of the app initialization check.
@@ -28,29 +27,32 @@ class CheckAppInitializationUseCase {
   /// Executes the use case.
   ///
   /// Returns [InitializationResult] indicating where to navigate.
-  Future<Either<Failure, InitializationResult>> call() async {
+  Future<ApiResult<InitializationResult>> call() async {
     // First, initialize the app
     final initResult = await _repository.initializeApp();
-    if (initResult.isLeft()) {
-      return initResult.fold(Left.new, (_) => const Right(InitializationResult.login));
+    if (initResult.isError) {
+      return initResult.when(
+        success: (_, __) => const ApiResult.success(InitializationResult.login),
+        exception: ApiResult.exception,
+      );
     }
 
     // Check if onboarding is completed
     final onboardingResult = await _repository.isOnboardingCompleted();
-    final isOnboardingCompleted = onboardingResult.getOrElse(() => false);
+    final isOnboardingCompleted = onboardingResult.data ?? false;
 
     if (!isOnboardingCompleted) {
-      return const Right(InitializationResult.onboarding);
+      return const ApiResult.success(InitializationResult.onboarding);
     }
 
     // Check if user is authenticated
     final authResult = await _repository.isAuthenticated();
-    final isAuthenticated = authResult.getOrElse(() => false);
+    final isAuthenticated = authResult.data ?? false;
 
     if (isAuthenticated) {
-      return const Right(InitializationResult.home);
+      return const ApiResult.success(InitializationResult.home);
     }
 
-    return const Right(InitializationResult.login);
+    return const ApiResult.success(InitializationResult.login);
   }
 }

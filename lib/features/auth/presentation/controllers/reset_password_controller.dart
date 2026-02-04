@@ -68,7 +68,7 @@ class ResetPasswordState {
 enum PasswordStrength { weak, fair, good, strong }
 
 /// Controller for the reset password page using Riverpod 3.x Notifier.
-class ResetPasswordController extends Notifier<ResetPasswordState> {
+class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
   late final ResetPasswordUseCase _resetPasswordUseCase;
 
   @override
@@ -196,8 +196,8 @@ class ResetPasswordController extends Notifier<ResetPasswordState> {
         ),
       );
 
-      if (result.failure != null) {
-        state = state.copyWith(isLoading: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return false;
       }
 

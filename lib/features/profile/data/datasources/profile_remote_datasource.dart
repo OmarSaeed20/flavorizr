@@ -1,6 +1,9 @@
 // lib/features/profile/data/datasources/profile_remote_datasource.dart
+import 'package:dio/dio.dart';
 import 'package:flavorizr/core/network/api_client.dart';
 import 'package:flavorizr/core/network/api_endpoints.dart';
+import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/profile/data/models/profile_model.dart';
 import 'package:flavorizr/features/profile/domain/entities/profile.dart';
 import 'package:flavorizr/features/profile/domain/repositories/profile_repository.dart';
@@ -11,190 +14,230 @@ import 'package:flavorizr/features/profile/domain/repositories/profile_repositor
 /// Throws exceptions on errors which are caught by the repository.
 abstract class ProfileRemoteDataSource {
   /// Gets the current user's profile.
-  Future<ProfileModel> getCurrentProfile();
+  Future<ApiResult<ProfileModel>> getCurrentProfile();
 
   /// Gets a profile by user ID.
-  Future<ProfileModel> getProfileByUserId(String userId);
+  Future<ApiResult<ProfileModel>> getProfileByUserId(String userId);
 
   /// Gets a profile by username.
-  Future<ProfileModel> getProfileByUsername(String username);
+  Future<ApiResult<ProfileModel>> getProfileByUsername(String username);
 
   /// Updates the current user's profile.
-  Future<ProfileModel> updateProfile(ProfileUpdateData data);
+  Future<ApiResult<ProfileModel>> updateProfile(ProfileUpdateData data);
 
   /// Updates the profile photo.
-  Future<ProfileModel> updateProfilePhoto(String imagePath);
+  Future<ApiResult<ProfileModel>> updateProfilePhoto(String imagePath);
 
   /// Updates the cover photo.
-  Future<ProfileModel> updateCoverPhoto(String imagePath);
+  Future<ApiResult<ProfileModel>> updateCoverPhoto(String imagePath);
 
   /// Removes the profile photo.
-  Future<ProfileModel> removeProfilePhoto();
+  Future<ApiResult<ProfileModel>> removeProfilePhoto();
 
   /// Removes the cover photo.
-  Future<ProfileModel> removeCoverPhoto();
+  Future<ApiResult<ProfileModel>> removeCoverPhoto();
 
   /// Gets the current user's profile preferences.
-  Future<ProfilePreferencesModel> getPreferences();
+  Future<ApiResult<ProfilePreferencesModel>> getPreferences();
 
   /// Updates the current user's profile preferences.
-  Future<ProfilePreferencesModel> updatePreferences(ProfilePreferences preferences);
+  Future<ApiResult<ProfilePreferencesModel>> updatePreferences(ProfilePreferences preferences);
 
   /// Follows a user.
-  Future<void> followUser(String userId);
+  Future<ApiResult<void>> followUser(String userId);
 
   /// Unfollows a user.
-  Future<void> unfollowUser(String userId);
+  Future<ApiResult<void>> unfollowUser(String userId);
 
   /// Gets the list of followers for a user.
-  Future<List<ProfileModel>> getFollowers(String userId, {int page = 1, int limit = 20});
+  Future<ApiResult<List<ProfileModel>>> getFollowers(String userId, {int page = 1, int limit = 20});
 
   /// Gets the list of users being followed.
-  Future<List<ProfileModel>> getFollowing(String userId, {int page = 1, int limit = 20});
+  Future<ApiResult<List<ProfileModel>>> getFollowing(String userId, {int page = 1, int limit = 20});
 
   /// Checks if the current user is following another user.
-  Future<bool> isFollowing(String userId);
+  Future<ApiResult<bool>> isFollowing(String userId);
 
   /// Deletes the current user's account.
-  Future<void> deleteAccount(String password);
+  Future<ApiResult<void>> deleteAccount(String password);
 
   /// Exports all user data.
-  Future<String> exportUserData();
+  Future<ApiResult<String>> exportUserData();
 }
 
-/// Implementation of [ProfileRemoteDataSource] using ApiClient.
-class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
+/// Implementation of [ProfileRemoteDataSource] using BaseRemoteDataSource.
+class ProfileRemoteDataSourceImpl with BaseRemoteDataSource implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl(this._apiClient);
 
   final ApiClient _apiClient;
 
   @override
-  Future<ProfileModel> getCurrentProfile() async {
-    final response = await _apiClient.get<Map<String, dynamic>>(ApiEndpoints.currentProfile);
-    return ProfileModel.fromJson(response.data!);
-  }
+  Dio get dio => _apiClient.dio;
 
   @override
-  Future<ProfileModel> getProfileByUserId(String userId) async {
-    final response = await _apiClient.get<Map<String, dynamic>>(ApiEndpoints.profile(userId));
-    return ProfileModel.fromJson(response.data!);
-  }
+  String get baseUrl => _apiClient.dio.options.baseUrl;
 
   @override
-  Future<ProfileModel> getProfileByUsername(String username) async {
-    final response = await _apiClient.get<Map<String, dynamic>>(
-      ApiEndpoints.profileByUsername(username),
+  Future<ApiResult<ProfileModel>> getCurrentProfile() async {
+    return get<ProfileModel>(
+      path: ApiEndpoints.currentProfile,
+      decoder: (data) => ProfileModel.fromJson(data as Map<String, dynamic>),
     );
-    return ProfileModel.fromJson(response.data!);
   }
 
   @override
-  Future<ProfileModel> updateProfile(ProfileUpdateData data) async {
-    final response = await _apiClient.patch<Map<String, dynamic>>(
-      ApiEndpoints.currentProfile,
+  Future<ApiResult<ProfileModel>> getProfileByUserId(String userId) async {
+    return get<ProfileModel>(
+      path: ApiEndpoints.profile(userId),
+      decoder: (data) => ProfileModel.fromJson(data as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<ApiResult<ProfileModel>> getProfileByUsername(String username) async {
+    return get<ProfileModel>(
+      path: ApiEndpoints.profileByUsername(username),
+      decoder: (data) => ProfileModel.fromJson(data as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<ApiResult<ProfileModel>> updateProfile(ProfileUpdateData data) async {
+    return patch<ProfileModel>(
+      path: ApiEndpoints.currentProfile,
       data: data.toJson(),
+      decoder: (responseData) => ProfileModel.fromJson(responseData as Map<String, dynamic>),
     );
-    return ProfileModel.fromJson(response.data!);
   }
 
   @override
-  Future<ProfileModel> updateProfilePhoto(String imagePath) async {
-    final response = await _apiClient.uploadFile<Map<String, dynamic>>(
-      ApiEndpoints.profilePhoto,
-      filePath: imagePath,
-      fieldName: 'photo',
+  Future<ApiResult<ProfileModel>> updateProfilePhoto(String imagePath) async {
+    final formData = createFormData(
+      fields: {},
+      files: [FileInfo(field: 'photo', path: imagePath)],
     );
-    return ProfileModel.fromJson(response.data!);
-  }
-
-  @override
-  Future<ProfileModel> updateCoverPhoto(String imagePath) async {
-    final response = await _apiClient.uploadFile<Map<String, dynamic>>(
-      ApiEndpoints.profileCoverPhoto,
-      filePath: imagePath,
-      fieldName: 'cover',
+    return upload<ProfileModel>(
+      path: ApiEndpoints.profilePhoto,
+      formData: formData,
+      decoder: (data) => ProfileModel.fromJson(data as Map<String, dynamic>),
     );
-    return ProfileModel.fromJson(response.data!);
   }
 
   @override
-  Future<ProfileModel> removeProfilePhoto() async {
-    final response = await _apiClient.delete<Map<String, dynamic>>(ApiEndpoints.profilePhoto);
-    return ProfileModel.fromJson(response.data!);
+  Future<ApiResult<ProfileModel>> updateCoverPhoto(String imagePath) async {
+    final formData = createFormData(
+      fields: {},
+      files: [FileInfo(field: 'cover', path: imagePath)],
+    );
+    return upload<ProfileModel>(
+      path: ApiEndpoints.profileCoverPhoto,
+      formData: formData,
+      decoder: (data) => ProfileModel.fromJson(data as Map<String, dynamic>),
+    );
   }
 
   @override
-  Future<ProfileModel> removeCoverPhoto() async {
-    final response = await _apiClient.delete<Map<String, dynamic>>(ApiEndpoints.profileCoverPhoto);
-    return ProfileModel.fromJson(response.data!);
+  Future<ApiResult<ProfileModel>> removeProfilePhoto() async {
+    return delete<ProfileModel>(
+      path: ApiEndpoints.profilePhoto,
+      decoder: (data) => ProfileModel.fromJson(data as Map<String, dynamic>),
+    );
   }
 
   @override
-  Future<ProfilePreferencesModel> getPreferences() async {
-    final response = await _apiClient.get<Map<String, dynamic>>(ApiEndpoints.profilePreferences);
-    return ProfilePreferencesModel.fromJson(response.data!);
+  Future<ApiResult<ProfileModel>> removeCoverPhoto() async {
+    return delete<ProfileModel>(
+      path: ApiEndpoints.profileCoverPhoto,
+      decoder: (data) => ProfileModel.fromJson(data as Map<String, dynamic>),
+    );
   }
 
   @override
-  Future<ProfilePreferencesModel> updatePreferences(ProfilePreferences preferences) async {
+  Future<ApiResult<ProfilePreferencesModel>> getPreferences() async {
+    return get<ProfilePreferencesModel>(
+      path: ApiEndpoints.profilePreferences,
+      decoder: (data) => ProfilePreferencesModel.fromJson(data as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<ApiResult<ProfilePreferencesModel>> updatePreferences(
+    ProfilePreferences preferences,
+  ) async {
     final prefsModel = ProfilePreferencesModel.fromEntity(preferences);
-    final response = await _apiClient.patch<Map<String, dynamic>>(
-      ApiEndpoints.profilePreferences,
+    return patch<ProfilePreferencesModel>(
+      path: ApiEndpoints.profilePreferences,
       data: prefsModel.toJson(),
+      decoder: (data) => ProfilePreferencesModel.fromJson(data as Map<String, dynamic>),
     );
-    return ProfilePreferencesModel.fromJson(response.data!);
   }
 
   @override
-  Future<void> followUser(String userId) async {
-    await _apiClient.post<void>(ApiEndpoints.followUser(userId));
+  Future<ApiResult<void>> followUser(String userId) async {
+    return post<void>(path: ApiEndpoints.followUser(userId));
   }
 
   @override
-  Future<void> unfollowUser(String userId) async {
-    await _apiClient.delete<void>(ApiEndpoints.followUser(userId));
+  Future<ApiResult<void>> unfollowUser(String userId) async {
+    return delete<void>(path: ApiEndpoints.followUser(userId));
   }
 
   @override
-  Future<List<ProfileModel>> getFollowers(String userId, {int page = 1, int limit = 20}) async {
-    final response = await _apiClient.get<Map<String, dynamic>>(
-      ApiEndpoints.followers(userId),
+  Future<ApiResult<List<ProfileModel>>> getFollowers(
+    String userId, {
+    int page = 1,
+    int limit = 20,
+  }) async {
+    return get<List<ProfileModel>>(
+      path: ApiEndpoints.followers(userId),
       queryParameters: {'page': page, 'limit': limit},
+      decoder: (data) {
+        final jsonData = data as Map<String, dynamic>;
+        final items = (jsonData['data'] as List? ?? jsonData['items'] as List? ?? [])
+            .map((e) => ProfileModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        return items;
+      },
     );
-    final data = response.data!;
-    final items = (data['data'] as List? ?? data['items'] as List? ?? [])
-        .map((e) => ProfileModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-    return items;
   }
 
   @override
-  Future<List<ProfileModel>> getFollowing(String userId, {int page = 1, int limit = 20}) async {
-    final response = await _apiClient.get<Map<String, dynamic>>(
-      ApiEndpoints.following(userId),
+  Future<ApiResult<List<ProfileModel>>> getFollowing(
+    String userId, {
+    int page = 1,
+    int limit = 20,
+  }) async {
+    return get<List<ProfileModel>>(
+      path: ApiEndpoints.following(userId),
       queryParameters: {'page': page, 'limit': limit},
+      decoder: (data) {
+        final jsonData = data as Map<String, dynamic>;
+        final items = (jsonData['data'] as List? ?? jsonData['items'] as List? ?? [])
+            .map((e) => ProfileModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        return items;
+      },
     );
-    final data = response.data!;
-    final items = (data['data'] as List? ?? data['items'] as List? ?? [])
-        .map((e) => ProfileModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-    return items;
   }
 
   @override
-  Future<bool> isFollowing(String userId) async {
-    final response = await _apiClient.get<Map<String, dynamic>>(ApiEndpoints.isFollowing(userId));
-    return response.data!['following'] as bool? ?? false;
+  Future<ApiResult<bool>> isFollowing(String userId) async {
+    return get<bool>(
+      path: ApiEndpoints.isFollowing(userId),
+      decoder: (data) => (data as Map<String, dynamic>)['following'] as bool? ?? false,
+    );
   }
 
   @override
-  Future<void> deleteAccount(String password) async {
-    await _apiClient.delete<void>(ApiEndpoints.deleteAccount, data: {'password': password});
+  Future<ApiResult<void>> deleteAccount(String password) async {
+    return delete<void>(path: ApiEndpoints.deleteAccount, data: {'password': password});
   }
 
   @override
-  Future<String> exportUserData() async {
-    final response = await _apiClient.post<Map<String, dynamic>>(ApiEndpoints.exportData);
-    return response.data!['downloadUrl'] as String? ?? '';
+  Future<ApiResult<String>> exportUserData() async {
+    return post<String>(
+      path: ApiEndpoints.exportData,
+      decoder: (data) => (data as Map<String, dynamic>)['downloadUrl'] as String? ?? '',
+    );
   }
 }

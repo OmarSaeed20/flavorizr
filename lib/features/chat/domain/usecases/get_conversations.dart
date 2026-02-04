@@ -1,7 +1,5 @@
 // lib/features/chat/domain/usecases/get_conversations.dart
-import 'package:dartz/dartz.dart';
-
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/chat/domain/entities/conversation.dart';
 import 'package:flavorizr/features/chat/domain/repositories/chat_repository.dart';
 
@@ -15,7 +13,7 @@ class GetConversations {
   /// [cursor] - Pagination cursor from previous page.
   /// [limit] - Maximum number of conversations to return.
   /// [includeArchived] - Whether to include archived conversations.
-  Future<Either<Failure, PaginatedResult<Conversation>>> call({
+  Future<ApiResult<PaginatedResult<Conversation>>> call({
     String? cursor,
     int limit = 20,
     bool includeArchived = false,

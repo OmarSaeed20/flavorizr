@@ -2,15 +2,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flavorizr/app.dart';
 import 'package:flavorizr/config/app_config.dart';
 import 'package:flavorizr/config/firebase/firebase_config.dart';
 import 'package:flavorizr/config/flavors.dart';
+import 'package:flavorizr/core/di/providers.dart';
 import 'package:flavorizr/core/error/error_handler.dart';
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:flavorizr/core/network/api_client.dart';
 import 'package:flavorizr/core/router/app_router.dart';
 import 'package:flavorizr/core/services/notification_service.dart';
 import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
@@ -107,13 +108,7 @@ Future<void> bootstrap(Flavor flavor) async {
       final sharedPreferences = await SharedPreferences.getInstance();
 
       // 15. Initialize Dio
-      final dio = Dio(
-        BaseOptions(
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
-          sendTimeout: const Duration(seconds: 30),
-        ),
-      );
+      final apiClient = ApiClient.instance;
 
       // 16. Log app startup
       await AppLogger.instance.logInfo(
@@ -132,7 +127,7 @@ Future<void> bootstrap(Flavor flavor) async {
           observers: kDebugMode ? [_ProviderLogger()] : [],
           overrides: [
             sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-            dioProvider.overrideWithValue(dio),
+            apiClientProvider.overrideWithValue(apiClient),
           ],
           child: const App(),
         ),
@@ -156,31 +151,48 @@ class _DevHttpOverrides extends HttpOverrides {
 /// A Riverpod observer that logs provider state changes in debug mode.
 final class _ProviderLogger extends ProviderObserver {
   @override
-  void didAddProvider(ProviderObserverContext context, Object? value) {
+  void didAddProvider(
+    ProviderBase<Object?> provider,
+    Object? value,
+    ProviderContainer container,
+  ) {
     AppLogger.instance.logDebug(
-      'Provider added: ${context.provider.name ?? context.provider.runtimeType}',
+      'Provider added: ${provider.name ?? provider.runtimeType}',
     );
   }
 
   @override
-  void didDisposeProvider(ProviderObserverContext context) {
+  void didDisposeProvider(
+    ProviderBase<Object?> provider,
+    ProviderContainer container,
+  ) {
     AppLogger.instance.logDebug(
-      'Provider disposed: ${context.provider.name ?? context.provider.runtimeType}',
+      'Provider disposed: ${provider.name ?? provider.runtimeType}',
     );
   }
 
   @override
-  void didUpdateProvider(ProviderObserverContext context, Object? previousValue, Object? newValue) {
+  void didUpdateProvider(
+    ProviderBase<Object?> provider,
+    Object? previousValue,
+    Object? newValue,
+    ProviderContainer container,
+  ) {
     AppLogger.instance.logDebug(
-      'Provider updated: ${context.provider.name ?? context.provider.runtimeType}',
+      'Provider updated: ${provider.name ?? provider.runtimeType}',
       data: {'previousValue': previousValue?.toString(), 'newValue': newValue?.toString()},
     );
   }
 
   @override
-  void providerDidFail(ProviderObserverContext context, Object error, StackTrace stackTrace) {
+  void providerDidFail(
+    ProviderBase<Object?> provider,
+    Object error,
+    StackTrace stackTrace,
+    ProviderContainer container,
+  ) {
     AppLogger.instance.logError(
-      'Provider failed: ${context.provider.name ?? context.provider.runtimeType}',
+      'Provider failed: ${provider.name ?? provider.runtimeType}',
       stackTrace: stackTrace.toString(),
       data: {'error': error.toString()},
     );

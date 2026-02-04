@@ -1,5 +1,6 @@
 // lib/features/profile/domain/usecases/profile_usecases.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/profile/domain/entities/profile.dart';
 import 'package:flavorizr/features/profile/domain/repositories/profile_repository.dart';
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
@@ -10,7 +11,7 @@ class GetCurrentProfileUseCase implements UseCase<Profile, NoParams> {
   final ProfileRepository _repository;
 
   @override
-  Future<({Profile? data, Failure? failure})> call(NoParams params) {
+  Future<ApiResult<Profile>> call(NoParams params) async {
     return _repository.getCurrentProfile();
   }
 }
@@ -21,7 +22,7 @@ class GetProfileByUserIdUseCase implements UseCase<Profile, String> {
   final ProfileRepository _repository;
 
   @override
-  Future<({Profile? data, Failure? failure})> call(String userId) {
+  Future<ApiResult<Profile>> call(String userId) {
     return _repository.getProfileByUserId(userId);
   }
 }
@@ -32,25 +33,23 @@ class UpdateProfileUseCase implements UseCase<Profile, ProfileUpdateData> {
   final ProfileRepository _repository;
 
   @override
-  Future<({Profile? data, Failure? failure})> call(ProfileUpdateData data) async {
+  Future<ApiResult<Profile>> call(ProfileUpdateData data) async {
     // Validate update data
     if (data.isEmpty) {
-      return (data: null, failure: const ValidationFailure(message: 'No data to update'));
+      return const ApiResult.exception(ValidationException(message: 'No data to update'));
     }
 
     // Validate display name length
     if (data.displayName != null && data.displayName!.trim().length < 2) {
-      return (
-        data: null,
-        failure: const ValidationFailure(message: 'Display name must be at least 2 characters'),
+      return const ApiResult.exception(
+        ValidationException(message: 'Display name must be at least 2 characters'),
       );
     }
 
     // Validate bio length
     if (data.bio != null && data.bio!.length > 500) {
-      return (
-        data: null,
-        failure: const ValidationFailure(message: 'Bio cannot exceed 500 characters'),
+      return const ApiResult.exception(
+        ValidationException(message: 'Bio cannot exceed 500 characters'),
       );
     }
 
@@ -58,7 +57,7 @@ class UpdateProfileUseCase implements UseCase<Profile, ProfileUpdateData> {
     if (data.website != null && data.website!.isNotEmpty) {
       final urlRegex = RegExp(r'^https?://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(/\S*)?$');
       if (!urlRegex.hasMatch(data.website!)) {
-        return (data: null, failure: const ValidationFailure(message: 'Please enter a valid URL'));
+        return const ApiResult.exception(ValidationException(message: 'Please enter a valid URL'));
       }
     }
 
@@ -72,12 +71,11 @@ class UpdateProfilePhotoUseCase implements UseCase<Profile, String> {
   final ProfileRepository _repository;
 
   @override
-  Future<({Profile? data, Failure? failure})> call(String imagePath) {
+  Future<ApiResult<Profile>> call(String imagePath) {
     if (imagePath.isEmpty) {
-      return Future.value((
-        data: null,
-        failure: const ValidationFailure(message: 'Image path is required'),
-      ));
+      return Future.value(
+        const ApiResult.exception(ValidationException(message: 'Image path is required')),
+      );
     }
     return _repository.updateProfilePhoto(imagePath);
   }
@@ -89,12 +87,11 @@ class UpdateCoverPhotoUseCase implements UseCase<Profile, String> {
   final ProfileRepository _repository;
 
   @override
-  Future<({Profile? data, Failure? failure})> call(String imagePath) {
+  Future<ApiResult<Profile>> call(String imagePath) {
     if (imagePath.isEmpty) {
-      return Future.value((
-        data: null,
-        failure: const ValidationFailure(message: 'Image path is required'),
-      ));
+      return Future.value(
+        const ApiResult.exception(ValidationException(message: 'Image path is required')),
+      );
     }
     return _repository.updateCoverPhoto(imagePath);
   }
@@ -106,7 +103,7 @@ class RemoveProfilePhotoUseCase implements UseCase<Profile, NoParams> {
   final ProfileRepository _repository;
 
   @override
-  Future<({Profile? data, Failure? failure})> call(NoParams params) {
+  Future<ApiResult<Profile>> call(NoParams params) {
     return _repository.removeProfilePhoto();
   }
 }
@@ -117,7 +114,7 @@ class RemoveCoverPhotoUseCase implements UseCase<Profile, NoParams> {
   final ProfileRepository _repository;
 
   @override
-  Future<({Profile? data, Failure? failure})> call(NoParams params) {
+  Future<ApiResult<Profile>> call(NoParams params) {
     return _repository.removeCoverPhoto();
   }
 }
@@ -128,12 +125,11 @@ class FollowUserUseCase implements UseCase<bool, String> {
   final ProfileRepository _repository;
 
   @override
-  Future<({bool? data, Failure? failure})> call(String userId) {
+  Future<ApiResult<bool>> call(String userId) {
     if (userId.isEmpty) {
-      return Future.value((
-        data: null,
-        failure: const ValidationFailure(message: 'User ID is required'),
-      ));
+      return Future.value(
+        const ApiResult.exception(ValidationException(message: 'User ID is required')),
+      );
     }
     return _repository.followUser(userId);
   }
@@ -145,12 +141,11 @@ class UnfollowUserUseCase implements UseCase<bool, String> {
   final ProfileRepository _repository;
 
   @override
-  Future<({bool? data, Failure? failure})> call(String userId) {
+  Future<ApiResult<bool>> call(String userId) {
     if (userId.isEmpty) {
-      return Future.value((
-        data: null,
-        failure: const ValidationFailure(message: 'User ID is required'),
-      ));
+      return Future.value(
+        const ApiResult.exception(ValidationException(message: 'User ID is required')),
+      );
     }
     return _repository.unfollowUser(userId);
   }
@@ -162,7 +157,7 @@ class GetFollowersUseCase implements UseCase<List<Profile>, GetFollowersParams> 
   final ProfileRepository _repository;
 
   @override
-  Future<({List<Profile>? data, Failure? failure})> call(GetFollowersParams params) {
+  Future<ApiResult<List<Profile>>> call(GetFollowersParams params) {
     return _repository.getFollowers(params.userId, page: params.page, limit: params.limit);
   }
 }
@@ -182,7 +177,7 @@ class GetFollowingUseCase implements UseCase<List<Profile>, GetFollowersParams> 
   final ProfileRepository _repository;
 
   @override
-  Future<({List<Profile>? data, Failure? failure})> call(GetFollowersParams params) {
+  Future<ApiResult<List<Profile>>> call(GetFollowersParams params) {
     return _repository.getFollowing(params.userId, page: params.page, limit: params.limit);
   }
 }
@@ -193,7 +188,7 @@ class UpdatePreferencesUseCase implements UseCase<ProfilePreferences, ProfilePre
   final ProfileRepository _repository;
 
   @override
-  Future<({ProfilePreferences? data, Failure? failure})> call(ProfilePreferences preferences) {
+  Future<ApiResult<ProfilePreferences>> call(ProfilePreferences preferences) {
     return _repository.updatePreferences(preferences);
   }
 }
@@ -204,12 +199,11 @@ class DeleteAccountUseCase implements UseCase<bool, String> {
   final ProfileRepository _repository;
 
   @override
-  Future<({bool? data, Failure? failure})> call(String password) {
+  Future<ApiResult<bool>> call(String password) {
     if (password.isEmpty) {
-      return Future.value((
-        data: null,
-        failure: const ValidationFailure(message: 'Password is required'),
-      ));
+      return Future.value(
+        const ApiResult.exception(ValidationException(message: 'Password is required')),
+      );
     }
     return _repository.deleteAccount(password);
   }

@@ -1,5 +1,6 @@
 // lib/features/onboarding/presentation/controllers/onboarding_controller.dart
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/onboarding/domain/entities/onboarding_page.dart';
 import 'package:flavorizr/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
 import 'package:flavorizr/features/onboarding/domain/usecases/get_onboarding_pages_usecase.dart';
@@ -85,15 +86,15 @@ class OnboardingController extends Notifier<OnboardingState> {
 
     final result = await _getOnboardingPages();
 
-    result.fold(
-      (failure) {
+    result.when(
+      exception: (failure) {
         AppLogger.instance.logError(
           'Failed to load onboarding pages',
           data: {'error': failure.message},
         );
         state = state.copyWith(isLoading: false, error: failure.message);
       },
-      (pages) {
+      success: (pages, _) {
         AppLogger.instance.logInfo('Loaded onboarding pages', data: {'count': pages.length});
         state = state.copyWith(isLoading: false, pages: pages);
       },
@@ -132,8 +133,8 @@ class OnboardingController extends Notifier<OnboardingState> {
 
     final result = await _completeOnboarding();
 
-    return result.fold(
-      (failure) {
+    return result.when(
+      exception: (failure) {
         AppLogger.instance.logError(
           'Failed to complete onboarding',
           data: {'error': failure.message},
@@ -141,7 +142,7 @@ class OnboardingController extends Notifier<OnboardingState> {
         state = state.copyWith(isCompleting: false, error: failure.message);
         return false;
       },
-      (_) {
+      success: (_, __) {
         AppLogger.instance.logInfo('Onboarding completed');
         state = state.copyWith(isCompleting: false);
         return true;

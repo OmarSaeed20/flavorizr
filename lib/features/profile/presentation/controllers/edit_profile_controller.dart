@@ -78,7 +78,7 @@ class EditProfileState {
 }
 
 /// Controller for editing profile.
-class EditProfileController extends Notifier<EditProfileState> {
+class EditProfileController extends AutoDisposeNotifier<EditProfileState> {
   late final GetCurrentProfileUseCase _getCurrentProfile;
   late final UpdateProfileUseCase _updateProfile;
   late final UpdateProfilePhotoUseCase _updateProfilePhoto;
@@ -105,8 +105,8 @@ class EditProfileController extends Notifier<EditProfileState> {
 
     final result = await _getCurrentProfile(const NoParams());
 
-    if (result.failure != null) {
-      state = state.copyWith(isLoading: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
       return;
     }
 
@@ -201,8 +201,8 @@ class EditProfileController extends Notifier<EditProfileState> {
 
     final result = await _updateProfile(updateData);
 
-    if (result.failure != null) {
-      state = state.copyWith(isSaving: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isSaving: false, errorMessage: result.error!.message);
       return null;
     }
 
@@ -227,8 +227,8 @@ class EditProfileController extends Notifier<EditProfileState> {
 
     final result = await _updateProfilePhoto(imagePath);
 
-    if (result.failure != null) {
-      state = state.copyWith(isPhotoUploading: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isPhotoUploading: false, errorMessage: result.error!.message);
       return null;
     }
 
@@ -248,8 +248,8 @@ class EditProfileController extends Notifier<EditProfileState> {
 
     final result = await _updateCoverPhoto(imagePath);
 
-    if (result.failure != null) {
-      state = state.copyWith(isPhotoUploading: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isPhotoUploading: false, errorMessage: result.error!.message);
       return null;
     }
 
@@ -269,8 +269,8 @@ class EditProfileController extends Notifier<EditProfileState> {
 
     final result = await _removeProfilePhoto(const NoParams());
 
-    if (result.failure != null) {
-      state = state.copyWith(isPhotoUploading: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isPhotoUploading: false, errorMessage: result.error!.message);
       return;
     }
 
@@ -288,8 +288,8 @@ class EditProfileController extends Notifier<EditProfileState> {
 
     final result = await _removeCoverPhoto(const NoParams());
 
-    if (result.failure != null) {
-      state = state.copyWith(isPhotoUploading: false, errorMessage: result.failure!.message);
+    if (result.error != null) {
+      state = state.copyWith(isPhotoUploading: false, errorMessage: result.error!.message);
       return;
     }
 

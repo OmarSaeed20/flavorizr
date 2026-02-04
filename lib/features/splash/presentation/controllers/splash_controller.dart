@@ -1,5 +1,6 @@
 // lib/features/splash/presentation/controllers/splash_controller.dart
 import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/splash/domain/usecases/check_app_initialization_usecase.dart';
 import 'package:flavorizr/features/splash/presentation/providers/splash_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,15 +57,15 @@ class SplashController extends Notifier<SplashState> {
     // Wait for minimum delay
     await minimumDelay;
 
-    result.fold(
-      (failure) {
+    result.when(
+      exception: (failure) {
         AppLogger.instance.logError(
           'Splash initialization failed',
           data: {'error': failure.message},
         );
         state = state.copyWith(isLoading: false, error: failure.message);
       },
-      (initResult) {
+      success: (initResult, _) {
         AppLogger.instance.logInfo(
           'Splash initialization complete',
           data: {'result': initResult.name},

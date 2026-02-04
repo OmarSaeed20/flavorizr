@@ -1,5 +1,7 @@
 // lib/features/auth/domain/usecases/biometric_auth_usecase.dart
-import 'package:flavorizr/core/error/failures.dart';
+import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/auth/data/parameters/save_biometric_credentials_parameters.dart';
 import 'package:flavorizr/features/auth/domain/entities/auth_result.dart';
 import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
@@ -13,34 +15,31 @@ class CheckBiometricAvailabilityUseCase implements UseCase<bool, NoParams> {
   UseCaseResult<bool> call(NoParams params) async {
     try {
       final isAvailable = await _repository.isBiometricAvailable();
-      return Result.success(isAvailable);
+      return ApiResult.success(isAvailable);
     } catch (e) {
-      return Result.failure(
-        UnexpectedFailure(message: 'Failed to check biometric availability', exception: e),
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to check biometric availability', exception: e),
       );
     }
   }
 }
 
 /// Use case for enabling biometric authentication.
-class EnableBiometricUseCase implements UseCase<void, NoParams> {
+class EnableBiometricUseCase implements UseCase<void, SaveBiometricCredentialsParameters> {
   EnableBiometricUseCase(this._repository);
   final AuthRepository _repository;
 
   @override
-  UseCaseResult<void> call(NoParams params) async {
+  UseCaseResult<void> call(SaveBiometricCredentialsParameters params) async {
     // Check if biometric is available first
     final isAvailable = await _repository.isBiometricAvailable();
     if (!isAvailable) {
-      return Result.failure(
-        const UnsupportedFailure(
-          message: 'Biometric authentication is not available on this device',
-          code: 'BIOMETRIC_NOT_AVAILABLE',
-        ),
+      return const ApiResult.exception(
+        BadRequestException(message: 'Biometric authentication is not available on this device'),
       );
     }
 
-    return _repository.enableBiometric();
+    return _repository.enableBiometric(params);
   }
 }
 
@@ -65,21 +64,17 @@ class BiometricSignInUseCase implements UseCase<AuthResult, NoParams> {
     // Check if biometric is available
     final isAvailable = await _repository.isBiometricAvailable();
     if (!isAvailable) {
-      return Result.failure(
-        const UnsupportedFailure(
-          message: 'Biometric authentication is not available on this device',
-          code: 'BIOMETRIC_NOT_AVAILABLE',
-        ),
+      return const ApiResult.exception(
+        BadRequestException(message: 'Biometric authentication is not available on this device'),
       );
     }
 
     // Check if biometric is enabled
     final isEnabled = await _repository.isBiometricEnabled();
     if (!isEnabled) {
-      return Result.failure(
-        const UnauthenticatedFailure(
+      return const ApiResult.exception(
+        UnauthorizedException(
           message: 'Biometric authentication is not enabled. Please enable it first.',
-          code: 'BIOMETRIC_NOT_ENABLED',
         ),
       );
     }

@@ -1,4 +1,5 @@
 // lib/features/auth/presentation/controllers/verify_email_controller.dart
+import 'package:flavorizr/features/auth/data/parameters/verify_email_parameters.dart';
 import 'package:flavorizr/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,7 +57,7 @@ class VerifyEmailState {
 }
 
 /// Controller for the verify email page using Riverpod 3.x Notifier.
-class VerifyEmailController extends Notifier<VerifyEmailState> {
+class VerifyEmailController extends AutoDisposeNotifier<VerifyEmailState> {
   late final AuthRepository _repository;
 
   @override
@@ -88,10 +89,11 @@ class VerifyEmailController extends Notifier<VerifyEmailState> {
     state = state.copyWith(isVerifying: true, clearError: true);
 
     try {
-      final result = await _repository.verifyEmail(token: state.token);
+      final params = VerifyEmailParameters(token: state.token);
+      final result = await _repository.verifyEmail(params);
 
-      if (result.failure != null) {
-        state = state.copyWith(isVerifying: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isVerifying: false, errorMessage: result.error!.message);
         return false;
       }
 
@@ -123,8 +125,8 @@ class VerifyEmailController extends Notifier<VerifyEmailState> {
     try {
       final result = await _repository.resendEmailVerification();
 
-      if (result.failure != null) {
-        state = state.copyWith(isResending: false, errorMessage: result.failure!.message);
+      if (result.error != null) {
+        state = state.copyWith(isResending: false, errorMessage: result.error!.message);
         return false;
       }
 

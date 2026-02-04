@@ -1,4 +1,4 @@
-// lib/core/error/failures.dart
+/* // lib/core/error/failures.dart
 /// Base class for all failures in the domain layer.
 ///
 /// Failures represent expected error conditions that are part of
@@ -428,3 +428,4 @@ class PlatformFailure extends Failure {
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'platform': platform};
 }
+ */
