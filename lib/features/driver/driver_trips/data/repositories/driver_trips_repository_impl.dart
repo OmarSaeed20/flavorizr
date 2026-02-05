@@ -1,118 +1,184 @@
 import 'package:flavorizr/core/network/base/repo/base_repository.dart';
 import 'package:flavorizr/core/network/network_info.dart';
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/datasources/driver_trips_local_datasource.dart';
 import 'package:flavorizr/features/driver/driver_trips/data/datasources/driver_trips_remote_datasource.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/models/driver_trip_model.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/parameters/accept_trip_parameters.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/parameters/arrived_parameters.dart';
 import 'package:flavorizr/features/driver/driver_trips/data/parameters/cancel_trip_parameters.dart';
 import 'package:flavorizr/features/driver/driver_trips/data/parameters/complete_trip_parameters.dart';
-import 'package:flavorizr/features/driver/driver_trips/data/parameters/get_driver_trips_parameters.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/parameters/create_schedule_request_parameters.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/parameters/get_schedule_requests_parameters.dart';
 import 'package:flavorizr/features/driver/driver_trips/data/parameters/reject_trip_parameters.dart';
-import 'package:flavorizr/features/driver/driver_trips/data/parameters/update_trip_location_parameters.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/parameters/start_trip_parameters.dart';
 import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
 import 'package:flavorizr/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
 
-/// Implementation of driver trips repository
+/// Implementation of DriverTripsRepository.
+///
+/// Extends BaseRepository for consistent error handling and network checks.
+/// Provides offline capability with local caching.
 class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRepository {
-  final DriverTripsRemoteDataSource remoteDataSource;
-
-  DriverTripsRepositoryImpl({required this.remoteDataSource, required NetworkInfo networkInfo})
-    : _networkInfo = networkInfo;
+  final DriverTripsRemoteDataSource _remoteDataSource;
+  final DriverTripsLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
+
+  DriverTripsRepositoryImpl({
+    required DriverTripsRemoteDataSource remoteDataSource,
+    required DriverTripsLocalDataSource localDataSource,
+    required NetworkInfo networkInfo,
+  }) : _remoteDataSource = remoteDataSource,
+       _localDataSource = localDataSource,
+       _networkInfo = networkInfo;
 
   @override
   NetworkInfo get networkInfo => _networkInfo;
-  @override
-  Future<List<DriverTrip>> getDriverTrips({
-    int page = 1,
-    int limit = 10,
-    String? status,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) async {
-    final parameters = GetDriverTripsParameters(
-      page: page,
-      limit: limit,
-      status: status,
-      startDate: startDate?.toIso8601String(),
-      endDate: endDate?.toIso8601String(),
-    );
-    final result = await executeRemoteRequest(
-      request: () => remoteDataSource.getDriverTrips(parameters),
-    );
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
-  }
 
   @override
-  Future<DriverTrip> getDriverTripById(String tripId) async {
+  Future<ApiResult<DriverTrip>> acceptTrip(String tripId) async {
+    final parameters = AcceptTripParameters.builder().withTripId(tripId).build();
     final result = await executeRemoteRequest(
-      request: () => remoteDataSource.getDriverTripById(tripId),
+      request: () => _remoteDataSource.acceptTrip(parameters),
     );
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
-  }
 
-  @override
-  Future<List<DriverTrip>> getPendingTrips() async {
-    final result = await executeRemoteRequest(request: remoteDataSource.getPendingTrips);
     return result.when(
-      success: (data, _) => data.map((model) => model).toList(),
-      exception: (error) => throw error,
+      success: (data, _) => ApiResult.success(data),
+      exception: ApiResult.exception,
     );
   }
 
   @override
-  Future<DriverTrip> acceptTrip(String tripId) async {
-    final result = await executeRemoteRequest(request: () => remoteDataSource.acceptTrip(tripId));
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
-  }
-
-  @override
-  Future<bool> rejectTrip(String tripId, String? reason) async {
-    final parameters = RejectTripParameters(tripId: tripId, reason: reason);
+  Future<ApiResult<void>> rejectTrip(String tripId) async {
+    final parameters = RejectTripParameters.builder().withTripId(tripId).build();
     final result = await executeRemoteRequest(
-      request: () => remoteDataSource.rejectTrip(parameters),
+      request: () => _remoteDataSource.rejectTrip(parameters),
     );
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
+
+    return result.when(
+      success: (data, _) => const ApiResult.success(null),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<DriverTrip> startTrip(String tripId) async {
-    final result = await executeRemoteRequest(request: () => remoteDataSource.startTrip(tripId));
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
-  }
-
-  @override
-  Future<DriverTrip> completeTrip(String tripId, double actualFare) async {
-    final parameters = CompleteTripParameters(tripId: tripId, actualFare: actualFare);
+  Future<ApiResult<DriverTrip>> startTrip(String tripId) async {
+    final parameters = StartTripParameters.builder().withTripId(tripId).build();
     final result = await executeRemoteRequest(
-      request: () => remoteDataSource.completeTrip(parameters),
+      request: () => _remoteDataSource.startTrip(parameters),
     );
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
+
+    return result.when(
+      success: (data, _) => ApiResult.success(data),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<bool> cancelTrip(String tripId, String reason) async {
-    final parameters = CancelTripParameters(tripId: tripId, reason: reason);
+  Future<ApiResult<DriverTrip>> arrived(String tripId) async {
+    final parameters = ArrivedParameters.builder().withTripId(tripId).build();
+    final result = await executeRemoteRequest(request: () => _remoteDataSource.arrived(parameters));
+
+    return result.when(
+      success: (data, _) => ApiResult.success(data),
+      exception: ApiResult.exception,
+    );
+  }
+
+  @override
+  Future<ApiResult<DriverTrip>> completeTrip(String tripId) async {
+    final parameters = CompleteTripParameters.builder().withTripId(tripId).build();
     final result = await executeRemoteRequest(
-      request: () => remoteDataSource.cancelTrip(parameters),
+      request: () => _remoteDataSource.completeTrip(parameters),
     );
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
+
+    return result.when(
+      success: (data, _) => ApiResult.success(data),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<bool> updateTripLocation(String tripId, double latitude, double longitude) async {
-    final parameters = UpdateTripLocationParameters(
-      tripId: tripId,
-      latitude: latitude,
-      longitude: longitude,
-    );
+  Future<ApiResult<void>> cancelTrip(String tripId) async {
+    final parameters = CancelTripParameters.builder().withTripId(tripId).build();
     final result = await executeRemoteRequest(
-      request: () => remoteDataSource.updateTripLocation(parameters),
+      request: () => _remoteDataSource.cancelTrip(parameters),
     );
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
+
+    return result.when(
+      success: (data, _) => const ApiResult.success(null),
+      exception: ApiResult.exception,
+    );
   }
 
   @override
-  Future<Map<String, dynamic>> getTripStats() async {
-    final result = await executeRemoteRequest(request: remoteDataSource.getTripStats);
-    return result.when(success: (data, _) => data, exception: (error) => throw error);
+  Future<ApiResult<List<DriverTrip>>> getScheduleTrips() async {
+    final result = await fetchWithCache<List<DriverTripModel>>(
+      cacheKey: 'driver_schedule_trips',
+      remoteFetcher: _remoteDataSource.getScheduleTrips,
+      localFetcher: _localDataSource.getCachedScheduleTrips,
+      cacheSaver: _localDataSource.cacheScheduleTrips,
+    );
+
+    return result.when(
+      success: (data, _) => ApiResult.success(data),
+      exception: ApiResult.exception,
+    );
+  }
+
+  @override
+  Future<ApiResult<DriverTrip>> createScheduleRequest({
+    required String pickUpLongitude,
+    required String pickUpLatitude,
+    required String destinationLongitude,
+    required String destinationLatitude,
+    required String pickupName,
+    required String destinationName,
+    required String date,
+    required String pickUpTime,
+    required String dropUpTime,
+    required int vehicleTypeId,
+  }) async {
+    final parameters = CreateScheduleRequestParameters.builder()
+        .withPickUpLongitude(pickUpLongitude)
+        .withPickUpLatitude(pickUpLatitude)
+        .withDestinationLongitude(destinationLongitude)
+        .withDestinationLatitude(destinationLatitude)
+        .withPickupName(pickupName)
+        .withDestinationName(destinationName)
+        .withDate(date)
+        .withPickUpTime(pickUpTime)
+        .withDropUpTime(dropUpTime)
+        .withVehicleTypeId(vehicleTypeId)
+        .build();
+
+    final result = await executeRemoteRequest(
+      request: () => _remoteDataSource.createScheduleRequest(parameters),
+    );
+
+    return result.when(
+      success: (data, _) => ApiResult.success(data),
+      exception: ApiResult.exception,
+    );
+  }
+
+  @override
+  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({String? date, String? status}) async {
+    final builder = GetScheduleRequestsParameters.builder();
+    if (date != null) builder.withDate(date);
+    if (status != null) builder.withStatus(status);
+    final parameters = builder.build();
+
+    final result = await fetchWithCache<List<DriverTripModel>>(
+      cacheKey: 'driver_schedule_requests_${date ?? ''}_${status ?? ''}',
+      remoteFetcher: () => _remoteDataSource.getScheduleRequests(parameters),
+      localFetcher: _localDataSource.getCachedScheduleRequests,
+      cacheSaver: _localDataSource.cacheScheduleRequests,
+    );
+
+    return result.when(
+      success: (data, _) => ApiResult.success(data),
+      exception: ApiResult.exception,
+    );
   }
 }

@@ -1,35 +1,31 @@
-// lib/features/driver_settings/data/endpoints/driver_settings_endpoints.dart
 /// Defines all API endpoints for driver settings operations.
+///
+/// All endpoints are based on the FAST App API documentation.
+/// Base URL: https://fasttaxi.questifysolutions.com/api/v1
 abstract class DriverSettingsEndpoints {
   const DriverSettingsEndpoints._();
 
-  /// Gets driver settings.
-  static const String settings = '/driver/settings';
+  /// Get driver settings.
+  /// Endpoint: GET /driver/settings
+  static const String getSettings = '/driver/settings';
 
-  /// Updates driver settings.
-  static const String updateSettings = '/driver/settings';
+  /// Update driver settings.
+  /// Endpoint: POST /driver/settings/update
+  static const String updateSettings = '/driver/settings/update';
 
-  /// Toggles online status.
-  static const String toggleOnline = '/driver/settings/toggle-online';
+  /// Update driver notification preferences.
+  /// Endpoint: POST /driver/settings/notifications
+  static const String updateNotifications = '/driver/settings/notifications';
 
-  /// Toggles availability status.
-  static const String toggleAvailability = '/driver/settings/toggle-availability';
+  /// Update driver language preference.
+  /// Endpoint: POST /driver/settings/language
+  static const String updateLanguage = '/driver/settings/language';
 
-  /// Gets driver notification preferences.
-  static const String notificationPreferences = '/driver/settings/notifications';
+  /// Update driver privacy settings.
+  /// Endpoint: POST /driver/settings/privacy
+  static const String updatePrivacy = '/driver/settings/privacy';
 
-  /// Updates driver notification preferences.
-  static const String updateNotificationPreferences = '/driver/settings/notifications';
-
-  /// Gets driver privacy settings.
-  static const String privacySettings = '/driver/settings/privacy';
-
-  /// Updates driver privacy settings.
-  static const String updatePrivacySettings = '/driver/settings/privacy';
-
-  /// Gets driver payment settings.
-  static const String paymentSettings = '/driver/settings/payment';
-
-  /// Updates driver payment settings.
-  static const String updatePaymentSettings = '/driver/settings/payment';
+  /// Delete driver account.
+  /// Endpoint: DELETE /driver/settings/account
+  static const String deleteAccount = '/driver/settings/account';
 }

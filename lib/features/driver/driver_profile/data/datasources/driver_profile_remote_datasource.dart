@@ -7,7 +7,7 @@ import 'package:flavorizr/features/driver/driver_profile/data/models/driver_docu
 import 'package:flavorizr/features/driver/driver_profile/data/models/driver_profile_model.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/models/driver_vehicle_model.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_driver_profile_parameters.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_driver_vehicle_parameters.dart';
+import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_vehicle_parameters.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/parameters/upload_driver_document_parameters.dart';
 
 /// Remote data source for driver profile operations.
@@ -15,41 +15,32 @@ import 'package:flavorizr/features/driver/driver_profile/data/parameters/upload_
 /// Handles all HTTP requests related to driver profile management.
 /// Returns ApiResult with success or error data.
 abstract class DriverProfileRemoteDataSource {
-  /// Gets driver profile.
-  Future<ApiResult<DriverProfileModel>> getDriverProfile();
+  /// Gets driver profile summary.
+  Future<ApiResult<DriverProfileModel>> getProfile();
 
-  /// Updates driver profile.
-  Future<ApiResult<DriverProfileModel>> updateDriverProfile(
-    UpdateDriverProfileParameters parameters,
-  );
+  /// Gets driver profile details.
+  Future<ApiResult<DriverProfileModel>> getProfileDetail();
 
-  /// Gets driver vehicle.
-  Future<ApiResult<DriverVehicleModel>> getDriverVehicle();
+  /// Updates driver profile information.
+  Future<ApiResult<DriverProfileModel>> updateProfileInfo(UpdateDriverProfileParameters parameters);
 
-  /// Updates driver vehicle.
-  Future<ApiResult<DriverVehicleModel>> updateDriverVehicle(
-    UpdateDriverVehicleParameters parameters,
-  );
+  /// Updates driver profile image.
+  Future<ApiResult<DriverProfileModel>> updateProfileImage(String imagePath);
 
-  /// Uploads driver document.
-  Future<ApiResult<DriverDocumentModel>> uploadDriverDocument(
-    UploadDriverDocumentParameters parameters,
-  );
+  /// Gets driver vehicle information.
+  Future<ApiResult<DriverVehicleModel>> getVehicle();
+
+  /// Updates driver vehicle information.
+  Future<ApiResult<DriverVehicleModel>> updateVehicle(UpdateVehicleParameters parameters);
 
   /// Gets driver documents.
-  Future<ApiResult<List<DriverDocumentModel>>> getDriverDocuments();
+  Future<ApiResult<List<DriverDocumentModel>>> getDocuments();
 
-  /// Gets a specific driver document by ID.
-  Future<ApiResult<DriverDocumentModel>> getDriverDocumentById(String documentId);
+  /// Uploads driver document.
+  Future<ApiResult<DriverDocumentModel>> uploadDocument(UploadDriverDocumentParameters parameters);
 
   /// Deletes driver document.
-  Future<ApiResult<void>> deleteDriverDocument(String documentId);
-
-  /// Updates driver profile photo.
-  Future<ApiResult<DriverProfileModel>> updateProfilePhoto(String imagePath);
-
-  /// Updates driver license photo.
-  Future<ApiResult<DriverProfileModel>> updateLicensePhoto(String imagePath);
+  Future<ApiResult<void>> deleteDocument(String documentId);
 
   /// Gets driver verification status.
   Future<ApiResult<Map<String, dynamic>>> getVerificationStatus();
@@ -72,37 +63,56 @@ class DriverProfileRemoteDataSourceImpl
   String get baseUrl => _apiClient.dio.options.baseUrl;
 
   @override
-  Future<ApiResult<DriverProfileModel>> getDriverProfile() async {
+  Future<ApiResult<DriverProfileModel>> getProfile() async {
     return get<DriverProfileModel>(
-      path: DriverProfileEndpoints.profile,
+      path: DriverProfileEndpoints.getProfile,
       decoder: (data) => DriverProfileModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<DriverProfileModel>> updateDriverProfile(
+  Future<ApiResult<DriverProfileModel>> getProfileDetail() async {
+    return get<DriverProfileModel>(
+      path: DriverProfileEndpoints.getProfileDetail,
+      decoder: (data) => DriverProfileModel.fromJson(data as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<ApiResult<DriverProfileModel>> updateProfileInfo(
     UpdateDriverProfileParameters parameters,
   ) async {
-    return put<DriverProfileModel>(
-      path: DriverProfileEndpoints.updateProfile,
+    return post<DriverProfileModel>(
+      path: DriverProfileEndpoints.updateProfileInfo,
       data: parameters.toJson(),
       decoder: (data) => DriverProfileModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<DriverVehicleModel>> getDriverVehicle() async {
+  Future<ApiResult<DriverProfileModel>> updateProfileImage(String imagePath) async {
+    final formData = createFormData(
+      fields: {},
+      files: [FileInfo(field: 'profile_image', path: imagePath)],
+    );
+    return post<DriverProfileModel>(
+      path: DriverProfileEndpoints.updateProfileImage,
+      data: formData,
+      decoder: (data) => DriverProfileModel.fromJson(data as Map<String, dynamic>),
+    );
+  }
+
+  @override
+  Future<ApiResult<DriverVehicleModel>> getVehicle() async {
     return get<DriverVehicleModel>(
-      path: DriverProfileEndpoints.vehicle,
+      path: DriverProfileEndpoints.getVehicle,
       decoder: (data) => DriverVehicleModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<DriverVehicleModel>> updateDriverVehicle(
-    UpdateDriverVehicleParameters parameters,
-  ) async {
-    return put<DriverVehicleModel>(
+  Future<ApiResult<DriverVehicleModel>> updateVehicle(UpdateVehicleParameters parameters) async {
+    return post<DriverVehicleModel>(
       path: DriverProfileEndpoints.updateVehicle,
       data: parameters.toJson(),
       decoder: (data) => DriverVehicleModel.fromJson(data as Map<String, dynamic>),
@@ -110,21 +120,9 @@ class DriverProfileRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<DriverDocumentModel>> uploadDriverDocument(
-    UploadDriverDocumentParameters parameters,
-  ) async {
-    final formData = createFormData(fields: parameters.toJson(), files: parameters.files);
-    return post<DriverDocumentModel>(
-      path: DriverProfileEndpoints.uploadDocument,
-      data: formData,
-      decoder: (data) => DriverDocumentModel.fromJson(data as Map<String, dynamic>),
-    );
-  }
-
-  @override
-  Future<ApiResult<List<DriverDocumentModel>>> getDriverDocuments() async {
+  Future<ApiResult<List<DriverDocumentModel>>> getDocuments() async {
     return get<List<DriverDocumentModel>>(
-      path: DriverProfileEndpoints.documents,
+      path: DriverProfileEndpoints.getDocuments,
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
         final items = (jsonData['documents'] as List? ?? jsonData['data'] as List? ?? [])
@@ -136,48 +134,26 @@ class DriverProfileRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<DriverDocumentModel>> getDriverDocumentById(String documentId) async {
-    return get<DriverDocumentModel>(
-      path: DriverProfileEndpoints.documentById(documentId),
+  Future<ApiResult<DriverDocumentModel>> uploadDocument(
+    UploadDriverDocumentParameters parameters,
+  ) async {
+    final formData = createFormData(fields: parameters.toJson());
+    return post<DriverDocumentModel>(
+      path: DriverProfileEndpoints.uploadDocument,
+      data: formData,
       decoder: (data) => DriverDocumentModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<void>> deleteDriverDocument(String documentId) async {
+  Future<ApiResult<void>> deleteDocument(String documentId) async {
     return delete<void>(path: DriverProfileEndpoints.deleteDocument(documentId));
-  }
-
-  @override
-  Future<ApiResult<DriverProfileModel>> updateProfilePhoto(String imagePath) async {
-    final formData = createFormData(
-      fields: {},
-      files: [FileInfo(field: 'photo', path: imagePath)],
-    );
-    return post<DriverProfileModel>(
-      path: DriverProfileEndpoints.profilePhoto,
-      data: formData,
-      decoder: (data) => DriverProfileModel.fromJson(data as Map<String, dynamic>),
-    );
-  }
-
-  @override
-  Future<ApiResult<DriverProfileModel>> updateLicensePhoto(String imagePath) async {
-    final formData = createFormData(
-      fields: {},
-      files: [FileInfo(field: 'license_photo', path: imagePath)],
-    );
-    return post<DriverProfileModel>(
-      path: DriverProfileEndpoints.licensePhoto,
-      data: formData,
-      decoder: (data) => DriverProfileModel.fromJson(data as Map<String, dynamic>),
-    );
   }
 
   @override
   Future<ApiResult<Map<String, dynamic>>> getVerificationStatus() async {
     return get<Map<String, dynamic>>(
-      path: DriverProfileEndpoints.verificationStatus,
+      path: DriverProfileEndpoints.getVerificationStatus,
       decoder: (data) => data as Map<String, dynamic>,
     );
   }

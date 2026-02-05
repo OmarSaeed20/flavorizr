@@ -6,6 +6,7 @@ import 'package:flavorizr/core/network/api/repositories/auth_repository.dart';
 import 'package:flavorizr/core/network/api_response.dart';
 import 'package:flavorizr/core/network/exception/network_exceptions.dart';
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/user/auth/data/parameters/refresh_token_parameters.dart';
 
 /// Auth Repository Implementation
 /// Handles all authentication-related API calls
@@ -156,6 +157,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _dio.post(
         AuthEndpoints.refreshToken,
+        data: parameters.toJson(),
         cancelToken: parameters.cancelToken,
       );
 

@@ -10,6 +10,6 @@ class GetDriverProfileUseCase {
 
   /// Executes the get driver profile use case.
   Future<ApiResult<DriverProfile>> call() {
-    return _repository.getDriverProfile();
+    return _repository.getProfile();
   }
 }

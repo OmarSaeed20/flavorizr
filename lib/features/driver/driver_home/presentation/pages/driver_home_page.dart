@@ -1,11 +1,10 @@
+import 'package:flavorizr/features/driver/driver_home/presentation/providers/driver_home_providers.dart';
+import 'package:flavorizr/features/driver/driver_home/presentation/widgets/driver_earnings_card.dart';
+import 'package:flavorizr/features/driver/driver_home/presentation/widgets/driver_stats_card.dart';
+import 'package:flavorizr/features/driver/driver_home/presentation/widgets/driver_trip_card.dart';
+import 'package:flavorizr/features/driver/driver_home/presentation/widgets/online_status_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/driver_home_controller.dart';
-import '../providers/driver_home_providers.dart';
-import '../widgets/driver_stats_card.dart';
-import '../widgets/driver_earnings_card.dart';
-import '../widgets/driver_trip_card.dart';
-import '../widgets/online_status_switch.dart';
 
 /// Driver home page
 class DriverHomePage extends ConsumerStatefulWidget {
@@ -36,15 +35,11 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.8) {
-      ref.read(driverHomeControllerProvider.notifier).loadTrips();
-    }
+    // No pagination needed - all data is loaded at once
   }
 
   Future<void> _onRefresh() async {
     await ref.read(driverHomeControllerProvider.notifier).loadHomeData();
-    await ref.read(driverHomeControllerProvider.notifier).loadTrips(refresh: true);
   }
 
   @override
@@ -54,12 +49,7 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Driver Home'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _onRefresh,
-          ),
-        ],
+        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _onRefresh)],
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
@@ -76,46 +66,32 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                     const SizedBox(height: 16),
 
                     // Stats Card
-                    if (state.stats != null) ...[
-                      DriverStatsCard(stats: state.stats!),
-                      const SizedBox(height: 16),
-                    ],
+                    if (state.homeData != null) DriverStatsCard(stats: state.homeData!.stats),
+                    const SizedBox(height: 16),
 
                     // Earnings Card
-                    if (state.earnings != null) ...[
-                      DriverEarningsCard(earnings: state.earnings!),
-                      const SizedBox(height: 16),
-                    ],
+                    if (state.homeData != null)
+                      DriverEarningsCard(earnings: state.homeData!.earnings),
+                    const SizedBox(height: 16),
 
                     // Recent Trips Section
                     const Text(
                       'Recent Trips',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 12),
 
                     // Trips List
-                    if (state.trips.isEmpty && !state.isLoadingTrips)
+                    if (state.homeData != null && state.homeData!.recentTrips.isEmpty)
                       const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(32.0),
-                          child: Text('No trips yet'),
-                        ),
+                        child: Padding(padding: EdgeInsets.all(32.0), child: Text('No trips yet')),
                       )
-                    else
-                      ...state.trips.map((trip) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: DriverTripCard(trip: trip),
-                          )),
-
-                    // Loading indicator for pagination
-                    if (state.isLoadingTrips)
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Center(child: CircularProgressIndicator()),
+                    else if (state.homeData != null)
+                      ...state.homeData!.recentTrips.map(
+                        (trip) => Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: DriverTripCard(trip: trip),
+                        ),
                       ),
 
                     // Error message

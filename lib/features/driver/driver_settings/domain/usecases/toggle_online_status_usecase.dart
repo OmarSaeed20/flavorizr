@@ -3,12 +3,14 @@ import 'package:flavorizr/features/driver/driver_settings/domain/entities/driver
 import 'package:flavorizr/features/driver/driver_settings/domain/repositories/driver_settings_repository.dart';
 
 /// Use case for toggling online status.
+/// Note: This functionality needs to be added to the repository interface
 class ToggleOnlineStatusUseCase {
   final DriverSettingsRepository _repository;
 
   ToggleOnlineStatusUseCase(this._repository);
 
   Future<ApiResult<DriverSettings>> call(bool isOnline) {
-    return _repository.toggleOnlineStatus(isOnline);
+    // TODO: Implement when toggleOnlineStatus is added to repository
+    throw UnimplementedError('toggleOnlineStatus not yet implemented in repository');
   }
 }

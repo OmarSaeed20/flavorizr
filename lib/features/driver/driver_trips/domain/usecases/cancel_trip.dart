@@ -1,4 +1,5 @@
-import '../repositories/driver_trips_repository.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
 
 /// Use case for cancelling a trip
 class CancelTrip {
@@ -6,7 +7,7 @@ class CancelTrip {
 
   CancelTrip(this.repository);
 
-  Future<bool> call(String tripId, String reason) async {
-    return await repository.cancelTrip(tripId, reason);
+  Future<ApiResult<void>> call(String tripId) async {
+    return repository.cancelTrip(tripId);
   }
 }

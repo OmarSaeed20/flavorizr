@@ -11,17 +11,8 @@ class UploadDriverDocumentUseCase {
   /// Executes the upload driver document use case.
   Future<ApiResult<DriverDocument>> call({
     required String documentType,
-    required String documentNumber,
-    String? frontImageUrl,
-    String? backImageUrl,
-    DateTime? expiryDate,
+    required String documentImage,
   }) {
-    return _repository.uploadDriverDocument(
-      documentType: documentType,
-      documentNumber: documentNumber,
-      frontImageUrl: frontImageUrl,
-      backImageUrl: backImageUrl,
-      expiryDate: expiryDate,
-    );
+    return _repository.uploadDocument(documentType: documentType, documentImage: documentImage);
   }
 }

@@ -8,14 +8,10 @@ import 'package:flavorizr/features/user/direct_booking/domain/entities/vehicle_t
 /// Repository interface for direct booking operations.
 abstract class DirectBookingRepository {
   /// Creates a new booking.
-  Future<ApiResult<BookingResponse>> createBooking(
-    CreateBookingParameters params,
-  );
+  Future<ApiResult<BookingResponse>> createBooking(CreateBookingParameters params);
 
   /// Gets nearby drivers based on location.
-  Future<ApiResult<List<Driver>>> getNearbyDrivers(
-    GetNearbyDriversParameters params,
-  );
+  Future<ApiResult<List<TaxiDriver>>> getNearbyDrivers(GetNearbyDriversParameters params);
 
   /// Gets available vehicle types.
   Future<ApiResult<List<VehicleType>>> getVehicleTypes();

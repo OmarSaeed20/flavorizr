@@ -1,7 +1,6 @@
+import 'package:flavorizr/features/driver/driver_home/presentation/providers/driver_home_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/driver_home_controller.dart';
-import '../providers/driver_home_providers.dart';
 
 /// Widget for toggling driver online status
 class OnlineStatusSwitch extends ConsumerWidget {
@@ -10,11 +9,9 @@ class OnlineStatusSwitch extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(driverHomeControllerProvider);
-    final controller = ref.watch(driverHomeControllerProvider.notifier);
 
     final isOnline = state.homeData?.isOnline ?? false;
     final isAvailable = state.homeData?.isAvailable ?? false;
-    final isUpdating = state.isUpdatingStatus;
 
     return Card(
       elevation: 4,
@@ -22,7 +19,7 @@ class OnlineStatusSwitch extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Online Status Switch
+            // Online Status Display
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -35,27 +32,20 @@ class OnlineStatusSwitch extends ConsumerWidget {
                     const SizedBox(width: 12),
                     const Text(
                       'Online Status',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
                 Switch(
                   value: isOnline,
-                  onChanged: isUpdating
-                      ? null
-                      : (value) async {
-                          await controller.toggleOnlineStatus(value);
-                        },
-                  activeColor: Colors.green,
+                  onChanged: null, // Read-only for now
+                  activeThumbColor: Colors.green,
                 ),
               ],
             ),
             const SizedBox(height: 12),
 
-            // Availability Status Switch
+            // Availability Status Display
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -68,21 +58,14 @@ class OnlineStatusSwitch extends ConsumerWidget {
                     const SizedBox(width: 12),
                     const Text(
                       'Available for Trips',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
                 Switch(
                   value: isAvailable,
-                  onChanged: isUpdating || !isOnline
-                      ? null
-                      : (value) async {
-                          await controller.toggleAvailabilityStatus(value);
-                        },
-                  activeColor: Colors.blue,
+                  onChanged: null, // Read-only for now
+                  activeThumbColor: Colors.blue,
                 ),
               ],
             ),
@@ -93,10 +76,7 @@ class OnlineStatusSwitch extends ConsumerWidget {
                 padding: const EdgeInsets.only(top: 12),
                 child: Text(
                   'You are currently offline. Go online to receive trip requests.',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   textAlign: TextAlign.center,
                 ),
               )
@@ -105,10 +85,7 @@ class OnlineStatusSwitch extends ConsumerWidget {
                 padding: const EdgeInsets.only(top: 12),
                 child: Text(
                   'You are online but not available for new trips.',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   textAlign: TextAlign.center,
                 ),
               )
@@ -123,19 +100,6 @@ class OnlineStatusSwitch extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
-                ),
-              ),
-
-            // Loading indicator
-            if (isUpdating)
-              const Padding(
-                padding: EdgeInsets.only(top: 12),
-                child: Center(
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
                 ),
               ),
           ],

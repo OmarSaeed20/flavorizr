@@ -11,11 +11,9 @@ class VerifyDriverPhoneUseCase {
   /// Executes the verify driver phone use case.
   Future<ApiResult<DriverCredentials>> call({
     required String phone,
-    required String otp,
+    required String code,
+    required String firebaseToken,
   }) {
-    return _repository.verifyPhone(
-      phone: phone,
-      otp: otp,
-    );
+    return _repository.verifyPhone(phone: phone, code: code, firebaseToken: firebaseToken);
   }
 }

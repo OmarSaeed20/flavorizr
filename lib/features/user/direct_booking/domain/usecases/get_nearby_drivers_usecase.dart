@@ -9,9 +9,7 @@ class GetNearbyDriversUseCase {
 
   GetNearbyDriversUseCase(this._repository);
 
-  Future<ApiResult<List<Driver>>> call(
-    GetNearbyDriversParameters params,
-  ) {
+  Future<ApiResult<List<TaxiDriver>>> call(GetNearbyDriversParameters params) {
     return _repository.getNearbyDrivers(params);
   }
 }

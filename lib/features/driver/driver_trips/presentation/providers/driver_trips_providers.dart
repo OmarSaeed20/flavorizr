@@ -9,10 +9,8 @@ import 'package:flavorizr/features/driver/driver_trips/domain/usecases/complete_
 import 'package:flavorizr/features/driver/driver_trips/domain/usecases/get_driver_trip_by_id.dart';
 import 'package:flavorizr/features/driver/driver_trips/domain/usecases/get_driver_trips.dart';
 import 'package:flavorizr/features/driver/driver_trips/domain/usecases/get_pending_trips.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/get_trip_stats.dart';
 import 'package:flavorizr/features/driver/driver_trips/domain/usecases/reject_trip.dart';
 import 'package:flavorizr/features/driver/driver_trips/domain/usecases/start_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/update_trip_location.dart';
 import 'package:flavorizr/features/driver/driver_trips/presentation/controllers/driver_trips_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,7 +24,12 @@ final driverTripsRemoteDataSourceProvider = Provider<DriverTripsRemoteDataSource
 final driverTripsRepositoryProvider = Provider<DriverTripsRepository>((ref) {
   final remoteDataSource = ref.watch(driverTripsRemoteDataSourceProvider);
   final networkInfo = ref.watch(networkInfoProvider);
-  return DriverTripsRepositoryImpl(remoteDataSource: remoteDataSource, networkInfo: networkInfo);
+  final localDataSource = ref.watch(driverTripsLocalDataSourceProvider);
+  return DriverTripsRepositoryImpl(
+    localDataSource: localDataSource,
+    remoteDataSource: remoteDataSource,
+    networkInfo: networkInfo,
+  );
 });
 
 /// Provider for GetDriverTrips use case
@@ -77,18 +80,6 @@ final cancelTripProvider = Provider<CancelTrip>((ref) {
   return CancelTrip(repository);
 });
 
-/// Provider for UpdateTripLocation use case
-final updateTripLocationProvider = Provider<UpdateTripLocation>((ref) {
-  final repository = ref.watch(driverTripsRepositoryProvider);
-  return UpdateTripLocation(repository);
-});
-
-/// Provider for GetTripStats use case
-final getTripStatsProvider = Provider<GetTripStats>((ref) {
-  final repository = ref.watch(driverTripsRepositoryProvider);
-  return GetTripStats(repository);
-});
-
 /// Provider for DriverTripsController
 final driverTripsControllerProvider =
     StateNotifierProvider<DriverTripsController, DriverTripsState>((ref) {
@@ -101,7 +92,5 @@ final driverTripsControllerProvider =
         startTrip: ref.watch(startTripProvider),
         completeTrip: ref.watch(completeTripProvider),
         cancelTrip: ref.watch(cancelTripProvider),
-        updateTripLocation: ref.watch(updateTripLocationProvider),
-        getTripStats: ref.watch(getTripStatsProvider),
       );
     });

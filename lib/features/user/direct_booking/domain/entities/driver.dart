@@ -1,5 +1,5 @@
 /// Entity representing a driver.
-class Driver {
+class TaxiDriver {
   final String id;
   final String name;
   final String? phone;
@@ -12,7 +12,7 @@ class Driver {
   final String? vehicleColor;
   final bool isAvailable;
 
-  const Driver({
+  const TaxiDriver({
     required this.id,
     required this.name,
     this.phone,

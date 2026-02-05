@@ -5,11 +5,14 @@ import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_
 
 /// Repository interface for driver profile operations.
 abstract class DriverProfileRepository {
-  /// Gets driver profile.
-  Future<ApiResult<DriverProfile>> getDriverProfile();
+  /// Gets driver profile summary.
+  Future<ApiResult<DriverProfile>> getProfile();
 
-  /// Updates driver profile.
-  Future<ApiResult<DriverProfile>> updateDriverProfile({
+  /// Gets driver profile details.
+  Future<ApiResult<DriverProfile>> getProfileDetail();
+
+  /// Updates driver profile information.
+  Future<ApiResult<DriverProfile>> updateProfileInfo({
     String? firstName,
     String? lastName,
     String? email,
@@ -23,35 +26,41 @@ abstract class DriverProfileRepository {
     String? gender,
   });
 
-  /// Gets driver vehicle.
-  Future<ApiResult<DriverVehicle>> getDriverVehicle();
+  /// Updates driver profile image.
+  Future<ApiResult<DriverProfile>> updateProfileImage(String imagePath);
 
-  /// Updates driver vehicle.
-  Future<ApiResult<DriverVehicle>> updateDriverVehicle({
-    String? make,
-    String? model,
-    int? year,
-    String? color,
-    String? licensePlate,
-    String? vehicleType,
-    int? capacity,
-    String? vin,
-    String? registrationNumber,
-    DateTime? registrationExpiry,
-  });
+  /// Gets driver vehicle information.
+  Future<ApiResult<DriverVehicle>> getVehicle();
 
-  /// Uploads driver document.
-  Future<ApiResult<DriverDocument>> uploadDriverDocument({
-    required String documentType,
-    required String documentNumber,
-    String? frontImageUrl,
-    String? backImageUrl,
-    DateTime? expiryDate,
+  /// Updates driver vehicle information.
+  Future<ApiResult<DriverVehicle>> updateVehicle({
+    String? vehicleTypeId,
+    String? vehiclePlateNumber,
+    String? vehicleImage,
+    String? vehicleLicenseImage,
   });
 
   /// Gets driver documents.
-  Future<ApiResult<List<DriverDocument>>> getDriverDocuments();
+  Future<ApiResult<List<DriverDocument>>> getDocuments();
+
+  /// Uploads driver document.
+  Future<ApiResult<DriverDocument>> uploadDocument({
+    required String documentType,
+    required String documentImage,
+  });
 
   /// Deletes driver document.
-  Future<ApiResult<void>> deleteDriverDocument(String documentId);
+  Future<ApiResult<void>> deleteDocument(String documentId);
+
+  /// Gets driver verification status.
+  Future<ApiResult<Map<String, dynamic>>> getVerificationStatus();
+
+  /// Submits driver verification documents.
+  Future<ApiResult<void>> submitVerification({
+    String? nationalId,
+    String? nationalIdImage,
+    String? drivingLicenseImage,
+    String? vehicleLicenseImage,
+    String? vehicleImage,
+  });
 }

@@ -1,5 +1,6 @@
-import '../entities/driver_trip.dart';
-import '../repositories/driver_trips_repository.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
 
 /// Use case for getting pending trip requests
 class GetPendingTrips {
@@ -7,7 +8,7 @@ class GetPendingTrips {
 
   GetPendingTrips(this.repository);
 
-  Future<List<DriverTrip>> call() async {
-    return await repository.getPendingTrips();
+  Future<ApiResult<List<DriverTrip>>> call() async {
+    return repository.getScheduleRequests(status: 'pending');
   }
 }

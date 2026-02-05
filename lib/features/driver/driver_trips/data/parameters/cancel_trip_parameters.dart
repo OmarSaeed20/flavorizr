@@ -1,17 +1,55 @@
-/// Parameters for cancelling a trip
-class CancelTripParameters {
-  final String tripId;
-  final String reason;
+import 'package:dio/dio.dart';
+import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:meta/meta.dart';
 
-  CancelTripParameters({
-    required this.tripId,
-    required this.reason,
-  });
+/// Parameters for cancelling a trip.
+@immutable
+class CancelTripParameters extends Parameters {
+  final String _tripId;
+  final CancelToken? _cancelToken;
 
+  const CancelTripParameters._({required String tripId, CancelToken? cancelToken})
+    : _tripId = tripId,
+      _cancelToken = cancelToken;
+
+  /// Convert to JSON for API request
+  @override
   Map<String, dynamic> toJson() {
-    return {
-      'tripId': tripId,
-      'reason': reason,
-    };
+    return {'trip_id': _tripId};
+  }
+
+  String get tripId => _tripId;
+  @override
+  CancelToken? get cancelToken => _cancelToken;
+
+  /// Static builder factory
+  static CancelTripParametersBuilder builder() => CancelTripParametersBuilder();
+}
+
+/// Builder for CancelTripParameters
+class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters> {
+  String? _tripId;
+  CancelToken? _cancelToken;
+
+  /// Set the trip ID
+  CancelTripParametersBuilder withTripId(String tripId) {
+    _tripId = tripId;
+    return this;
+  }
+
+  /// Set the cancel token for request cancellation
+  @override
+  CancelTripParametersBuilder withCancelToken(CancelToken? cancelToken) {
+    _cancelToken = cancelToken;
+    return this;
+  }
+
+  /// Build the CancelTripParameters
+  @override
+  CancelTripParameters build() {
+    if (_tripId == null) {
+      throw ArgumentError('Trip ID is required');
+    }
+    return CancelTripParameters._(tripId: _tripId!, cancelToken: _cancelToken);
   }
 }

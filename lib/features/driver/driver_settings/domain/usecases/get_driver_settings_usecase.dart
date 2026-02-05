@@ -9,6 +9,6 @@ class GetDriverSettingsUseCase {
   GetDriverSettingsUseCase(this._repository);
 
   Future<ApiResult<DriverSettings>> call() {
-    return _repository.getDriverSettings();
+    return _repository.getSettings();
   }
 }

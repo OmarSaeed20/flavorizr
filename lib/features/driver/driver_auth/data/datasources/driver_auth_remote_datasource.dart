@@ -13,42 +13,35 @@ import 'package:flavorizr/features/driver/driver_auth/data/parameters/verify_dri
 ///
 /// Handles all HTTP requests related to driver authentication.
 /// Returns ApiResult with success or error data.
+/// Based on the FAST App API documentation.
 abstract class DriverAuthRemoteDataSource {
   /// Logs in a driver with phone and password.
+  /// Endpoint: POST /driver/auth/login
   Future<ApiResult<DriverCredentialsModel>> login(DriverLoginParameters parameters);
 
-  /// Logs out the current driver.
-  Future<ApiResult<void>> logout();
-
   /// Registers a new driver.
+  /// Endpoint: POST /driver/auth/register
   Future<ApiResult<DriverCredentialsModel>> register(DriverRegisterParameters parameters);
 
-  /// Verifies driver phone number with OTP.
+  /// Verifies driver phone number with verification code.
+  /// Endpoint: POST /driver/auth/user-verify
   Future<ApiResult<DriverCredentialsModel>> verifyPhone(VerifyDriverPhoneParameters parameters);
 
-  /// Resets driver password.
+  /// Requests password reset for driver.
+  /// Endpoint: POST /driver/auth/forget-password
+  Future<ApiResult<void>> forgetPassword({required String phone});
+
+  /// Resets driver password using verification code.
+  /// Endpoint: POST /driver/auth/reset-password
   Future<ApiResult<void>> resetPassword(ResetDriverPasswordParameters parameters);
 
-  /// Refreshes the access token.
-  Future<ApiResult<DriverCredentialsModel>> refreshToken({required String refreshToken});
+  /// Logs out the current driver.
+  /// Endpoint: POST /driver/auth/logout
+  Future<ApiResult<void>> logout();
 
-  /// Sends OTP to driver's phone.
-  Future<ApiResult<void>> sendOtp({required String phone});
-
-  /// Verifies OTP code.
-  Future<ApiResult<DriverCredentialsModel>> verifyOtp({required String phone, required String otp});
-
-  /// Requests password reset.
-  Future<ApiResult<void>> forgotPassword({required String phone});
-
-  /// Changes password (authenticated).
-  Future<ApiResult<void>> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  });
-
-  /// Signs out from all devices.
-  Future<ApiResult<void>> signOutAll();
+  /// Refreshes the driver authentication token.
+  /// Endpoint: POST /driver/auth/refresh
+  Future<ApiResult<DriverCredentialsModel>> refreshToken();
 }
 
 /// Implementation of [DriverAuthRemoteDataSource] using BaseRemoteDataSource.
@@ -74,11 +67,6 @@ class DriverAuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> logout() async {
-    return post<void>(path: DriverAuthEndpoints.logout);
-  }
-
-  @override
   Future<ApiResult<DriverCredentialsModel>> register(DriverRegisterParameters parameters) async {
     return post<DriverCredentialsModel>(
       path: DriverAuthEndpoints.register,
@@ -99,54 +87,25 @@ class DriverAuthRemoteDataSourceImpl
   }
 
   @override
+  Future<ApiResult<void>> forgetPassword({required String phone}) async {
+    return post<void>(path: DriverAuthEndpoints.forgetPassword, data: {'phone': phone});
+  }
+
+  @override
   Future<ApiResult<void>> resetPassword(ResetDriverPasswordParameters parameters) async {
     return post<void>(path: DriverAuthEndpoints.resetPassword, data: parameters.toJson());
   }
 
   @override
-  Future<ApiResult<DriverCredentialsModel>> refreshToken({required String refreshToken}) async {
+  Future<ApiResult<void>> logout() async {
+    return post<void>(path: DriverAuthEndpoints.logout);
+  }
+
+  @override
+  Future<ApiResult<DriverCredentialsModel>> refreshToken() async {
     return post<DriverCredentialsModel>(
       path: DriverAuthEndpoints.refreshToken,
-      data: {'refresh_token': refreshToken},
       decoder: (data) => DriverCredentialsModel.fromJson(data as Map<String, dynamic>),
     );
-  }
-
-  @override
-  Future<ApiResult<void>> sendOtp({required String phone}) async {
-    return post<void>(path: DriverAuthEndpoints.sendOtp, data: {'phone': phone});
-  }
-
-  @override
-  Future<ApiResult<DriverCredentialsModel>> verifyOtp({
-    required String phone,
-    required String otp,
-  }) async {
-    return post<DriverCredentialsModel>(
-      path: DriverAuthEndpoints.verifyOtp,
-      data: {'phone': phone, 'otp': otp},
-      decoder: (data) => DriverCredentialsModel.fromJson(data as Map<String, dynamic>),
-    );
-  }
-
-  @override
-  Future<ApiResult<void>> forgotPassword({required String phone}) async {
-    return post<void>(path: DriverAuthEndpoints.forgotPassword, data: {'phone': phone});
-  }
-
-  @override
-  Future<ApiResult<void>> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  }) async {
-    return post<void>(
-      path: DriverAuthEndpoints.changePassword,
-      data: {'current_password': currentPassword, 'new_password': newPassword},
-    );
-  }
-
-  @override
-  Future<ApiResult<void>> signOutAll() async {
-    return post<void>(path: DriverAuthEndpoints.signOutAll);
   }
 }

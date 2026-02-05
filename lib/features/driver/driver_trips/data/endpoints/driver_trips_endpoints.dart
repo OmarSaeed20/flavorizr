@@ -1,44 +1,43 @@
-// lib/features/driver_trips/data/endpoints/driver_trips_endpoints.dart
-/// Defines all API endpoints for driver trips operations.
+/// Defines all API endpoints for driver trip operations.
+///
+/// All endpoints are based on the FAST App API documentation.
+/// Base URL: https://fasttaxi.questifysolutions.com/api/v1
 abstract class DriverTripsEndpoints {
   const DriverTripsEndpoints._();
 
-  /// Gets driver trips with pagination and filtering.
-  static const String trips = '/driver/trips';
+  /// Accept a trip request.
+  /// Endpoint: POST /driver/trip/accept
+  static const String acceptTrip = '/driver/trip/accept';
 
-  /// Gets a specific trip by ID.
-  static String tripById(String tripId) => '/driver/trips/$tripId';
+  /// Reject a trip request.
+  /// Endpoint: POST /driver/trip/reject
+  static const String rejectTrip = '/driver/trip/reject';
 
-  /// Gets pending trip requests.
-  static const String pendingTrips = '/driver/trips/pending';
+  /// Start a trip.
+  /// Endpoint: PATCH /driver/trip/start
+  static const String startTrip = '/driver/trip/start';
 
-  /// Accepts a trip request.
-  static String acceptTrip(String tripId) => '/driver/trips/$tripId/accept';
+  /// Mark driver as arrived at pickup location.
+  /// Endpoint: PATCH /driver/trip/arrived
+  static const String arrived = '/driver/trip/arrived';
 
-  /// Rejects a trip request.
-  static String rejectTrip(String tripId) => '/driver/trips/$tripId/reject';
+  /// Complete a trip.
+  /// Endpoint: PATCH /driver/trip/complete
+  static const String completeTrip = '/driver/trip/complete';
 
-  /// Starts a trip.
-  static String startTrip(String tripId) => '/driver/trips/$tripId/start';
+  /// Cancel a trip.
+  /// Endpoint: PATCH /driver/trip/cancel
+  static const String cancelTrip = '/driver/trip/cancel';
 
-  /// Completes a trip.
-  static String completeTrip(String tripId) => '/driver/trips/$tripId/complete';
+  /// Get driver's scheduled trips.
+  /// Endpoint: GET /driver/schedule-trip/trips
+  static const String getScheduleTrips = '/driver/schedule-trip/trips';
 
-  /// Cancels a trip.
-  static String cancelTrip(String tripId) => '/driver/trips/$tripId/cancel';
+  /// Create a schedule trip request.
+  /// Endpoint: POST /driver/schedule-trip/create-request
+  static const String createScheduleRequest = '/driver/schedule-trip/create-request';
 
-  /// Updates trip location.
-  static String updateLocation(String tripId) => '/driver/trips/$tripId/location';
-
-  /// Gets trip route.
-  static String tripRoute(String tripId) => '/driver/trips/$tripId/route';
-
-  /// Updates trip status.
-  static String updateStatus(String tripId) => '/driver/trips/$tripId/status';
-
-  /// Gets trip history.
-  static const String tripHistory = '/driver/trips/history';
-
-  /// Gets current active trip.
-  static const String currentTrip = '/driver/trips/current';
+  /// Get driver's schedule trip requests.
+  /// Endpoint: POST /driver/schedule-trip/my-requests
+  static const String getScheduleRequests = '/driver/schedule-trip/my-requests';
 }

@@ -1,3 +1,5 @@
+import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver.dart';
+
 /// Driver credentials entity for authentication.
 class DriverCredentials {
   final String accessToken;

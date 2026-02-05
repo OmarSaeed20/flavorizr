@@ -1,38 +1,35 @@
-// lib/features/driver_auth/data/endpoints/driver_auth_endpoints.dart
 /// Defines all API endpoints for driver authentication operations.
+///
+/// All endpoints are based on the FAST App API documentation.
+/// Base URL: https://fasttaxi.questifysolutions.com/api/v1
 abstract class DriverAuthEndpoints {
   const DriverAuthEndpoints._();
 
   /// Logs in a driver with phone and password.
+  /// Endpoint: POST /driver/auth/login
   static const String login = '/driver/auth/login';
 
   /// Registers a new driver.
+  /// Endpoint: POST /driver/auth/register
   static const String register = '/driver/auth/register';
 
-  /// Logs out the current driver.
-  static const String logout = '/driver/auth/logout';
+  /// Verifies driver phone number with verification code.
+  /// Endpoint: POST /driver/auth/user-verify
+  static const String verifyPhone = '/driver/auth/user-verify';
 
-  /// Verifies driver phone number with OTP.
-  static const String verifyPhone = '/driver/auth/verify-phone';
+  /// Requests password reset for driver.
+  /// Endpoint: POST /driver/auth/forget-password
+  static const String forgetPassword = '/driver/auth/forget-password';
 
-  /// Resets driver password.
+  /// Resets driver password using verification code.
+  /// Endpoint: POST /driver/auth/reset-password
   static const String resetPassword = '/driver/auth/reset-password';
 
-  /// Refreshes the access token.
-  static const String refreshToken = '/driver/auth/refresh-token';
+  /// Logs out the current driver.
+  /// Endpoint: POST /driver/auth/logout
+  static const String logout = '/driver/auth/logout';
 
-  /// Sends OTP to driver's phone.
-  static const String sendOtp = '/driver/auth/send-otp';
-
-  /// Verifies OTP code.
-  static const String verifyOtp = '/driver/auth/verify-otp';
-
-  /// Requests password reset.
-  static const String forgotPassword = '/driver/auth/forgot-password';
-
-  /// Changes password (authenticated).
-  static const String changePassword = '/driver/auth/change-password';
-
-  /// Sign out from all devices.
-  static const String signOutAll = '/driver/auth/logout/all';
+  /// Refreshes the driver authentication token.
+  /// Endpoint: POST /driver/auth/refresh
+  static const String refreshToken = '/driver/auth/refresh';
 }

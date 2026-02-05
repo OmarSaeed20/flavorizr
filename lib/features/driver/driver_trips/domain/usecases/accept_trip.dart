@@ -1,5 +1,6 @@
-import '../entities/driver_trip.dart';
-import '../repositories/driver_trips_repository.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
 
 /// Use case for accepting a trip request
 class AcceptTrip {
@@ -7,7 +8,7 @@ class AcceptTrip {
 
   AcceptTrip(this.repository);
 
-  Future<DriverTrip> call(String tripId) async {
-    return await repository.acceptTrip(tripId);
+  Future<ApiResult<DriverTrip>> call(String tripId) async {
+    return repository.acceptTrip(tripId);
   }
 }

@@ -35,7 +35,7 @@ class DirectBookingRepositoryImpl extends BaseRepository implements DirectBookin
   }
 
   @override
-  Future<ApiResult<List<Driver>>> getNearbyDrivers(GetNearbyDriversParameters params) async {
+  Future<ApiResult<List<TaxiDriver>>> getNearbyDrivers(GetNearbyDriversParameters params) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.getNearbyDrivers(params),
     );

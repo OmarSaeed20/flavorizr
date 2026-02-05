@@ -1,5 +1,6 @@
-import '../entities/driver_trip.dart';
-import '../repositories/driver_trips_repository.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
 
 /// Use case for getting driver trips with pagination and filtering
 class GetDriverTrips {
@@ -7,19 +8,7 @@ class GetDriverTrips {
 
   GetDriverTrips(this.repository);
 
-  Future<List<DriverTrip>> call({
-    int page = 1,
-    int limit = 10,
-    String? status,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) async {
-    return await repository.getDriverTrips(
-      page: page,
-      limit: limit,
-      status: status,
-      startDate: startDate,
-      endDate: endDate,
-    );
+  Future<ApiResult<List<DriverTrip>>> call({String? date, String? status}) async {
+    return repository.getScheduleRequests(date: date, status: status);
   }
 }

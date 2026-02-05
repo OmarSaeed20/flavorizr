@@ -1,4 +1,4 @@
-import 'trip_route.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/entities/trip_route.dart';
 
 /// Driver trip entity representing a trip request
 class DriverTrip {

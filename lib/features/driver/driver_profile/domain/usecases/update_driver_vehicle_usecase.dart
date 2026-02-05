@@ -10,28 +10,16 @@ class UpdateDriverVehicleUseCase {
 
   /// Executes the update driver vehicle use case.
   Future<ApiResult<DriverVehicle>> call({
-    String? make,
-    String? model,
-    int? year,
-    String? color,
-    String? licensePlate,
-    String? vehicleType,
-    int? capacity,
-    String? vin,
-    String? registrationNumber,
-    DateTime? registrationExpiry,
+    String? vehicleTypeId,
+    String? vehiclePlateNumber,
+    String? vehicleImage,
+    String? vehicleLicenseImage,
   }) {
-    return _repository.updateDriverVehicle(
-      make: make,
-      model: model,
-      year: year,
-      color: color,
-      licensePlate: licensePlate,
-      vehicleType: vehicleType,
-      capacity: capacity,
-      vin: vin,
-      registrationNumber: registrationNumber,
-      registrationExpiry: registrationExpiry,
+    return _repository.updateVehicle(
+      vehicleTypeId: vehicleTypeId,
+      vehiclePlateNumber: vehiclePlateNumber,
+      vehicleImage: vehicleImage,
+      vehicleLicenseImage: vehicleLicenseImage,
     );
   }
 }

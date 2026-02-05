@@ -10,6 +10,6 @@ class GetDriverVehicleUseCase {
 
   /// Executes the get driver vehicle use case.
   Future<ApiResult<DriverVehicle>> call() {
-    return _repository.getDriverVehicle();
+    return _repository.getVehicle();
   }
 }

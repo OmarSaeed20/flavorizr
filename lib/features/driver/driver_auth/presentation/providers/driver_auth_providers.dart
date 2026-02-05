@@ -1,6 +1,5 @@
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flavorizr/core/di/providers.dart';
+import 'package:flavorizr/features/driver/driver_auth/data/datasources/driver_auth_local_datasource.dart';
 import 'package:flavorizr/features/driver/driver_auth/data/datasources/driver_auth_remote_datasource.dart';
 import 'package:flavorizr/features/driver/driver_auth/data/repositories/driver_auth_repository_impl.dart';
 import 'package:flavorizr/features/driver/driver_auth/domain/repositories/driver_auth_repository.dart';
@@ -10,17 +9,30 @@ import 'package:flavorizr/features/driver/driver_auth/domain/usecases/driver_reg
 import 'package:flavorizr/features/driver/driver_auth/domain/usecases/reset_driver_password_usecase.dart';
 import 'package:flavorizr/features/driver/driver_auth/domain/usecases/verify_driver_phone_usecase.dart';
 import 'package:flavorizr/features/driver/driver_auth/presentation/controllers/driver_auth_controller.dart';
+import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverAuthRemoteDataSource.
 final driverAuthRemoteDataSourceProvider = Provider<DriverAuthRemoteDataSource>((ref) {
   return DriverAuthRemoteDataSourceImpl(ref.watch(apiClientProvider));
 });
 
+/// Provider for DriverAuthLocalDataSource.
+final driverAuthLocalDataSourceProvider = Provider<DriverAuthLocalDataSource>((ref) {
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+  return DriverAuthLocalDataSourceImpl(sharedPreferences);
+});
+
 /// Provider for DriverAuthRepository.
 final driverAuthRepositoryProvider = Provider<DriverAuthRepository>((ref) {
   final remoteDataSource = ref.watch(driverAuthRemoteDataSourceProvider);
+  final localDataSource = ref.watch(driverAuthLocalDataSourceProvider);
   final networkInfo = ref.watch(networkInfoProvider);
-  return DriverAuthRepositoryImpl(remoteDataSource: remoteDataSource, networkInfo: networkInfo);
+  return DriverAuthRepositoryImpl(
+    remoteDataSource: remoteDataSource,
+    localDataSource: localDataSource,
+    networkInfo: networkInfo,
+  );
 });
 
 /// Provider for DriverLoginUseCase.

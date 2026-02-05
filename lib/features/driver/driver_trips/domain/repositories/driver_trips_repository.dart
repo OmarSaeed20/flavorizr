@@ -1,41 +1,43 @@
-import '../entities/driver_trip.dart';
-import '../entities/trip_request.dart';
+import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
 
-/// Repository interface for driver trips operations
+/// Repository interface for driver trips operations.
 abstract class DriverTripsRepository {
-  /// Get driver trips with pagination and filtering
-  Future<List<DriverTrip>> getDriverTrips({
-    int page = 1,
-    int limit = 10,
-    String? status,
-    DateTime? startDate,
-    DateTime? endDate,
+  /// Accepts a trip request.
+  Future<ApiResult<DriverTrip>> acceptTrip(String tripId);
+
+  /// Rejects a trip request.
+  Future<ApiResult<void>> rejectTrip(String tripId);
+
+  /// Starts a trip.
+  Future<ApiResult<DriverTrip>> startTrip(String tripId);
+
+  /// Marks driver as arrived at pickup location.
+  Future<ApiResult<DriverTrip>> arrived(String tripId);
+
+  /// Completes a trip.
+  Future<ApiResult<DriverTrip>> completeTrip(String tripId);
+
+  /// Cancels a trip.
+  Future<ApiResult<void>> cancelTrip(String tripId);
+
+  /// Gets driver's scheduled trips.
+  Future<ApiResult<List<DriverTrip>>> getScheduleTrips();
+
+  /// Creates a schedule trip request.
+  Future<ApiResult<DriverTrip>> createScheduleRequest({
+    required String pickUpLongitude,
+    required String pickUpLatitude,
+    required String destinationLongitude,
+    required String destinationLatitude,
+    required String pickupName,
+    required String destinationName,
+    required String date,
+    required String pickUpTime,
+    required String dropUpTime,
+    required int vehicleTypeId,
   });
 
-  /// Get a specific trip by ID
-  Future<DriverTrip> getDriverTripById(String tripId);
-
-  /// Get pending trip requests for the driver
-  Future<List<DriverTrip>> getPendingTrips();
-
-  /// Accept a trip request
-  Future<DriverTrip> acceptTrip(String tripId);
-
-  /// Reject a trip request
-  Future<bool> rejectTrip(String tripId, String? reason);
-
-  /// Start a trip
-  Future<DriverTrip> startTrip(String tripId);
-
-  /// Complete a trip
-  Future<DriverTrip> completeTrip(String tripId, double actualFare);
-
-  /// Cancel a trip
-  Future<bool> cancelTrip(String tripId, String reason);
-
-  /// Update trip location
-  Future<bool> updateTripLocation(String tripId, double latitude, double longitude);
-
-  /// Get trip statistics
-  Future<Map<String, dynamic>> getTripStats();
+  /// Gets driver's schedule trip requests.
+  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({String? date, String? status});
 }

@@ -10,6 +10,6 @@ class GetDriverDocumentsUseCase {
 
   /// Executes the get driver documents use case.
   Future<ApiResult<List<DriverDocument>>> call() {
-    return _repository.getDriverDocuments();
+    return _repository.getDocuments();
   }
 }

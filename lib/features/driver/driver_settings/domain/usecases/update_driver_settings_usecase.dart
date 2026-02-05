@@ -9,9 +9,7 @@ class UpdateDriverSettingsUseCase {
 
   UpdateDriverSettingsUseCase(this._repository);
 
-  Future<ApiResult<DriverSettings>> call(
-    UpdateDriverSettingsParameters params,
-  ) {
-    return _repository.updateDriverSettings(params);
+  Future<ApiResult<DriverSettings>> call(UpdateDriverSettingsParameters params) {
+    return _repository.updateSettings(params);
   }
 }

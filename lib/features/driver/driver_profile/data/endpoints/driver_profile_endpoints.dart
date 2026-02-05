@@ -1,41 +1,51 @@
-// lib/features/driver_profile/data/endpoints/driver_profile_endpoints.dart
 /// Defines all API endpoints for driver profile operations.
+///
+/// All endpoints are based on the FAST App API documentation.
+/// Base URL: https://fasttaxi.questifysolutions.com/api/v1
 abstract class DriverProfileEndpoints {
   const DriverProfileEndpoints._();
 
-  /// Gets driver profile.
-  static const String profile = '/driver/profile';
+  /// Get driver profile.
+  /// Endpoint: GET /driver/profile
+  static const String getProfile = '/driver/profile';
 
-  /// Updates driver profile.
-  static const String updateProfile = '/driver/profile';
+  /// Get driver profile detail.
+  /// Endpoint: GET /driver/profile/detail
+  static const String getProfileDetail = '/driver/profile/detail';
 
-  /// Gets driver vehicle.
-  static const String vehicle = '/driver/vehicle';
+  /// Update driver profile info.
+  /// Endpoint: POST /driver/profile/update-info
+  static const String updateProfileInfo = '/driver/profile/update-info';
 
-  /// Updates driver vehicle.
-  static const String updateVehicle = '/driver/vehicle';
+  /// Update driver profile image.
+  /// Endpoint: POST /driver/profile/update-image
+  static const String updateProfileImage = '/driver/profile/update-image';
 
-  /// Uploads driver document.
-  static const String uploadDocument = '/driver/documents';
+  /// Get driver vehicle information.
+  /// Endpoint: GET /driver/vehicle
+  static const String getVehicle = '/driver/vehicle';
 
-  /// Gets driver documents.
-  static const String documents = '/driver/documents';
+  /// Update driver vehicle information.
+  /// Endpoint: POST /driver/vehicle/update
+  static const String updateVehicle = '/driver/vehicle/update';
 
-  /// Deletes a specific driver document.
+  /// Get driver documents.
+  /// Endpoint: GET /driver/documents
+  static const String getDocuments = '/driver/documents';
+
+  /// Upload driver document.
+  /// Endpoint: POST /driver/documents/upload
+  static const String uploadDocument = '/driver/documents/upload';
+
+  /// Delete driver document.
+  /// Endpoint: DELETE /driver/documents/{document_id}
   static String deleteDocument(String documentId) => '/driver/documents/$documentId';
 
-  /// Gets driver document by ID.
-  static String documentById(String documentId) => '/driver/documents/$documentId';
+  /// Get driver verification status.
+  /// Endpoint: GET /driver/verification/status
+  static const String getVerificationStatus = '/driver/verification/status';
 
-  /// Updates driver profile photo.
-  static const String profilePhoto = '/driver/profile/photo';
-
-  /// Updates driver license photo.
-  static const String licensePhoto = '/driver/profile/license-photo';
-
-  /// Gets driver verification status.
-  static const String verificationStatus = '/driver/verification/status';
-
-  /// Submits driver verification documents.
+  /// Submit driver verification documents.
+  /// Endpoint: POST /driver/verification/submit
   static const String submitVerification = '/driver/verification/submit';
 }

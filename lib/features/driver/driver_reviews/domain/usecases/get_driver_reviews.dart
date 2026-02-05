@@ -1,7 +1,7 @@
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 
-import '../entities/driver_review.dart';
-import '../repositories/driver_review_repository.dart';
+import 'package:flavorizr/features/driver/driver_reviews/domain/entities/driver_review.dart';
+import 'package:flavorizr/features/driver/driver_reviews/domain/repositories/driver_review_repository.dart';
 
 /// Use case for getting driver reviews
 class GetDriverReviews {
@@ -11,21 +11,21 @@ class GetDriverReviews {
 
   Future<ApiResult<List<DriverReview>>> call({
     required String driverId,
-    required int page,
-    required int limit,
-    int? minRating,
-    int? maxRating,
-    bool? withResponse,
-    bool? pendingResponse,
+    int? tripId,
+    int? rating,
+    int page = 1,
+    int limit = 20,
+    String sortBy = 'created_at',
+    String sortOrder = 'desc',
   }) {
-    return repository.getDriverReviews(
+    return repository.getReviews(
       driverId: driverId,
+      tripId: tripId,
+      rating: rating,
       page: page,
       limit: limit,
-      minRating: minRating,
-      maxRating: maxRating,
-      withResponse: withResponse,
-      pendingResponse: pendingResponse,
+      sortBy: sortBy,
+      sortOrder: sortOrder,
     );
   }
 }

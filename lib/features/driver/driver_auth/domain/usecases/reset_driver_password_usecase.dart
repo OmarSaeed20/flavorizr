@@ -9,14 +9,16 @@ class ResetDriverPasswordUseCase {
 
   /// Executes the reset driver password use case.
   Future<ApiResult<void>> call({
+    required String code,
     required String phone,
-    required String newPassword,
-    required String otp,
+    required String password,
+    required String passwordConfirmation,
   }) {
     return _repository.resetPassword(
+      code: code,
       phone: phone,
-      newPassword: newPassword,
-      otp: otp,
+      password: password,
+      passwordConfirmation: passwordConfirmation,
     );
   }
 }

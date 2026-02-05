@@ -5,43 +5,41 @@ import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/driver/driver_settings/data/endpoints/driver_settings_endpoints.dart';
 import 'package:flavorizr/features/driver/driver_settings/data/models/driver_settings_model.dart';
 import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
+import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_language_parameters.dart';
+import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_notification_parameters.dart';
+import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_privacy_parameters.dart';
 
 /// Remote data source for driver settings operations.
 ///
 /// Handles all HTTP requests related to driver settings.
 /// Returns ApiResult with success or error data.
+/// Based on the FAST App API documentation.
 abstract class DriverSettingsRemoteDataSource {
-  /// Gets driver settings.
-  Future<ApiResult<DriverSettingsModel>> getDriverSettings();
+  /// Get driver settings.
+  /// Endpoint: GET /driver/settings
+  Future<ApiResult<DriverSettingsModel>> getSettings();
 
-  /// Updates driver settings.
-  Future<ApiResult<DriverSettingsModel>> updateDriverSettings(
-    UpdateDriverSettingsParameters parameters,
+  /// Update driver settings.
+  /// Endpoint: POST /driver/settings/update
+  Future<ApiResult<DriverSettingsModel>> updateSettings(UpdateDriverSettingsParameters parameters);
+
+  /// Update driver notification preferences.
+  /// Endpoint: POST /driver/settings/notifications
+  Future<ApiResult<DriverSettingsModel>> updateNotifications(
+    UpdateNotificationParameters parameters,
   );
 
-  /// Toggles online status.
-  Future<ApiResult<DriverSettingsModel>> toggleOnlineStatus(bool isOnline);
+  /// Update driver language preference.
+  /// Endpoint: POST /driver/settings/language
+  Future<ApiResult<DriverSettingsModel>> updateLanguage(UpdateLanguageParameters parameters);
 
-  /// Toggles availability status.
-  Future<ApiResult<DriverSettingsModel>> toggleAvailabilityStatus(bool isAvailable);
+  /// Update driver privacy settings.
+  /// Endpoint: POST /driver/settings/privacy
+  Future<ApiResult<DriverSettingsModel>> updatePrivacy(UpdatePrivacyParameters parameters);
 
-  /// Gets driver notification preferences.
-  Future<ApiResult<Map<String, dynamic>>> getNotificationPreferences();
-
-  /// Updates driver notification preferences.
-  Future<ApiResult<void>> updateNotificationPreferences(Map<String, dynamic> preferences);
-
-  /// Gets driver privacy settings.
-  Future<ApiResult<Map<String, dynamic>>> getPrivacySettings();
-
-  /// Updates driver privacy settings.
-  Future<ApiResult<void>> updatePrivacySettings(Map<String, dynamic> settings);
-
-  /// Gets driver payment settings.
-  Future<ApiResult<Map<String, dynamic>>> getPaymentSettings();
-
-  /// Updates driver payment settings.
-  Future<ApiResult<void>> updatePaymentSettings(Map<String, dynamic> settings);
+  /// Delete driver account.
+  /// Endpoint: DELETE /driver/settings/account
+  Future<ApiResult<void>> deleteAccount();
 }
 
 /// Implementation of [DriverSettingsRemoteDataSource] using BaseRemoteDataSource.
@@ -58,18 +56,18 @@ class DriverSettingsRemoteDataSourceImpl
   String get baseUrl => _apiClient.dio.options.baseUrl;
 
   @override
-  Future<ApiResult<DriverSettingsModel>> getDriverSettings() async {
+  Future<ApiResult<DriverSettingsModel>> getSettings() async {
     return get<DriverSettingsModel>(
-      path: DriverSettingsEndpoints.settings,
+      path: DriverSettingsEndpoints.getSettings,
       decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<DriverSettingsModel>> updateDriverSettings(
+  Future<ApiResult<DriverSettingsModel>> updateSettings(
     UpdateDriverSettingsParameters parameters,
   ) async {
-    return put<DriverSettingsModel>(
+    return post<DriverSettingsModel>(
       path: DriverSettingsEndpoints.updateSettings,
       data: parameters.toJson(),
       decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
@@ -77,62 +75,36 @@ class DriverSettingsRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<DriverSettingsModel>> toggleOnlineStatus(bool isOnline) async {
+  Future<ApiResult<DriverSettingsModel>> updateNotifications(
+    UpdateNotificationParameters parameters,
+  ) async {
     return post<DriverSettingsModel>(
-      path: DriverSettingsEndpoints.toggleOnline,
-      data: {'is_online': isOnline},
+      path: DriverSettingsEndpoints.updateNotifications,
+      data: parameters.toJson(),
       decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<DriverSettingsModel>> toggleAvailabilityStatus(bool isAvailable) async {
+  Future<ApiResult<DriverSettingsModel>> updateLanguage(UpdateLanguageParameters parameters) async {
     return post<DriverSettingsModel>(
-      path: DriverSettingsEndpoints.toggleAvailability,
-      data: {'is_available': isAvailable},
+      path: DriverSettingsEndpoints.updateLanguage,
+      data: parameters.toJson(),
       decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<Map<String, dynamic>>> getNotificationPreferences() async {
-    return get<Map<String, dynamic>>(
-      path: DriverSettingsEndpoints.notificationPreferences,
-      decoder: (data) => data as Map<String, dynamic>,
+  Future<ApiResult<DriverSettingsModel>> updatePrivacy(UpdatePrivacyParameters parameters) async {
+    return post<DriverSettingsModel>(
+      path: DriverSettingsEndpoints.updatePrivacy,
+      data: parameters.toJson(),
+      decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<void>> updateNotificationPreferences(Map<String, dynamic> preferences) async {
-    return put<void>(
-      path: DriverSettingsEndpoints.updateNotificationPreferences,
-      data: preferences,
-    );
-  }
-
-  @override
-  Future<ApiResult<Map<String, dynamic>>> getPrivacySettings() async {
-    return get<Map<String, dynamic>>(
-      path: DriverSettingsEndpoints.privacySettings,
-      decoder: (data) => data as Map<String, dynamic>,
-    );
-  }
-
-  @override
-  Future<ApiResult<void>> updatePrivacySettings(Map<String, dynamic> settings) async {
-    return put<void>(path: DriverSettingsEndpoints.updatePrivacySettings, data: settings);
-  }
-
-  @override
-  Future<ApiResult<Map<String, dynamic>>> getPaymentSettings() async {
-    return get<Map<String, dynamic>>(
-      path: DriverSettingsEndpoints.paymentSettings,
-      decoder: (data) => data as Map<String, dynamic>,
-    );
-  }
-
-  @override
-  Future<ApiResult<void>> updatePaymentSettings(Map<String, dynamic> settings) async {
-    return put<void>(path: DriverSettingsEndpoints.updatePaymentSettings, data: settings);
+  Future<ApiResult<void>> deleteAccount() async {
+    return delete<void>(path: DriverSettingsEndpoints.deleteAccount);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flavorizr/features/user/direct_booking/domain/entities/driver.dart';
 
-class DriverModel extends Driver {
+class DriverModel extends TaxiDriver {
   const DriverModel({
     required super.id,
     required super.name,
@@ -47,5 +47,5 @@ class DriverModel extends Driver {
     };
   }
 
-  Driver toEntity() => this;
+  TaxiDriver toEntity() => this;
 }

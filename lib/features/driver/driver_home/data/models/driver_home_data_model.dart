@@ -4,26 +4,19 @@ import 'package:flavorizr/features/driver/driver_home/data/models/driver_trip_mo
 import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_earnings.dart';
 import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_home_data.dart';
 import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_stats.dart';
+import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_trip.dart';
 
 /// Model for driver home data
 class DriverHomeDataModel extends DriverHomeData {
   const DriverHomeDataModel({
-    required DriverStats stats,
-    required DriverEarnings earnings,
-    required List<DriverTrip> recentTrips,
-    required bool isOnline,
-    required bool isAvailable,
-    String? currentLocation,
-    required DateTime lastUpdated,
-  }) : super(
-         stats: stats,
-         earnings: earnings,
-         recentTrips: recentTrips,
-         isOnline: isOnline,
-         isAvailable: isAvailable,
-         currentLocation: currentLocation,
-         lastUpdated: lastUpdated,
-       );
+    required super.stats,
+    required super.earnings,
+    required super.recentTrips,
+    required super.isOnline,
+    required super.isAvailable,
+    super.currentLocation,
+    required super.lastUpdated,
+  });
 
   factory DriverHomeDataModel.fromJson(Map<String, dynamic> json) {
     return DriverHomeDataModel(
@@ -52,4 +45,8 @@ class DriverHomeDataModel extends DriverHomeData {
       'lastUpdated': lastUpdated.toIso8601String(),
     };
   }
+
+  /// Converts the model to its entity representation.
+  /// Since this model extends the entity, it returns itself.
+  DriverHomeData toEntity() => this;
 }

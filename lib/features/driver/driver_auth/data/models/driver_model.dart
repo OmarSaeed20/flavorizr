@@ -1,64 +1,114 @@
 import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver.dart';
 
 /// Model for Driver entity.
+///
+/// Based on the FAST App API documentation for driver data structure
 class DriverModel extends Driver {
   DriverModel({
     required super.id,
-    required super.firstName,
-    required super.lastName,
+    required super.name,
     required super.email,
     required super.phone,
-    super.profileImage,
+    super.phoneIso2Code,
+    super.image,
+    required super.countryId,
+    required super.governorateId,
+    required super.cityId,
+    required super.birthdate,
+    required super.gender,
+    super.nationalId,
+    super.nationalIdImage,
+    super.drivingLicenseImage,
+    super.vehicleLicenseImage,
+    super.vehicleImage,
+    super.vehicleTypeId,
+    super.vehiclePlateNumber,
     required super.isVerified,
     required super.isActive,
     required super.createdAt,
-    super.lastLoginAt,
+    super.updatedAt,
   });
 
   factory DriverModel.fromJson(Map<String, dynamic> json) {
     return DriverModel(
-      id: json['id'] as String,
-      firstName: json['first_name'] as String,
-      lastName: json['last_name'] as String,
-      email: json['email'] as String,
-      phone: json['phone'] as String,
-      profileImage: json['profile_image'] as String?,
+      id: json['id']?.toString() ?? '',
+      name: json['name'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      phone: json['phone'] as String? ?? '',
+      phoneIso2Code: json['phone_iso2_code'] as String?,
+      image: json['image'] as String?,
+      countryId: json['country_id'] as int? ?? 0,
+      governorateId: json['governorate_id'] as int? ?? 0,
+      cityId: json['city_id'] as int? ?? 0,
+      birthdate: json['birthdate'] as String? ?? '',
+      gender: json['gender'] as String? ?? 'male',
+      nationalId: json['national_id'] as String?,
+      nationalIdImage: json['national_id_image'] as String?,
+      drivingLicenseImage: json['driving_license_image'] as String?,
+      vehicleLicenseImage: json['vehicle_license_image'] as String?,
+      vehicleImage: json['vehicle_image'] as String?,
+      vehicleTypeId: json['vehicle_type_id'] as int?,
+      vehiclePlateNumber: json['vehicle_plate_number'] as String?,
       isVerified: json['is_verified'] as bool? ?? false,
       isActive: json['is_active'] as bool? ?? true,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      lastLoginAt: json['last_login_at'] != null
-          ? DateTime.parse(json['last_login_at'] as String)
-          : null,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
+          : DateTime.now(),
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'first_name': firstName,
-      'last_name': lastName,
+      'name': name,
       'email': email,
       'phone': phone,
-      'profile_image': profileImage,
+      if (phoneIso2Code != null) 'phone_iso2_code': phoneIso2Code,
+      if (image != null) 'image': image,
+      'country_id': countryId,
+      'governorate_id': governorateId,
+      'city_id': cityId,
+      'birthdate': birthdate,
+      'gender': gender,
+      if (nationalId != null) 'national_id': nationalId,
+      if (nationalIdImage != null) 'national_id_image': nationalIdImage,
+      if (drivingLicenseImage != null) 'driving_license_image': drivingLicenseImage,
+      if (vehicleLicenseImage != null) 'vehicle_license_image': vehicleLicenseImage,
+      if (vehicleImage != null) 'vehicle_image': vehicleImage,
+      if (vehicleTypeId != null) 'vehicle_type_id': vehicleTypeId,
+      if (vehiclePlateNumber != null) 'vehicle_plate_number': vehiclePlateNumber,
       'is_verified': isVerified,
       'is_active': isActive,
       'created_at': createdAt.toIso8601String(),
-      'last_login_at': lastLoginAt?.toIso8601String(),
+      if (updatedAt != null) 'updated_at': updatedAt!.toIso8601String(),
     };
   }
 
   Driver toEntity() {
     return Driver(
       id: id,
-      firstName: firstName,
-      lastName: lastName,
+      name: name,
       email: email,
       phone: phone,
-      profileImage: profileImage,
+      phoneIso2Code: phoneIso2Code,
+      image: image,
+      countryId: countryId,
+      governorateId: governorateId,
+      cityId: cityId,
+      birthdate: birthdate,
+      gender: gender,
+      nationalId: nationalId,
+      nationalIdImage: nationalIdImage,
+      drivingLicenseImage: drivingLicenseImage,
+      vehicleLicenseImage: vehicleLicenseImage,
+      vehicleImage: vehicleImage,
+      vehicleTypeId: vehicleTypeId,
+      vehiclePlateNumber: vehiclePlateNumber,
       isVerified: isVerified,
       isActive: isActive,
       createdAt: createdAt,
-      lastLoginAt: lastLoginAt,
+      updatedAt: updatedAt,
     );
   }
 }

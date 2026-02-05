@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flavorizr/l10n/app_localizations.dart';
-import '../controllers/driver_reviews_controller.dart';
-import '../providers/driver_reviews_providers.dart';
-import '../widgets/review_stats_card.dart';
-import '../widgets/review_card.dart';
-import '../widgets/review_filter_chip.dart';
+import 'package:flavorizr/features/driver/driver_reviews/presentation/controllers/driver_reviews_controller.dart';
+import 'package:flavorizr/features/driver/driver_reviews/presentation/providers/driver_reviews_providers.dart';
+import 'package:flavorizr/features/driver/driver_reviews/presentation/widgets/review_stats_card.dart';
+import 'package:flavorizr/features/driver/driver_reviews/presentation/widgets/review_card.dart';
+import 'package:flavorizr/features/driver/driver_reviews/presentation/widgets/review_filter_chip.dart';
 
 /// Page for displaying driver reviews
 class DriverReviewsPage extends ConsumerStatefulWidget {
   final String driverId;
 
-  const DriverReviewsPage({
-    super.key,
-    required this.driverId,
-  });
+  const DriverReviewsPage({super.key, required this.driverId});
 
   @override
   ConsumerState<DriverReviewsPage> createState() => _DriverReviewsPageState();
@@ -41,41 +38,26 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
   }
 
   void _loadData() {
-    ref.read(driverReviewsControllerProvider.notifier).loadReviews(
-          driverId: widget.driverId,
-          refresh: true,
-        );
-    ref.read(driverReviewsControllerProvider.notifier).loadReviewStats(
-          driverId: widget.driverId,
-        );
+    ref
+        .read(driverReviewsControllerProvider.notifier)
+        .loadReviews(driverId: widget.driverId, refresh: true);
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.8) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent * 0.8) {
       final state = ref.read(driverReviewsControllerProvider);
       if (state.hasMore && !state.isLoading) {
-        ref.read(driverReviewsControllerProvider.notifier).loadReviews(
-              driverId: widget.driverId,
-              page: state.currentPage + 1,
-              minRating: _selectedMinRating,
-              maxRating: _selectedMaxRating,
-              withResponse: _filterWithResponse,
-              pendingResponse: _filterPendingResponse,
-            );
+        ref
+            .read(driverReviewsControllerProvider.notifier)
+            .loadReviews(driverId: widget.driverId, page: state.currentPage + 1);
       }
     }
   }
 
   void _applyFilters() {
-    ref.read(driverReviewsControllerProvider.notifier).loadReviews(
-          driverId: widget.driverId,
-          refresh: true,
-          minRating: _selectedMinRating,
-          maxRating: _selectedMaxRating,
-          withResponse: _filterWithResponse,
-          pendingResponse: _filterPendingResponse,
-        );
+    ref
+        .read(driverReviewsControllerProvider.notifier)
+        .loadReviews(driverId: widget.driverId, refresh: true, rating: _selectedMinRating);
   }
 
   void _clearFilters() {
@@ -95,7 +77,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.driverReviews),
+        title: const Text('Driver Reviews'),
         actions: [
           IconButton(
             icon: const Icon(Icons.filter_list),
@@ -110,18 +92,6 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
-            // Stats Card
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ReviewStatsCard(
-                  stats: state.stats,
-                  isLoading: state.isLoadingStats,
-                  error: state.statsError,
-                ),
-              ),
-            ),
-
             // Filter Chips
             if (_selectedMinRating != null ||
                 _selectedMaxRating != null ||
@@ -135,7 +105,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                     children: [
                       if (_selectedMinRating != null)
                         ReviewFilterChip(
-                          label: '${l10n.minRating}: $_selectedMinRating',
+                          label: 'Min Rating: $_selectedMinRating',
                           onDeleted: () {
                             setState(() {
                               _selectedMinRating = null;
@@ -145,7 +115,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                         ),
                       if (_selectedMaxRating != null)
                         ReviewFilterChip(
-                          label: '${l10n.maxRating}: $_selectedMaxRating',
+                          label: 'Max Rating: $_selectedMaxRating',
                           onDeleted: () {
                             setState(() {
                               _selectedMaxRating = null;
@@ -155,9 +125,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                         ),
                       if (_filterWithResponse != null)
                         ReviewFilterChip(
-                          label: _filterWithResponse!
-                              ? l10n.withResponse
-                              : l10n.withoutResponse,
+                          label: _filterWithResponse! ? 'With Response' : 'Without Response',
                           onDeleted: () {
                             setState(() {
                               _filterWithResponse = null;
@@ -167,7 +135,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                         ),
                       if (_filterPendingResponse != null)
                         ReviewFilterChip(
-                          label: l10n.pendingResponse,
+                          label: 'Pending Response',
                           onDeleted: () {
                             setState(() {
                               _filterPendingResponse = null;
@@ -175,10 +143,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                             _applyFilters();
                           },
                         ),
-                      ReviewFilterChip(
-                        label: l10n.clearFilters,
-                        onDeleted: _clearFilters,
-                      ),
+                      ReviewFilterChip(label: 'Clear Filters', onDeleted: _clearFilters),
                     ],
                   ),
                 ),
@@ -186,9 +151,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
 
             // Reviews List
             if (state.isLoading && state.reviews.isEmpty)
-              const SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
-              )
+              const SliverFillRemaining(child: Center(child: CircularProgressIndicator()))
             else if (state.error != null && state.reviews.isEmpty)
               SliverFillRemaining(
                 child: Center(
@@ -199,39 +162,33 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                       const SizedBox(height: 16),
                       Text(state.error!),
                       const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadData,
-                        child: Text(l10n.retry),
-                      ),
+                      ElevatedButton(onPressed: _loadData, child: const Text('Retry')),
                     ],
                   ),
                 ),
               )
             else if (state.reviews.isEmpty)
-              SliverFillRemaining(
+              const SliverFillRemaining(
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.rate_review_outlined, size: 48),
-                      const SizedBox(height: 16),
-                      Text(l10n.noReviews),
+                      Icon(Icons.rate_review_outlined, size: 48),
+                      SizedBox(height: 16),
+                      Text('No reviews yet'),
                     ],
                   ),
                 ),
               )
             else
               SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final review = state.reviews[index];
-                    return ReviewCard(
-                      review: review,
-                      onTap: () => _showReviewDetailDialog(context, review),
-                    );
-                  },
-                  childCount: state.reviews.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final review = state.reviews[index];
+                  return ReviewCard(
+                    review: review,
+                    onTap: () => _showReviewDetailDialog(context, review),
+                  );
+                }, childCount: state.reviews.length),
               ),
 
             // Loading indicator for pagination
@@ -252,29 +209,28 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.filterReviews),
+        title: const Text('Filter Reviews'),
         content: StatefulBuilder(
           builder: (context, setDialogState) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppLocalizations.of(context)!.ratingRange),
+                const Text('Rating Range'),
                 const SizedBox(height: 8),
                 Row(
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<int>(
-                        value: _selectedMinRating,
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.minRating,
-                          border: const OutlineInputBorder(),
+                        initialValue: _selectedMinRating,
+                        decoration: const InputDecoration(
+                          labelText: 'Min Rating',
+                          border: OutlineInputBorder(),
                         ),
                         items: List.generate(5, (index) => index + 1)
-                            .map((rating) => DropdownMenuItem(
-                                  value: rating,
-                                  child: Text('$rating'),
-                                ))
+                            .map(
+                              (rating) => DropdownMenuItem(value: rating, child: Text('$rating')),
+                            )
                             .toList(),
                         onChanged: (value) {
                           setDialogState(() {
@@ -286,16 +242,15 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                     const SizedBox(width: 16),
                     Expanded(
                       child: DropdownButtonFormField<int>(
-                        value: _selectedMaxRating,
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.maxRating,
-                          border: const OutlineInputBorder(),
+                        initialValue: _selectedMaxRating,
+                        decoration: const InputDecoration(
+                          labelText: 'Max Rating',
+                          border: OutlineInputBorder(),
                         ),
                         items: List.generate(5, (index) => index + 1)
-                            .map((rating) => DropdownMenuItem(
-                                  value: rating,
-                                  child: Text('$rating'),
-                                ))
+                            .map(
+                              (rating) => DropdownMenuItem(value: rating, child: Text('$rating')),
+                            )
                             .toList(),
                         onChanged: (value) {
                           setDialogState(() {
@@ -308,7 +263,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                 ),
                 const SizedBox(height: 16),
                 SwitchListTile(
-                  title: Text(AppLocalizations.of(context)!.withResponse),
+                  title: const Text('With Response'),
                   value: _filterWithResponse ?? false,
                   onChanged: (value) {
                     setDialogState(() {
@@ -317,7 +272,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                   },
                 ),
                 SwitchListTile(
-                  title: Text(AppLocalizations.of(context)!.pendingResponse),
+                  title: const Text('Pending Response'),
                   value: _filterPendingResponse ?? false,
                   onChanged: (value) {
                     setDialogState(() {
@@ -330,16 +285,13 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
           },
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
               _applyFilters();
             },
-            child: Text(AppLocalizations.of(context)!.apply),
+            child: const Text('Apply'),
           ),
         ],
       ),
@@ -350,7 +302,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.reviewDetails),
+        title: const Text('Review Details'),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,9 +314,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                     backgroundImage: review.passengerAvatar != null
                         ? NetworkImage(review.passengerAvatar!)
                         : null,
-                    child: review.passengerAvatar == null
-                        ? Text(review.passengerName[0])
-                        : null,
+                    child: review.passengerAvatar == null ? Text(review.passengerName[0]) : null,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -376,9 +326,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                           children: List.generate(
                             5,
                             (index) => Icon(
-                              index < review.rating
-                                  ? Icons.star
-                                  : Icons.star_border,
+                              index < review.rating ? Icons.star : Icons.star_border,
                               size: 16,
                               color: Colors.amber,
                             ),
@@ -393,10 +341,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
               Text(review.comment),
               const SizedBox(height: 16),
               if (review.response != null) ...[
-                Text(
-                  AppLocalizations.of(context)!.yourResponse,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
+                const Text('Your Response', style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -409,17 +354,12 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
               ] else
                 ElevatedButton(
                   onPressed: () => _showResponseDialog(context, review.id),
-                  child: Text(AppLocalizations.of(context)!.respond),
+                  child: const Text('Respond'),
                 ),
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.close),
-          ),
-        ],
+        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))],
       ),
     );
   }
@@ -430,33 +370,24 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.respondToReview),
+        title: const Text('Respond to Review'),
         content: TextField(
           controller: controller,
           maxLines: 4,
-          decoration: InputDecoration(
-            hintText: AppLocalizations.of(context)!.enterYourResponse,
-            border: const OutlineInputBorder(),
+          decoration: const InputDecoration(
+            hintText: 'Enter your response',
+            border: OutlineInputBorder(),
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               if (controller.text.isNotEmpty) {
-                ref
-                    .read(driverReviewsControllerProvider.notifier)
-                    .respondToReview(
-                      reviewId: reviewId,
-                      response: controller.text,
-                    );
                 Navigator.pop(context);
               }
             },
-            child: Text(AppLocalizations.of(context)!.submit),
+            child: const Text('Submit'),
           ),
         ],
       ),

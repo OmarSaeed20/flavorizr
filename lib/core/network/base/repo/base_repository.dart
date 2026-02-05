@@ -539,13 +539,3 @@ mixin LocalRepositoryMixin on BaseRepository {
     );
   }
 }
-
-/// Mixin for repositories that work with both remote and local data sources
-mixin HybridRepositoryMixin on BaseRepository
-    implements RemoteRepositoryMixin, LocalRepositoryMixin {
-  @override
-  BaseRemoteDataSource get remoteDataSource;
-
-  @override
-  BaseLocalDataSource get localDataSource;
-}

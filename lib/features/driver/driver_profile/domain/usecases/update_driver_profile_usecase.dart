@@ -22,7 +22,7 @@ class UpdateDriverProfileUseCase {
     DateTime? dateOfBirth,
     String? gender,
   }) {
-    return _repository.updateDriverProfile(
+    return _repository.updateProfileInfo(
       firstName: firstName,
       lastName: lastName,
       email: email,

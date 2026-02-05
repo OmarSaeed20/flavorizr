@@ -9,6 +9,6 @@ class DeleteDriverDocumentUseCase {
 
   /// Executes the delete driver document use case.
   Future<ApiResult<void>> call(String documentId) {
-    return _repository.deleteDriverDocument(documentId);
+    return _repository.deleteDocument(documentId);
   }
 }
