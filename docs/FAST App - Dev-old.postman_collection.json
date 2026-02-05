@@ -1,0 +1,3895 @@
+{
+  "info": {
+    "_postman_id": "069ed483-518b-4ed6-a5ed-df3b480b77d6",
+    "name": "FAST App - Dev-old",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "29533791",
+    "_collection_link": "https://go.postman.co/collection/46205004-069ed483-518b-4ed6-a5ed-df3b480b77d6?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Logout",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/auth/logout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Refresh Token",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/refresh",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "refresh"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"phone\": \"01001107528\",\r\n  \"phone_iso_code\": \"EG\",\r\n  \"password\": \"12345678\"\r\n}"
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/auth/login",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Register",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"company_type\": \"TEST\",  // Type of user: 'customer', 'driver', or 'company'\r\n  \"name\": \"Omar Saed\",     // The user's full name (required)\r\n  \"nickname\": \"Mora\",        // The user's nickname (optional)\r\n  \"phone\": \"01067496938\",\r\n  \"phone_iso2_code\": \"EG\", // iso2 Code\r\n  \"password\": \"12345678\",  // The password chosen by the user (required, must meet security rules)\r\n  \"password_confirmation\": \"12345678\",  // Password confirmation to ensure they match (required)\r\n  \"country_id\": 1,        \r\n  \"governorate_id\": 1,     \r\n  \"birthdate\": \"1999\",   // The user's birthdate (required, in the format YYYY-MM-DD)\r\n  \"gender\": \"male\"            // The user's gender: 'male' or 'female' (required)\r\n}\r\n"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register/as/user",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register",
+                    "as",
+                    "user"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Confirmation Code",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"phone\": \"1234967890\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/send-verification-code",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "send-verification-code"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "User Verify",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"phone\": \"1234967890\",\r\n    \"verification_code\": \"4746\",\r\n    \"firebase_token\": \"123456\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/verify-phone",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "verify-phone"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Reset Password",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"phone\": \"1234967890\", // The user's phone number (required, must follow proper format)\r\n    \"password\": \"123456789\",\r\n    \"password_confirmation\": \"123456789\",\r\n    \"token\": \"6|EYkp6fJPWLLbymZElqJFMXpqwaeUJzy1p1rWpgjIz832e9d15\"\r\n    \r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/reset-password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "reset-password"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Forget Password",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"phone\": \"01111111111\" \r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/auth/forget_password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "auth",
+                    "forget_password"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Profile",
+          "item": [
+            {
+              "name": "profile detail",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/profile/detail",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "profile",
+                    "detail"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update Info",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "image",
+                      "type": "file",
+                      "src": [
+                        "rEk4gyeS9/8-TDotAlVOO0mbOOO.png"
+                      ]
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/profile/updateInfo",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "profile",
+                    "updateInfo"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "profile",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/profile",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "profile"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Driver",
+          "item": [
+            {
+              "name": "driver reviews",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/driver/reviews?driver_id=3&per_page=6&page=1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "driver",
+                    "reviews"
+                  ],
+                  "query": [
+                    {
+                      "key": "driver_id",
+                      "value": "3"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "6"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Home",
+          "item": [
+            {
+              "name": "Home",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/trip/home",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "home"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "advertisement",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/advertisement",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "advertisement"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Available Trip",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/available",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "available"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "notification count",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/notification/count",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "notification",
+                    "count"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Trip",
+          "item": [
+            {
+              "name": "Get Types Trips By Location",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/trip/get-types-by-location?pick_up_latitude=123456789&pick_up_longitude=-1234567879&destination_longitude=1234567879&destination_latitude=-1234567879",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "get-types-by-location"
+                  ],
+                  "query": [
+                    {
+                      "key": "pick_up_latitude",
+                      "value": "123456789"
+                    },
+                    {
+                      "key": "pick_up_longitude",
+                      "value": "-1234567879"
+                    },
+                    {
+                      "key": "destination_longitude",
+                      "value": "1234567879"
+                    },
+                    {
+                      "key": "destination_latitude",
+                      "value": "-1234567879"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Captain Trip Detail By Trip Id",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/trip/captain-trip-detail?order_id=13",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "captain-trip-detail"
+                  ],
+                  "query": [
+                    {
+                      "key": "order_id",
+                      "value": "13"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "store pubic trip",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    //-----------------------------\r\n    \"pick_up_longitude\": \"35.1552755\",\r\n    \"pick_up_latitude\": \"30.1552755\",\r\n    \"destination_longitude\": \"50.1552755\",\r\n    \"destination_latitude\": \"55.1552755\",\r\n    \"pickup_name\": \"location_pickup_name_test\",\r\n    \"destination_name\": \"location_destination_name_test\",\r\n    //----------------------------- \r\n    \"date\": \"2024-02-25\",\r\n    \"pick_up_time\": \"12:58:44 AM\",\r\n    \"drop_up_time\": \"01:50:44 PM\",\r\n    //-----------------------------\r\n    \"smoker\": true,\r\n    \"pet\": true,\r\n    \"luggage\": false,\r\n    //-----------------------------\r\n    \"vehicle_type_id\": 1 // A or B or S\"\r\n    //-----------------------------\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/public/store",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "public",
+                    "store"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Store Privet Trip",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"pick_up_longitude\": \"35.1552755\",\r\n    \"pick_up_latitude\": \"30.1552755\",\r\n    \"destination_longitude\": \"50.1552755\",\r\n    \"destination_latitude\": \"55.1552755\",\r\n    //----------------------------- \r\n    \"pickup_name\": \"location_pickup_name_test\",\r\n    \"destination_name\": \"location_destination_name_test\",\r\n    //----------------------------- \r\n    \"vehicle_type_id\": 1, // A or B or S\"\r\n    //----------------------------- \r\n    \"smoker\": true,\r\n    \"pet\": false,\r\n    \"luggage\": true,\r\n    //----------------------------- \r\n    // if appointment_type equal schedule (pick_up_time and drop_up_time and date is \"required\")\r\n    \"appointment_type\": \"1\", //1 equal(schedule). or 2 equal (instant).\r\n    \"date\": \"2024-02-25\",\r\n    \"pick_up_time\": \"12:58:44 AM\",\r\n    \"drop_up_time\": \"01:50:44 PM\"\r\n    //-----------------------------\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/private/store",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "private",
+                    "store"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Edit private trip",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"order_id\": 15,\r\n    //---------------------------------------\r\n    \"pick_up_longitude\": \"35.1552755\",\r\n    \"pick_up_latitude\": \"30.1552755\",\r\n    //---------------------------------------\r\n    \"destination_longitude\": \"50.1552755\",\r\n    \"destination_latitude\": \"55.1552755\",\r\n    //---------------------------------------\r\n    \"date\": \"2024-02-25\",\r\n    \"pick_up_time\": \"11:50:44 AM\",\r\n    \"drop_up_time\": \"01:50:44 PM\",\r\n    //---------------------------------------\r\n    \"smoker\": false,\r\n    \"pet\": true,\r\n    \"luggage\": false,\r\n    //---------------------------------------\r\n    \"vehicle_type_id\": 1 // A or B or S\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/private/update",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "private",
+                    "update"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "book Now Order",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"order_id\": 13\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/book-now",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "book-now"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "trip history",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/history?per_page=5&page=2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "history"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "my orders",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/my-orders",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "my-orders"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Available Public Trips",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"order_id\": \"11\",\r\n    \"user_id\": \"63\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/available-public-trips",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "available-public-trips"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "confirm trip",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"order_id\": \"11\",\r\n    \"user_id\": \"63\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/confirm",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "confirm"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "cancel trip",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"order_id\": \"10\",\r\n    \"user_id\": \"63\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/cancel",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "cancel"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "report trip",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"order_id\": 8,\r\n    \"comment\": \"test comment\",\r\n    \"another_note\": \"another note test\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/report",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "report"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Trip evaluation by user",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    // \"user_id\": 63,\r\n    \"order_id\": 5,\r\n    \"driver_id\": 15,\r\n    \"rate\": 2.20,\r\n    \"comment\": \"test comment\",\r\n    \"another_note\": \"another note test\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/trip/user_rating",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "user_rating"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Trip Detail",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/trip/detail/5",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "trip",
+                    "detail",
+                    "5"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Notification",
+          "item": [
+            {
+              "name": "get notification",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/notification",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "notification"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "notification count",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/notification/count",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "notification",
+                    "count"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Chatting",
+          "item": [
+            {
+              "name": "get chat by order",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"order_id\": 5\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/chat/get-by-order?per_page=5&page=1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "chat",
+                    "get-by-order"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "5"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "save message",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"driver_id\": 1,\r\n    \"message\": \"message\",\r\n    \"order_id\": 5\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/user/chat/store",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "chat",
+                    "store"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Schedule Trip",
+          "item": [
+            {
+              "name": "Create Schedule Trip",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "Zs3CNyh1chvAgtSzEFCBzw6zyKwMOMK4GDoQturv60c8e449",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"vehicle_type_id\": 1,\r\n    \"round_trip\": 1,\r\n    \"pickup_lat\": 33.3152,\r\n    \"pickup_lng\": 44.3661,\r\n    \"dropoff_lat\":33.34909413,\r\n    \"dropoff_lng\":  44.36971820,\r\n    \"From\": \"Dora\",\r\n    \"To\": \"Airport Road\",\r\n    \"estimated_duration_min\": 30,\r\n    \"date\":\"12/01/2026\",\r\n    //\"date\":\"2026-02-06\",\r\n    \"time\":\"09:30\"\r\n \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/trip/schedule",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "trip",
+                    "schedule"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Trips",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "SwI5iVJxjXVKi6WoD7wgaKV8KeCay2SP4SBz1JpW26ffc1e3",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/trip/schedule/trips",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "trip",
+                    "schedule",
+                    "trips"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Accept Request",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/trip/schedule/accept-request",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "trip",
+                    "schedule",
+                    "accept-request"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Direct Booking",
+          "item": [
+            {
+              "name": "Create Trip",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "ij4QHAKpIgTv0qT3HWKAznoaZ2lfV8gHXI3qIQQbaeb2df60",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text",
+                    "disabled": true
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vehicle_type_id\": 1,\n  \"round_trip\": 1,\n // \"trip_type\":\"direct\",\n  \"payment_method\":\"cash\",\n  \"promo_code\":\"HALFPRICE\",\n  \"in_harry\": false,\n  \"segments\": [\n    {\n      \"pickup_lat\": 33.3152,\n      \"pickup_lng\": 44.3661,\n      \"dropoff_lat\": 33.3000,\n      \"dropoff_lng\": 44.4000,\n      \"from\": \"Baghdad Center\",\n      \"to\": \"Karrada\",\n      \"estimated_duration_min\": 25\n    },\n    {\n      \"pickup_lat\": 33.3000,\n      \"pickup_lng\": 44.4000,\n      \"dropoff_lat\": 23.34909413,\n      \"dropoff_lng\": 34.36971820,\n      \"from\": \"Karrada\",\n      \"to\": \"Dora\",\n      \"estimated_duration_min\": 40\n    },\n    {\n      \"pickup_lat\": 33.2500,\n      \"pickup_lng\": 44.5000,\n      \"dropoff_lat\":33.34909413,\n      \"dropoff_lng\":  44.36971820,\n      \"from\": \"Dora\",\n      \"to\": \"Airport Road\",\n      \"estimated_duration_min\": 30\n    }\n  ],\n\n  \"stops\": [\n    {\n      \"name\": \"Coffee Shop\",\n      \"minutes\": 20 ,\n      \"lat\":33.3004 , \n      \"lng\" :  44.5004\n    },\n    {\n      \"name\": \"Restaurant\",\n      \"minutes\": 75 ,\n      \"lat\":33.3009 , \n      \"lng\" :  44.5009\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/trip/initial",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "trip",
+                    "initial"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Test Total price",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "mauPrgxIChMTmqSJomcbQ3EuTYNwdXmte7gwc5rd2b0363a5",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"vehicle_type\": \"VIP\",\r\n  \"round_trip\": 1,\r\n  \"trip_type\":\"direct\",\r\n  \"payment_method\":\"cash\",\r\n  \"promo_code\":\"HALFPRICE\",\r\n  \"segments\": [\r\n    {\r\n      \"pickup_lat\": 33.3152,\r\n      \"pickup_lng\": 44.3661,\r\n      \"dropoff_lat\": 33.3000,\r\n      \"dropoff_lng\": 44.4000,\r\n      \"from\": \"Baghdad Center\",\r\n      \"to\": \"Karrada\",\r\n      \"estimated_duration_min\": 25\r\n    },\r\n    {\r\n      \"pickup_lat\": 33.3000,\r\n      \"pickup_lng\": 44.4000,\r\n      \"dropoff_lat\": 33.2500,\r\n      \"dropoff_lng\": 44.5000,\r\n      \"from\": \"Karrada\",\r\n      \"to\": \"Dora\",\r\n      \"estimated_duration_min\": 40\r\n    },\r\n    {\r\n      \"pickup_lat\": 33.2500,\r\n      \"pickup_lng\": 44.5000,\r\n      \"dropoff_lat\": 33.2000,\r\n      \"dropoff_lng\": 44.5500,\r\n      \"from\": \"Dora\",\r\n      \"to\": \"Airport Road\",\r\n      \"estimated_duration_min\": 30\r\n    }\r\n  ],\r\n\r\n  \"stops\": [\r\n    {\r\n      \"name\": \"Coffee Shop\",\r\n      \"minutes\": 20\r\n    },\r\n    {\r\n      \"name\": \"Restaurant\",\r\n      \"minutes\": 75\r\n    }\r\n  ]\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/trip/totalprice",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "trip",
+                    "totalprice"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Vehicle Type",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"trip_type\":\"direct\",\r\n  \"pickup_lat\": 33.3152,\r\n  \"pickup_lng\": 44.3661,\r\n  \"dropoff_lat\": 33.3000,\r\n  \"dropoff_lng\": 44.4000\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://fasttaxi.questifysolutions.com/api/vehicletype",
+                  "protocol": "https",
+                  "host": [
+                    "fasttaxi",
+                    "questifysolutions",
+                    "com"
+                  ],
+                  "path": [
+                    "api",
+                    "vehicletype"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Find Driver",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "jDreEc5G6kUJ7sMJhNVmbNDw46pRPDC4CRxqXrcC9bb3439d",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"vehicle_type\": \"VIP\",\r\n    \"trip_id\":123,\r\n    \"pickup_lat\": 33.34909413,\r\n    \"pickup_lng\": 44.36971820\r\n  \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/trip/findDriver",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "trip",
+                    "findDriver"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Transfer Trip Price",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "Zs3CNyh1chvAgtSzEFCBzw6zyKwMOMK4GDoQturv60c8e449",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"trip_id\":132\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/trip/transferPrice",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "trip",
+                    "transferPrice"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Price Preview",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "KCh97oT69lPhju1Wo03fETIr9VliDrGx0UwMgxJx5c0e27b4",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"vehicle_type_id\": 1,\r\n  \"round_trip\": 1,\r\n  \"trip_type\":\"direct\",\r\n // \"payment_method\":\"cash\",\r\n  \"promo_code\":\"HALFPRICE\",\r\n  \"in_harry\": true,\r\n  \"segments\": [\r\n    {\r\n      \"pickup_lat\": 33.3152,\r\n      \"pickup_lng\": 44.3661,\r\n      \"dropoff_lat\": 33.3000,\r\n      \"dropoff_lng\": 44.4000,\r\n      \"from\": \"Baghdad Center\",\r\n      \"to\": \"Karrada\",\r\n      \"estimated_duration_min\": 25\r\n    },\r\n    {\r\n      \"pickup_lat\": 33.3000,\r\n      \"pickup_lng\": 44.4000,\r\n      \"dropoff_lat\": 23.34909413,\r\n      \"dropoff_lng\": 34.36971820,\r\n      \"from\": \"Karrada\",\r\n      \"to\": \"Dora\",\r\n      \"estimated_duration_min\": 40\r\n    },\r\n    {\r\n      \"pickup_lat\": 33.2500,\r\n      \"pickup_lng\": 44.5000,\r\n      \"dropoff_lat\":33.34909413,\r\n      \"dropoff_lng\":  44.36971820,\r\n      \"from\": \"Dora\",\r\n      \"to\": \"Airport Road\",\r\n      \"estimated_duration_min\": 30\r\n    }\r\n  ],\r\n\r\n  \"stops\": [\r\n    {\r\n      \"name\": \"Coffee Shop\",\r\n      \"minutes\": 20 ,\r\n      \"lat\":33.3004 , \r\n      \"lng\" :  44.5004\r\n    },\r\n    {\r\n      \"name\": \"Restaurant\",\r\n      \"minutes\": 75 ,\r\n      \"lat\":33.3009 , \r\n      \"lng\" :  44.5009\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/trip/price-preview",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "trip",
+                    "price-preview"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Driver",
+      "item": [
+        {
+          "name": "Settings",
+          "item": [
+            {
+              "name": "About Us",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/setting/about_us",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "setting",
+                    "about_us"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "questions",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/setting/questions",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "setting",
+                    "questions"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "policies",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/setting/policies",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "setting",
+                    "policies"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "general",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/user/setting/general",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "user",
+                    "setting",
+                    "general"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update vehicle types",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "ij4QHAKpIgTv0qT3HWKAznoaZ2lfV8gHXI3qIQQbaeb2df60",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n\"data\": [\r\n{\"id\":1,\"name\":\"Private Car\",\"type\":\"VIP\",\"trip_type\":\"direct\",\"image\":\"vip.png\",\"des\":\"vip\",\"price_per_kilo\":2.5,\"driver_commission\":0.5,\"created_at\":\"2025-12-29 17:04:49\",\"updated_at\":\"2025-12-29 17:04:49\",\"percent\":51},\r\n{\"id\":2,\"name\":\"Toyota\",\"type\":\"Plus\",\"trip_type\":\"direct\",\"image\":\"plus.png\",\"des\":\"plus\",\"price_per_kilo\":1.75,\"driver_commission\":0.4,\"created_at\":\"2025-12-29 17:04:49\",\"updated_at\":\"2025-12-29 17:04:49\",\"percent\":10},\r\n{\"id\":3,\"name\":\"Toyota\",\"type\":\"Free\",\"trip_type\":\"direct\",\"image\":\"free.png\",\"des\":\"free\",\"price_per_kilo\":3,\"driver_commission\":0.65,\"created_at\":\"2025-12-29 17:04:49\",\"updated_at\":\"2025-12-29 17:04:49\",\"percent\":5},\r\n{\"id\":7,\"name\":\"KIA\",\"type\":\"VIP\",\"trip_type\":\"schedule\",\"image\":\"kia.png\",\"des\":\"vip car\",\"price_per_kilo\":2.3,\"driver_commission\":0.4,\"created_at\":\"2026-01-27 19:52:17\",\"updated_at\":\"2026-01-27 19:52:17\",\"percent\":0},\r\n{\"id\":8,\"name\":\"KIA\",\"type\":\"Plus\",\"trip_type\":\"schedule\",\"image\":\"kia.png\",\"des\":\"vip car\",\"price_per_kilo\":2.3,\"driver_commission\":0.4,\"created_at\":\"2026-01-27 19:52:17\",\"updated_at\":\"2026-01-27 19:52:17\",\"percent\":0},\r\n{\"id\":9,\"name\":\"KIA\",\"type\":\"Free\",\"trip_type\":\"schedule\",\"image\":\"kia.png\",\"des\":\"vip car\",\"price_per_kilo\":2.3,\"driver_commission\":0.4,\"created_at\":\"2026-01-27 19:52:17\",\"updated_at\":\"2026-01-27 19:52:17\",\"percent\":0}\r\n]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/vehicle-types/replace-all",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "vehicle-types",
+                    "replace-all"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Logout",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/logout",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "logout"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Register",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [
+                      "pm.globals.set('randomNumber', Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000);\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "let responseData = pm.response.json().data;\r",
+                      "if(pm.response.status === \"OK\" && responseData.hasOwnProperty('tokens')){\r",
+                      "    pm.collectionVariables.set(\"authToken\", responseData.tokens.access.token);\r",
+                      "    pm.collectionVariables.set(\"refreshToken\", responseData.tokens.refresh.token);\r",
+                      "}\r",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text",
+                    "disabled": true
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "ar",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "name",
+                      "value": "Hazem Elwaleed",
+                      "type": "text"
+                    },
+                    {
+                      "key": "nickname",
+                      "value": "Hazoom",
+                      "type": "text"
+                    },
+                    {
+                      "key": "phone",
+                      "value": "01001107528",
+                      "type": "text"
+                    },
+                    {
+                      "key": "phone_iso2_code",
+                      "value": "EG",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password",
+                      "value": "12345678",
+                      "type": "text"
+                    },
+                    {
+                      "key": "password_confirmation",
+                      "value": "12345678",
+                      "type": "text"
+                    },
+                    {
+                      "key": "country_id",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "governorate_id",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "gender",
+                      "value": "male",
+                      "type": "text"
+                    },
+                    {
+                      "key": "birthdate",
+                      "value": "2000",
+                      "type": "text"
+                    },
+                    {
+                      "key": "national_id",
+                      "value": "{{$randomInt}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "about",
+                      "value": "{{$randomLoremSentence}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "national_image_front",
+                      "type": "file",
+                      "src": [
+                        "postman-cloud:///1f084f2a-c05d-41e0-a116-785f279dd3b8"
+                      ]
+                    },
+                    {
+                      "key": "national_image_back",
+                      "type": "file",
+                      "src": [
+                        "postman-cloud:///1f084f2c-0621-41d0-9e89-a062c6d299fc"
+                      ]
+                    },
+                    {
+                      "key": "vehicle_name",
+                      "value": "Jeep",
+                      "type": "text"
+                    },
+                    {
+                      "key": "vehicle_type",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "vehicle_model",
+                      "value": "X62",
+                      "type": "text"
+                    },
+                    {
+                      "key": "driving_license_front_image",
+                      "type": "file",
+                      "src": [
+                        "postman-cloud:///1f084f2a-c05d-41e0-a116-785f279dd3b8"
+                      ]
+                    },
+                    {
+                      "key": "driving_license_back_image",
+                      "type": "file",
+                      "src": [
+                        "postman-cloud:///1f084f2c-0621-41d0-9e89-a062c6d299fc"
+                      ]
+                    },
+                    {
+                      "key": "driving_license_number",
+                      "value": "123123123123{{$randomInt}}",
+                      "type": "text"
+                    },
+                    {
+                      "key": "features[air_conditioning]",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "vehicle_license_front_image",
+                      "type": "file",
+                      "src": [
+                        "postman-cloud:///1f084f2c-0621-41d0-9e89-a062c6d299fc"
+                      ]
+                    },
+                    {
+                      "key": "vehicle_license_back_image",
+                      "type": "file",
+                      "src": [
+                        "postman-cloud:///1f084f2c-0621-41d0-9e89-a062c6d299fc"
+                      ]
+                    },
+                    {
+                      "key": "vehicle_images[]",
+                      "type": "file",
+                      "src": [
+                        "postman-cloud:///1f0ce4ec-d84f-48a0-9b88-78656b292f83",
+                        "postman-cloud:///1f0ce4ec-d885-4400-9805-4f0b826d9faf",
+                        "postman-cloud:///1f0ce4ec-d96f-4a00-adc4-654003bc05dc"
+                      ]
+                    },
+                    {
+                      "key": "plate_number",
+                      "value": "1020{{$randomCurrencyName}}",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/register/as/driver",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "register",
+                    "as",
+                    "driver"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Refresh Token",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/refresh",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "refresh"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Login",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    // ## Driver     ##\r\n    \"phone\": \"201063753136\",\r\n    \"phone_iso_code\": \"EG\",\r\n    \"password\": \"12345678\"\r\n    // \"firebase_token\": \"123456789\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "User Verify",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"phone\": \"011111122222\",\r\n    \"verification_code\": \"2782\",\r\n    \"firebase_token\": \"123456\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/user_verify",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "user_verify"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Forget Password",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"phone\": \"011111122222\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/forget_password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "forget_password"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Reset Password",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"code\": \"3658\",\r\n    \"phone\": \"011111122222\",\r\n    \"password\": \"123456789\",\r\n    \"password_confirmation\": \"123456789\"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/reset_password",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "reset_password"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Profile",
+          "item": [
+            {
+              "name": "profile",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/profile",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "profile"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "profile detail",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/profile/detail",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "profile",
+                    "detail"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update Info",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"driver test\",\r\n    // \"image\": \"/images/users/user.png\",\r\n    \"gender\": \"male\",\r\n    \"phone_number\": \"0222222222\",\r\n    \"email\": \"driver_test@main.com\",\r\n    \"birth_date\": \"2023-10-24\",\r\n    \"hobbies_ids\": [\r\n        1,\r\n        5\r\n    ],\r\n    \"favorite_note\": \"favorite note test 2 \"\r\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/driver/profile/updateInfo",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "profile",
+                    "updateInfo"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "User Profile",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/auth/user-profile",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "auth",
+                    "user-profile"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Profile User",
+          "item": [
+            {
+              "name": "Trip",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/trip/home",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "trip",
+                    "home"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Home",
+          "item": [
+            {
+              "name": "Home",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/driver/trip/home",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "driver",
+                    "trip",
+                    "home"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Trips",
+          "item": [
+            {
+              "name": "Accept Trip",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "UMoIaPsH2FPr56oJAUaxBbVoZKI12m9TXbhHGQEoaa55a3db",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"trip_id\":\"131\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/acceptTrip",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "acceptTrip"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Reject Trip",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "UMoIaPsH2FPr56oJAUaxBbVoZKI12m9TXbhHGQEoaa55a3db",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"trip_id\": 132\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/rejectTrip",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "rejectTrip"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Start Trip",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "uNTBfsw6O6tDP5Y8db9xOLxpUgbQIpPWHwoE1DS327b54281",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"trip_id\":132\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/start",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "start"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Arrived",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"trip_id\":5\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/arrived",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "arrived"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Complete",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "uNTBfsw6O6tDP5Y8db9xOLxpUgbQIpPWHwoE1DS327b54281",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"trip_id\":132\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/complete",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "complete"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Cancle",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "uNTBfsw6O6tDP5Y8db9xOLxpUgbQIpPWHwoE1DS327b54281",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"trip_id\":132\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/cancel",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "cancel"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Schedule Trip",
+          "item": [
+            {
+              "name": "Schedule Trips",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "GxTmFPI2OpF5I7lIjcPf00oQgEc3d4E51sTfCxDvdb9877e2",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/schedule",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "schedule"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Request",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "GxTmFPI2OpF5I7lIjcPf00oQgEc3d4E51sTfCxDvdb9877e2",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"trip_id\": 136,\r\n  \"price\": 570,\r\n  \"time\": \"2026-02-11 09:00:00\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/schedule/request",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "schedule",
+                    "request"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get My Requests",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "GxTmFPI2OpF5I7lIjcPf00oQgEc3d4E51sTfCxDvdb9877e2",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/api/v1/drivers/schedule/myrequests",
+                  "protocol": "http",
+                  "host": [
+                    "127",
+                    "0",
+                    "0",
+                    "1"
+                  ],
+                  "port": "8000",
+                  "path": [
+                    "api",
+                    "v1",
+                    "drivers",
+                    "schedule",
+                    "myrequests"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "item": [
+        {
+          "name": "socket io channels",
+          "item": [
+            {
+              "name": "test channel",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "send fcm",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{tokin-user}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/test/send-fcm",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "test",
+                "send-fcm"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "send sms",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{tokin-user}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/test/send-sms",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "user",
+                "test",
+                "send-sms"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "General",
+      "item": [
+        {
+          "name": "Select",
+          "item": [
+            {
+              "name": "vehicle_type",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/select/vehicle_type",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "select",
+                    "vehicle_type"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "cities",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/select/cities",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "select",
+                    "cities"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "common problem",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/select/common_problem",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "select",
+                    "common_problem"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "countries",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "{{tokin-user}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Accept-Language",
+                    "value": "en",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/select/countries",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "select",
+                    "countries"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "About Us",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{tokin-user}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/setting/about_us",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "setting",
+                "about_us"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "questions",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{tokin-user}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/setting/questions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "setting",
+                "questions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "policies",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{tokin-user}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/setting/policies",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "setting",
+                "policies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "general",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{tokin-user}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/setting/general",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "setting",
+                "general"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://fasttaxi.questifysolutions.com/api/v1"
+    },
+    {
+      "key": "token-user",
+      "value": ""
+    },
+    {
+      "key": "token-deriver",
+      "value": ""
+    },
+    {
+      "key": "token-company",
+      "value": ""
+    }
+  ]
+}

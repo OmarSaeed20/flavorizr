@@ -1,5 +1,5 @@
 // lib/features/splash/presentation/providers/splash_providers.dart
-import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flavorizr/features/splash/data/datasources/splash_local_datasource.dart';
 import 'package:flavorizr/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:flavorizr/features/splash/domain/repositories/splash_repository.dart';

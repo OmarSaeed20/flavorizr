@@ -1,5 +1,5 @@
 import 'package:flavorizr/core/di/providers.dart';
-import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flavorizr/features/general_select/data/datasources/general_select_remote_datasource.dart';
 import 'package:flavorizr/features/general_select/data/repositories/general_select_repository_impl.dart';
 import 'package:flavorizr/features/general_select/domain/repositories/general_select_repository.dart';

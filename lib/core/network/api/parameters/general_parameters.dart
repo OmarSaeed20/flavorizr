@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/auth/data/parameters/base_parameters.dart';
+import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting about us information

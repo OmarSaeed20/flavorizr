@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/auth/data/parameters/base_parameters.dart';
+import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for user login
@@ -309,42 +309,6 @@ class LogoutParametersBuilder extends ParametersBuilder<LogoutParameters> {
   @override
   LogoutParameters build() {
     return LogoutParameters._(cancelToken: _cancelToken);
-  }
-}
-
-/// Parameters for refreshing authentication token
-@immutable
-class RefreshTokenParameters extends Parameters {
-  final CancelToken? _cancelToken;
-
-  const RefreshTokenParameters._({CancelToken? cancelToken}) : _cancelToken = cancelToken;
-
-  /// Convert to JSON for API request
-  @override
-  Map<String, dynamic> toJson() => const {};
-
-  @override
-  CancelToken? get cancelToken => _cancelToken;
-
-  /// Static builder factory
-  static RefreshTokenParametersBuilder builder() => RefreshTokenParametersBuilder();
-}
-
-/// Builder for RefreshTokenParameters
-class RefreshTokenParametersBuilder extends ParametersBuilder<RefreshTokenParameters> {
-  CancelToken? _cancelToken;
-
-  /// Set the cancel token for request cancellation
-  @override
-  RefreshTokenParametersBuilder withCancelToken(CancelToken? cancelToken) {
-    _cancelToken = cancelToken;
-    return this;
-  }
-
-  /// Build the RefreshTokenParameters
-  @override
-  RefreshTokenParameters build() {
-    return RefreshTokenParameters._(cancelToken: _cancelToken);
   }
 }
 

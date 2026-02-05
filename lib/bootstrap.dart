@@ -14,7 +14,7 @@ import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flavorizr/core/network/api_client.dart';
 import 'package:flavorizr/core/router/app_router.dart';
 import 'package:flavorizr/core/services/notification_service.dart';
-import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

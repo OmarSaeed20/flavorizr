@@ -1,5 +1,5 @@
 // lib/features/onboarding/presentation/providers/onboarding_providers.dart
-import 'package:flavorizr/features/auth/presentation/providers/auth_providers.dart';
+import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flavorizr/features/onboarding/data/datasources/onboarding_local_datasource.dart';
 import 'package:flavorizr/features/onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:flavorizr/features/onboarding/domain/repositories/onboarding_repository.dart';
