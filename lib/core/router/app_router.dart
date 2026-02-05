@@ -5,12 +5,13 @@ import 'package:flavorizr/core/router/route_guards.dart';
 import 'package:flavorizr/core/router/router_observer.dart';
 import 'package:flavorizr/core/router/routes.dart';
 import 'package:flavorizr/core/router/widgets/widgets.dart';
+import 'package:flavorizr/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:flavorizr/features/splash/presentation/pages/splash_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/forgot_password_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/login_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/register_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/reset_password_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/verify_email_page.dart';
-import 'package:flavorizr/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:flavorizr/features/user/profile/presentation/pages/edit_profile_page.dart';
 import 'package:flavorizr/features/user/profile/presentation/pages/profile_page.dart';
 import 'package:flavorizr/features/user/profile/presentation/pages/profile_settings_page.dart';
@@ -18,7 +19,6 @@ import 'package:flavorizr/features/user/settings/presentation/pages/appearance_s
 import 'package:flavorizr/features/user/settings/presentation/pages/language_settings_page.dart';
 import 'package:flavorizr/features/user/settings/presentation/pages/notification_settings_page.dart';
 import 'package:flavorizr/features/user/settings/presentation/pages/settings_page.dart';
-import 'package:flavorizr/features/splash/presentation/pages/splash_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -107,7 +107,9 @@ class AppRouter {
     }
 
     if (isOnboardingCompleted != null) {
-      _guardManager.addGlobalGuard(OnboardingGuard(isOnboardingCompleted: isOnboardingCompleted));
+      _guardManager.addGlobalGuard(
+        OnboardingGuard(isOnboardingCompleted: isOnboardingCompleted),
+      );
     }
 
     _router = GoRouter(
@@ -126,10 +128,15 @@ class AppRouter {
 
   // ==================== Route Handling ====================
 
-  Future<String?> _handleRedirect(BuildContext context, GoRouterState state) async {
+  Future<String?> _handleRedirect(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
     final location = state.matchedLocation;
 
-    if (location == Routes.error || location == Routes.notFound || location == Routes.splash) {
+    if (location == Routes.error ||
+        location == Routes.notFound ||
+        location == Routes.splash) {
       return null;
     }
 
@@ -159,14 +166,25 @@ class AppRouter {
       canGoBack: _routeHistory.length > 1,
     );
 
-    AppLogger.instance.logInfo(r'Route changed: $route', category: LogCategory.ui, data: params);
+    AppLogger.instance.logInfo(
+      r'Route changed: $route',
+      category: LogCategory.ui,
+      data: params,
+    );
   }
 
-  void _handleException(BuildContext context, GoRouterState state, GoRouter router) {
+  void _handleException(
+    BuildContext context,
+    GoRouterState state,
+    GoRouter router,
+  ) {
     AppLogger.instance.logError(
       'Router exception',
       category: LogCategory.ui,
-      data: {'location': state.matchedLocation, 'error': state.error?.toString()},
+      data: {
+        'location': state.matchedLocation,
+        'error': state.error?.toString(),
+      },
     );
     router.go(Routes.error, extra: state.error?.toString());
   }
@@ -201,14 +219,18 @@ class AppRouter {
     GoRoute(
       path: Routes.help,
       name: Routes.helpName,
-      builder: (context, state) =>
-          const PlaceholderScreen(title: 'Help Center', message: 'Help center placeholder'),
+      builder: (context, state) => const PlaceholderScreen(
+        title: 'Help Center',
+        message: 'Help center placeholder',
+      ),
     ),
     GoRoute(
       path: Routes.feedback,
       name: Routes.feedbackName,
-      builder: (context, state) =>
-          const PlaceholderScreen(title: 'Send Feedback', message: 'Feedback form placeholder'),
+      builder: (context, state) => const PlaceholderScreen(
+        title: 'Send Feedback',
+        message: 'Feedback form placeholder',
+      ),
     ),
   ];
 
@@ -233,7 +255,8 @@ class AppRouter {
       name: Routes.resetPasswordName,
       builder: (context, state) {
         // Extract token from query parameters or extra
-        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
+        final token =
+            state.uri.queryParameters['token'] ?? state.extra as String?;
         return ResetPasswordPage(token: token);
       },
     ),
@@ -242,7 +265,8 @@ class AppRouter {
       name: Routes.verifyEmailName,
       builder: (context, state) {
         // Extract token from query parameters or extra
-        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
+        final token =
+            state.uri.queryParameters['token'] ?? state.extra as String?;
         return VerifyEmailPage(token: token);
       },
     ),
@@ -261,8 +285,10 @@ class AppRouter {
       GoRoute(
         path: Routes.home,
         name: Routes.homeName,
-        builder: (context, state) =>
-            const PlaceholderScreen(title: 'Home', message: 'Home screen placeholder'),
+        builder: (context, state) => const PlaceholderScreen(
+          title: 'Home',
+          message: 'Home screen placeholder',
+        ),
       ),
       GoRoute(
         path: Routes.profile,
@@ -299,8 +325,10 @@ class AppRouter {
           GoRoute(
             path: Routes.privacySettingsPath,
             name: Routes.privacySettingsName,
-            builder: (context, state) =>
-                const PlaceholderScreen(title: 'Privacy', message: 'Privacy settings placeholder'),
+            builder: (context, state) => const PlaceholderScreen(
+              title: 'Privacy',
+              message: 'Privacy settings placeholder',
+            ),
           ),
           GoRoute(
             path: Routes.securitySettingsPath,
@@ -318,16 +346,20 @@ class AppRouter {
           GoRoute(
             path: Routes.aboutPath,
             name: Routes.aboutName,
-            builder: (context, state) =>
-                const PlaceholderScreen(title: 'About', message: 'About page placeholder'),
+            builder: (context, state) => const PlaceholderScreen(
+              title: 'About',
+              message: 'About page placeholder',
+            ),
           ),
         ],
       ),
       GoRoute(
         path: Routes.search,
         name: Routes.searchName,
-        builder: (context, state) =>
-            const PlaceholderScreen(title: 'Search', message: 'Search screen placeholder'),
+        builder: (context, state) => const PlaceholderScreen(
+          title: 'Search',
+          message: 'Search screen placeholder',
+        ),
       ),
       GoRoute(
         path: Routes.notifications,
@@ -399,7 +431,8 @@ class AppRouter {
 
   bool canPop() => _router.canPop();
 
-  String get currentLocation => _router.routeInformationProvider.value.uri.toString();
+  String get currentLocation =>
+      _router.routeInformationProvider.value.uri.toString();
 
   void refresh() {
     _router.refresh();

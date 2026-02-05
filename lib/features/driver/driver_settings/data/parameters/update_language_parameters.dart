@@ -10,9 +10,11 @@ class UpdateLanguageParameters extends Parameters {
   final String _language;
   final CancelToken? _cancelToken;
 
-  const UpdateLanguageParameters._({required String language, CancelToken? cancelToken})
-    : _language = language,
-      _cancelToken = cancelToken;
+  const UpdateLanguageParameters._({
+    required String language,
+    CancelToken? cancelToken,
+  }) : _language = language,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -25,11 +27,13 @@ class UpdateLanguageParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateLanguageParametersBuilder builder() => UpdateLanguageParametersBuilder();
+  static UpdateLanguageParametersBuilder builder() =>
+      UpdateLanguageParametersBuilder();
 }
 
 /// Builder for UpdateLanguageParameters
-class UpdateLanguageParametersBuilder extends ParametersBuilder<UpdateLanguageParameters> {
+class UpdateLanguageParametersBuilder
+    extends ParametersBuilder<UpdateLanguageParameters> {
   String? _language;
   CancelToken? _cancelToken;
 
@@ -52,6 +56,9 @@ class UpdateLanguageParametersBuilder extends ParametersBuilder<UpdateLanguagePa
     if (_language == null) {
       throw ArgumentError('Language is required');
     }
-    return UpdateLanguageParameters._(language: _language!, cancelToken: _cancelToken);
+    return UpdateLanguageParameters._(
+      language: _language!,
+      cancelToken: _cancelToken,
+    );
   }
 }

@@ -64,7 +64,10 @@ class ChatInput extends StatelessWidget {
                         decoration: InputDecoration(
                           hintText: hintText,
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
                         ),
                         onSubmitted: (_) => _handleSend(),
                       ),
@@ -126,7 +129,10 @@ class _SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primary,
+        shape: BoxShape.circle,
+      ),
       child: IconButton(
         icon: const Icon(Icons.send),
         onPressed: onPressed,
@@ -144,7 +150,10 @@ class _VoiceButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.primary,
+        shape: BoxShape.circle,
+      ),
       child: IconButton(
         icon: const Icon(Icons.mic),
         onPressed:

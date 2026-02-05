@@ -1,7 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_home_data.dart';
 import 'package:flavorizr/features/driver/driver_home/domain/usecases/get_driver_home_data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver home
 class DriverHomeState {
@@ -9,9 +9,17 @@ class DriverHomeState {
   final DriverHomeData? homeData;
   final String? errorMessage;
 
-  const DriverHomeState({this.isLoading = false, this.homeData, this.errorMessage});
+  const DriverHomeState({
+    this.isLoading = false,
+    this.homeData,
+    this.errorMessage,
+  });
 
-  DriverHomeState copyWith({bool? isLoading, DriverHomeData? homeData, String? errorMessage}) {
+  DriverHomeState copyWith({
+    bool? isLoading,
+    DriverHomeData? homeData,
+    String? errorMessage,
+  }) {
     return DriverHomeState(
       isLoading: isLoading ?? this.isLoading,
       homeData: homeData ?? this.homeData,
@@ -24,7 +32,8 @@ class DriverHomeState {
 class DriverHomeController extends StateNotifier<DriverHomeState> {
   final GetDriverHomeData getDriverHomeData;
 
-  DriverHomeController({required this.getDriverHomeData}) : super(const DriverHomeState());
+  DriverHomeController({required this.getDriverHomeData})
+    : super(const DriverHomeState());
 
   /// Load complete driver home data
   Future<void> loadHomeData() async {
@@ -35,7 +44,10 @@ class DriverHomeController extends StateNotifier<DriverHomeState> {
         state = state.copyWith(isLoading: false, homeData: homeData);
       },
       exception: (exception) {
-        state = state.copyWith(isLoading: false, errorMessage: exception.message);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: exception.message,
+        );
       },
     );
   }

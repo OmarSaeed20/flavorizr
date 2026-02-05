@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 /// This is useful during development to mark routes that
 /// will have proper implementations later.
 class PlaceholderScreen extends StatelessWidget {
-  const PlaceholderScreen({required this.title, required this.message, super.key});
+  const PlaceholderScreen({
+    required this.title,
+    required this.message,
+    super.key,
+  });
 
   final String title;
   final String message;
@@ -21,7 +25,11 @@ class PlaceholderScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.construction_rounded, size: 64, color: theme.colorScheme.primary),
+            Icon(
+              Icons.construction_rounded,
+              size: 64,
+              color: theme.colorScheme.primary,
+            ),
             const SizedBox(height: 16),
             Text(message, style: theme.textTheme.titleMedium),
           ],

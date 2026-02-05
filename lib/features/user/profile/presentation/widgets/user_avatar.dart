@@ -2,7 +2,12 @@
 import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {
-  const UserAvatar({super.key, this.photoUrl, required this.displayName, this.size = 40});
+  const UserAvatar({
+    super.key,
+    this.photoUrl,
+    required this.displayName,
+    this.size = 40,
+  });
 
   final String? photoUrl;
   final String displayName;
@@ -15,7 +20,9 @@ class UserAvatar extends StatelessWidget {
 
     if (parts.length == 1) {
       final name = parts[0];
-      return name.length >= 2 ? name.substring(0, 2).toUpperCase() : name[0].toUpperCase();
+      return name.length >= 2
+          ? name.substring(0, 2).toUpperCase()
+          : name[0].toUpperCase();
     }
 
     return '${parts[0][0]}${parts[parts.length - 1][0]}'.toUpperCase();

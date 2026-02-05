@@ -53,7 +53,11 @@ class LocalizationService {
   }
 
   /// Formats a decimal number according to the current locale.
-  static String formatDecimal(BuildContext context, double number, {int decimalDigits = 2}) {
+  static String formatDecimal(
+    BuildContext context,
+    double number, {
+    int decimalDigits = 2,
+  }) {
     final locale = Localizations.localeOf(context);
     return NumberFormat.decimalPatternDigits(
       locale: locale.languageCode,
@@ -62,7 +66,11 @@ class LocalizationService {
   }
 
   /// Formats a percentage according to the current locale.
-  static String formatPercent(BuildContext context, double value, {int decimalDigits = 0}) {
+  static String formatPercent(
+    BuildContext context,
+    double value, {
+    int decimalDigits = 0,
+  }) {
     final locale = Localizations.localeOf(context);
     return NumberFormat.decimalPatternDigits(
       locale: locale.languageCode,
@@ -148,21 +156,34 @@ class LocalizationService {
     final seconds = duration.inSeconds.remainder(60);
 
     if (hours > 0) {
-      return LocalizationService.of(context).durationHoursMinutes(hours, minutes);
+      return LocalizationService.of(
+        context,
+      ).durationHoursMinutes(hours, minutes);
     } else if (minutes > 0) {
-      return LocalizationService.of(context).durationMinutesSeconds(minutes, seconds);
+      return LocalizationService.of(
+        context,
+      ).durationMinutesSeconds(minutes, seconds);
     } else {
       return LocalizationService.of(context).durationSeconds(seconds);
     }
   }
 
   /// Returns the plural form of a word based on count.
-  static String pluralize(BuildContext context, int count, String singular, String plural) {
+  static String pluralize(
+    BuildContext context,
+    int count,
+    String singular,
+    String plural,
+  ) {
     return count == 1 ? singular : plural;
   }
 
   /// Returns a localized string with interpolation.
-  static String interpolate(BuildContext context, String template, Map<String, String> values) {
+  static String interpolate(
+    BuildContext context,
+    String template,
+    Map<String, String> values,
+  ) {
     String result = template;
     values.forEach((key, value) {
       result = result.replaceAll('{$key}', value);
@@ -171,38 +192,61 @@ class LocalizationService {
   }
 
   /// Returns the appropriate start padding based on text direction.
-  static EdgeInsetsDirectional getStartPadding(BuildContext context, double value) {
+  static EdgeInsetsDirectional getStartPadding(
+    BuildContext context,
+    double value,
+  ) {
     return EdgeInsetsDirectional.only(start: value);
   }
 
   /// Returns the appropriate end padding based on text direction.
-  static EdgeInsetsDirectional getEndPadding(BuildContext context, double value) {
+  static EdgeInsetsDirectional getEndPadding(
+    BuildContext context,
+    double value,
+  ) {
     return EdgeInsetsDirectional.only(end: value);
   }
 
   /// Returns the appropriate start margin based on text direction.
-  static EdgeInsetsDirectional getStartMargin(BuildContext context, double value) {
+  static EdgeInsetsDirectional getStartMargin(
+    BuildContext context,
+    double value,
+  ) {
     return EdgeInsetsDirectional.only(start: value);
   }
 
   /// Returns the appropriate end margin based on text direction.
-  static EdgeInsetsDirectional getEndMargin(BuildContext context, double value) {
+  static EdgeInsetsDirectional getEndMargin(
+    BuildContext context,
+    double value,
+  ) {
     return EdgeInsetsDirectional.only(end: value);
   }
 
   /// Wraps a widget with Directionality based on the current locale.
-  static Widget withDirectionality({required BuildContext context, required Widget child}) {
+  static Widget withDirectionality({
+    required BuildContext context,
+    required Widget child,
+  }) {
     return Directionality(textDirection: textDirection(context), child: child);
   }
 
   /// Returns the appropriate icon for RTL/LTR.
-  static IconData getDirectionalIcon(BuildContext context, IconData ltrIcon, IconData rtlIcon) {
+  static IconData getDirectionalIcon(
+    BuildContext context,
+    IconData ltrIcon,
+    IconData rtlIcon,
+  ) {
     return isRTL(context) ? rtlIcon : ltrIcon;
   }
 
   /// Flips an icon horizontally for RTL.
-  static Transform flipIconForRTL({required BuildContext context, required Widget child}) {
-    if (!isRTL(context)) return Transform(transform: Matrix4.identity(), child: child);
+  static Transform flipIconForRTL({
+    required BuildContext context,
+    required Widget child,
+  }) {
+    if (!isRTL(context))
+      return Transform(transform: Matrix4.identity(), child: child);
 
     return Transform(
       alignment: Alignment.center,
@@ -227,43 +271,67 @@ extension LocalizationContextExtensions on BuildContext {
   Alignment get localeAlignment => LocalizationService.alignment(this);
 
   /// Returns the cross alignment for the current locale.
-  CrossAxisAlignment get localeCrossAxisAlignment => LocalizationService.crossAxisAlignment(this);
+  CrossAxisAlignment get localeCrossAxisAlignment =>
+      LocalizationService.crossAxisAlignment(this);
 
   /// Returns the text align for the current locale.
   TextAlign get localeTextAlign => LocalizationService.textAlign(this);
 
   /// Formats a number according to the current locale.
-  String formatNumber(int number) => LocalizationService.formatNumber(this, number);
+  String formatNumber(int number) =>
+      LocalizationService.formatNumber(this, number);
 
   /// Formats a decimal number according to the current locale.
   String formatDecimal(double number, {int decimalDigits = 2}) =>
-      LocalizationService.formatDecimal(this, number, decimalDigits: decimalDigits);
+      LocalizationService.formatDecimal(
+        this,
+        number,
+        decimalDigits: decimalDigits,
+      );
 
   /// Formats a percentage according to the current locale.
   String formatPercent(double value, {int decimalDigits = 0}) =>
-      LocalizationService.formatPercent(this, value, decimalDigits: decimalDigits);
+      LocalizationService.formatPercent(
+        this,
+        value,
+        decimalDigits: decimalDigits,
+      );
 
   /// Formats a date according to the current locale.
-  String formatDate(DateTime date) => LocalizationService.formatDate(this, date);
+  String formatDate(DateTime date) =>
+      LocalizationService.formatDate(this, date);
 
   /// Formats a date with time according to the current locale.
-  String formatDateTime(DateTime dateTime) => LocalizationService.formatDateTime(this, dateTime);
+  String formatDateTime(DateTime dateTime) =>
+      LocalizationService.formatDateTime(this, dateTime);
 
   /// Formats a time according to the current locale.
-  String formatTime(DateTime time) => LocalizationService.formatTime(this, time);
+  String formatTime(DateTime time) =>
+      LocalizationService.formatTime(this, time);
 
   /// Formats a relative date.
-  String formatRelativeDate(DateTime date) => LocalizationService.formatRelativeDate(this, date);
+  String formatRelativeDate(DateTime date) =>
+      LocalizationService.formatRelativeDate(this, date);
 
   /// Formats a currency amount according to the current locale.
-  String formatCurrency(double amount, {String? currencyCode, String? symbol}) =>
-      LocalizationService.formatCurrency(this, amount, currencyCode: currencyCode, symbol: symbol);
+  String formatCurrency(
+    double amount, {
+    String? currencyCode,
+    String? symbol,
+  }) => LocalizationService.formatCurrency(
+    this,
+    amount,
+    currencyCode: currencyCode,
+    symbol: symbol,
+  );
 
   /// Formats a file size in human-readable format.
-  String formatFileSize(int bytes) => LocalizationService.formatFileSize(this, bytes);
+  String formatFileSize(int bytes) =>
+      LocalizationService.formatFileSize(this, bytes);
 
   /// Formats a duration in human-readable format.
-  String formatDuration(Duration duration) => LocalizationService.formatDuration(this, duration);
+  String formatDuration(Duration duration) =>
+      LocalizationService.formatDuration(this, duration);
 
   /// Returns the plural form of a word based on count.
   String pluralize(int count, String singular, String plural) =>
@@ -286,7 +354,8 @@ extension LocalizationContextExtensions on BuildContext {
       LocalizationService.getStartMargin(this, value);
 
   /// Returns the appropriate end margin based on text direction.
-  EdgeInsetsDirectional getEndMargin(double value) => LocalizationService.getEndMargin(this, value);
+  EdgeInsetsDirectional getEndMargin(double value) =>
+      LocalizationService.getEndMargin(this, value);
 
   /// Wraps a widget with Directionality based on the current locale.
   Widget withDirectionality(Widget child) =>

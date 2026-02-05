@@ -32,19 +32,19 @@ class DriverReview extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        driverId,
-        passengerId,
-        passengerName,
-        passengerAvatar,
-        rating,
-        comment,
-        createdAt,
-        response,
-        respondedAt,
-        tripId,
-        tripDetails,
-      ];
+    id,
+    driverId,
+    passengerId,
+    passengerName,
+    passengerAvatar,
+    rating,
+    comment,
+    createdAt,
+    response,
+    respondedAt,
+    tripId,
+    tripDetails,
+  ];
 
   DriverReview copyWith({
     String? id,

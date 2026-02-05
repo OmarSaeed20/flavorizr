@@ -1,10 +1,7 @@
 import 'package:flavorizr/features/driver/driver_home/data/models/driver_earnings_model.dart';
 import 'package:flavorizr/features/driver/driver_home/data/models/driver_stats_model.dart';
 import 'package:flavorizr/features/driver/driver_home/data/models/driver_trip_model.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_earnings.dart';
 import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_home_data.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_stats.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_trip.dart';
 
 /// Model for driver home data
 class DriverHomeDataModel extends DriverHomeData {
@@ -30,7 +27,9 @@ class DriverHomeDataModel extends DriverHomeData {
       isOnline: json['isOnline'] ?? false,
       isAvailable: json['isAvailable'] ?? false,
       currentLocation: json['currentLocation'],
-      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+      lastUpdated: DateTime.parse(
+        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 
@@ -38,7 +37,9 @@ class DriverHomeDataModel extends DriverHomeData {
     return {
       'stats': (stats as DriverStatsModel).toJson(),
       'earnings': (earnings as DriverEarningsModel).toJson(),
-      'recentTrips': recentTrips.map((e) => (e as DriverTripModel).toJson()).toList(),
+      'recentTrips': recentTrips
+          .map((e) => (e as DriverTripModel).toJson())
+          .toList(),
       'isOnline': isOnline,
       'isAvailable': isAvailable,
       'currentLocation': currentLocation,

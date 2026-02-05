@@ -54,7 +54,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: Text(l10n.signOut),
           ),
         ],
@@ -222,10 +224,15 @@ class _SettingsNavigationTile extends StatelessWidget {
       subtitle: subtitle != null
           ? Text(
               subtitle!,
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             )
           : null,
-      trailing: Icon(Icons.chevron_right, color: theme.colorScheme.onSurfaceVariant),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
       onTap: onTap,
     );
   }
@@ -252,7 +259,10 @@ class _SettingsActionTile extends StatelessWidget {
 
     return ListTile(
       leading: Icon(icon, color: effectiveColor),
-      title: Text(title, style: theme.textTheme.bodyLarge?.copyWith(color: effectiveColor)),
+      title: Text(
+        title,
+        style: theme.textTheme.bodyLarge?.copyWith(color: effectiveColor),
+      ),
       onTap: onTap,
     );
   }

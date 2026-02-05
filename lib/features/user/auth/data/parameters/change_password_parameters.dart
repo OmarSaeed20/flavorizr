@@ -23,7 +23,8 @@ class ChangePasswordParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
- static ChangePasswordParametersBuilder builder() => ChangePasswordParametersBuilder();
+  static ChangePasswordParametersBuilder builder() =>
+      ChangePasswordParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -44,7 +45,8 @@ class ChangePasswordParameters extends Parameters {
 }
 
 /// Builder for ChangePasswordParameters
-class ChangePasswordParametersBuilder extends ParametersBuilder<ChangePasswordParameters> {
+class ChangePasswordParametersBuilder
+    extends ParametersBuilder<ChangePasswordParameters> {
   String? _currentPassword;
   String? _newPassword;
   CancelToken? _cancelToken;

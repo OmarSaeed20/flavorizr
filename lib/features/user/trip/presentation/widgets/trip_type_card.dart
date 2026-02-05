@@ -44,23 +44,41 @@ class TripTypeCard extends StatelessWidget {
                   children: [
                     Text(
                       tripType.name,
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       tripType.description ?? 'Standard ride',
-                      style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.outline,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(Icons.people, size: 16, color: theme.colorScheme.outline),
+                        Icon(
+                          Icons.people,
+                          size: 16,
+                          color: theme.colorScheme.outline,
+                        ),
                         const SizedBox(width: 4),
-                        Text('${tripType.capacity} passengers', style: theme.textTheme.bodySmall),
+                        Text(
+                          '${tripType.capacity} passengers',
+                          style: theme.textTheme.bodySmall,
+                        ),
                         const SizedBox(width: 12),
-                        Icon(Icons.attach_money, size: 16, color: theme.colorScheme.outline),
+                        Icon(
+                          Icons.attach_money,
+                          size: 16,
+                          color: theme.colorScheme.outline,
+                        ),
                         const SizedBox(width: 4),
-                        Text('Base \$${tripType.basePrice}', style: theme.textTheme.bodySmall),
+                        Text(
+                          'Base \$${tripType.basePrice}',
+                          style: theme.textTheme.bodySmall,
+                        ),
                       ],
                     ),
                   ],

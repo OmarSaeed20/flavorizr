@@ -19,7 +19,8 @@ abstract class OnboardingLocalDataSource {
 
 /// Implementation of [OnboardingLocalDataSource].
 class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
-  const OnboardingLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
+  const OnboardingLocalDataSourceImpl({required SharedPreferences prefs})
+    : _prefs = prefs;
 
   final SharedPreferences _prefs;
 
@@ -54,7 +55,8 @@ class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
       OnboardingPageModel(
         id: 'ready',
         title: 'Ready to Start?',
-        description: 'Create your account or sign in to get started on your journey.',
+        description:
+            'Create your account or sign in to get started on your journey.',
         imagePath: 'assets/images/onboarding/ready.png',
       ),
     ];

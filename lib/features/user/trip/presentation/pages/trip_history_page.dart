@@ -47,34 +47,20 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
               setState(() {
                 _selectedStatus = status == 'all' ? null : status;
               });
-              ref.read(tripHistoryControllerProvider.notifier).loadTripHistory(
-                    status: _selectedStatus,
-                  );
+              ref
+                  .read(tripHistoryControllerProvider.notifier)
+                  .loadTripHistory(status: _selectedStatus);
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'all',
-                child: Text('All Trips'),
-              ),
-              const PopupMenuItem(
-                value: 'completed',
-                child: Text('Completed'),
-              ),
-              const PopupMenuItem(
-                value: 'cancelled',
-                child: Text('Cancelled'),
-              ),
-              const PopupMenuItem(
-                value: 'failed',
-                child: Text('Failed'),
-              ),
+              const PopupMenuItem(value: 'all', child: Text('All Trips')),
+              const PopupMenuItem(value: 'completed', child: Text('Completed')),
+              const PopupMenuItem(value: 'cancelled', child: Text('Cancelled')),
+              const PopupMenuItem(value: 'failed', child: Text('Failed')),
             ],
           ),
         ],
       ),
-      body: SafeArea(
-        child: _buildBody(context, state),
-      ),
+      body: SafeArea(child: _buildBody(context, state)),
     );
   }
 
@@ -102,8 +88,8 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
             Text(
               'Your completed trips will appear here',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
+                color: Theme.of(context).colorScheme.outline,
+              ),
             ),
           ],
         ),
@@ -113,7 +99,8 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification &&
-            notification.metrics.pixels >= notification.metrics.maxScrollExtent - 200) {
+            notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent - 200) {
           ref.read(tripHistoryControllerProvider.notifier).loadMore();
         }
         return false;

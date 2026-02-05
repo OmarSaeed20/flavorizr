@@ -44,7 +44,8 @@ abstract class DriverProfileLocalDataSource {
 class DriverProfileLocalDataSourceImpl
     with BaseLocalDataSource
     implements DriverProfileLocalDataSource {
-  DriverProfileLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
+  DriverProfileLocalDataSourceImpl({required SharedPreferences prefs})
+    : _prefs = prefs;
 
   static const String _profileKey = 'driver_profile';
   static const String _vehicleKey = 'driver_vehicle';
@@ -61,7 +62,9 @@ class DriverProfileLocalDataSourceImpl
         final json = _prefs.getString(_profileKey);
         if (json == null) return null;
         try {
-          return DriverProfileModel.fromJson(jsonDecode(json) as Map<String, dynamic>);
+          return DriverProfileModel.fromJson(
+            jsonDecode(json) as Map<String, dynamic>,
+          );
         } catch (_) {
           return null;
         }
@@ -89,7 +92,9 @@ class DriverProfileLocalDataSourceImpl
         final json = _prefs.getString(_vehicleKey);
         if (json == null) return null;
         try {
-          return DriverVehicleModel.fromJson(jsonDecode(json) as Map<String, dynamic>);
+          return DriverVehicleModel.fromJson(
+            jsonDecode(json) as Map<String, dynamic>,
+          );
         } catch (_) {
           return null;
         }
@@ -118,7 +123,11 @@ class DriverProfileLocalDataSourceImpl
         if (json == null) return null;
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list.map((e) => DriverDocumentModel.fromJson(e as Map<String, dynamic>)).toList();
+          return list
+              .map(
+                (e) => DriverDocumentModel.fromJson(e as Map<String, dynamic>),
+              )
+              .toList();
         } catch (_) {
           return null;
         }
@@ -127,7 +136,9 @@ class DriverProfileLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheDocuments(List<DriverDocumentModel> documents) async {
+  Future<ApiResult<void>> cacheDocuments(
+    List<DriverDocumentModel> documents,
+  ) async {
     return saveLocalDataList<DriverDocumentModel>(
       key: _documentsKey,
       data: documents,
@@ -155,7 +166,9 @@ class DriverProfileLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheVerificationStatus(Map<String, dynamic> status) async {
+  Future<ApiResult<void>> cacheVerificationStatus(
+    Map<String, dynamic> status,
+  ) async {
     return saveLocalData<Map<String, dynamic>>(
       key: _verificationStatusKey,
       data: status,
@@ -168,9 +181,18 @@ class DriverProfileLocalDataSourceImpl
 
   @override
   Future<ApiResult<void>> clearProfileCache() async {
-    await deleteLocalData(key: _profileKey, deleter: () async => _prefs.remove(_profileKey));
-    await deleteLocalData(key: _vehicleKey, deleter: () async => _prefs.remove(_vehicleKey));
-    await deleteLocalData(key: _documentsKey, deleter: () async => _prefs.remove(_documentsKey));
+    await deleteLocalData(
+      key: _profileKey,
+      deleter: () async => _prefs.remove(_profileKey),
+    );
+    await deleteLocalData(
+      key: _vehicleKey,
+      deleter: () async => _prefs.remove(_vehicleKey),
+    );
+    await deleteLocalData(
+      key: _documentsKey,
+      deleter: () async => _prefs.remove(_documentsKey),
+    );
     return deleteLocalData(
       key: _verificationStatusKey,
       deleter: () async => _prefs.remove(_verificationStatusKey),

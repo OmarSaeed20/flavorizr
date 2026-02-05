@@ -39,7 +39,8 @@ abstract class DriverProfileEndpoints {
 
   /// Delete driver document.
   /// Endpoint: DELETE /driver/documents/{document_id}
-  static String deleteDocument(String documentId) => '/driver/documents/$documentId';
+  static String deleteDocument(String documentId) =>
+      '/driver/documents/$documentId';
 
   /// Get driver verification status.
   /// Endpoint: GET /driver/verification/status

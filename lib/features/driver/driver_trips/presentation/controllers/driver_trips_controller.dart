@@ -134,9 +134,15 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
     state = state.copyWith(isLoadingPending: true);
     try {
       final pendingTrips = await getPendingTrips();
-      state = state.copyWith(isLoadingPending: false, pendingTrips: pendingTrips);
+      state = state.copyWith(
+        isLoadingPending: false,
+        pendingTrips: pendingTrips,
+      );
     } catch (e) {
-      state = state.copyWith(isLoadingPending: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoadingPending: false,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -187,7 +193,10 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
   }
 
   /// Complete a trip
-  Future<DriverTrip?> completeTripRequest(String tripId, double actualFare) async {
+  Future<DriverTrip?> completeTripRequest(
+    String tripId,
+    double actualFare,
+  ) async {
     state = state.copyWith(isUpdatingTrip: true);
     try {
       final trip = await completeTrip(tripId, actualFare);
@@ -225,10 +234,16 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
 
   /// Update trip location
   /// Note: This functionality needs to be added to the repository interface
-  Future<bool> updateCurrentTripLocation(String tripId, double latitude, double longitude) async {
+  Future<bool> updateCurrentTripLocation(
+    String tripId,
+    double latitude,
+    double longitude,
+  ) async {
     try {
       // TODO: Implement when updateTripLocation is added to repository
-      state = state.copyWith(errorMessage: 'Update trip location not yet implemented');
+      state = state.copyWith(
+        errorMessage: 'Update trip location not yet implemented',
+      );
       return false;
     } catch (e) {
       state = state.copyWith(errorMessage: e.toString());
@@ -241,7 +256,9 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
   Future<void> loadTripStats() async {
     try {
       // TODO: Implement when getTripStats is added to repository
-      state = state.copyWith(errorMessage: 'Get trip stats not yet implemented');
+      state = state.copyWith(
+        errorMessage: 'Get trip stats not yet implemented',
+      );
     } catch (e) {
       state = state.copyWith(errorMessage: e.toString());
     }

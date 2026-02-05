@@ -15,7 +15,9 @@ abstract class NotificationSettingsRepository {
   /// Updates the notification settings.
   ///
   /// Returns the updated settings on success.
-  Future<ApiResult<NotificationSettings>> updateSettings(NotificationSettings settings);
+  Future<ApiResult<NotificationSettings>> updateSettings(
+    NotificationSettings settings,
+  );
 
   /// Resets the notification settings to defaults.
   ///

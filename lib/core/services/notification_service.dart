@@ -12,7 +12,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 abstract final class NotificationConstants {
   static const String channelId = 'high_importance_channel';
   static const String channelName = 'High Importance Notifications';
-  static const String channelDescription = 'This channel is used for important notifications.';
+  static const String channelDescription =
+      'This channel is used for important notifications.';
 
   // Data keys
   static const String deepLinkKey = 'deep_link';
@@ -37,7 +38,8 @@ final class NotificationPayload {
       id: message.messageId ?? DateTime.now().millisecondsSinceEpoch.toString(),
       title: notification?.title ?? '',
       body: notification?.body ?? '',
-      imageUrl: notification?.android?.imageUrl ?? notification?.apple?.imageUrl,
+      imageUrl:
+          notification?.android?.imageUrl ?? notification?.apple?.imageUrl,
       data: Map<String, dynamic>.unmodifiable(message.data),
       receivedAt: message.sentTime ?? DateTime.now(),
     );
@@ -50,7 +52,10 @@ final class NotificationPayload {
     final body = json['body'];
     final receivedAt = json['receivedAt'];
 
-    if (id is! String || title is! String || body is! String || receivedAt is! String) {
+    if (id is! String ||
+        title is! String ||
+        body is! String ||
+        receivedAt is! String) {
       throw const FormatException('Invalid notification payload format');
     }
 
@@ -59,7 +64,9 @@ final class NotificationPayload {
       title: title,
       body: body,
       imageUrl: json['imageUrl'] as String?,
-      data: Map<String, dynamic>.unmodifiable(json['data'] as Map<String, dynamic>? ?? const {}),
+      data: Map<String, dynamic>.unmodifiable(
+        json['data'] as Map<String, dynamic>? ?? const {},
+      ),
       receivedAt: DateTime.parse(receivedAt),
     );
   }
@@ -104,7 +111,9 @@ final class NotificationPayload {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is NotificationPayload && runtimeType == other.runtimeType && id == other.id;
+      other is NotificationPayload &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -164,7 +173,8 @@ final class NotificationService {
   );
 
   /// Gets the singleton instance.
-  static NotificationService get instance => _instance ??= NotificationService._();
+  static NotificationService get instance =>
+      _instance ??= NotificationService._();
 
   /// Current FCM token.
   String? get fcmToken => _fcmToken;
@@ -182,7 +192,8 @@ final class NotificationService {
 
   /// Stream of received notifications (lazy initialized).
   Stream<NotificationPayload> get notifications {
-    _notificationController ??= StreamController<NotificationPayload>.broadcast();
+    _notificationController ??=
+        StreamController<NotificationPayload>.broadcast();
     return _notificationController!.stream;
   }
 
@@ -212,7 +223,10 @@ final class NotificationService {
       }
 
       // Initialize in parallel where possible
-      await Future.wait([_initializeLocalNotifications(), _initializeFcmToken()]);
+      await Future.wait([
+        _initializeLocalNotifications(),
+        _initializeFcmToken(),
+      ]);
 
       // Set up message listeners
       _setupMessageListeners();
@@ -268,7 +282,9 @@ final class NotificationService {
   }
 
   Future<void> _initializeLocalNotifications() async {
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
 
     const darwinSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
@@ -298,7 +314,9 @@ final class NotificationService {
       );
 
       await _localNotifications
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()
           ?.createNotificationChannel(channel);
     }
   }
@@ -425,7 +443,9 @@ final class NotificationService {
     if (!Platform.isIOS) return;
 
     await _localNotifications
-        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >()
         ?.requestPermissions(badge: true);
   }
 
@@ -460,7 +480,9 @@ final class NotificationService {
     if (!Platform.isAndroid) return const [];
 
     return await _localNotifications
-            .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >()
             ?.getActiveNotifications() ??
         const [];
   }

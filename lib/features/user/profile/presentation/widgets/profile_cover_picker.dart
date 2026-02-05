@@ -60,7 +60,9 @@ class ProfileCoverPicker extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'Change Cover Photo',
-              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 16),
             ListTile(
@@ -82,8 +84,14 @@ class ProfileCoverPicker extends StatelessWidget {
             if (coverPhotoUrl != null) ...[
               const Divider(),
               ListTile(
-                leading: Icon(Icons.delete_outline, color: theme.colorScheme.error),
-                title: Text('Remove Cover Photo', style: TextStyle(color: theme.colorScheme.error)),
+                leading: Icon(
+                  Icons.delete_outline,
+                  color: theme.colorScheme.error,
+                ),
+                title: Text(
+                  'Remove Cover Photo',
+                  style: TextStyle(color: theme.colorScheme.error),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   onRemoveImage?.call();
@@ -122,7 +130,9 @@ class ProfileCoverPicker extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.3)),
+          border: Border.all(
+            color: theme.colorScheme.outline.withValues(alpha: 0.3),
+          ),
         ),
         clipBehavior: Clip.antiAlias,
         child: Stack(
@@ -138,7 +148,10 @@ class ProfileCoverPicker extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black.withValues(alpha: 0.3)],
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.3),
+                    ],
                   ),
                 ),
               ),
@@ -149,7 +162,10 @@ class ProfileCoverPicker extends StatelessWidget {
               right: 12,
               bottom: 12,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surface.withValues(alpha: 0.9),
                   borderRadius: BorderRadius.circular(20),
@@ -157,7 +173,11 @@ class ProfileCoverPicker extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.camera_alt, size: 16, color: theme.colorScheme.primary),
+                    Icon(
+                      Icons.camera_alt,
+                      size: 16,
+                      color: theme.colorScheme.primary,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'Edit',
@@ -176,7 +196,9 @@ class ProfileCoverPicker extends StatelessWidget {
               Positioned.fill(
                 child: ColoredBox(
                   color: Colors.black.withValues(alpha: 0.5),
-                  child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+                  child: const Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
                 ),
               ),
           ],
@@ -190,11 +212,13 @@ class ProfileCoverPicker extends StatelessWidget {
 
     if (coverPhotoUrl != null && coverPhotoUrl!.isNotEmpty) {
       // Check if it's a local file path
-      if (coverPhotoUrl!.startsWith('/') || coverPhotoUrl!.startsWith('file://')) {
+      if (coverPhotoUrl!.startsWith('/') ||
+          coverPhotoUrl!.startsWith('file://')) {
         return Image.file(
           File(coverPhotoUrl!.replaceFirst('file://', '')),
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => _buildPlaceholder(theme),
+          errorBuilder: (context, error, stackTrace) =>
+              _buildPlaceholder(theme),
         );
       }
 
@@ -207,7 +231,8 @@ class ProfileCoverPicker extends StatelessWidget {
           return Center(
             child: CircularProgressIndicator(
               value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                  ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
                   : null,
             ),
           );
@@ -235,7 +260,9 @@ class ProfileCoverPicker extends StatelessWidget {
             Text(
               'Add Cover Photo',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.7,
+                ),
               ),
             ),
           ],

@@ -8,10 +8,7 @@ class SendOtpParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  const SendOtpParameters({
-    required this.phoneNumber,
-    this.cancelToken,
-  });
+  const SendOtpParameters({required this.phoneNumber, this.cancelToken});
 
   /// Convert to JSON for API request
   @override

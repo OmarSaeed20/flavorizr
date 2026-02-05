@@ -14,5 +14,7 @@ abstract class ChatRepository {
 
   /// Save a message
   /// Returns NetworkResult with ApiChatMessage on success
-  Future<ApiResult<ApiResponse<ApiChatMessage>>> saveMessage(SaveMessageParameters parameters);
+  Future<ApiResult<ApiResponse<ApiChatMessage>>> saveMessage(
+    SaveMessageParameters parameters,
+  );
 }

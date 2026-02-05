@@ -8,10 +8,7 @@ class SendMagicLinkParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  const SendMagicLinkParameters({
-    required this.email,
-    this.cancelToken,
-  });
+  const SendMagicLinkParameters({required this.email, this.cancelToken});
 
   /// Convert to JSON for API request
   @override
@@ -37,7 +34,8 @@ class SendMagicLinkParameters extends Parameters {
 }
 
 /// Builder for SendMagicLinkParameters
-class SendMagicLinkParametersBuilder extends ParametersBuilder<SendMagicLinkParameters> {
+class SendMagicLinkParametersBuilder
+    extends ParametersBuilder<SendMagicLinkParameters> {
   String? _email;
   CancelToken? _cancelToken;
 
@@ -59,9 +57,6 @@ class SendMagicLinkParametersBuilder extends ParametersBuilder<SendMagicLinkPara
   /// Build the parameters object
   @override
   SendMagicLinkParameters build() {
-    return SendMagicLinkParameters(
-      email: _email!,
-      cancelToken: _cancelToken,
-    );
+    return SendMagicLinkParameters(email: _email!, cancelToken: _cancelToken);
   }
 }

@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_vehicle.dart';
+import 'package:flutter/material.dart';
 
 /// Widget for displaying driver vehicle information.
 class DriverVehicleCard extends StatelessWidget {
   final DriverVehicle vehicle;
 
-  const DriverVehicleCard({
-    super.key,
-    required this.vehicle,
-  });
+  const DriverVehicleCard({super.key, required this.vehicle});
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +17,11 @@ class DriverVehicleCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.directions_car,
-                  size: 32,
-                  color: Colors.blue,
-                ),
+                const Icon(Icons.directions_car, size: 32, color: Colors.blue),
                 const SizedBox(width: 12),
                 const Text(
                   'My Vehicle',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 if (vehicle.isActive)
@@ -92,19 +82,13 @@ class DriverVehicleCard extends StatelessWidget {
           width: 120,
           child: Text(
             '$label:',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ),
       ],

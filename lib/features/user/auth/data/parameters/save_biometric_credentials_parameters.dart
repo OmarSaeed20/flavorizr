@@ -17,10 +17,7 @@ class SaveBiometricCredentialsParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {
-    'email': email,
-    'password': password,
-  };
+  Map<String, dynamic> toJson() => {'email': email, 'password': password};
 
   /// Create a builder for this parameters type
   SaveBiometricCredentialsParametersBuilder builder() =>
@@ -66,7 +63,9 @@ class SaveBiometricCredentialsParametersBuilder
 
   /// Set cancel token
   @override
-  SaveBiometricCredentialsParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SaveBiometricCredentialsParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

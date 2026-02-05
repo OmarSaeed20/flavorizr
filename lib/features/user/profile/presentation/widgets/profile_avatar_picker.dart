@@ -71,7 +71,9 @@ class ProfileAvatarPicker extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'Change Profile Photo',
-              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 16),
             ListTile(
@@ -93,8 +95,14 @@ class ProfileAvatarPicker extends StatelessWidget {
             if (photoUrl != null) ...[
               const Divider(),
               ListTile(
-                leading: Icon(Icons.delete_outline, color: theme.colorScheme.error),
-                title: Text('Remove Photo', style: TextStyle(color: theme.colorScheme.error)),
+                leading: Icon(
+                  Icons.delete_outline,
+                  color: theme.colorScheme.error,
+                ),
+                title: Text(
+                  'Remove Photo',
+                  style: TextStyle(color: theme.colorScheme.error),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   onRemoveImage?.call();
@@ -136,7 +144,10 @@ class ProfileAvatarPicker extends StatelessWidget {
             height: size,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.3), width: 2),
+              border: Border.all(
+                color: theme.colorScheme.outline.withValues(alpha: 0.3),
+                width: 2,
+              ),
             ),
             child: ClipOval(child: _buildAvatarContent(context)),
           ),
@@ -152,7 +163,11 @@ class ProfileAvatarPicker extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: theme.colorScheme.surface, width: 2),
               ),
-              child: Icon(Icons.camera_alt, size: 18, color: theme.colorScheme.onPrimary),
+              child: Icon(
+                Icons.camera_alt,
+                size: 18,
+                color: theme.colorScheme.onPrimary,
+              ),
             ),
           ),
 
@@ -165,7 +180,10 @@ class ProfileAvatarPicker extends StatelessWidget {
                   color: Colors.black.withValues(alpha: 0.5),
                 ),
                 child: const Center(
-                  child: CircularProgressIndicator(strokeWidth: 3, color: Colors.white),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -185,7 +203,8 @@ class ProfileAvatarPicker extends StatelessWidget {
           fit: BoxFit.cover,
           width: size,
           height: size,
-          errorBuilder: (context, error, stackTrace) => _buildInitialsFallback(theme),
+          errorBuilder: (context, error, stackTrace) =>
+              _buildInitialsFallback(theme),
         );
       }
 
@@ -200,13 +219,15 @@ class ProfileAvatarPicker extends StatelessWidget {
           return Center(
             child: CircularProgressIndicator(
               value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                  ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
                   : null,
               strokeWidth: 2,
             ),
           );
         },
-        errorBuilder: (context, error, stackTrace) => _buildInitialsFallback(theme),
+        errorBuilder: (context, error, stackTrace) =>
+            _buildInitialsFallback(theme),
       );
     }
 

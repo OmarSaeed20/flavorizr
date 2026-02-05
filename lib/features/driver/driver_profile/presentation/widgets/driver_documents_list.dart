@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_document.dart';
+import 'package:flutter/material.dart';
 
 /// Widget for displaying driver documents list.
 class DriverDocumentsList extends StatelessWidget {
@@ -24,18 +24,11 @@ class DriverDocumentsList extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.description,
-                  size: 32,
-                  color: Colors.blue,
-                ),
+                const Icon(Icons.description, size: 32, color: Colors.blue),
                 const SizedBox(width: 12),
                 const Text(
                   'Documents',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
                 IconButton(
@@ -43,7 +36,10 @@ class DriverDocumentsList extends StatelessWidget {
                   onPressed: isLoading
                       ? null
                       : () {
-                          Navigator.pushNamed(context, '/driver/documents/upload');
+                          Navigator.pushNamed(
+                            context,
+                            '/driver/documents/upload',
+                          );
                         },
                 ),
               ],
@@ -55,9 +51,7 @@ class DriverDocumentsList extends StatelessWidget {
                   padding: EdgeInsets.all(32.0),
                   child: Text(
                     'No documents uploaded yet',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
+                    style: TextStyle(color: Colors.grey),
                   ),
                 ),
               )
@@ -107,10 +101,7 @@ class DriverDocumentsList extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8,
-              vertical: 4,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               color: statusColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),

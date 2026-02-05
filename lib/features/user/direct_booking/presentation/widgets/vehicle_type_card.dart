@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flavorizr/features/user/direct_booking/domain/entities/vehicle_type.dart';
+import 'package:flutter/material.dart';
 
 /// Widget for displaying a vehicle type card.
 class VehicleTypeCard extends StatelessWidget {
@@ -41,7 +41,10 @@ class VehicleTypeCard extends StatelessWidget {
                         width: 80,
                         height: 60,
                         color: Colors.grey[300],
-                        child: const Icon(Icons.directions_car, color: Colors.grey),
+                        child: const Icon(
+                          Icons.directions_car,
+                          color: Colors.grey,
+                        ),
                       );
                     },
                   ),
@@ -63,10 +66,7 @@ class VehicleTypeCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         vehicleType.description!,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
                     ],
                     const SizedBox(height: 8),
@@ -82,7 +82,11 @@ class VehicleTypeCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 16),
-                        Icon(Icons.attach_money, size: 16, color: Colors.grey[600]),
+                        Icon(
+                          Icons.attach_money,
+                          size: 16,
+                          color: Colors.grey[600],
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           'Base: \$${vehicleType.baseFare.toStringAsFixed(2)}',

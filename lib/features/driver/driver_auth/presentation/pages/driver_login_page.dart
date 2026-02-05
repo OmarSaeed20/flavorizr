@@ -1,9 +1,8 @@
+import 'package:flavorizr/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/controllers/driver_auth_controller.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
 
 /// Page for driver login.
 class DriverLoginPage extends ConsumerStatefulWidget {
@@ -27,7 +26,9 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
 
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
-      ref.read(driverAuthControllerProvider.notifier).login(
+      ref
+          .read(driverAuthControllerProvider.notifier)
+          .login(
             phone: _phoneController.text,
             password: _passwordController.text,
           );
@@ -39,9 +40,7 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
     final state = ref.watch(driverAuthControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Driver Login'),
-      ),
+      appBar: AppBar(title: const Text('Driver Login')),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -51,27 +50,17 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 32),
-                const Icon(
-                  Icons.taxi_alert,
-                  size: 80,
-                  color: Colors.blue,
-                ),
+                const Icon(Icons.taxi_alert, size: 80, color: Colors.blue),
                 const SizedBox(height: 24),
                 const Text(
                   'Welcome Back',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Sign in to continue as a driver',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
@@ -90,10 +79,7 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Text(
                       state.error!,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
+                      style: const TextStyle(color: Colors.red, fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -111,7 +97,10 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
                   onPressed: state.isLoading
                       ? null
                       : () {
-                          Navigator.pushNamed(context, '/driver/forgot-password');
+                          Navigator.pushNamed(
+                            context,
+                            '/driver/forgot-password',
+                          );
                         },
                   child: const Text('Forgot Password?'),
                 ),

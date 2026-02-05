@@ -1,14 +1,11 @@
+import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_stats.dart';
 import 'package:flutter/material.dart';
-import '../../domain/entities/driver_stats.dart';
 
 /// Widget displaying driver statistics
 class DriverStatsCard extends StatelessWidget {
   final DriverStats stats;
 
-  const DriverStatsCard({
-    super.key,
-    required this.stats,
-  });
+  const DriverStatsCard({super.key, required this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +18,7 @@ class DriverStatsCard extends StatelessWidget {
           children: [
             const Text(
               'Statistics',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Row(
@@ -128,26 +122,16 @@ class _StatItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(
-          icon,
-          size: 32,
-          color: color ?? Theme.of(context).primaryColor,
-        ),
+        Icon(icon, size: 32, color: color ?? Theme.of(context).primaryColor),
         const SizedBox(height: 8),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
+          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
           textAlign: TextAlign.center,
         ),
       ],

@@ -27,7 +27,8 @@ abstract class ApiUserProfile with _$ApiUserProfile {
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
   }) = _ApiUserProfile;
 
-  factory ApiUserProfile.fromJson(Map<String, dynamic> json) => _$ApiUserProfileFromJson(json);
+  factory ApiUserProfile.fromJson(Map<String, dynamic> json) =>
+      _$ApiUserProfileFromJson(json);
 }
 
 /// API Driver Profile model representing driver profile data from the backend
@@ -58,5 +59,6 @@ abstract class ApiDriverProfile with _$ApiDriverProfile {
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
   }) = _ApiDriverProfile;
 
-  factory ApiDriverProfile.fromJson(Map<String, dynamic> json) => _$ApiDriverProfileFromJson(json);
+  factory ApiDriverProfile.fromJson(Map<String, dynamic> json) =>
+      _$ApiDriverProfileFromJson(json);
 }

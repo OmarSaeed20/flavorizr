@@ -39,5 +39,8 @@ abstract class DriverTripsRepository {
   });
 
   /// Gets driver's schedule trip requests.
-  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({String? date, String? status});
+  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({
+    String? date,
+    String? status,
+  });
 }

@@ -36,7 +36,9 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
     // Set the token if provided
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.token != null && widget.token!.isNotEmpty) {
-        ref.read(resetPasswordControllerProvider.notifier).setToken(widget.token!);
+        ref
+            .read(resetPasswordControllerProvider.notifier)
+            .setToken(widget.token!);
       }
     });
   }
@@ -90,14 +92,20 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
             color: theme.colorScheme.primaryContainer,
             shape: BoxShape.circle,
           ),
-          child: Icon(Icons.check_circle_outline, size: 48, color: theme.colorScheme.primary),
+          child: Icon(
+            Icons.check_circle_outline,
+            size: 48,
+            color: theme.colorScheme.primary,
+          ),
         ),
         const SizedBox(height: 24),
 
         // Title
         Text(
           'Password Reset Complete',
-          style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 12),
@@ -106,7 +114,9 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
         Text(
           'Your password has been reset successfully. '
           'You can now sign in with your new password.',
-          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
@@ -129,13 +139,19 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Icon
-          Icon(Icons.lock_reset_outlined, size: 64, color: theme.colorScheme.primary),
+          Icon(
+            Icons.lock_reset_outlined,
+            size: 64,
+            color: theme.colorScheme.primary,
+          ),
           const SizedBox(height: 24),
 
           // Title
           Text(
             'Reset Password',
-            style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 12),
@@ -143,7 +159,9 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
           // Description
           Text(
             "Enter your new password below. Make sure it's strong and secure.",
-            style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
@@ -158,7 +176,11 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.error_outline, color: theme.colorScheme.error, size: 20),
+                  Icon(
+                    Icons.error_outline,
+                    color: theme.colorScheme.error,
+                    size: 20,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -185,10 +207,12 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
             enabled: !state.isLoading,
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.newPassword],
-            onToggleVisibility: () =>
-                ref.read(resetPasswordControllerProvider.notifier).togglePasswordVisibility(),
-            onChanged: (value) =>
-                ref.read(resetPasswordControllerProvider.notifier).setNewPassword(value),
+            onToggleVisibility: () => ref
+                .read(resetPasswordControllerProvider.notifier)
+                .togglePasswordVisibility(),
+            onChanged: (value) => ref
+                .read(resetPasswordControllerProvider.notifier)
+                .setNewPassword(value),
             onSubmitted: (_) => _confirmPasswordFocusNode.requestFocus(),
           ),
           const SizedBox(height: 8),
@@ -211,8 +235,9 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
             onToggleVisibility: () => ref
                 .read(resetPasswordControllerProvider.notifier)
                 .toggleConfirmPasswordVisibility(),
-            onChanged: (value) =>
-                ref.read(resetPasswordControllerProvider.notifier).setConfirmPassword(value),
+            onChanged: (value) => ref
+                .read(resetPasswordControllerProvider.notifier)
+                .setConfirmPassword(value),
             onSubmitted: (_) => _handleResetPassword(),
           ),
           const SizedBox(height: 24),
@@ -236,9 +261,14 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Remember your password? ', style: theme.textTheme.bodyMedium),
+              Text(
+                'Remember your password? ',
+                style: theme.textTheme.bodyMedium,
+              ),
               TextButton(
-                onPressed: state.isLoading ? null : () => context.go(Routes.login),
+                onPressed: state.isLoading
+                    ? null
+                    : () => context.go(Routes.login),
                 child: const Text('Sign In'),
               ),
             ],
@@ -248,7 +278,10 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
     );
   }
 
-  Widget _buildPasswordStrengthIndicator(ThemeData theme, PasswordStrength strength) {
+  Widget _buildPasswordStrengthIndicator(
+    ThemeData theme,
+    PasswordStrength strength,
+  ) {
     final colors = {
       PasswordStrength.weak: theme.colorScheme.error,
       PasswordStrength.fair: Colors.orange,
@@ -277,7 +310,9 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
           children: [
             Text(
               'Password Strength: ',
-              style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             Text(
               labels[strength]!,
@@ -327,13 +362,17 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
                 Icon(
                   req.met ? Icons.check_circle : Icons.circle_outlined,
                   size: 16,
-                  color: req.met ? Colors.green : theme.colorScheme.onSurfaceVariant,
+                  color: req.met
+                      ? Colors.green
+                      : theme.colorScheme.onSurfaceVariant,
                 ),
                 const SizedBox(width: 8),
                 Text(
                   req.label,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: req.met ? Colors.green : theme.colorScheme.onSurfaceVariant,
+                    color: req.met
+                        ? Colors.green
+                        : theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],

@@ -163,7 +163,9 @@ class RegisterParametersBuilder extends ParametersBuilder<RegisterParameters> {
   }
 
   /// Set password confirmation
-  RegisterParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
+  RegisterParametersBuilder withPasswordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }

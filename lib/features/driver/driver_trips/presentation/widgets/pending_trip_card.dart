@@ -1,16 +1,13 @@
+import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:flavorizr/features/driver/driver_trips/presentation/providers/driver_trips_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/driver_trip.dart';
-import '../providers/driver_trips_providers.dart';
 
 /// Widget displaying a pending trip request with accept/reject buttons
 class PendingTripCard extends ConsumerWidget {
   final DriverTrip trip;
 
-  const PendingTripCard({
-    super.key,
-    required this.trip,
-  });
+  const PendingTripCard({super.key, required this.trip});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +16,6 @@ class PendingTripCard extends ConsumerWidget {
 
     return Card(
       elevation: 4,
-      borderOnForeground: true,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -50,10 +46,7 @@ class PendingTripCard extends ConsumerWidget {
                       ),
                       Text(
                         trip.passengerPhone,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -102,10 +95,7 @@ class PendingTripCard extends ConsumerWidget {
                   label: '${trip.route.duration.toInt()} min',
                 ),
                 const SizedBox(width: 16),
-                _TripDetail(
-                  icon: Icons.payment,
-                  label: trip.paymentMethod,
-                ),
+                _TripDetail(icon: Icons.payment, label: trip.paymentMethod),
                 const SizedBox(width: 16),
                 _TripDetail(
                   icon: Icons.people,
@@ -124,10 +114,7 @@ class PendingTripCard extends ConsumerWidget {
                   children: [
                     Text(
                       'Estimated Fare',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     ),
                     Text(
                       '\$${trip.estimatedFare.toStringAsFixed(2)}',
@@ -141,16 +128,14 @@ class PendingTripCard extends ConsumerWidget {
                 ),
                 Text(
                   trip.vehicleType,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                 ),
               ],
             ),
 
             // Special requests
-            if (trip.specialRequests != null && trip.specialRequests!.isNotEmpty) ...[
+            if (trip.specialRequests != null &&
+                trip.specialRequests!.isNotEmpty) ...[
               const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.all(8),
@@ -160,7 +145,11 @@ class PendingTripCard extends ConsumerWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.info_outline, size: 16, color: Colors.blue),
+                    const Icon(
+                      Icons.info_outline,
+                      size: 16,
+                      color: Colors.blue,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -289,10 +278,7 @@ class _RouteInfo extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
-                pickupLocation,
-                style: const TextStyle(fontSize: 14),
-              ),
+              child: Text(pickupLocation, style: const TextStyle(fontSize: 14)),
             ),
           ],
         ),
@@ -300,10 +286,7 @@ class _RouteInfo extends StatelessWidget {
           padding: const EdgeInsets.only(left: 5),
           child: SizedBox(
             height: 20,
-            child: VerticalDivider(
-              color: Colors.grey[300],
-              thickness: 2,
-            ),
+            child: VerticalDivider(color: Colors.grey[300], thickness: 2),
           ),
         ),
         Row(
@@ -334,28 +317,15 @@ class _TripDetail extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const _TripDetail({
-    required this.icon,
-    required this.label,
-  });
+  const _TripDetail({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 16,
-          color: Colors.grey[600],
-        ),
+        Icon(icon, size: 16, color: Colors.grey[600]),
         const SizedBox(width: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-        ),
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
       ],
     );
   }

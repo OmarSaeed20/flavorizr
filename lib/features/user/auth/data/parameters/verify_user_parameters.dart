@@ -40,7 +40,10 @@ class VerifyUserParameters extends Parameters {
 
   @override
   int get hashCode =>
-      phone.hashCode ^ code.hashCode ^ firebaseToken.hashCode ^ cancelToken.hashCode;
+      phone.hashCode ^
+      code.hashCode ^
+      firebaseToken.hashCode ^
+      cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -48,7 +51,8 @@ class VerifyUserParameters extends Parameters {
 }
 
 /// Builder for VerifyUserParameters
-class VerifyUserParametersBuilder extends ParametersBuilder<VerifyUserParameters> {
+class VerifyUserParametersBuilder
+    extends ParametersBuilder<VerifyUserParameters> {
   String? _phone;
   String? _code;
   String? _firebaseToken;

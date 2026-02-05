@@ -20,7 +20,10 @@ final homeRemoteDataSourceProvider = Provider<HomeRemoteDataSource>((ref) {
 final homeRepositoryProvider = Provider<HomeRepository>((ref) {
   final remoteDataSource = ref.watch(homeRemoteDataSourceProvider);
   final networkInfo = ref.watch(networkInfoProvider);
-  return HomeRepositoryImpl(remoteDataSource: remoteDataSource, networkInfo: networkInfo);
+  return HomeRepositoryImpl(
+    remoteDataSource: remoteDataSource,
+    networkInfo: networkInfo,
+  );
 });
 
 // Use Case Providers
@@ -29,27 +32,34 @@ final getHomeDataUseCaseProvider = Provider<GetHomeDataUseCase>((ref) {
   return GetHomeDataUseCase(repository);
 });
 
-final getAdvertisementsUseCaseProvider = Provider<GetAdvertisementsUseCase>((ref) {
+final getAdvertisementsUseCaseProvider = Provider<GetAdvertisementsUseCase>((
+  ref,
+) {
   final repository = ref.watch(homeRepositoryProvider);
   return GetAdvertisementsUseCase(repository);
 });
 
-final getAvailableTripsUseCaseProvider = Provider<GetAvailableTripsUseCase>((ref) {
+final getAvailableTripsUseCaseProvider = Provider<GetAvailableTripsUseCase>((
+  ref,
+) {
   final repository = ref.watch(homeRepositoryProvider);
   return GetAvailableTripsUseCase(repository);
 });
 
-final getNotificationCountUseCaseProvider = Provider<GetNotificationCountUseCase>((ref) {
-  final repository = ref.watch(homeRepositoryProvider);
-  return GetNotificationCountUseCase(repository);
-});
+final getNotificationCountUseCaseProvider =
+    Provider<GetNotificationCountUseCase>((ref) {
+      final repository = ref.watch(homeRepositoryProvider);
+      return GetNotificationCountUseCase(repository);
+    });
 
 // Controller Provider
-final homeControllerProvider = StateNotifierProvider<HomeController, HomeState>((ref) {
-  return HomeController(
-    ref.watch(getHomeDataUseCaseProvider),
-    ref.watch(getAdvertisementsUseCaseProvider),
-    ref.watch(getAvailableTripsUseCaseProvider),
-    ref.watch(getNotificationCountUseCaseProvider),
-  );
-});
+final homeControllerProvider = StateNotifierProvider<HomeController, HomeState>(
+  (ref) {
+    return HomeController(
+      ref.watch(getHomeDataUseCaseProvider),
+      ref.watch(getAdvertisementsUseCaseProvider),
+      ref.watch(getAvailableTripsUseCaseProvider),
+      ref.watch(getNotificationCountUseCaseProvider),
+    );
+  },
+);

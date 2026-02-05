@@ -21,13 +21,18 @@ class NotificationRepositoryImpl implements NotificationRepository {
     try {
       final response = await _dio.get(
         NotificationEndpoints.getNotifications,
-        queryParameters: {'page': parameters.page, 'page_size': parameters.pageSize},
+        queryParameters: {
+          'page': parameters.page,
+          'page_size': parameters.pageSize,
+        },
       );
 
       final apiResponse = ApiResponse<List<ApiNotification>>.fromJson(
         response.data,
         (json) => (json as List)
-            .map((item) => ApiNotification.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) => ApiNotification.fromJson(item as Map<String, dynamic>),
+            )
             .toList(),
       );
 
@@ -48,7 +53,12 @@ class NotificationRepositoryImpl implements NotificationRepository {
         ),
       );
     } catch (e) {
-      return ApiResult.exception(UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e));
+      return ApiResult.exception(
+        UnknownNetworkException(
+          message: 'An unexpected error occurred: $e',
+          exception: e,
+        ),
+      );
     }
   }
 
@@ -57,7 +67,9 @@ class NotificationRepositoryImpl implements NotificationRepository {
     GetNotificationCountParameters parameters,
   ) async {
     try {
-      final response = await _dio.get(NotificationEndpoints.getNotificationCount);
+      final response = await _dio.get(
+        NotificationEndpoints.getNotificationCount,
+      );
 
       final apiResponse = ApiResponse<ApiNotificationCount>.fromJson(
         response.data,
@@ -81,7 +93,12 @@ class NotificationRepositoryImpl implements NotificationRepository {
         ),
       );
     } catch (e) {
-      return ApiResult.exception(UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e));
+      return ApiResult.exception(
+        UnknownNetworkException(
+          message: 'An unexpected error occurred: $e',
+          exception: e,
+        ),
+      );
     }
   }
 }

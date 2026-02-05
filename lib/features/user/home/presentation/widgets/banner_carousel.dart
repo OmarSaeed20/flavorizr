@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class BannerCarousel extends StatefulWidget {
   final List<dynamic> banners;
 
-  const BannerCarousel({
-    super.key,
-    required this.banners,
-  });
+  const BannerCarousel({super.key, required this.banners});
 
   @override
   State<BannerCarousel> createState() => _BannerCarouselState();

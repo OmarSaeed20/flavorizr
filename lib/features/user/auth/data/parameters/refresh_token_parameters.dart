@@ -29,11 +29,13 @@ class RefreshTokenParameters extends Parameters {
   int get hashCode => refreshToken.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() => 'RefreshTokenParameters(refreshToken: ****, cancelToken: $cancelToken)';
+  String toString() =>
+      'RefreshTokenParameters(refreshToken: ****, cancelToken: $cancelToken)';
 }
 
 /// Builder for RefreshTokenParameters
-class RefreshTokenParametersBuilder extends ParametersBuilder<RefreshTokenParameters> {
+class RefreshTokenParametersBuilder
+    extends ParametersBuilder<RefreshTokenParameters> {
   String? _refreshToken;
   CancelToken? _cancelToken;
 
@@ -58,6 +60,9 @@ class RefreshTokenParametersBuilder extends ParametersBuilder<RefreshTokenParame
     if (_refreshToken == null || _refreshToken!.isEmpty) {
       throw ArgumentError('Refresh token is required');
     }
-    return RefreshTokenParameters(refreshToken: _refreshToken!, cancelToken: _cancelToken);
+    return RefreshTokenParameters(
+      refreshToken: _refreshToken!,
+      cancelToken: _cancelToken,
+    );
   }
 }

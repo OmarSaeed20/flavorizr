@@ -50,7 +50,9 @@ abstract class DriverAuthLocalDataSource {
 }
 
 /// Implementation of [DriverAuthLocalDataSource] using BaseLocalDataSource.
-class DriverAuthLocalDataSourceImpl with BaseLocalDataSource implements DriverAuthLocalDataSource {
+class DriverAuthLocalDataSourceImpl
+    with BaseLocalDataSource
+    implements DriverAuthLocalDataSource {
   const DriverAuthLocalDataSourceImpl(this._preferences);
   final SharedPreferences _preferences;
 
@@ -78,7 +80,9 @@ class DriverAuthLocalDataSourceImpl with BaseLocalDataSource implements DriverAu
   }
 
   @override
-  Future<ApiResult<void>> cacheCredentials(DriverCredentialsModel credentials) async {
+  Future<ApiResult<void>> cacheCredentials(
+    DriverCredentialsModel credentials,
+  ) async {
     return saveLocalData<DriverCredentialsModel>(
       key: _keyCredentials,
       data: credentials,

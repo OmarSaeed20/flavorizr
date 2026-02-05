@@ -1,14 +1,11 @@
+import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_trip.dart';
 import 'package:flutter/material.dart';
-import '../../domain/entities/driver_trip.dart';
 
 /// Widget displaying a driver trip
 class DriverTripCard extends StatelessWidget {
   final DriverTrip trip;
 
-  const DriverTripCard({
-    super.key,
-    required this.trip,
-  });
+  const DriverTripCard({super.key, required this.trip});
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +41,7 @@ class DriverTripCard extends StatelessWidget {
                       ),
                       Text(
                         _formatDate(trip.startTime),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -77,10 +71,7 @@ class DriverTripCard extends StatelessWidget {
                   label: '${trip.duration.toInt()} min',
                 ),
                 const SizedBox(width: 16),
-                _TripDetail(
-                  icon: Icons.payment,
-                  label: trip.paymentMethod,
-                ),
+                _TripDetail(icon: Icons.payment, label: trip.paymentMethod),
               ],
             ),
             const SizedBox(height: 12),
@@ -104,9 +95,7 @@ class DriverTripCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         trip.rating!.toStringAsFixed(1),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -165,10 +154,7 @@ class _StatusBadge extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 6,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: color.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
@@ -210,10 +196,7 @@ class _RouteInfo extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
-                pickupLocation,
-                style: const TextStyle(fontSize: 14),
-              ),
+              child: Text(pickupLocation, style: const TextStyle(fontSize: 14)),
             ),
           ],
         ),
@@ -221,10 +204,7 @@ class _RouteInfo extends StatelessWidget {
           padding: const EdgeInsets.only(left: 5),
           child: SizedBox(
             height: 20,
-            child: VerticalDivider(
-              color: Colors.grey[300],
-              thickness: 2,
-            ),
+            child: VerticalDivider(color: Colors.grey[300], thickness: 2),
           ),
         ),
         Row(
@@ -255,28 +235,15 @@ class _TripDetail extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const _TripDetail({
-    required this.icon,
-    required this.label,
-  });
+  const _TripDetail({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 16,
-          color: Colors.grey[600],
-        ),
+        Icon(icon, size: 16, color: Colors.grey[600]),
         const SizedBox(width: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-        ),
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
       ],
     );
   }

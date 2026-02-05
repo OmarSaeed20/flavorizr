@@ -47,38 +47,21 @@ class _TripOrdersPageState extends ConsumerState<TripOrdersPage> {
               setState(() {
                 _selectedStatus = status == 'all' ? null : status;
               });
-              ref.read(tripOrderControllerProvider.notifier).loadOrders(
-                    status: _selectedStatus,
-                  );
+              ref
+                  .read(tripOrderControllerProvider.notifier)
+                  .loadOrders(status: _selectedStatus);
             },
             itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'all',
-                child: Text('All Orders'),
-              ),
-              const PopupMenuItem(
-                value: 'pending',
-                child: Text('Pending'),
-              ),
-              const PopupMenuItem(
-                value: 'confirmed',
-                child: Text('Confirmed'),
-              ),
-              const PopupMenuItem(
-                value: 'completed',
-                child: Text('Completed'),
-              ),
-              const PopupMenuItem(
-                value: 'cancelled',
-                child: Text('Cancelled'),
-              ),
+              const PopupMenuItem(value: 'all', child: Text('All Orders')),
+              const PopupMenuItem(value: 'pending', child: Text('Pending')),
+              const PopupMenuItem(value: 'confirmed', child: Text('Confirmed')),
+              const PopupMenuItem(value: 'completed', child: Text('Completed')),
+              const PopupMenuItem(value: 'cancelled', child: Text('Cancelled')),
             ],
           ),
         ],
       ),
-      body: SafeArea(
-        child: _buildBody(context, state),
-      ),
+      body: SafeArea(child: _buildBody(context, state)),
     );
   }
 
@@ -106,8 +89,8 @@ class _TripOrdersPageState extends ConsumerState<TripOrdersPage> {
             Text(
               'Your trip orders will appear here',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                  ),
+                color: Theme.of(context).colorScheme.outline,
+              ),
             ),
           ],
         ),
@@ -117,7 +100,8 @@ class _TripOrdersPageState extends ConsumerState<TripOrdersPage> {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification &&
-            notification.metrics.pixels >= notification.metrics.maxScrollExtent - 200) {
+            notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent - 200) {
           ref.read(tripOrderControllerProvider.notifier).loadMore();
         }
         return false;

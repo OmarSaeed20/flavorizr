@@ -3,7 +3,8 @@ import 'package:flavorizr/features/user/home/domain/entities/advertisement.dart'
 import 'package:flavorizr/features/user/home/domain/repositories/home_repository.dart';
 import 'package:flavorizr/shared/domain/usecases/usecase.dart';
 
-class GetAdvertisementsUseCase implements UseCase<List<Advertisement>, NoParams> {
+class GetAdvertisementsUseCase
+    implements UseCase<List<Advertisement>, NoParams> {
   GetAdvertisementsUseCase(this._repository);
 
   final HomeRepository _repository;

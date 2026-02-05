@@ -31,7 +31,8 @@ class ReportTripParameters extends Parameters {
 }
 
 /// Builder for ReportTripParameters.
-class ReportTripParametersBuilder extends ParametersBuilder<ReportTripParameters> {
+class ReportTripParametersBuilder
+    extends ParametersBuilder<ReportTripParameters> {
   int? _orderId;
   String? _comment;
   String? _anotherNote;

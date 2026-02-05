@@ -27,7 +27,9 @@ class HomeRepositoryImpl extends BaseRepository implements HomeRepository {
 
   @override
   Future<ApiResult<HomeData>> getHomeData() async {
-    final result = await executeRemoteRequest(request: _remoteDataSource.getHomeData);
+    final result = await executeRemoteRequest(
+      request: _remoteDataSource.getHomeData,
+    );
     return result.map(
       success: (data) => ApiResult.success(data.data.toEntity()),
       exception: (error) => ApiResult.exception(error.exception),
@@ -36,18 +38,24 @@ class HomeRepositoryImpl extends BaseRepository implements HomeRepository {
 
   @override
   Future<ApiResult<List<Banner>>> getBanners() async {
-    final result = await executeRemoteRequest(request: _remoteDataSource.getBanners);
+    final result = await executeRemoteRequest(
+      request: _remoteDataSource.getBanners,
+    );
     return result.map(
-      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) =>
+          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }
 
   @override
   Future<ApiResult<List<Advertisement>>> getAdvertisements() async {
-    final result = await executeRemoteRequest(request: _remoteDataSource.getAdvertisements);
+    final result = await executeRemoteRequest(
+      request: _remoteDataSource.getAdvertisements,
+    );
     return result.map(
-      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) =>
+          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }
@@ -60,13 +68,16 @@ class HomeRepositoryImpl extends BaseRepository implements HomeRepository {
       request: () => _remoteDataSource.getAvailableTrips(params),
     );
     return result.map(
-      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) =>
+          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }
 
   @override
   Future<ApiResult<int>> getNotificationCount() async {
-    return executeRemoteRequest(request: _remoteDataSource.getNotificationCount);
+    return executeRemoteRequest(
+      request: _remoteDataSource.getNotificationCount,
+    );
   }
 }

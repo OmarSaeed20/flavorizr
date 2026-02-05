@@ -88,14 +88,12 @@ class TripOrderController extends AutoDisposeNotifier<TripOrderState> {
     final builder = GetMyOrdersParameters.builder()
         .withPage(page)
         .withPerPage(perPage);
-    
+
     if (status != null) {
       builder.withStatus(status);
     }
 
-    final result = await _getMyOrdersUseCase(
-      builder.build(),
-    );
+    final result = await _getMyOrdersUseCase(builder.build());
 
     result.when(
       success: (orders, i) {
@@ -126,20 +124,20 @@ class TripOrderController extends AutoDisposeNotifier<TripOrderState> {
   }
 
   /// Book a trip now.
-  Future<TripOrder?> bookNow({
-    required int orderId,
-  }) async {
+  Future<TripOrder?> bookNow({required int orderId}) async {
     state = state.copyWith(isBooking: true, clearError: true);
 
     final result = await _bookNowOrderUseCase(
-      BookNowOrderParameters.builder()
-          .withOrderId(orderId)
-          .build(),
+      BookNowOrderParameters.builder().withOrderId(orderId).build(),
     );
 
     return result.when(
       success: (order, i) {
-        state = state.copyWith(currentOrder: order, isBooking: false, isSuccess: true);
+        state = state.copyWith(
+          currentOrder: order,
+          isBooking: false,
+          isSuccess: true,
+        );
         return order;
       },
       exception: (error) {
@@ -175,7 +173,10 @@ class TripOrderController extends AutoDisposeNotifier<TripOrderState> {
         return evaluation;
       },
       exception: (error) {
-        state = state.copyWith(isEvaluating: false, errorMessage: error.message);
+        state = state.copyWith(
+          isEvaluating: false,
+          errorMessage: error.message,
+        );
         return null;
       },
     );

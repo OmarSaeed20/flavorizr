@@ -36,13 +36,18 @@ class TypingIndicator {
   /// Creates from a map.
   factory TypingIndicator.fromMap(Map<String, dynamic> map) {
     return TypingIndicator(
-      conversationId: map['conversation_id'] as String? ?? map['conversationId'] as String,
+      conversationId:
+          map['conversation_id'] as String? ?? map['conversationId'] as String,
       userId: map['user_id'] as String? ?? map['userId'] as String,
       userName: map['user_name'] as String? ?? map['userName'] as String?,
       userAvatar: map['user_avatar'] as String? ?? map['userAvatar'] as String?,
       isTyping: map['is_typing'] as bool? ?? map['isTyping'] as bool? ?? true,
-      startedAt: DateTime.parse(map['started_at'] as String? ?? map['startedAt'] as String),
-      expiresAt: DateTime.parse(map['expires_at'] as String? ?? map['expiresAt'] as String),
+      startedAt: DateTime.parse(
+        map['started_at'] as String? ?? map['startedAt'] as String,
+      ),
+      expiresAt: DateTime.parse(
+        map['expires_at'] as String? ?? map['expiresAt'] as String,
+      ),
     );
   }
 
@@ -171,9 +176,13 @@ class PresenceStatus {
           : map['lastSeenAt'] != null
           ? DateTime.parse(map['lastSeenAt'] as String)
           : null,
-      statusMessage: map['status_message'] as String? ?? map['statusMessage'] as String?,
-      statusEmoji: map['status_emoji'] as String? ?? map['statusEmoji'] as String?,
-      updatedAt: DateTime.parse(map['updated_at'] as String? ?? map['updatedAt'] as String),
+      statusMessage:
+          map['status_message'] as String? ?? map['statusMessage'] as String?,
+      statusEmoji:
+          map['status_emoji'] as String? ?? map['statusEmoji'] as String?,
+      updatedAt: DateTime.parse(
+        map['updated_at'] as String? ?? map['updatedAt'] as String,
+      ),
     );
   }
 
@@ -216,10 +225,12 @@ class PresenceStatus {
   }
 
   /// Returns true if the user is online or away.
-  bool get isOnline => state == PresenceState.online || state == PresenceState.away;
+  bool get isOnline =>
+      state == PresenceState.online || state == PresenceState.away;
 
   /// Returns true if the user appears offline (offline or invisible).
-  bool get isOffline => state == PresenceState.offline || state == PresenceState.invisible;
+  bool get isOffline =>
+      state == PresenceState.offline || state == PresenceState.invisible;
 
   /// Returns a human-readable status string.
   String get displayStatus {
@@ -277,7 +288,9 @@ class PresenceStatus {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PresenceStatus && runtimeType == other.runtimeType && userId == other.userId;
+      other is PresenceStatus &&
+          runtimeType == other.runtimeType &&
+          userId == other.userId;
 
   @override
   int get hashCode => userId.hashCode;

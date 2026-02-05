@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_profile.dart';
+import 'package:flutter/material.dart';
 
 /// Widget for displaying driver profile header.
 class DriverProfileHeader extends StatelessWidget {
   final DriverProfile profile;
 
-  const DriverProfileHeader({
-    super.key,
-    required this.profile,
-  });
+  const DriverProfileHeader({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +55,12 @@ class DriverProfileHeader extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         profile.email,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         profile.phone,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -80,14 +71,8 @@ class DriverProfileHeader extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildStat(
-                  'Rating',
-                  '${profile.rating.toStringAsFixed(1)} ⭐',
-                ),
-                _buildStat(
-                  'Trips',
-                  '${profile.totalTrips}',
-                ),
+                _buildStat('Rating', '${profile.rating.toStringAsFixed(1)} ⭐'),
+                _buildStat('Trips', '${profile.totalTrips}'),
                 _buildStat(
                   'Joined',
                   '${DateTime.now().difference(profile.createdAt).inDays}d',
@@ -98,10 +83,7 @@ class DriverProfileHeader extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 profile.bio!,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[700],
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -116,18 +98,9 @@ class DriverProfileHeader extends StatelessWidget {
       children: [
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
-        ),
+        Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
       ],
     );
   }

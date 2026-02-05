@@ -52,7 +52,9 @@ class ResetPasswordState {
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
-      passwordError: clearFieldErrors ? null : passwordError ?? this.passwordError,
+      passwordError: clearFieldErrors
+          ? null
+          : passwordError ?? this.passwordError,
       confirmPasswordError: clearFieldErrors
           ? null
           : confirmPasswordError ?? this.confirmPasswordError,
@@ -95,7 +97,11 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
 
   /// Updates the confirm password field.
   void setConfirmPassword(String password) {
-    state = state.copyWith(confirmPassword: password, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      confirmPassword: password,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Toggles new password visibility.
@@ -143,7 +149,9 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
 
     // Validate token
     if (state.token.isEmpty) {
-      state = state.copyWith(errorMessage: 'Invalid reset link. Please request a new one.');
+      state = state.copyWith(
+        errorMessage: 'Invalid reset link. Please request a new one.',
+      );
       return false;
     }
 
@@ -197,7 +205,10 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
       );
 
       if (result.error != null) {
-        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: result.error!.message,
+        );
         return false;
       }
 

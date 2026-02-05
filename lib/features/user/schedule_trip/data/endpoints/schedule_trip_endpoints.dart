@@ -13,10 +13,12 @@ abstract class ScheduleTripEndpoints {
   static String scheduledTripById(String tripId) => '/scheduled-trips/$tripId';
 
   /// Cancels a scheduled trip.
-  static String cancelScheduledTrip(String tripId) => '/scheduled-trips/$tripId/cancel';
+  static String cancelScheduledTrip(String tripId) =>
+      '/scheduled-trips/$tripId/cancel';
 
   /// Updates a scheduled trip.
-  static String updateScheduledTrip(String tripId) => '/scheduled-trips/$tripId';
+  static String updateScheduledTrip(String tripId) =>
+      '/scheduled-trips/$tripId';
 
   /// Gets scheduled trip history.
   static const String scheduledTripHistory = '/scheduled-trips/history';

@@ -19,9 +19,8 @@ const String _themeSettingsKey = 'theme_settings';
 /// // Update settings
 /// ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.dark);
 /// ```
-final themeControllerProvider = NotifierProvider<ThemeController, ThemeSettings>(
-  ThemeController.new,
-);
+final themeControllerProvider =
+    NotifierProvider<ThemeController, ThemeSettings>(ThemeController.new);
 
 /// Controls theme settings with persistence.
 ///
@@ -136,7 +135,9 @@ final currentBrightnessProvider = Provider<Brightness>((ref) {
   final settings = ref.watch(themeControllerProvider);
   // This will be overridden by the actual platform brightness
   // when building the MaterialApp
-  return settings.themeMode == ThemeMode.dark ? Brightness.dark : Brightness.light;
+  return settings.themeMode == ThemeMode.dark
+      ? Brightness.dark
+      : Brightness.light;
 });
 
 /// Provider for whether dark mode is active.

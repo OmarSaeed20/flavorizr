@@ -40,7 +40,10 @@ class FocusHelper {
   }
 
   /// Sets the focus traversal policy.
-  static void setTraversalPolicy(BuildContext context, FocusTraversalPolicy policy) {
+  static void setTraversalPolicy(
+    BuildContext context,
+    FocusTraversalPolicy policy,
+  ) {
     // FocusScope.of(context).traversalPolicy = policy;
   }
 
@@ -185,7 +188,10 @@ class FocusTrap extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!active) return child;
 
-    return FocusTraversalGroup(policy: ReadingOrderTraversalPolicy(), child: child);
+    return FocusTraversalGroup(
+      policy: ReadingOrderTraversalPolicy(),
+      child: child,
+    );
   }
 }
 
@@ -209,7 +215,11 @@ class FocusScopeWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FocusScope(autofocus: autofocus, onFocusChange: onFocusChange, child: child);
+    return FocusScope(
+      autofocus: autofocus,
+      onFocusChange: onFocusChange,
+      child: child,
+    );
   }
 }
 
@@ -221,7 +231,11 @@ class KeyboardShortcuts extends StatelessWidget {
   /// Map of key bindings to callbacks.
   final Map<SingleActivator, VoidCallback> bindings;
 
-  const KeyboardShortcuts({super.key, required this.child, required this.bindings});
+  const KeyboardShortcuts({
+    super.key,
+    required this.child,
+    required this.bindings,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +257,12 @@ class TabNavigationHandler extends StatelessWidget {
   /// Callback when shift+tab is pressed.
   final VoidCallback? onShiftTab;
 
-  const TabNavigationHandler({super.key, required this.child, this.onTab, this.onShiftTab});
+  const TabNavigationHandler({
+    super.key,
+    required this.child,
+    this.onTab,
+    this.onShiftTab,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -416,7 +435,9 @@ class _ListFocusManagerState extends State<ListFocusManager> {
   void initState() {
     super.initState();
     _focusedIndex = widget.initialIndex;
-    _focusNodes.addAll(List.generate(widget.children.length, (_) => FocusNode()));
+    _focusNodes.addAll(
+      List.generate(widget.children.length, (_) => FocusNode()),
+    );
   }
 
   @override
@@ -462,7 +483,10 @@ class _ListFocusManagerState extends State<ListFocusManager> {
       child: ListView.builder(
         itemCount: widget.children.length,
         itemBuilder: (context, index) {
-          return Focus(focusNode: _focusNodes[index], child: widget.children[index]);
+          return Focus(
+            focusNode: _focusNodes[index],
+            child: widget.children[index],
+          );
         },
       ),
     );

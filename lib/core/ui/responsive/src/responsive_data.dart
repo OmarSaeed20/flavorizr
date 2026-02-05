@@ -78,66 +78,41 @@ class ResponsivePadding {
 
   /// Screen horizontal padding
   double get screen => device.byDevice(
-        mobile: 16.r,
-        tablet: 24.r,
-        // desktop: 32.r,
-      );
+    mobile: 16.r,
+    tablet: 24.r,
+    // desktop: 32.r,
+  );
 
   /// Card internal padding
-  double get card => device.byDevice(
-        mobile: 12.r,
-        tablet: 16.r,
-        desktop: 20.r,
-      );
+  double get card => device.byDevice(mobile: 12.r, tablet: 16.r, desktop: 20.r);
 
   /// Content area padding
-  double get content => device.byDevice(
-        mobile: 16.r,
-        tablet: 20.r,
-        desktop: 24.r,
-      );
+  double get content =>
+      device.byDevice(mobile: 16.r, tablet: 20.r, desktop: 24.r);
 
   /// Button internal padding
-  double get button => device.byDevice(
-        mobile: 12.r,
-        tablet: 14.r,
-        desktop: 16.r,
-      );
+  double get button =>
+      device.byDevice(mobile: 12.r, tablet: 14.r, desktop: 16.r);
 
   /// Input field padding
-  double get input => device.byDevice(
-        mobile: 12.r,
-        tablet: 14.r,
-        desktop: 16.r,
-      );
+  double get input =>
+      device.byDevice(mobile: 12.r, tablet: 14.r, desktop: 16.r);
 
   /// List item padding
-  double get listItem => device.byDevice(
-        mobile: 12.r,
-        tablet: 16.r,
-        desktop: 20.r,
-      );
+  double get listItem =>
+      device.byDevice(mobile: 12.r, tablet: 16.r, desktop: 20.r);
 
   /// Dialog padding
-  double get dialog => device.byDevice(
-        mobile: 20.r,
-        tablet: 24.r,
-        desktop: 32.r,
-      );
+  double get dialog =>
+      device.byDevice(mobile: 20.r, tablet: 24.r, desktop: 32.r);
 
   /// Bottom sheet padding
-  double get bottomSheet => device.byDevice(
-        mobile: 16.r,
-        tablet: 24.r,
-        desktop: 32.r,
-      );
+  double get bottomSheet =>
+      device.byDevice(mobile: 16.r, tablet: 24.r, desktop: 32.r);
 
   /// Section padding
-  double get section => device.byDevice(
-        mobile: 16.r,
-        tablet: 20.r,
-        desktop: 24.r,
-      );
+  double get section =>
+      device.byDevice(mobile: 16.r, tablet: 20.r, desktop: 24.r);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -178,39 +153,21 @@ class ResponsiveSpacing {
   double get xxl => (48 * _scale).r;
 
   /// Section spacing (vertical space between sections)
-  double get section => device.byDevice(
-        mobile: 24.r,
-        tablet: 32.r,
-        desktop: 48.r,
-      );
+  double get section =>
+      device.byDevice(mobile: 24.r, tablet: 32.r, desktop: 48.r);
 
   /// Grid spacing (gap in grid layouts)
-  double get grid => device.byDevice(
-        mobile: 12.r,
-        tablet: 16.r,
-        desktop: 20.r,
-      );
+  double get grid => device.byDevice(mobile: 12.r, tablet: 16.r, desktop: 20.r);
 
   /// List spacing (gap between list items)
-  double get list => device.byDevice(
-        mobile: 8.r,
-        tablet: 12.r,
-        desktop: 16.r,
-      );
+  double get list => device.byDevice(mobile: 8.r, tablet: 12.r, desktop: 16.r);
 
   /// Card spacing (gap between cards)
-  double get card => device.byDevice(
-        mobile: 12.r,
-        tablet: 16.r,
-        desktop: 20.r,
-      );
+  double get card => device.byDevice(mobile: 12.r, tablet: 16.r, desktop: 20.r);
 
   /// Form field spacing
-  double get formField => device.byDevice(
-        mobile: 16.r,
-        tablet: 20.r,
-        desktop: 24.r,
-      );
+  double get formField =>
+      device.byDevice(mobile: 16.r, tablet: 20.r, desktop: 24.r);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -236,11 +193,8 @@ class ResponsiveSizing {
   double get touchTargetLg => 56.r;
 
   /// App bar height
-  double get appBarHeight => device.byDevice(
-        mobile: 56.r,
-        tablet: 64.r,
-        desktop: 64.r,
-      );
+  double get appBarHeight =>
+      device.byDevice(mobile: 56.r, tablet: 64.r, desktop: 64.r);
 
   /// Bottom navigation bar height
   double get bottomNavHeight => 56.r;
@@ -249,42 +203,33 @@ class ResponsiveSizing {
   double get railWidth => (80 * _scale).r;
 
   /// Navigation rail width (extended)
-  double get railWidthExtended => device.byDevice(
-        mobile: 256.r,
-        tablet: 280.r,
-        desktop: 320.r,
-      );
+  double get railWidthExtended =>
+      device.byDevice(mobile: 256.r, tablet: 280.r, desktop: 320.r);
 
   /// Drawer width
-  double get drawerWidth => device.byDevice(
-        mobile: 280.r,
-        tablet: 320.r,
-        desktop: 360.r,
-      );
+  double get drawerWidth =>
+      device.byDevice(mobile: 280.r, tablet: 320.r, desktop: 360.r);
 
   /// Dialog width
   double get dialogWidth => device.byDevice(
-        mobile: device.screenWidth * 0.9,
-        tablet: 480.r,
-        desktop: 560.r,
-      );
+    mobile: device.screenWidth * 0.9,
+    tablet: 480.r,
+    desktop: 560.r,
+  );
 
   /// Dialog max width
   double get dialogMaxWidth => 560.r;
 
   /// Bottom sheet max width
   double get bottomSheetMaxWidth => device.byDevice(
-        mobile: device.screenWidth,
-        tablet: 560.r,
-        desktop: 640.r,
-      );
+    mobile: device.screenWidth,
+    tablet: 560.r,
+    desktop: 640.r,
+  );
 
   /// Card min height
-  double get cardMinHeight => device.byDevice(
-        mobile: 80.r,
-        tablet: 100.r,
-        desktop: 120.r,
-      );
+  double get cardMinHeight =>
+      device.byDevice(mobile: 80.r, tablet: 100.r, desktop: 120.r);
 
   /// Avatar small (32)
   double get avatarSm => (32 * _scale).r;
@@ -299,46 +244,28 @@ class ResponsiveSizing {
   double get avatarXl => (72 * _scale).r;
 
   /// Button height
-  double get buttonHeight => device.byDevice(
-        mobile: 44.r,
-        tablet: 48.r,
-        desktop: 48.r,
-      );
+  double get buttonHeight =>
+      device.byDevice(mobile: 44.r, tablet: 48.r, desktop: 48.r);
 
   /// Button height small
-  double get buttonHeightSm => device.byDevice(
-        mobile: 36.r,
-        tablet: 40.r,
-        desktop: 40.r,
-      );
+  double get buttonHeightSm =>
+      device.byDevice(mobile: 36.r, tablet: 40.r, desktop: 40.r);
 
   /// Button height large
-  double get buttonHeightLg => device.byDevice(
-        mobile: 52.r,
-        tablet: 56.r,
-        desktop: 56.r,
-      );
+  double get buttonHeightLg =>
+      device.byDevice(mobile: 52.r, tablet: 56.r, desktop: 56.r);
 
   /// Input field height
-  double get inputHeight => device.byDevice(
-        mobile: 48.r,
-        tablet: 52.r,
-        desktop: 52.r,
-      );
+  double get inputHeight =>
+      device.byDevice(mobile: 48.r, tablet: 52.r, desktop: 52.r);
 
   /// Chip height
-  double get chipHeight => device.byDevice(
-        mobile: 32.r,
-        tablet: 36.r,
-        desktop: 36.r,
-      );
+  double get chipHeight =>
+      device.byDevice(mobile: 32.r, tablet: 36.r, desktop: 36.r);
 
   /// List tile height
-  double get listTileHeight => device.byDevice(
-        mobile: 56.r,
-        tablet: 64.r,
-        desktop: 72.r,
-      );
+  double get listTileHeight =>
+      device.byDevice(mobile: 56.r, tablet: 64.r, desktop: 72.r);
 
   /// Divider thickness
   double get dividerThickness => 1.r;
@@ -397,39 +324,22 @@ class ResponsiveRadius {
   double get circular => 999.r;
 
   /// Card radius
-  double get card => device.byDevice(
-        mobile: 12.r,
-        tablet: 14.r,
-        desktop: 16.r,
-      );
+  double get card => device.byDevice(mobile: 12.r, tablet: 14.r, desktop: 16.r);
 
   /// Button radius
-  double get button => device.byDevice(
-        mobile: 8.r,
-        tablet: 10.r,
-        desktop: 12.r,
-      );
+  double get button =>
+      device.byDevice(mobile: 8.r, tablet: 10.r, desktop: 12.r);
 
   /// Input radius
-  double get input => device.byDevice(
-        mobile: 8.r,
-        tablet: 10.r,
-        desktop: 12.r,
-      );
+  double get input => device.byDevice(mobile: 8.r, tablet: 10.r, desktop: 12.r);
 
   /// Dialog radius
-  double get dialog => device.byDevice(
-        mobile: 16.r,
-        tablet: 20.r,
-        desktop: 24.r,
-      );
+  double get dialog =>
+      device.byDevice(mobile: 16.r, tablet: 20.r, desktop: 24.r);
 
   /// Bottom sheet radius
-  double get bottomSheet => device.byDevice(
-        mobile: 20.r,
-        tablet: 24.r,
-        desktop: 28.r,
-      );
+  double get bottomSheet =>
+      device.byDevice(mobile: 20.r, tablet: 24.r, desktop: 28.r);
 
   /// Chip radius
   double get chip => 999.r;
@@ -443,9 +353,9 @@ class ResponsiveRadius {
   BorderRadius get inputBorderRadius => BorderRadius.circular(input);
   BorderRadius get dialogBorderRadius => BorderRadius.circular(dialog);
   BorderRadius get bottomSheetBorderRadius => BorderRadius.only(
-        topLeft: Radius.circular(bottomSheet),
-        topRight: Radius.circular(bottomSheet),
-      );
+    topLeft: Radius.circular(bottomSheet),
+    topRight: Radius.circular(bottomSheet),
+  );
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -500,35 +410,20 @@ class ResponsiveFontSize {
   double get overline => labelSm;
 
   // App-specific sizes
-  double get appBarTitle => device.byDevice(
-        mobile: 18.sp,
-        tablet: 20.sp,
-        desktop: 22.sp,
-      );
+  double get appBarTitle =>
+      device.byDevice(mobile: 18.sp, tablet: 20.sp, desktop: 22.sp);
 
-  double get cardTitle => device.byDevice(
-        mobile: 16.sp,
-        tablet: 18.sp,
-        desktop: 20.sp,
-      );
+  double get cardTitle =>
+      device.byDevice(mobile: 16.sp, tablet: 18.sp, desktop: 20.sp);
 
-  double get cardSubtitle => device.byDevice(
-        mobile: 14.sp,
-        tablet: 15.sp,
-        desktop: 16.sp,
-      );
+  double get cardSubtitle =>
+      device.byDevice(mobile: 14.sp, tablet: 15.sp, desktop: 16.sp);
 
-  double get inputText => device.byDevice(
-        mobile: 16.sp,
-        tablet: 16.sp,
-        desktop: 16.sp,
-      );
+  double get inputText =>
+      device.byDevice(mobile: 16.sp, tablet: 16.sp, desktop: 16.sp);
 
-  double get inputLabel => device.byDevice(
-        mobile: 14.sp,
-        tablet: 14.sp,
-        desktop: 14.sp,
-      );
+  double get inputLabel =>
+      device.byDevice(mobile: 14.sp, tablet: 14.sp, desktop: 14.sp);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

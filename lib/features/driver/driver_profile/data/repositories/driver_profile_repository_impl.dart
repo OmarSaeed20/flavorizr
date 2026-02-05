@@ -1,5 +1,4 @@
 import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
 import 'package:flavorizr/core/network/network_info.dart';
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/datasources/driver_profile_local_datasource.dart';
@@ -8,7 +7,6 @@ import 'package:flavorizr/features/driver/driver_profile/data/models/driver_docu
 import 'package:flavorizr/features/driver/driver_profile/data/models/driver_profile_model.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/models/driver_vehicle_model.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_driver_profile_parameters.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_driver_vehicle_parameters.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_vehicle_parameters.dart';
 import 'package:flavorizr/features/driver/driver_profile/data/parameters/upload_driver_document_parameters.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_document.dart';
@@ -20,7 +18,8 @@ import 'package:flavorizr/features/driver/driver_profile/domain/repositories/dri
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Provides offline capability with local caching.
-class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfileRepository {
+class DriverProfileRepositoryImpl extends BaseRepository
+    implements DriverProfileRepository {
   final DriverProfileRemoteDataSource _remoteDataSource;
   final DriverProfileLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
@@ -145,10 +144,13 @@ class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfil
     String? vehicleLicenseImage,
   }) async {
     final builder = UpdateVehicleParameters.builder();
-    if (vehicleTypeId != null) builder.withVehicleTypeId(int.parse(vehicleTypeId));
-    if (vehiclePlateNumber != null) builder.withVehiclePlateNumber(vehiclePlateNumber);
+    if (vehicleTypeId != null)
+      builder.withVehicleTypeId(int.parse(vehicleTypeId));
+    if (vehiclePlateNumber != null)
+      builder.withVehiclePlateNumber(vehiclePlateNumber);
     if (vehicleImage != null) builder.withVehicleImage(vehicleImage);
-    if (vehicleLicenseImage != null) builder.withVehicleLicenseImage(vehicleLicenseImage);
+    if (vehicleLicenseImage != null)
+      builder.withVehicleLicenseImage(vehicleLicenseImage);
     final parameters = builder.build();
 
     final result = await executeRemoteRequest(
@@ -174,7 +176,8 @@ class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfil
     );
 
     return result.when(
-      success: (data, _) => ApiResult.success(data.map((e) => e.toEntity()).toList()),
+      success: (data, _) =>
+          ApiResult.success(data.map((e) => e.toEntity()).toList()),
       exception: ApiResult.exception,
     );
   }
@@ -237,8 +240,10 @@ class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfil
     final data = {
       if (nationalId != null) 'national_id': nationalId,
       if (nationalIdImage != null) 'national_id_image': nationalIdImage,
-      if (drivingLicenseImage != null) 'driving_license_image': drivingLicenseImage,
-      if (vehicleLicenseImage != null) 'vehicle_license_image': vehicleLicenseImage,
+      if (drivingLicenseImage != null)
+        'driving_license_image': drivingLicenseImage,
+      if (vehicleLicenseImage != null)
+        'vehicle_license_image': vehicleLicenseImage,
       if (vehicleImage != null) 'vehicle_image': vehicleImage,
     };
 

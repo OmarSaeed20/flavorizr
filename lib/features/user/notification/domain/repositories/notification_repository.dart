@@ -1,9 +1,11 @@
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/notification/domain/entities/notification.dart';
 import 'package:flavorizr/features/user/notification/data/parameters/get_notifications_parameters.dart';
+import 'package:flavorizr/features/user/notification/domain/entities/notification.dart';
 
 abstract class NotificationRepository {
-  Future<ApiResult<List<Notification>>> getNotifications(GetNotificationsParameters params);
+  Future<ApiResult<List<Notification>>> getNotifications(
+    GetNotificationsParameters params,
+  );
   Future<ApiResult<int>> getNotificationCount();
   Future<ApiResult<void>> markAsRead(int notificationId);
   Future<ApiResult<void>> markAllAsRead();

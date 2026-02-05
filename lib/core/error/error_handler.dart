@@ -97,7 +97,12 @@ class ErrorHandler {
 
     // Report to crash analytics in release mode
     if (_crashReportingEnabled && kReleaseMode) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true, reason: 'Zone Error');
+      FirebaseCrashlytics.instance.recordError(
+        error,
+        stack,
+        fatal: true,
+        reason: 'Zone Error',
+      );
     }
   }
 
@@ -122,7 +127,10 @@ class ErrorHandler {
       // Add custom information
       if (information != null) {
         for (final entry in information.entries) {
-          await FirebaseCrashlytics.instance.setCustomKey(entry.key, entry.value.toString());
+          await FirebaseCrashlytics.instance.setCustomKey(
+            entry.key,
+            entry.value.toString(),
+          );
         }
       }
 

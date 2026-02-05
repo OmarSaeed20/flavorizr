@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flavorizr/features/user/direct_booking/domain/entities/booking_response.dart';
+import 'package:flutter/material.dart';
 
 /// Widget for displaying booking status.
 class BookingStatusCard extends StatelessWidget {
@@ -61,20 +61,14 @@ class BookingStatusCard extends StatelessWidget {
                     ],
                   ),
                   const Divider(height: 32),
-                  _buildInfoRow(
-                    'Booking ID',
-                    booking.bookingId,
-                  ),
+                  _buildInfoRow('Booking ID', booking.bookingId),
                   const SizedBox(height: 12),
                   _buildInfoRow(
                     'Estimated Arrival',
                     booking.estimatedArrivalTime,
                   ),
                   const SizedBox(height: 12),
-                  _buildInfoRow(
-                    'Estimated Fare',
-                    booking.estimatedFare,
-                  ),
+                  _buildInfoRow('Estimated Fare', booking.estimatedFare),
                   if (booking.driverName != null) ...[
                     const Divider(height: 32),
                     const Text(
@@ -182,19 +176,13 @@ class BookingStatusCard extends StatelessWidget {
           width: 120,
           child: Text(
             label,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ),
       ],

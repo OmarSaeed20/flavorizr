@@ -26,7 +26,9 @@ abstract class ProfileRemoteDataSource {
 }
 
 /// Implementation of [ProfileRemoteDataSource] using BaseRemoteDataSource.
-class ProfileRemoteDataSourceImpl with BaseRemoteDataSource implements ProfileRemoteDataSource {
+class ProfileRemoteDataSourceImpl
+    with BaseRemoteDataSource
+    implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl(this._apiClient);
 
   final ApiClient _apiClient;
@@ -54,16 +56,21 @@ class ProfileRemoteDataSourceImpl with BaseRemoteDataSource implements ProfileRe
   }
 
   @override
-  Future<ApiResult<ProfileModel>> updateProfileInfo(ProfileUpdateData data) async {
+  Future<ApiResult<ProfileModel>> updateProfileInfo(
+    ProfileUpdateData data,
+  ) async {
     return post<ProfileModel>(
       path: ApiEndpoints.updateProfileInfo,
       data: data.toJson(),
-      decoder: (responseData) => ProfileModel.fromJson(responseData as Map<String, dynamic>),
+      decoder: (responseData) =>
+          ProfileModel.fromJson(responseData as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<List<DriverReviewModel>>> getDriverReviews(String driverId) async {
+  Future<ApiResult<List<DriverReviewModel>>> getDriverReviews(
+    String driverId,
+  ) async {
     return get<List<DriverReviewModel>>(
       path: ApiEndpoints.driverReviews,
       queryParameters: {'driver_id': driverId},

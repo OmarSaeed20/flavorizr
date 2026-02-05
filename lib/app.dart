@@ -20,12 +20,12 @@ class App extends ConsumerWidget {
     return MaterialApp.router(
       title: F.title,
       debugShowCheckedModeBanner: false,
-      
+
       // Theme
       theme: AppTheme.light(settings: themeSettings),
       darkTheme: AppTheme.dark(settings: themeSettings),
       themeMode: themeSettings.themeMode,
-      
+
       // Localization
       locale: locale,
       supportedLocales: AppLocalizations.supportedLocales,
@@ -41,21 +41,29 @@ class App extends ConsumerWidget {
         final show = !F.appFlavor.isProduction;
         return LoggerDebugPanel(
           enabled: show,
-          child: _flavorBanner(show: show, child: child ?? const SizedBox.shrink()),
+          child: _flavorBanner(
+            show: show,
+            child: child ?? const SizedBox.shrink(),
+          ),
         );
       },
     );
   }
 
-  Widget _flavorBanner({required Widget child, bool show = true}) => switch (show) {
-    false => child,
-    _ => Banner(
-      location: BannerLocation.topEnd,
-      message: F.name,
-      color: Colors.green.withAlpha(150),
-      textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12, letterSpacing: 1),
-      textDirection: TextDirection.ltr,
-      child: child,
-    ),
-  };
+  Widget _flavorBanner({required Widget child, bool show = true}) =>
+      switch (show) {
+        false => child,
+        _ => Banner(
+          location: BannerLocation.topEnd,
+          message: F.name,
+          color: Colors.green.withAlpha(150),
+          textStyle: const TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 12,
+            letterSpacing: 1,
+          ),
+          textDirection: TextDirection.ltr,
+          child: child,
+        ),
+      };
 }

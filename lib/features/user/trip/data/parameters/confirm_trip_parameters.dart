@@ -13,10 +13,7 @@ class ConfirmTripParameters extends Parameters {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-    'order_id': orderId,
-    'user_id': userId,
-  };
+  Map<String, dynamic> toJson() => {'order_id': orderId, 'user_id': userId};
 
   final String orderId;
   final String userId;
@@ -24,11 +21,13 @@ class ConfirmTripParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static ConfirmTripParametersBuilder builder() => ConfirmTripParametersBuilder();
+  static ConfirmTripParametersBuilder builder() =>
+      ConfirmTripParametersBuilder();
 }
 
 /// Builder for ConfirmTripParameters.
-class ConfirmTripParametersBuilder extends ParametersBuilder<ConfirmTripParameters> {
+class ConfirmTripParametersBuilder
+    extends ParametersBuilder<ConfirmTripParameters> {
   String? _orderId;
   String? _userId;
   CancelToken? _cancelToken;

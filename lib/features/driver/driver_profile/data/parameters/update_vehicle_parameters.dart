@@ -19,20 +19,22 @@ class UpdateVehicleParameters extends Parameters {
     String? vehicleImage,
     String? vehicleLicenseImage,
     CancelToken? cancelToken,
-  })  : _vehicleTypeId = vehicleTypeId,
-        _vehiclePlateNumber = vehiclePlateNumber,
-        _vehicleImage = vehicleImage,
-        _vehicleLicenseImage = vehicleLicenseImage,
-        _cancelToken = cancelToken;
+  }) : _vehicleTypeId = vehicleTypeId,
+       _vehiclePlateNumber = vehiclePlateNumber,
+       _vehicleImage = vehicleImage,
+       _vehicleLicenseImage = vehicleLicenseImage,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
   Map<String, dynamic> toJson() {
     return {
       if (_vehicleTypeId != null) 'vehicle_type_id': _vehicleTypeId,
-      if (_vehiclePlateNumber != null) 'vehicle_plate_number': _vehiclePlateNumber,
+      if (_vehiclePlateNumber != null)
+        'vehicle_plate_number': _vehiclePlateNumber,
       if (_vehicleImage != null) 'vehicle_image': _vehicleImage,
-      if (_vehicleLicenseImage != null) 'vehicle_license_image': _vehicleLicenseImage,
+      if (_vehicleLicenseImage != null)
+        'vehicle_license_image': _vehicleLicenseImage,
     };
   }
 
@@ -49,7 +51,8 @@ class UpdateVehicleParameters extends Parameters {
 }
 
 /// Builder for UpdateVehicleParameters
-class UpdateVehicleParametersBuilder extends ParametersBuilder<UpdateVehicleParameters> {
+class UpdateVehicleParametersBuilder
+    extends ParametersBuilder<UpdateVehicleParameters> {
   int? _vehicleTypeId;
   String? _vehiclePlateNumber;
   String? _vehicleImage;
@@ -63,7 +66,9 @@ class UpdateVehicleParametersBuilder extends ParametersBuilder<UpdateVehiclePara
   }
 
   /// Set the vehicle plate number
-  UpdateVehicleParametersBuilder withVehiclePlateNumber(String vehiclePlateNumber) {
+  UpdateVehicleParametersBuilder withVehiclePlateNumber(
+    String vehiclePlateNumber,
+  ) {
     _vehiclePlateNumber = vehiclePlateNumber;
     return this;
   }
@@ -76,7 +81,8 @@ class UpdateVehicleParametersBuilder extends ParametersBuilder<UpdateVehiclePara
 
   /// Set the vehicle license image
   UpdateVehicleParametersBuilder withVehicleLicenseImage(
-      String vehicleLicenseImage) {
+    String vehicleLicenseImage,
+  ) {
     _vehicleLicenseImage = vehicleLicenseImage;
     return this;
   }

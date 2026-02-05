@@ -51,5 +51,6 @@ class RouteConfig {
   int get hashCode => Object.hash(name, path);
 
   @override
-  String toString() => 'RouteConfig(name: $name, path: $path, requiresAuth: $requiresAuth)';
+  String toString() =>
+      'RouteConfig(name: $name, path: $path, requiresAuth: $requiresAuth)';
 }

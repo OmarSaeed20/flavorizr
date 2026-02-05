@@ -20,7 +20,10 @@ abstract class ProfileLocalDataSource {
   Future<ApiResult<ProfileModel>> getProfileById(String userId);
 
   /// Saves a profile for a specific user ID.
-  Future<ApiResult<ProfileModel>> saveProfileById(String userId, ProfileModel profile);
+  Future<ApiResult<ProfileModel>> saveProfileById(
+    String userId,
+    ProfileModel profile,
+  );
 
   /// Deletes cached profile.
   Future<ApiResult<void>> deleteProfile();
@@ -33,8 +36,11 @@ abstract class ProfileLocalDataSource {
 }
 
 /// Implementation of [ProfileLocalDataSource] using BaseLocalDataSource.
-class ProfileLocalDataSourceImpl with BaseLocalDataSource implements ProfileLocalDataSource {
-  const ProfileLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
+class ProfileLocalDataSourceImpl
+    with BaseLocalDataSource
+    implements ProfileLocalDataSource {
+  const ProfileLocalDataSourceImpl({required SharedPreferences prefs})
+    : _prefs = prefs;
 
   final SharedPreferences _prefs;
 
@@ -96,7 +102,10 @@ class ProfileLocalDataSourceImpl with BaseLocalDataSource implements ProfileLoca
   }
 
   @override
-  Future<ApiResult<ProfileModel>> saveProfileById(String userId, ProfileModel profile) async {
+  Future<ApiResult<ProfileModel>> saveProfileById(
+    String userId,
+    ProfileModel profile,
+  ) async {
     return saveLocalData<ProfileModel>(
       key: '$_profileByIdPrefix$userId',
       data: profile,
@@ -109,12 +118,18 @@ class ProfileLocalDataSourceImpl with BaseLocalDataSource implements ProfileLoca
 
   @override
   Future<ApiResult<void>> deleteProfile() async {
-    return deleteLocalData(key: _profileKey, deleter: () => _prefs.remove(_profileKey));
+    return deleteLocalData(
+      key: _profileKey,
+      deleter: () => _prefs.remove(_profileKey),
+    );
   }
 
   @override
   Future<ApiResult<bool>> hasProfile() async {
-    return hasLocalData(key: _profileKey, checker: () async => _prefs.containsKey(_profileKey));
+    return hasLocalData(
+      key: _profileKey,
+      checker: () async => _prefs.containsKey(_profileKey),
+    );
   }
 
   @override

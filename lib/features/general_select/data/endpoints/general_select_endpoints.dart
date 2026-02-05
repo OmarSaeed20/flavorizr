@@ -1,56 +1,47 @@
 // lib/features/general_select/data/endpoints/general_select_endpoints.dart
 /// Defines all API endpoints for general select operations.
+///
+/// Based on FAST App API Documentation - General Endpoints
 abstract class GeneralSelectEndpoints {
   const GeneralSelectEndpoints._();
 
-  /// Gets all locations.
-  static const String locations = '/general/locations';
+  // ==================== Select Options Endpoints ====================
 
-  /// Gets a specific location by ID.
-  static String locationById(String locationId) => '/general/locations/$locationId';
+  /// Gets select options based on type and filters.
+  /// Endpoint: GET /select/options
+  static const String selectOptions = '/select/options';
 
-  /// Searches locations.
-  static const String searchLocations = '/general/locations/search';
+  /// Gets list of available vehicle types.
+  /// Endpoint: GET /select/vehicle-type
+  static const String vehicleTypes = '/select/vehicle-type';
 
-  /// Gets all vehicle types.
-  static const String vehicleTypes = '/general/vehicle-types';
+  /// Gets list of cities.
+  /// Endpoint: GET /select/cities
+  static const String cities = '/select/cities';
 
-  /// Gets a specific vehicle type by ID.
-  static String vehicleTypeById(String typeId) => '/general/vehicle-types/$typeId';
+  /// Gets list of common problems/issues.
+  /// Endpoint: GET /select/common-problem
+  static const String commonProblems = '/select/common-problem';
 
-  /// Gets all payment methods.
-  static const String paymentMethods = '/general/payment-methods';
+  /// Gets list of countries.
+  /// Endpoint: GET /select/countries
+  static const String countries = '/select/countries';
 
-  /// Gets a specific payment method by ID.
-  static String paymentMethodById(String methodId) => '/general/payment-methods/$methodId';
+  // ==================== Settings Endpoints ====================
 
-  /// Gets all trip types.
-  static const String tripTypes = '/general/trip-types';
+  /// Gets about us information.
+  /// Endpoint: GET /setting/about_us
+  static const String aboutUs = '/setting/about_us';
 
-  /// Gets a specific trip type by ID.
-  static String tripTypeById(String typeId) => '/general/trip-types/$typeId';
+  /// Gets frequently asked questions.
+  /// Endpoint: GET /setting/questions
+  static const String questions = '/setting/questions';
 
-  /// Gets all service areas.
-  static const String serviceAreas = '/general/service-areas';
+  /// Gets app policies.
+  /// Endpoint: GET /setting/policies
+  static const String policies = '/setting/policies';
 
-  /// Gets a specific service area by ID.
-  static String serviceAreaById(String areaId) => '/general/service-areas/$areaId';
-
-  /// Gets all promo codes.
-  static const String promoCodes = '/general/promo-codes';
-
-  /// Validates a promo code.
-  static const String validatePromoCode = '/general/promo-codes/validate';
-
-  /// Gets all support categories.
-  static const String supportCategories = '/general/support/categories';
-
-  /// Gets all FAQs.
-  static const String faqs = '/general/faqs';
-
-  /// Gets app configuration.
-  static const String appConfig = '/general/config';
-
-  /// Gets app version info.
-  static const String appVersion = '/general/version';
+  /// Gets general app settings.
+  /// Endpoint: GET /setting/general
+  static const String general = '/setting/general';
 }

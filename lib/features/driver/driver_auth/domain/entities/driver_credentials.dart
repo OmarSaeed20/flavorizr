@@ -17,6 +17,8 @@ class DriverCredentials {
   });
 
   bool get isExpired {
-    return DateTime.now().add(Duration(seconds: expiresIn)).isBefore(DateTime.now());
+    return DateTime.now()
+        .add(Duration(seconds: expiresIn))
+        .isBefore(DateTime.now());
   }
 }

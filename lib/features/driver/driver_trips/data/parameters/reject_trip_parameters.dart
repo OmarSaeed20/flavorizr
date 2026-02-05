@@ -8,9 +8,11 @@ class RejectTripParameters extends Parameters {
   final String _tripId;
   final CancelToken? _cancelToken;
 
-  const RejectTripParameters._({required String tripId, CancelToken? cancelToken})
-    : _tripId = tripId,
-      _cancelToken = cancelToken;
+  const RejectTripParameters._({
+    required String tripId,
+    CancelToken? cancelToken,
+  }) : _tripId = tripId,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -27,7 +29,8 @@ class RejectTripParameters extends Parameters {
 }
 
 /// Builder for RejectTripParameters
-class RejectTripParametersBuilder extends ParametersBuilder<RejectTripParameters> {
+class RejectTripParametersBuilder
+    extends ParametersBuilder<RejectTripParameters> {
   String? _tripId;
   CancelToken? _cancelToken;
 

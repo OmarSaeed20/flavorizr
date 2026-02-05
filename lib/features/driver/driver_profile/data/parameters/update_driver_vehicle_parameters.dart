@@ -29,17 +29,17 @@ class UpdateDriverVehicleParameters extends Parameters {
     String? registrationNumber,
     DateTime? registrationExpiry,
     CancelToken? cancelToken,
-  })  : _make = make,
-        _model = model,
-        _year = year,
-        _color = color,
-        _licensePlate = licensePlate,
-        _vehicleType = vehicleType,
-        _capacity = capacity,
-        _vin = vin,
-        _registrationNumber = registrationNumber,
-        _registrationExpiry = registrationExpiry,
-        _cancelToken = cancelToken;
+  }) : _make = make,
+       _model = model,
+       _year = year,
+       _color = color,
+       _licensePlate = licensePlate,
+       _vehicleType = vehicleType,
+       _capacity = capacity,
+       _vin = vin,
+       _registrationNumber = registrationNumber,
+       _registrationExpiry = registrationExpiry,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -53,7 +53,8 @@ class UpdateDriverVehicleParameters extends Parameters {
       if (_vehicleType != null) 'vehicle_type': _vehicleType,
       if (_capacity != null) 'capacity': _capacity,
       if (_vin != null) 'vin': _vin,
-      if (_registrationNumber != null) 'registration_number': _registrationNumber,
+      if (_registrationNumber != null)
+        'registration_number': _registrationNumber,
       if (_registrationExpiry != null)
         'registration_expiry': _registrationExpiry!.toIso8601String(),
     };
@@ -142,21 +143,25 @@ class UpdateDriverVehicleParametersBuilder
 
   /// Set the registration number
   UpdateDriverVehicleParametersBuilder withRegistrationNumber(
-      String registrationNumber) {
+    String registrationNumber,
+  ) {
     _registrationNumber = registrationNumber;
     return this;
   }
 
   /// Set the registration expiry
   UpdateDriverVehicleParametersBuilder withRegistrationExpiry(
-      DateTime registrationExpiry) {
+    DateTime registrationExpiry,
+  ) {
     _registrationExpiry = registrationExpiry;
     return this;
   }
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateDriverVehicleParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UpdateDriverVehicleParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

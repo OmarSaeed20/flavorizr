@@ -9,10 +9,13 @@ class GetTripTypesParameters extends Parameters {
   final String? _longitude;
   final CancelToken? _cancelToken;
 
-  const GetTripTypesParameters._({String? latitude, String? longitude, CancelToken? cancelToken})
-    : _latitude = latitude,
-      _longitude = longitude,
-      _cancelToken = cancelToken;
+  const GetTripTypesParameters._({
+    String? latitude,
+    String? longitude,
+    CancelToken? cancelToken,
+  }) : _latitude = latitude,
+       _longitude = longitude,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -29,11 +32,13 @@ class GetTripTypesParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static GetTripTypesParametersBuilder builder() => GetTripTypesParametersBuilder();
+  static GetTripTypesParametersBuilder builder() =>
+      GetTripTypesParametersBuilder();
 }
 
 /// Builder for GetTripTypesParameters
-class GetTripTypesParametersBuilder extends ParametersBuilder<GetTripTypesParameters> {
+class GetTripTypesParametersBuilder
+    extends ParametersBuilder<GetTripTypesParameters> {
   String? _latitude;
   String? _longitude;
   CancelToken? _cancelToken;
@@ -52,7 +57,9 @@ class GetTripTypesParametersBuilder extends ParametersBuilder<GetTripTypesParame
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<GetTripTypesParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<GetTripTypesParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -74,9 +81,11 @@ class GetCaptainTripDetailParameters extends Parameters {
   final int _tripId;
   final CancelToken? _cancelToken;
 
-  const GetCaptainTripDetailParameters._({required int tripId, CancelToken? cancelToken})
-    : _tripId = tripId,
-      _cancelToken = cancelToken;
+  const GetCaptainTripDetailParameters._({
+    required int tripId,
+    CancelToken? cancelToken,
+  }) : _tripId = tripId,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -89,7 +98,8 @@ class GetCaptainTripDetailParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static GetCaptainTripDetailParametersBuilder builder() => GetCaptainTripDetailParametersBuilder();
+  static GetCaptainTripDetailParametersBuilder builder() =>
+      GetCaptainTripDetailParametersBuilder();
 }
 
 /// Builder for GetCaptainTripDetailParameters
@@ -106,7 +116,9 @@ class GetCaptainTripDetailParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<GetCaptainTripDetailParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<GetCaptainTripDetailParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -116,7 +128,10 @@ class GetCaptainTripDetailParametersBuilder
   GetCaptainTripDetailParameters build() {
     assert(_tripId != null, 'Trip ID is required');
 
-    return GetCaptainTripDetailParameters._(tripId: _tripId!, cancelToken: _cancelToken);
+    return GetCaptainTripDetailParameters._(
+      tripId: _tripId!,
+      cancelToken: _cancelToken,
+    );
   }
 }
 
@@ -191,11 +206,13 @@ class StorePublicTripParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static StorePublicTripParametersBuilder builder() => StorePublicTripParametersBuilder();
+  static StorePublicTripParametersBuilder builder() =>
+      StorePublicTripParametersBuilder();
 }
 
 /// Builder for StorePublicTripParameters
-class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTripParameters> {
+class StorePublicTripParametersBuilder
+    extends ParametersBuilder<StorePublicTripParameters> {
   String? _pickupLocation;
   String? _dropoffLocation;
   String? _pickupLatitude;
@@ -239,7 +256,9 @@ class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTrip
   }
 
   /// Set the dropoff longitude
-  StorePublicTripParametersBuilder withDropoffLongitude(String dropoffLongitude) {
+  StorePublicTripParametersBuilder withDropoffLongitude(
+    String dropoffLongitude,
+  ) {
     _dropoffLongitude = dropoffLongitude;
     return this;
   }
@@ -270,7 +289,9 @@ class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTrip
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<StorePublicTripParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<StorePublicTripParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -278,12 +299,18 @@ class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTrip
   /// Build the StorePublicTripParameters
   @override
   StorePublicTripParameters build() {
-    assert(_pickupLocation != null && _pickupLocation!.isNotEmpty, 'Pickup location is required');
+    assert(
+      _pickupLocation != null && _pickupLocation!.isNotEmpty,
+      'Pickup location is required',
+    );
     assert(
       _dropoffLocation != null && _dropoffLocation!.isNotEmpty,
       'Dropoff location is required',
     );
-    assert(_pickupLatitude != null && _pickupLatitude!.isNotEmpty, 'Pickup latitude is required');
+    assert(
+      _pickupLatitude != null && _pickupLatitude!.isNotEmpty,
+      'Pickup latitude is required',
+    );
     assert(
       _pickupLongitude != null && _pickupLongitude!.isNotEmpty,
       'Pickup longitude is required',
@@ -385,11 +412,13 @@ class StorePrivateTripParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static StorePrivateTripParametersBuilder builder() => StorePrivateTripParametersBuilder();
+  static StorePrivateTripParametersBuilder builder() =>
+      StorePrivateTripParametersBuilder();
 }
 
 /// Builder for StorePrivateTripParameters
-class StorePrivateTripParametersBuilder extends ParametersBuilder<StorePrivateTripParameters> {
+class StorePrivateTripParametersBuilder
+    extends ParametersBuilder<StorePrivateTripParameters> {
   String? _pickupLocation;
   String? _dropoffLocation;
   String? _pickupLatitude;
@@ -409,7 +438,9 @@ class StorePrivateTripParametersBuilder extends ParametersBuilder<StorePrivateTr
   }
 
   /// Set the dropoff location
-  StorePrivateTripParametersBuilder withDropoffLocation(String dropoffLocation) {
+  StorePrivateTripParametersBuilder withDropoffLocation(
+    String dropoffLocation,
+  ) {
     _dropoffLocation = dropoffLocation;
     return this;
   }
@@ -421,19 +452,25 @@ class StorePrivateTripParametersBuilder extends ParametersBuilder<StorePrivateTr
   }
 
   /// Set the pickup longitude
-  StorePrivateTripParametersBuilder withPickupLongitude(String pickupLongitude) {
+  StorePrivateTripParametersBuilder withPickupLongitude(
+    String pickupLongitude,
+  ) {
     _pickupLongitude = pickupLongitude;
     return this;
   }
 
   /// Set the dropoff latitude
-  StorePrivateTripParametersBuilder withDropoffLatitude(String dropoffLatitude) {
+  StorePrivateTripParametersBuilder withDropoffLatitude(
+    String dropoffLatitude,
+  ) {
     _dropoffLatitude = dropoffLatitude;
     return this;
   }
 
   /// Set the dropoff longitude
-  StorePrivateTripParametersBuilder withDropoffLongitude(String dropoffLongitude) {
+  StorePrivateTripParametersBuilder withDropoffLongitude(
+    String dropoffLongitude,
+  ) {
     _dropoffLongitude = dropoffLongitude;
     return this;
   }
@@ -464,7 +501,9 @@ class StorePrivateTripParametersBuilder extends ParametersBuilder<StorePrivateTr
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<StorePrivateTripParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<StorePrivateTripParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -472,12 +511,18 @@ class StorePrivateTripParametersBuilder extends ParametersBuilder<StorePrivateTr
   /// Build the StorePrivateTripParameters
   @override
   StorePrivateTripParameters build() {
-    assert(_pickupLocation != null && _pickupLocation!.isNotEmpty, 'Pickup location is required');
+    assert(
+      _pickupLocation != null && _pickupLocation!.isNotEmpty,
+      'Pickup location is required',
+    );
     assert(
       _dropoffLocation != null && _dropoffLocation!.isNotEmpty,
       'Dropoff location is required',
     );
-    assert(_pickupLatitude != null && _pickupLatitude!.isNotEmpty, 'Pickup latitude is required');
+    assert(
+      _pickupLatitude != null && _pickupLatitude!.isNotEmpty,
+      'Pickup latitude is required',
+    );
     assert(
       _pickupLongitude != null && _pickupLongitude!.isNotEmpty,
       'Pickup longitude is required',
@@ -491,8 +536,14 @@ class StorePrivateTripParametersBuilder extends ParametersBuilder<StorePrivateTr
       'Dropoff longitude is required',
     );
     assert(_vehicleTypeId != null, 'Vehicle type ID is required');
-    assert(_scheduledDate != null && _scheduledDate!.isNotEmpty, 'Scheduled date is required');
-    assert(_scheduledTime != null && _scheduledTime!.isNotEmpty, 'Scheduled time is required');
+    assert(
+      _scheduledDate != null && _scheduledDate!.isNotEmpty,
+      'Scheduled date is required',
+    );
+    assert(
+      _scheduledTime != null && _scheduledTime!.isNotEmpty,
+      'Scheduled time is required',
+    );
 
     return StorePrivateTripParameters._(
       pickupLocation: _pickupLocation!,
@@ -561,7 +612,8 @@ class EditPrivateTripParameters extends Parameters {
     if (_pickupLatitude != null) json['pickup_latitude'] = _pickupLatitude;
     if (_pickupLongitude != null) json['pickup_longitude'] = _pickupLongitude;
     if (_dropoffLatitude != null) json['dropoff_latitude'] = _dropoffLatitude;
-    if (_dropoffLongitude != null) json['dropoff_longitude'] = _dropoffLongitude;
+    if (_dropoffLongitude != null)
+      json['dropoff_longitude'] = _dropoffLongitude;
     if (_vehicleTypeId != null) json['vehicle_type_id'] = _vehicleTypeId;
     if (_scheduledDate != null) json['scheduled_date'] = _scheduledDate;
     if (_scheduledTime != null) json['scheduled_time'] = _scheduledTime;
@@ -584,11 +636,13 @@ class EditPrivateTripParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static EditPrivateTripParametersBuilder builder() => EditPrivateTripParametersBuilder();
+  static EditPrivateTripParametersBuilder builder() =>
+      EditPrivateTripParametersBuilder();
 }
 
 /// Builder for EditPrivateTripParameters
-class EditPrivateTripParametersBuilder extends ParametersBuilder<EditPrivateTripParameters> {
+class EditPrivateTripParametersBuilder
+    extends ParametersBuilder<EditPrivateTripParameters> {
   int? _tripId;
   String? _pickupLocation;
   String? _dropoffLocation;
@@ -639,7 +693,9 @@ class EditPrivateTripParametersBuilder extends ParametersBuilder<EditPrivateTrip
   }
 
   /// Set the dropoff longitude
-  EditPrivateTripParametersBuilder withDropoffLongitude(String dropoffLongitude) {
+  EditPrivateTripParametersBuilder withDropoffLongitude(
+    String dropoffLongitude,
+  ) {
     _dropoffLongitude = dropoffLongitude;
     return this;
   }
@@ -670,7 +726,9 @@ class EditPrivateTripParametersBuilder extends ParametersBuilder<EditPrivateTrip
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<EditPrivateTripParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<EditPrivateTripParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -758,11 +816,13 @@ class BookNowOrderParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static BookNowOrderParametersBuilder builder() => BookNowOrderParametersBuilder();
+  static BookNowOrderParametersBuilder builder() =>
+      BookNowOrderParametersBuilder();
 }
 
 /// Builder for BookNowOrderParameters
-class BookNowOrderParametersBuilder extends ParametersBuilder<BookNowOrderParameters> {
+class BookNowOrderParametersBuilder
+    extends ParametersBuilder<BookNowOrderParameters> {
   String? _pickupLocation;
   String? _dropoffLocation;
   String? _pickupLatitude;
@@ -823,7 +883,9 @@ class BookNowOrderParametersBuilder extends ParametersBuilder<BookNowOrderParame
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<BookNowOrderParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<BookNowOrderParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -831,12 +893,18 @@ class BookNowOrderParametersBuilder extends ParametersBuilder<BookNowOrderParame
   /// Build the BookNowOrderParameters
   @override
   BookNowOrderParameters build() {
-    assert(_pickupLocation != null && _pickupLocation!.isNotEmpty, 'Pickup location is required');
+    assert(
+      _pickupLocation != null && _pickupLocation!.isNotEmpty,
+      'Pickup location is required',
+    );
     assert(
       _dropoffLocation != null && _dropoffLocation!.isNotEmpty,
       'Dropoff location is required',
     );
-    assert(_pickupLatitude != null && _pickupLatitude!.isNotEmpty, 'Pickup latitude is required');
+    assert(
+      _pickupLatitude != null && _pickupLatitude!.isNotEmpty,
+      'Pickup latitude is required',
+    );
     assert(
       _pickupLongitude != null && _pickupLongitude!.isNotEmpty,
       'Pickup longitude is required',
@@ -898,11 +966,13 @@ class GetTripHistoryParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static GetTripHistoryParametersBuilder builder() => GetTripHistoryParametersBuilder();
+  static GetTripHistoryParametersBuilder builder() =>
+      GetTripHistoryParametersBuilder();
 }
 
 /// Builder for GetTripHistoryParameters
-class GetTripHistoryParametersBuilder extends ParametersBuilder<GetTripHistoryParameters> {
+class GetTripHistoryParametersBuilder
+    extends ParametersBuilder<GetTripHistoryParameters> {
   int _page = 1;
   int _pageSize = 20;
   String? _status;
@@ -928,7 +998,9 @@ class GetTripHistoryParametersBuilder extends ParametersBuilder<GetTripHistoryPa
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<GetTripHistoryParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<GetTripHistoryParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -978,11 +1050,13 @@ class GetMyOrdersParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static GetMyOrdersParametersBuilder builder() => GetMyOrdersParametersBuilder();
+  static GetMyOrdersParametersBuilder builder() =>
+      GetMyOrdersParametersBuilder();
 }
 
 /// Builder for GetMyOrdersParameters
-class GetMyOrdersParametersBuilder extends ParametersBuilder<GetMyOrdersParameters> {
+class GetMyOrdersParametersBuilder
+    extends ParametersBuilder<GetMyOrdersParameters> {
   int _page = 1;
   int _pageSize = 20;
   String? _status;
@@ -1008,7 +1082,9 @@ class GetMyOrdersParametersBuilder extends ParametersBuilder<GetMyOrdersParamete
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<GetMyOrdersParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<GetMyOrdersParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -1070,7 +1146,8 @@ class GetAvailablePublicTripsParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  GetAvailablePublicTripsParametersBuilder builder() => GetAvailablePublicTripsParametersBuilder();
+  GetAvailablePublicTripsParametersBuilder builder() =>
+      GetAvailablePublicTripsParametersBuilder();
 }
 
 /// Builder for GetAvailablePublicTripsParameters
@@ -1084,38 +1161,50 @@ class GetAvailablePublicTripsParametersBuilder
   CancelToken? _cancelToken;
 
   /// Set the pickup latitude
-  GetAvailablePublicTripsParametersBuilder withPickupLatitude(String pickupLatitude) {
+  GetAvailablePublicTripsParametersBuilder withPickupLatitude(
+    String pickupLatitude,
+  ) {
     _pickupLatitude = pickupLatitude;
     return this;
   }
 
   /// Set the pickup longitude
-  GetAvailablePublicTripsParametersBuilder withPickupLongitude(String pickupLongitude) {
+  GetAvailablePublicTripsParametersBuilder withPickupLongitude(
+    String pickupLongitude,
+  ) {
     _pickupLongitude = pickupLongitude;
     return this;
   }
 
   /// Set the dropoff latitude
-  GetAvailablePublicTripsParametersBuilder withDropoffLatitude(String dropoffLatitude) {
+  GetAvailablePublicTripsParametersBuilder withDropoffLatitude(
+    String dropoffLatitude,
+  ) {
     _dropoffLatitude = dropoffLatitude;
     return this;
   }
 
   /// Set the dropoff longitude
-  GetAvailablePublicTripsParametersBuilder withDropoffLongitude(String dropoffLongitude) {
+  GetAvailablePublicTripsParametersBuilder withDropoffLongitude(
+    String dropoffLongitude,
+  ) {
     _dropoffLongitude = dropoffLongitude;
     return this;
   }
 
   /// Set the vehicle type ID
-  GetAvailablePublicTripsParametersBuilder withVehicleTypeId(int vehicleTypeId) {
+  GetAvailablePublicTripsParametersBuilder withVehicleTypeId(
+    int vehicleTypeId,
+  ) {
     _vehicleTypeId = vehicleTypeId;
     return this;
   }
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<GetAvailablePublicTripsParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<GetAvailablePublicTripsParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -1123,7 +1212,10 @@ class GetAvailablePublicTripsParametersBuilder
   /// Build the GetAvailablePublicTripsParameters
   @override
   GetAvailablePublicTripsParameters build() {
-    assert(_pickupLatitude != null && _pickupLatitude!.isNotEmpty, 'Pickup latitude is required');
+    assert(
+      _pickupLatitude != null && _pickupLatitude!.isNotEmpty,
+      'Pickup latitude is required',
+    );
     assert(
       _pickupLongitude != null && _pickupLongitude!.isNotEmpty,
       'Pickup longitude is required',
@@ -1170,11 +1262,13 @@ class ConfirmTripParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static ConfirmTripParametersBuilder builder() => ConfirmTripParametersBuilder();
+  static ConfirmTripParametersBuilder builder() =>
+      ConfirmTripParametersBuilder();
 }
 
 /// Builder for ConfirmTripParameters
-class ConfirmTripParametersBuilder extends ParametersBuilder<ConfirmTripParameters> {
+class ConfirmTripParametersBuilder
+    extends ParametersBuilder<ConfirmTripParameters> {
   int? _tripId;
   CancelToken? _cancelToken;
 
@@ -1186,7 +1280,9 @@ class ConfirmTripParametersBuilder extends ParametersBuilder<ConfirmTripParamete
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<ConfirmTripParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ConfirmTripParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -1207,10 +1303,13 @@ class CancelTripParameters extends Parameters {
   final String? _reason;
   final CancelToken? _cancelToken;
 
-  const CancelTripParameters._({required int tripId, String? reason, CancelToken? cancelToken})
-    : _tripId = tripId,
-      _reason = reason,
-      _cancelToken = cancelToken;
+  const CancelTripParameters._({
+    required int tripId,
+    String? reason,
+    CancelToken? cancelToken,
+  }) : _tripId = tripId,
+       _reason = reason,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -1230,7 +1329,8 @@ class CancelTripParameters extends Parameters {
 }
 
 /// Builder for CancelTripParameters
-class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters> {
+class CancelTripParametersBuilder
+    extends ParametersBuilder<CancelTripParameters> {
   int? _tripId;
   String? _reason;
   CancelToken? _cancelToken;
@@ -1249,7 +1349,9 @@ class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<CancelTripParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<CancelTripParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -1259,7 +1361,11 @@ class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters
   CancelTripParameters build() {
     assert(_tripId != null, 'Trip ID is required');
 
-    return CancelTripParameters._(tripId: _tripId!, reason: _reason, cancelToken: _cancelToken);
+    return CancelTripParameters._(
+      tripId: _tripId!,
+      reason: _reason,
+      cancelToken: _cancelToken,
+    );
   }
 }
 
@@ -1300,7 +1406,8 @@ class ReportTripParameters extends Parameters {
 }
 
 /// Builder for ReportTripParameters
-class ReportTripParametersBuilder extends ParametersBuilder<ReportTripParameters> {
+class ReportTripParametersBuilder
+    extends ParametersBuilder<ReportTripParameters> {
   int? _tripId;
   String? _reason;
   String? _description;
@@ -1326,7 +1433,9 @@ class ReportTripParametersBuilder extends ParametersBuilder<ReportTripParameters
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<ReportTripParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ReportTripParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -1379,11 +1488,13 @@ class TripEvaluationParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static TripEvaluationParametersBuilder builder() => TripEvaluationParametersBuilder();
+  static TripEvaluationParametersBuilder builder() =>
+      TripEvaluationParametersBuilder();
 }
 
 /// Builder for TripEvaluationParameters
-class TripEvaluationParametersBuilder extends ParametersBuilder<TripEvaluationParameters> {
+class TripEvaluationParametersBuilder
+    extends ParametersBuilder<TripEvaluationParameters> {
   int? _tripId;
   int? _rating;
   String? _comment;
@@ -1409,7 +1520,9 @@ class TripEvaluationParametersBuilder extends ParametersBuilder<TripEvaluationPa
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<TripEvaluationParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<TripEvaluationParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -1418,7 +1531,10 @@ class TripEvaluationParametersBuilder extends ParametersBuilder<TripEvaluationPa
   @override
   TripEvaluationParameters build() {
     assert(_tripId != null, 'Trip ID is required');
-    assert(_rating != null && _rating! >= 1 && _rating! <= 5, 'Rating must be between 1 and 5');
+    assert(
+      _rating != null && _rating! >= 1 && _rating! <= 5,
+      'Rating must be between 1 and 5',
+    );
 
     return TripEvaluationParameters._(
       tripId: _tripId!,
@@ -1435,9 +1551,11 @@ class GetTripDetailParameters extends Parameters {
   final int _tripId;
   final CancelToken? _cancelToken;
 
-  const GetTripDetailParameters._({required int tripId, CancelToken? cancelToken})
-    : _tripId = tripId,
-      _cancelToken = cancelToken;
+  const GetTripDetailParameters._({
+    required int tripId,
+    CancelToken? cancelToken,
+  }) : _tripId = tripId,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -1450,11 +1568,13 @@ class GetTripDetailParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static GetTripDetailParametersBuilder builder() => GetTripDetailParametersBuilder();
+  static GetTripDetailParametersBuilder builder() =>
+      GetTripDetailParametersBuilder();
 }
 
 /// Builder for GetTripDetailParameters
-class GetTripDetailParametersBuilder extends ParametersBuilder<GetTripDetailParameters> {
+class GetTripDetailParametersBuilder
+    extends ParametersBuilder<GetTripDetailParameters> {
   int? _tripId;
   CancelToken? _cancelToken;
 
@@ -1466,7 +1586,9 @@ class GetTripDetailParametersBuilder extends ParametersBuilder<GetTripDetailPara
 
   /// Set the cancel token for request cancellation
   @override
-  ParametersBuilder<GetTripDetailParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<GetTripDetailParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -1476,6 +1598,9 @@ class GetTripDetailParametersBuilder extends ParametersBuilder<GetTripDetailPara
   GetTripDetailParameters build() {
     assert(_tripId != null, 'Trip ID is required');
 
-    return GetTripDetailParameters._(tripId: _tripId!, cancelToken: _cancelToken);
+    return GetTripDetailParameters._(
+      tripId: _tripId!,
+      cancelToken: _cancelToken,
+    );
   }
 }

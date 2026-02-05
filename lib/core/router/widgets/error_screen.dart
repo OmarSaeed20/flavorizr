@@ -21,15 +21,26 @@ class ErrorScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error_outline_rounded, size: 64, color: theme.colorScheme.error),
+              Icon(
+                Icons.error_outline_rounded,
+                size: 64,
+                color: theme.colorScheme.error,
+              ),
               const SizedBox(height: 16),
               Text('Something went wrong', style: theme.textTheme.titleLarge),
               if (error != null) ...[
                 const SizedBox(height: 8),
-                Text(error!, style: theme.textTheme.bodyMedium, textAlign: TextAlign.center),
+                Text(
+                  error!,
+                  style: theme.textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
               ],
               const SizedBox(height: 24),
-              FilledButton(onPressed: () => context.go(Routes.home), child: const Text('Go Home')),
+              FilledButton(
+                onPressed: () => context.go(Routes.home),
+                child: const Text('Go Home'),
+              ),
             ],
           ),
         ),

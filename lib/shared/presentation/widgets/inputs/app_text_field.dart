@@ -128,7 +128,12 @@ class AppTextField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) ...[
-          Text(label!, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
+          Text(
+            label!,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const SizedBox(height: 8),
         ],
         TextFormField(
@@ -165,7 +170,10 @@ class AppTextField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+              borderSide: BorderSide(
+                color: theme.colorScheme.primary,
+                width: 2,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -179,7 +187,10 @@ class AppTextField extends StatelessWidget {
             fillColor: enabled
                 ? theme.colorScheme.surface
                 : theme.colorScheme.surfaceContainerHighest,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
           ),
         ),
       ],
@@ -233,7 +244,9 @@ class PasswordTextField extends StatelessWidget {
       autofillHints: autofillHints,
       prefixIcon: const Icon(Icons.lock_outline),
       suffixIcon: IconButton(
-        icon: Icon(isVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+        icon: Icon(
+          isVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+        ),
         onPressed: onToggleVisibility,
       ),
       onChanged: onChanged,

@@ -10,7 +10,8 @@ class DriverTrip {
   final TripRoute route;
   final double estimatedFare;
   final double actualFare;
-  final String status; // pending, accepted, rejected, in_progress, completed, cancelled
+  final String
+  status; // pending, accepted, rejected, in_progress, completed, cancelled
   final DateTime createdAt;
   final DateTime? acceptedAt;
   final DateTime? startedAt;

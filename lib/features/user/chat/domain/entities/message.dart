@@ -73,7 +73,8 @@ class MessageAttachment {
       fileName: map['file_name'] as String? ?? map['fileName'] as String?,
       mimeType: map['mime_type'] as String? ?? map['mimeType'] as String?,
       fileSize: map['file_size'] as int? ?? map['fileSize'] as int?,
-      thumbnailUrl: map['thumbnail_url'] as String? ?? map['thumbnailUrl'] as String?,
+      thumbnailUrl:
+          map['thumbnail_url'] as String? ?? map['thumbnailUrl'] as String?,
       width: map['width'] as int?,
       height: map['height'] as int?,
       duration: map['duration'] as int?,
@@ -173,7 +174,8 @@ class MessageAttachment {
   String get formattedSize {
     if (fileSize == null) return '';
     if (fileSize! < 1024) return '$fileSize B';
-    if (fileSize! < 1024 * 1024) return '${(fileSize! / 1024).toStringAsFixed(1)} KB';
+    if (fileSize! < 1024 * 1024)
+      return '${(fileSize! / 1024).toStringAsFixed(1)} KB';
     if (fileSize! < 1024 * 1024 * 1024) {
       return '${(fileSize! / (1024 * 1024)).toStringAsFixed(1)} MB';
     }
@@ -183,7 +185,9 @@ class MessageAttachment {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MessageAttachment && runtimeType == other.runtimeType && id == other.id;
+      other is MessageAttachment &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -191,7 +195,12 @@ class MessageAttachment {
 
 /// Location data for location messages.
 class MessageLocation {
-  const MessageLocation({required this.latitude, required this.longitude, this.address, this.name});
+  const MessageLocation({
+    required this.latitude,
+    required this.longitude,
+    this.address,
+    this.name,
+  });
 
   factory MessageLocation.fromMap(Map<String, dynamic> map) {
     return MessageLocation(
@@ -215,7 +224,12 @@ class MessageLocation {
   final String? name;
 
   Map<String, dynamic> toMap() {
-    return {'latitude': latitude, 'longitude': longitude, 'address': address, 'name': name};
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+      'name': name,
+    };
   }
 }
 
@@ -253,10 +267,12 @@ class Message {
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
       id: map['id'] as String,
-      conversationId: map['conversation_id'] as String? ?? map['conversationId'] as String,
+      conversationId:
+          map['conversation_id'] as String? ?? map['conversationId'] as String,
       senderId: map['sender_id'] as String? ?? map['senderId'] as String,
       senderName: map['sender_name'] as String? ?? map['senderName'] as String?,
-      senderAvatar: map['sender_avatar'] as String? ?? map['senderAvatar'] as String?,
+      senderAvatar:
+          map['sender_avatar'] as String? ?? map['senderAvatar'] as String?,
       type: MessageType.values.byName(map['type'] as String? ?? 'text'),
       content: map['content'] as String?,
       attachments:
@@ -268,7 +284,9 @@ class Message {
           ? MessageLocation.fromMap(map['location'] as Map<String, dynamic>)
           : null,
       status: MessageStatus.values.byName(map['status'] as String? ?? 'sent'),
-      createdAt: DateTime.parse(map['created_at'] as String? ?? map['createdAt'] as String),
+      createdAt: DateTime.parse(
+        map['created_at'] as String? ?? map['createdAt'] as String,
+      ),
       updatedAt: map['updated_at'] != null
           ? DateTime.parse(map['updated_at'] as String)
           : map['updatedAt'] != null
@@ -285,13 +303,17 @@ class Message {
           ? DateTime.parse(map['readAt'] as String)
           : null,
       readBy:
-          (map['read_by'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          (map['read_by'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
           (map['readBy'] as List<dynamic>?)?.map((e) => e as String).toList() ??
           [],
       reactions:
           (map['reactions'] as Map<String, dynamic>?)?.map(
-            (key, value) =>
-                MapEntry(key, (value as List<dynamic>).map((e) => e as String).toList()),
+            (key, value) => MapEntry(
+              key,
+              (value as List<dynamic>).map((e) => e as String).toList(),
+            ),
           ) ??
           {},
       replyToId: map['reply_to_id'] as String? ?? map['replyToId'] as String?,
@@ -300,11 +322,18 @@ class Message {
           : map['replyTo'] != null
           ? Message.fromMap(map['replyTo'] as Map<String, dynamic>)
           : null,
-      forwardedFromId: map['forwarded_from_id'] as String? ?? map['forwardedFromId'] as String?,
+      forwardedFromId:
+          map['forwarded_from_id'] as String? ??
+          map['forwardedFromId'] as String?,
       isEdited: map['is_edited'] as bool? ?? map['isEdited'] as bool? ?? false,
-      isDeleted: map['is_deleted'] as bool? ?? map['isDeleted'] as bool? ?? false,
+      isDeleted:
+          map['is_deleted'] as bool? ?? map['isDeleted'] as bool? ?? false,
       isPinned: map['is_pinned'] as bool? ?? map['isPinned'] as bool? ?? false,
-      mentions: (map['mentions'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+      mentions:
+          (map['mentions'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
       metadata: Map<String, dynamic>.from(map['metadata'] as Map? ?? {}),
       localId: map['local_id'] as String? ?? map['localId'] as String?,
     );
@@ -396,7 +425,9 @@ class Message {
 
   /// Returns true if this is a media message.
   bool get isMedia =>
-      type == MessageType.image || type == MessageType.video || type == MessageType.audio;
+      type == MessageType.image ||
+      type == MessageType.video ||
+      type == MessageType.audio;
 
   /// Returns true if this is a system message.
   bool get isSystem => type == MessageType.system;
@@ -405,10 +436,12 @@ class Message {
   bool get isReply => type == MessageType.reply || replyToId != null;
 
   /// Returns true if this is a forwarded message.
-  bool get isForwarded => type == MessageType.forwarded || forwardedFromId != null;
+  bool get isForwarded =>
+      type == MessageType.forwarded || forwardedFromId != null;
 
   /// Returns the total reaction count.
-  int get totalReactions => reactions.values.fold(0, (sum, list) => sum + list.length);
+  int get totalReactions =>
+      reactions.values.fold(0, (sum, list) => sum + list.length);
 
   /// Returns true if the message has attachments.
   bool get hasAttachments => attachments.isNotEmpty;
@@ -424,7 +457,9 @@ class Message {
     if (isDeleted) return 'Message deleted';
 
     if (content != null && content!.isNotEmpty) {
-      return content!.length > 50 ? '${content!.substring(0, 50)}...' : content!;
+      return content!.length > 50
+          ? '${content!.substring(0, 50)}...'
+          : content!;
     }
 
     if (attachments.isNotEmpty) {

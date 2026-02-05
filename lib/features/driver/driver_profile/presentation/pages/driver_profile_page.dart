@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flavorizr/features/driver/driver_profile/presentation/controllers/driver_profile_controller.dart';
 import 'package:flavorizr/features/driver/driver_profile/presentation/providers/driver_profile_providers.dart';
+import 'package:flavorizr/features/driver/driver_profile/presentation/widgets/driver_documents_list.dart';
 import 'package:flavorizr/features/driver/driver_profile/presentation/widgets/driver_profile_header.dart';
 import 'package:flavorizr/features/driver/driver_profile/presentation/widgets/driver_vehicle_card.dart';
-import 'package:flavorizr/features/driver/driver_profile/presentation/widgets/driver_documents_list.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Page for managing driver profile.
 class DriverProfilePage extends ConsumerStatefulWidget {
@@ -48,49 +47,46 @@ class _DriverProfilePageState extends ConsumerState<DriverProfilePage> {
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : state.error != null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.error_outline, size: 48),
-                      const SizedBox(height: 16),
-                      Text(
-                        state.error!,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadData,
-                        child: const Text('Retry'),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48),
+                  const SizedBox(height: 16),
+                  Text(state.error!, textAlign: TextAlign.center),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _loadData,
+                    child: const Text('Retry'),
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: () async {
-                    _loadData();
-                  },
-                  child: ListView(
-                    padding: const EdgeInsets.all(16.0),
-                    children: [
-                      if (state.profile != null)
-                        DriverProfileHeader(profile: state.profile!),
-                      const SizedBox(height: 16),
-                      if (state.vehicle != null)
-                        DriverVehicleCard(vehicle: state.vehicle!),
-                      const SizedBox(height: 16),
-                      DriverDocumentsList(
-                        documents: state.documents,
-                        isLoading: state.isUpdating,
-                        onDelete: (documentId) {
-                          ref
-                              .read(driverProfileControllerProvider.notifier)
-                              .deleteDriverDocument(documentId);
-                        },
-                      ),
-                    ],
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: () async {
+                _loadData();
+              },
+              child: ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  if (state.profile != null)
+                    DriverProfileHeader(profile: state.profile!),
+                  const SizedBox(height: 16),
+                  if (state.vehicle != null)
+                    DriverVehicleCard(vehicle: state.vehicle!),
+                  const SizedBox(height: 16),
+                  DriverDocumentsList(
+                    documents: state.documents,
+                    isLoading: state.isUpdating,
+                    onDelete: (documentId) {
+                      ref
+                          .read(driverProfileControllerProvider.notifier)
+                          .deleteDriverDocument(documentId);
+                    },
                   ),
-                ),
+                ],
+              ),
+            ),
     );
   }
 }

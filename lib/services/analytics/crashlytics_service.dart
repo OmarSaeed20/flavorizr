@@ -21,7 +21,8 @@ class CrashlyticsService {
   CrashlyticsService._();
 
   static CrashlyticsService? _instance;
-  static CrashlyticsService get instance => _instance ??= CrashlyticsService._();
+  static CrashlyticsService get instance =>
+      _instance ??= CrashlyticsService._();
 
   /// The Firebase Crashlytics instance.
   final FirebaseCrashlytics _crashlytics = FirebaseCrashlytics.instance;
@@ -112,7 +113,12 @@ class CrashlyticsService {
   }) async {
     if (!_isEnabled) return;
 
-    await _crashlytics.recordError(error, stackTrace, reason: reason, fatal: fatal);
+    await _crashlytics.recordError(
+      error,
+      stackTrace,
+      reason: reason,
+      fatal: fatal,
+    );
 
     if (kDebugMode) {
       debugPrint('🔥 ${fatal ? 'Fatal' : 'Non-fatal'} error recorded: $error');

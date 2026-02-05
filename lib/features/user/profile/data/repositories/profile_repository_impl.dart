@@ -12,7 +12,8 @@ import 'package:flavorizr/features/user/profile/domain/repositories/profile_repo
 ///
 /// Coordinates with remote and local data sources for profile operations
 /// as per FAST API specification.
-class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository {
+class ProfileRepositoryImpl extends BaseRepository
+    implements ProfileRepository {
   ProfileRepositoryImpl({
     required ProfileRemoteDataSource remoteDataSource,
     required ProfileLocalDataSource localDataSource,
@@ -36,13 +37,16 @@ class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository 
     // If cache exists and is valid, return it
     if (cachedResult.isSuccess && cachedResult.data != null) {
       return cachedResult.when(
-        success: (profileModel, _) => ApiResult.success(profileModel.toEntity()),
+        success: (profileModel, _) =>
+            ApiResult.success(profileModel.toEntity()),
         exception: ApiResult.exception,
       );
     }
 
     // Fetch from remote
-    final result = await executeRemoteRequest<ProfileModel>(request: _remoteDataSource.getProfile);
+    final result = await executeRemoteRequest<ProfileModel>(
+      request: _remoteDataSource.getProfile,
+    );
 
     return result.when(
       success: (profileModel, _) async {
@@ -88,7 +92,9 @@ class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository 
   }
 
   @override
-  Future<ApiResult<List<DriverReview>>> getDriverReviews(String driverId) async {
+  Future<ApiResult<List<DriverReview>>> getDriverReviews(
+    String driverId,
+  ) async {
     // Driver reviews are always fetched from remote
     final result = await executeRemoteRequest<List<DriverReviewModel>>(
       request: () => _remoteDataSource.getDriverReviews(driverId),

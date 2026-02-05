@@ -26,19 +26,13 @@ class OnlineStatusSwitch extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Online Status',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
               Text(
                 isOnline ? 'You are online' : 'You are offline',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
               ),
             ],
           ),
@@ -46,7 +40,7 @@ class OnlineStatusSwitch extends StatelessWidget {
         Switch(
           value: isOnline,
           onChanged: isUpdating ? null : onChanged,
-          activeColor: Colors.green,
+          activeThumbColor: Colors.green,
         ),
       ],
     );

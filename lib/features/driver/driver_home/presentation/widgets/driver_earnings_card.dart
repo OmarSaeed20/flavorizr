@@ -1,14 +1,11 @@
+import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_earnings.dart';
 import 'package:flutter/material.dart';
-import '../../domain/entities/driver_earnings.dart';
 
 /// Widget displaying driver earnings
 class DriverEarningsCard extends StatelessWidget {
   final DriverEarnings earnings;
 
-  const DriverEarningsCard({
-    super.key,
-    required this.earnings,
-  });
+  const DriverEarningsCard({super.key, required this.earnings});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +21,7 @@ class DriverEarningsCard extends StatelessWidget {
               children: [
                 const Text(
                   'Earnings',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -125,26 +119,20 @@ class _EarningsRow extends StatelessWidget {
                 color: isHighlighted
                     ? Theme.of(context).primaryColor
                     : isTotal
-                        ? Colors.green
-                        : null,
+                    ? Colors.green
+                    : null,
               ),
             ),
             const SizedBox(width: 8),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 4,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 '$trips trips',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
           ],

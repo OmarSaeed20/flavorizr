@@ -1,28 +1,18 @@
-import '../../domain/entities/trip_route.dart';
+import 'package:flavorizr/features/driver/driver_trips/domain/entities/trip_route.dart';
 
 /// Model for trip route
 class TripRouteModel extends TripRoute {
   const TripRouteModel({
-    required String pickupLocation,
-    required double pickupLatitude,
-    required double pickupLongitude,
-    required String dropoffLocation,
-    required double dropoffLatitude,
-    required double dropoffLongitude,
-    required double distance,
-    required double duration,
-    List<RoutePoint>? waypoints,
-  }) : super(
-          pickupLocation: pickupLocation,
-          pickupLatitude: pickupLatitude,
-          pickupLongitude: pickupLongitude,
-          dropoffLocation: dropoffLocation,
-          dropoffLatitude: dropoffLatitude,
-          dropoffLongitude: dropoffLongitude,
-          distance: distance,
-          duration: duration,
-          waypoints: waypoints,
-        );
+    required super.pickupLocation,
+    required super.pickupLatitude,
+    required super.pickupLongitude,
+    required super.dropoffLocation,
+    required super.dropoffLatitude,
+    required super.dropoffLongitude,
+    required super.distance,
+    required super.duration,
+    super.waypoints,
+  });
 
   factory TripRouteModel.fromJson(Map<String, dynamic> json) {
     return TripRouteModel(
@@ -34,7 +24,8 @@ class TripRouteModel extends TripRoute {
       dropoffLongitude: (json['dropoffLongitude'] ?? 0).toDouble(),
       distance: (json['distance'] ?? 0).toDouble(),
       duration: (json['duration'] ?? 0).toDouble(),
-      waypoints: (json['waypoints'] as List<dynamic>?)
+      waypoints:
+          (json['waypoints'] as List<dynamic>?)
               ?.map((e) => RoutePointModel.fromJson(e))
               .toList() ??
           [],
@@ -51,7 +42,9 @@ class TripRouteModel extends TripRoute {
       'dropoffLongitude': dropoffLongitude,
       'distance': distance,
       'duration': duration,
-      'waypoints': waypoints?.map((e) => (e as RoutePointModel).toJson()).toList(),
+      'waypoints': waypoints
+          ?.map((e) => (e as RoutePointModel).toJson())
+          .toList(),
     };
   }
 }
@@ -59,16 +52,11 @@ class TripRouteModel extends TripRoute {
 /// Model for route point
 class RoutePointModel extends RoutePoint {
   const RoutePointModel({
-    required String location,
-    required double latitude,
-    required double longitude,
-    required int order,
-  }) : super(
-          location: location,
-          latitude: latitude,
-          longitude: longitude,
-          order: order,
-        );
+    required super.location,
+    required super.latitude,
+    required super.longitude,
+    required super.order,
+  });
 
   factory RoutePointModel.fromJson(Map<String, dynamic> json) {
     return RoutePointModel(

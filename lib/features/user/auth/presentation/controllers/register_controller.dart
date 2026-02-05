@@ -105,13 +105,19 @@ class RegisterState {
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
       phoneError: clearFieldErrors ? null : phoneError ?? this.phoneError,
-      passwordError: clearFieldErrors ? null : passwordError ?? this.passwordError,
+      passwordError: clearFieldErrors
+          ? null
+          : passwordError ?? this.passwordError,
       confirmPasswordError: clearFieldErrors
           ? null
           : confirmPasswordError ?? this.confirmPasswordError,
-      displayNameError: clearFieldErrors ? null : displayNameError ?? this.displayNameError,
+      displayNameError: clearFieldErrors
+          ? null
+          : displayNameError ?? this.displayNameError,
       nameError: clearFieldErrors ? null : nameError ?? this.nameError,
-      birthdateError: clearFieldErrors ? null : birthdateError ?? this.birthdateError,
+      birthdateError: clearFieldErrors
+          ? null
+          : birthdateError ?? this.birthdateError,
       genderError: clearFieldErrors ? null : genderError ?? this.genderError,
       isSuccess: isSuccess ?? this.isSuccess,
       showPassword: showPassword ?? this.showPassword,
@@ -133,17 +139,29 @@ class RegisterController extends AutoDisposeNotifier<RegisterState> {
 
   /// Updates the phone field.
   void setPhone(String phone) {
-    state = state.copyWith(phone: phone, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      phone: phone,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the phone ISO2 code field.
   void setPhoneIso2Code(String phoneIso2Code) {
-    state = state.copyWith(phoneIso2Code: phoneIso2Code, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      phoneIso2Code: phoneIso2Code,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the password field.
   void setPassword(String password) {
-    state = state.copyWith(password: password, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      password: password,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the confirm password field.
@@ -157,37 +175,65 @@ class RegisterController extends AutoDisposeNotifier<RegisterState> {
 
   /// Updates the display name field.
   void setDisplayName(String displayName) {
-    state = state.copyWith(displayName: displayName, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      displayName: displayName,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the name field.
   void setName(String name) {
-    state = state.copyWith(name: name, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      name: name,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the nickname field.
   void setNickname(String nickname) {
-    state = state.copyWith(nickname: nickname, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      nickname: nickname,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the country ID field.
   void setCountryId(int countryId) {
-    state = state.copyWith(countryId: countryId, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      countryId: countryId,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the governorate ID field.
   void setGovernorateId(int governorateId) {
-    state = state.copyWith(governorateId: governorateId, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      governorateId: governorateId,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the birthdate field.
   void setBirthdate(String birthdate) {
-    state = state.copyWith(birthdate: birthdate, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      birthdate: birthdate,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Updates the gender field.
   void setGender(String gender) {
-    state = state.copyWith(gender: gender, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      gender: gender,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Toggles password visibility.
@@ -259,13 +305,17 @@ class RegisterController extends AutoDisposeNotifier<RegisterState> {
     }
 
     // Validate gender
-    if (state.gender.isNotEmpty && state.gender != 'male' && state.gender != 'female') {
+    if (state.gender.isNotEmpty &&
+        state.gender != 'male' &&
+        state.gender != 'female') {
       genderError = 'Gender must be either male or female';
     }
 
     // Check terms acceptance
     if (!state.acceptedTerms) {
-      state = state.copyWith(errorMessage: 'Please accept the terms and conditions');
+      state = state.copyWith(
+        errorMessage: 'Please accept the terms and conditions',
+      );
       return false;
     }
 
@@ -336,9 +386,13 @@ class RegisterController extends AutoDisposeNotifier<RegisterState> {
           phoneIso2Code: state.phoneIso2Code,
           password: state.password,
           confirmPassword: state.confirmPassword,
-          displayName: state.displayName.trim().isNotEmpty ? state.displayName.trim() : null,
+          displayName: state.displayName.trim().isNotEmpty
+              ? state.displayName.trim()
+              : null,
           name: state.name.trim(),
-          nickname: state.nickname.trim().isNotEmpty ? state.nickname.trim() : null,
+          nickname: state.nickname.trim().isNotEmpty
+              ? state.nickname.trim()
+              : null,
           countryId: state.countryId,
           governorateId: state.governorateId,
           birthdate: state.birthdate,
@@ -347,14 +401,20 @@ class RegisterController extends AutoDisposeNotifier<RegisterState> {
       );
 
       if (result.error != null) {
-        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: result.error!.message,
+        );
         return null;
       }
 
       state = state.copyWith(isLoading: false, isSuccess: true);
       return result.data;
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: 'An unexpected error occurred');
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'An unexpected error occurred',
+      );
       return null;
     }
   }
@@ -366,6 +426,7 @@ class RegisterController extends AutoDisposeNotifier<RegisterState> {
 }
 
 /// Provider for the register controller.
-final registerControllerProvider = NotifierProvider.autoDispose<RegisterController, RegisterState>(
-  RegisterController.new,
-);
+final registerControllerProvider =
+    NotifierProvider.autoDispose<RegisterController, RegisterState>(
+      RegisterController.new,
+    );

@@ -33,11 +33,13 @@ class TripEvaluationParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static TripEvaluationParametersBuilder builder() => TripEvaluationParametersBuilder();
+  static TripEvaluationParametersBuilder builder() =>
+      TripEvaluationParametersBuilder();
 }
 
 /// Builder for TripEvaluationParameters.
-class TripEvaluationParametersBuilder extends ParametersBuilder<TripEvaluationParameters> {
+class TripEvaluationParametersBuilder
+    extends ParametersBuilder<TripEvaluationParameters> {
   int? _orderId;
   int? _driverId;
   double? _rate;

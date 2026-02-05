@@ -21,7 +21,9 @@ class AuthTokens {
     return AuthTokens(
       accessToken: map['accessToken'] as String,
       refreshToken: map['refreshToken'] as String,
-      accessTokenExpiresAt: DateTime.parse(map['accessTokenExpiresAt'] as String),
+      accessTokenExpiresAt: DateTime.parse(
+        map['accessTokenExpiresAt'] as String,
+      ),
       refreshTokenExpiresAt: map['refreshTokenExpiresAt'] != null
           ? DateTime.parse(map['refreshTokenExpiresAt'] as String)
           : null,
@@ -65,7 +67,8 @@ class AuthTokens {
 
   /// Returns true if the refresh token has expired.
   bool get isRefreshTokenExpired =>
-      refreshTokenExpiresAt != null && DateTime.now().isAfter(refreshTokenExpiresAt!);
+      refreshTokenExpiresAt != null &&
+      DateTime.now().isAfter(refreshTokenExpiresAt!);
 
   /// Returns true if both tokens are expired (needs re-login).
   bool get isFullyExpired => isAccessTokenExpired && isRefreshTokenExpired;
@@ -92,7 +95,8 @@ class AuthTokens {
       accessToken: accessToken ?? this.accessToken,
       refreshToken: refreshToken ?? this.refreshToken,
       accessTokenExpiresAt: accessTokenExpiresAt ?? this.accessTokenExpiresAt,
-      refreshTokenExpiresAt: refreshTokenExpiresAt ?? this.refreshTokenExpiresAt,
+      refreshTokenExpiresAt:
+          refreshTokenExpiresAt ?? this.refreshTokenExpiresAt,
       tokenType: tokenType ?? this.tokenType,
     );
   }

@@ -13,10 +13,7 @@ class CancelTripParameters extends Parameters {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-    'order_id': orderId,
-    'user_id': userId,
-  };
+  Map<String, dynamic> toJson() => {'order_id': orderId, 'user_id': userId};
 
   final String orderId;
   final String userId;
@@ -28,7 +25,8 @@ class CancelTripParameters extends Parameters {
 }
 
 /// Builder for CancelTripParameters.
-class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters> {
+class CancelTripParametersBuilder
+    extends ParametersBuilder<CancelTripParameters> {
   String? _orderId;
   String? _userId;
   CancelToken? _cancelToken;

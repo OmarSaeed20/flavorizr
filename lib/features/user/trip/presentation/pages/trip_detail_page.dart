@@ -54,11 +54,17 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
               itemBuilder: (context) => [
                 const PopupMenuItem(
                   value: 'cancel',
-                  child: ListTile(leading: Icon(Icons.cancel), title: Text('Cancel Trip')),
+                  child: ListTile(
+                    leading: Icon(Icons.cancel),
+                    title: Text('Cancel Trip'),
+                  ),
                 ),
                 const PopupMenuItem(
                   value: 'report',
-                  child: ListTile(leading: Icon(Icons.report), title: Text('Report Issue')),
+                  child: ListTile(
+                    leading: Icon(Icons.report),
+                    title: Text('Report Issue'),
+                  ),
                 ),
               ],
             ),
@@ -78,7 +84,11 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: Theme.of(context).colorScheme.error),
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: Theme.of(context).colorScheme.error,
+            ),
             const SizedBox(height: 16),
             Text(
               state.errorMessage ?? 'Trip not found',
@@ -128,7 +138,10 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
               children: [
                 Icon(_getStatusIcon(trip.status), color: statusColor),
                 const SizedBox(width: 8),
-                Text('Trip Status', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  'Trip Status',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -140,7 +153,10 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
               ),
               child: Text(
                 status.toUpperCase(),
-                style: TextStyle(color: statusColor, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  color: statusColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -219,17 +235,26 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.attach_money, color: Theme.of(context).colorScheme.primary),
+                Icon(
+                  Icons.attach_money,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 const SizedBox(width: 8),
                 Text('Pricing', style: Theme.of(context).textTheme.titleMedium),
               ],
             ),
             const SizedBox(height: 12),
-            _buildPriceRow(context, 'Estimated Price', '\$${trip.estimatedPrice ?? '0.00'}'),
+            _buildPriceRow(
+              context,
+              'Estimated Price',
+              '\$${trip.estimatedPrice ?? '0.00'}',
+            ),
             if (trip.finalPrice != null)
               _buildPriceRow(context, 'Final Price', '\$${trip.finalPrice}'),
-            if (trip.distance != null) _buildPriceRow(context, 'Distance', '${trip.distance} km'),
-            if (trip.duration != null) _buildPriceRow(context, 'Duration', '${trip.duration} min'),
+            if (trip.distance != null)
+              _buildPriceRow(context, 'Distance', '${trip.distance} km'),
+            if (trip.duration != null)
+              _buildPriceRow(context, 'Duration', '${trip.duration} min'),
           ],
         ),
       ),
@@ -245,7 +270,9 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
           Text(label, style: Theme.of(context).textTheme.bodyMedium),
           Text(
             value,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -261,7 +288,10 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
           children: [
             Row(
               children: [
-                Icon(Icons.person, color: Theme.of(context).colorScheme.primary),
+                Icon(
+                  Icons.person,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 const SizedBox(width: 8),
                 Text('Driver', style: Theme.of(context).textTheme.titleMedium),
               ],
@@ -271,19 +301,30 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundImage: driver.avatar != null ? NetworkImage(driver.avatar) : null,
-                  child: driver.avatar == null ? const Icon(Icons.person) : null,
+                  backgroundImage: driver.avatar != null
+                      ? NetworkImage(driver.avatar)
+                      : null,
+                  child: driver.avatar == null
+                      ? const Icon(Icons.person)
+                      : null,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(driver.name ?? 'Unknown', style: Theme.of(context).textTheme.titleSmall),
+                      Text(
+                        driver.name ?? 'Unknown',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
                       if (driver.rating != null)
                         Row(
                           children: [
-                            const Icon(Icons.star, size: 16, color: Colors.amber),
+                            const Icon(
+                              Icons.star,
+                              size: 16,
+                              color: Colors.amber,
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               driver.rating.toString(),
@@ -351,7 +392,10 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
         title: const Text('Cancel Trip'),
         content: const Text('Are you sure you want to cancel this trip?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('No')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('No'),
+          ),
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -359,13 +403,15 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
                   .read(tripControllerProvider.notifier)
                   .cancelTrip(widget.tripId);
               if (success && mounted) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('Trip cancelled successfully')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Trip cancelled successfully')),
+                );
                 Navigator.pop(context);
               }
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: const Text('Yes, Cancel'),
           ),
         ],
@@ -389,15 +435,18 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
           maxLines: 4,
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
               // Implement report functionality
               if (mounted) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('Report submitted')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Report submitted')),
+                );
               }
             },
             child: const Text('Submit'),

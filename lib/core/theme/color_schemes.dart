@@ -10,9 +10,18 @@ class AppColorSchemes {
   AppColorSchemes._();
 
   /// List of available color schemes with their display names.
-  static final List<({String name, FlexScheme scheme, IconData icon})> schemes = [
-    (name: 'Material Blue', scheme: FlexScheme.material, icon: Icons.water_drop),
-    (name: 'Material High Contrast', scheme: FlexScheme.materialHc, icon: Icons.contrast),
+  static final List<({String name, FlexScheme scheme, IconData icon})>
+  schemes = [
+    (
+      name: 'Material Blue',
+      scheme: FlexScheme.material,
+      icon: Icons.water_drop,
+    ),
+    (
+      name: 'Material High Contrast',
+      scheme: FlexScheme.materialHc,
+      icon: Icons.contrast,
+    ),
     (name: 'Brand Blue', scheme: FlexScheme.brandBlue, icon: Icons.sailing),
     (name: 'Indigo', scheme: FlexScheme.indigoM3, icon: Icons.nights_stay),
     (name: 'Hippie Blue', scheme: FlexScheme.hippieBlue, icon: Icons.waves),
@@ -26,7 +35,11 @@ class AppColorSchemes {
     (name: 'Mango', scheme: FlexScheme.mango, icon: Icons.emoji_food_beverage),
     (name: 'Amber', scheme: FlexScheme.amber, icon: Icons.light_mode),
     (name: 'Orange', scheme: FlexScheme.orangeM3, icon: Icons.brightness_5),
-    (name: 'Deep Orange', scheme: FlexScheme.deepOrangeM3, icon: Icons.local_fire_department),
+    (
+      name: 'Deep Orange',
+      scheme: FlexScheme.deepOrangeM3,
+      icon: Icons.local_fire_department,
+    ),
     (name: 'Red Wine', scheme: FlexScheme.redWine, icon: Icons.wine_bar),
     (name: 'Red', scheme: FlexScheme.redM3, icon: Icons.favorite),
     (name: 'Pink', scheme: FlexScheme.pinkM3, icon: Icons.favorite_border),

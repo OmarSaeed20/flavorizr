@@ -15,14 +15,21 @@ class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl(this._dio);
 
   @override
-  Future<ApiResult<ApiResponse<ApiUserProfile>>> getProfile(GetProfileParameters parameters) async {
+  Future<ApiResult<ApiResponse<ApiUserProfile>>> getProfile(
+    GetProfileParameters parameters,
+  ) async {
     try {
-      final response = await _dio.get(UserEndpoints.profile, cancelToken: parameters.cancelToken);
+      final response = await _dio.get(
+        UserEndpoints.profile,
+        cancelToken: parameters.cancelToken,
+      );
 
       if (response.statusCode == 200) {
         final profile = ApiUserProfile.fromJson(response.data['data']);
 
-        return ApiResult.success(ApiResponse.success(profile, statusCode: response.statusCode));
+        return ApiResult.success(
+          ApiResponse.success(profile, statusCode: response.statusCode),
+        );
       } else {
         return ApiResult.exception(
           ServerException(
@@ -42,13 +49,19 @@ class UserRepositoryImpl implements UserRepository {
       }
       return ApiResult.exception(
         ServerException(
-          message: e.response?.data['message'] ?? e.message ?? 'Failed to get profile',
+          message:
+              e.response?.data['message'] ??
+              e.message ??
+              'Failed to get profile',
           statusCode: e.response?.statusCode,
         ),
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
+        UnknownNetworkException(
+          message: 'An unexpected error occurred: $e',
+          exception: e,
+        ),
       );
     }
   }
@@ -67,7 +80,9 @@ class UserRepositoryImpl implements UserRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final profile = ApiUserProfile.fromJson(response.data['data']);
 
-        return ApiResult.success(ApiResponse.success(profile, statusCode: response.statusCode));
+        return ApiResult.success(
+          ApiResponse.success(profile, statusCode: response.statusCode),
+        );
       } else {
         return ApiResult.exception(
           ServerException(
@@ -87,13 +102,19 @@ class UserRepositoryImpl implements UserRepository {
       }
       return ApiResult.exception(
         ServerException(
-          message: e.response?.data['message'] ?? e.message ?? 'Failed to update profile',
+          message:
+              e.response?.data['message'] ??
+              e.message ??
+              'Failed to update profile',
           statusCode: e.response?.statusCode,
         ),
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
+        UnknownNetworkException(
+          message: 'An unexpected error occurred: $e',
+          exception: e,
+        ),
       );
     }
   }
@@ -111,7 +132,9 @@ class UserRepositoryImpl implements UserRepository {
       if (response.statusCode == 200) {
         final profile = ApiUserProfile.fromJson(response.data['data']);
 
-        return ApiResult.success(ApiResponse.success(profile, statusCode: response.statusCode));
+        return ApiResult.success(
+          ApiResponse.success(profile, statusCode: response.statusCode),
+        );
       } else {
         return ApiResult.exception(
           ServerException(
@@ -131,13 +154,19 @@ class UserRepositoryImpl implements UserRepository {
       }
       return ApiResult.exception(
         ServerException(
-          message: e.response?.data['message'] ?? e.message ?? 'Failed to get profile detail',
+          message:
+              e.response?.data['message'] ??
+              e.message ??
+              'Failed to get profile detail',
           statusCode: e.response?.statusCode,
         ),
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
+        UnknownNetworkException(
+          message: 'An unexpected error occurred: $e',
+          exception: e,
+        ),
       );
     }
   }

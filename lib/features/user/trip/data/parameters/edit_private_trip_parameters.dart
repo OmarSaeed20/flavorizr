@@ -54,11 +54,13 @@ class EditPrivateTripParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static EditPrivateTripParametersBuilder builder() => EditPrivateTripParametersBuilder();
+  static EditPrivateTripParametersBuilder builder() =>
+      EditPrivateTripParametersBuilder();
 }
 
 /// Builder for EditPrivateTripParameters.
-class EditPrivateTripParametersBuilder extends ParametersBuilder<EditPrivateTripParameters> {
+class EditPrivateTripParametersBuilder
+    extends ParametersBuilder<EditPrivateTripParameters> {
   int? _orderId;
   String? _pickUpLongitude;
   String? _pickUpLatitude;

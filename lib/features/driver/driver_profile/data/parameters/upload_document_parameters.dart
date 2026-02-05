@@ -15,9 +15,9 @@ class UploadDocumentParameters extends Parameters {
     required String documentType,
     required String documentImage,
     CancelToken? cancelToken,
-  })  : _documentType = documentType,
-        _documentImage = documentImage,
-        _cancelToken = cancelToken;
+  }) : _documentType = documentType,
+       _documentImage = documentImage,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override

@@ -26,19 +26,15 @@ class AvailabilityStatusSwitch extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Available for Trips',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
               Text(
-                isAvailable ? 'Accepting ride requests' : 'Not accepting requests',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+                isAvailable
+                    ? 'Accepting ride requests'
+                    : 'Not accepting requests',
+                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
               ),
             ],
           ),
@@ -46,7 +42,7 @@ class AvailabilityStatusSwitch extends StatelessWidget {
         Switch(
           value: isAvailable,
           onChanged: isUpdating ? null : onChanged,
-          activeColor: Colors.blue,
+          activeThumbColor: Colors.blue,
         ),
       ],
     );

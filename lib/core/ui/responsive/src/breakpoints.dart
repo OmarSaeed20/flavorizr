@@ -154,12 +154,7 @@ enum WindowSizeClass {
   }
 
   /// Returns a value for mobile, tablet, or desktop
-  T maybeWhen<T>({
-    required T orElse,
-    T? mobile,
-    T? tablet,
-    T? desktop,
-  }) {
+  T maybeWhen<T>({required T orElse, T? mobile, T? tablet, T? desktop}) {
     if (isMobile && mobile != null) return mobile;
     if (isTablet && tablet != null) return tablet;
     if (isDesktop && desktop != null) return desktop;
@@ -188,11 +183,7 @@ enum DeviceType {
   bool get isDesktop => this == DeviceType.desktop;
 
   /// Returns a value based on device type
-  T when<T>({
-    required T mobile,
-    T? tablet,
-    T? desktop,
-  }) {
+  T when<T>({required T mobile, T? tablet, T? desktop}) {
     return switch (this) {
       DeviceType.mobile => mobile,
       DeviceType.tablet => tablet ?? mobile,
@@ -202,11 +193,7 @@ enum DeviceType {
 
   /// Returns a value based on device type (legacy alias)
   /// @deprecated Use when instead
-  T valueWhen<T>({
-    required T mobile,
-    T? tablet,
-    T? desktop,
-  }) {
+  T valueWhen<T>({required T mobile, T? tablet, T? desktop}) {
     return when(mobile: mobile, tablet: tablet, desktop: desktop);
   }
 

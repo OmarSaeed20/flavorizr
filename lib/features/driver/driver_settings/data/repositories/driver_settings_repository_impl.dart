@@ -16,7 +16,8 @@ import 'package:flavorizr/features/driver/driver_settings/domain/repositories/dr
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Provides offline capability with local caching.
 /// Based on the FAST App API documentation.
-class DriverSettingsRepositoryImpl extends BaseRepository implements DriverSettingsRepository {
+class DriverSettingsRepositoryImpl extends BaseRepository
+    implements DriverSettingsRepository {
   final DriverSettingsRemoteDataSource _remoteDataSource;
   final DriverSettingsLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
@@ -49,7 +50,10 @@ class DriverSettingsRepositoryImpl extends BaseRepository implements DriverSetti
       success: (data, e) {
         if (data == null) {
           return ApiResult.exception(
-            e ?? const UnknownNetworkException(message: 'No cached driver settings found'),
+            e ??
+                const UnknownNetworkException(
+                  message: 'No cached driver settings found',
+                ),
           );
         }
         return ApiResult.success(data);
@@ -95,7 +99,9 @@ class DriverSettingsRepositoryImpl extends BaseRepository implements DriverSetti
   }
 
   @override
-  Future<ApiResult<DriverSettings>> updateLanguage(UpdateLanguageParameters parameters) async {
+  Future<ApiResult<DriverSettings>> updateLanguage(
+    UpdateLanguageParameters parameters,
+  ) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.updateLanguage(parameters),
     );
@@ -112,7 +118,9 @@ class DriverSettingsRepositoryImpl extends BaseRepository implements DriverSetti
   }
 
   @override
-  Future<ApiResult<DriverSettings>> updatePrivacy(UpdatePrivacyParameters parameters) async {
+  Future<ApiResult<DriverSettings>> updatePrivacy(
+    UpdatePrivacyParameters parameters,
+  ) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.updatePrivacy(parameters),
     );
@@ -129,7 +137,9 @@ class DriverSettingsRepositoryImpl extends BaseRepository implements DriverSetti
 
   @override
   Future<ApiResult<void>> deleteAccount() async {
-    final result = await executeRemoteRequest(request: _remoteDataSource.deleteAccount);
+    final result = await executeRemoteRequest(
+      request: _remoteDataSource.deleteAccount,
+    );
 
     return result.when(
       success: (_, __) async {

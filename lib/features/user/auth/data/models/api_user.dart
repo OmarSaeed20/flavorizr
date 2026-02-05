@@ -8,7 +8,6 @@ part 'api_user.g.dart';
 /// Based on API_DOCUMENTATION.md
 @freezed
 abstract class ApiUser with _$ApiUser {
-
   const factory ApiUser({
     required int id,
     required String name,
@@ -27,7 +26,6 @@ abstract class ApiUser with _$ApiUser {
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
   }) = _ApiUser;
   const ApiUser._();
-
 
   /// Create ApiUser from JSON
   factory ApiUser.fromJson(Map<String, dynamic> json) =>

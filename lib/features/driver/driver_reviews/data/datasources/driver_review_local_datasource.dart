@@ -41,7 +41,9 @@ class DriverReviewLocalDataSourceImpl
           (_preferences.getString(_reviewsKey)) != null ? {} : {},
         );
         final list = data['reviews'] as List? ?? data['data'] as List? ?? [];
-        return list.map((e) => DriverReviewModel.fromJson(e as Map<String, dynamic>)).toList();
+        return list
+            .map((e) => DriverReviewModel.fromJson(e as Map<String, dynamic>))
+            .toList();
       },
     );
   }

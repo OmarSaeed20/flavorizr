@@ -111,7 +111,11 @@ class SemanticImage extends StatelessWidget {
     );
 
     if (isDecorative) {
-      return Semantics(container: true, excludeSemantics: true, child: imageWidget);
+      return Semantics(
+        container: true,
+        excludeSemantics: true,
+        child: imageWidget,
+      );
     }
 
     return Semantics(image: true, label: description, child: imageWidget);
@@ -245,7 +249,10 @@ class SemanticHeading extends StatelessWidget {
     required this.level,
     this.style,
     this.textAlign,
-  }) : assert(level >= 1 && level <= 6, 'Heading level must be between 1 and 6');
+  }) : assert(
+         level >= 1 && level <= 6,
+         'Heading level must be between 1 and 6',
+       );
 
   @override
   Widget build(BuildContext context) {
@@ -326,7 +333,12 @@ class SemanticLiveRegion extends StatelessWidget {
   /// Whether changes should be announced assertively.
   final bool isAssertive;
 
-  const SemanticLiveRegion({super.key, required this.child, this.value, this.isAssertive = false});
+  const SemanticLiveRegion({
+    super.key,
+    required this.child,
+    this.value,
+    this.isAssertive = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +365,13 @@ class SemanticCard extends StatelessWidget {
   /// Callback when tapped.
   final VoidCallback? onTap;
 
-  const SemanticCard({super.key, required this.child, this.label, this.description, this.onTap});
+  const SemanticCard({
+    super.key,
+    required this.child,
+    this.label,
+    this.description,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +398,12 @@ class SemanticCheckbox extends StatelessWidget {
   /// Semantic label.
   final String label;
 
-  const SemanticCheckbox({super.key, required this.value, required this.label, this.onChanged});
+  const SemanticCheckbox({
+    super.key,
+    required this.value,
+    required this.label,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -389,7 +412,11 @@ class SemanticCheckbox extends StatelessWidget {
       checked: value,
       label: label,
       enabled: onChanged != null,
-      child: CheckboxListTile(value: value, onChanged: onChanged, title: Text(label)),
+      child: CheckboxListTile(
+        value: value,
+        onChanged: onChanged,
+        title: Text(label),
+      ),
     );
   }
 }
@@ -405,7 +432,12 @@ class SemanticSwitch extends StatelessWidget {
   /// Semantic label.
   final String label;
 
-  const SemanticSwitch({super.key, required this.value, required this.label, this.onChanged});
+  const SemanticSwitch({
+    super.key,
+    required this.value,
+    required this.label,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -414,7 +446,11 @@ class SemanticSwitch extends StatelessWidget {
       checked: value,
       label: label,
       enabled: onChanged != null,
-      child: SwitchListTile(value: value, onChanged: onChanged, title: Text(label)),
+      child: SwitchListTile(
+        value: value,
+        onChanged: onChanged,
+        title: Text(label),
+      ),
     );
   }
 }
@@ -540,11 +576,21 @@ class SemanticTab extends StatelessWidget {
   /// Whether the tab is selected.
   final bool isSelected;
 
-  const SemanticTab({super.key, required this.child, required this.label, this.isSelected = false});
+  const SemanticTab({
+    super.key,
+    required this.child,
+    required this.label,
+    this.isSelected = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(selected: isSelected, label: label, button: true, child: child);
+    return Semantics(
+      selected: isSelected,
+      label: label,
+      button: true,
+      child: child,
+    );
   }
 }
 

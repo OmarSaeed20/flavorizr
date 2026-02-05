@@ -55,7 +55,8 @@ class ScheduleTripRemoteDataSourceImpl
     return post<ScheduledTripModel>(
       path: ScheduleTripEndpoints.createScheduledTrip,
       data: parameters.toJson(),
-      decoder: (data) => ScheduledTripModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          ScheduledTripModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -73,16 +74,22 @@ class ScheduleTripRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<ScheduledTripModel>> getScheduledTripById(String tripId) async {
+  Future<ApiResult<ScheduledTripModel>> getScheduledTripById(
+    String tripId,
+  ) async {
     return get<ScheduledTripModel>(
       path: ScheduleTripEndpoints.scheduledTripById(tripId),
-      decoder: (data) => ScheduledTripModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          ScheduledTripModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
   Future<ApiResult<void>> cancelScheduledTrip(String tripId) async {
-    return post<void>(path: ScheduleTripEndpoints.cancelScheduledTrip(tripId), decoder: (data) {});
+    return post<void>(
+      path: ScheduleTripEndpoints.cancelScheduledTrip(tripId),
+      decoder: (data) {},
+    );
   }
 
   @override
@@ -93,7 +100,8 @@ class ScheduleTripRemoteDataSourceImpl
     return put<ScheduledTripModel>(
       path: ScheduleTripEndpoints.updateScheduledTrip(tripId),
       data: parameters.toJson(),
-      decoder: (data) => ScheduledTripModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          ScheduledTripModel.fromJson(data as Map<String, dynamic>),
     );
   }
 }

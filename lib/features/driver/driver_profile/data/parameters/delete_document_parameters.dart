@@ -11,8 +11,8 @@ class DeleteDocumentParameters extends Parameters {
   const DeleteDocumentParameters._({
     required String documentId,
     CancelToken? cancelToken,
-  })  : _documentId = documentId,
-        _cancelToken = cancelToken;
+  }) : _documentId = documentId,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override

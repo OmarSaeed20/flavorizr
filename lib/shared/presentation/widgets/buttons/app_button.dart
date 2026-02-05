@@ -192,14 +192,10 @@ class AppButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (icon != null) ...[
-                icon!,
-                const SizedBox(width: 8),
-              ],
+              if (icon != null) ...[icon!, const SizedBox(width: 8)],
               DefaultTextStyle(
-                style: textStyle?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ) ??
+                style:
+                    textStyle?.copyWith(fontWeight: FontWeight.w600) ??
                     const TextStyle(fontWeight: FontWeight.w600),
                 child: child,
               ),
@@ -209,68 +205,51 @@ class AppButton extends StatelessWidget {
     // Build button based on variant
     final buttonStyle = switch (variant) {
       AppButtonVariant.primary => FilledButton.styleFrom(
-          minimumSize: Size(width ?? 0, height),
-          padding: padding,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+        minimumSize: Size(width ?? 0, height),
+        padding: padding,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
       AppButtonVariant.secondary => FilledButton.styleFrom(
-          minimumSize: Size(width ?? 0, height),
-          padding: padding,
-          backgroundColor: theme.colorScheme.secondaryContainer,
-          foregroundColor: theme.colorScheme.onSecondaryContainer,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+        minimumSize: Size(width ?? 0, height),
+        padding: padding,
+        backgroundColor: theme.colorScheme.secondaryContainer,
+        foregroundColor: theme.colorScheme.onSecondaryContainer,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
       AppButtonVariant.outlined => OutlinedButton.styleFrom(
-          minimumSize: Size(width ?? 0, height),
-          padding: padding,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+        minimumSize: Size(width ?? 0, height),
+        padding: padding,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
       AppButtonVariant.text => TextButton.styleFrom(
-          minimumSize: Size(width ?? 0, height),
-          padding: padding,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+        minimumSize: Size(width ?? 0, height),
+        padding: padding,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     };
 
     return switch (variant) {
       AppButtonVariant.primary || AppButtonVariant.secondary => FilledButton(
-          onPressed: isEnabled ? onPressed : null,
-          style: buttonStyle,
-          child: buttonChild,
-        ),
+        onPressed: isEnabled ? onPressed : null,
+        style: buttonStyle,
+        child: buttonChild,
+      ),
       AppButtonVariant.outlined => OutlinedButton(
-          onPressed: isEnabled ? onPressed : null,
-          style: buttonStyle,
-          child: buttonChild,
-        ),
+        onPressed: isEnabled ? onPressed : null,
+        style: buttonStyle,
+        child: buttonChild,
+      ),
       AppButtonVariant.text => TextButton(
-          onPressed: isEnabled ? onPressed : null,
-          style: buttonStyle,
-          child: buttonChild,
-        ),
+        onPressed: isEnabled ? onPressed : null,
+        style: buttonStyle,
+        child: buttonChild,
+      ),
     };
   }
 }
 
 /// Button variants.
-enum AppButtonVariant {
-  primary,
-  secondary,
-  outlined,
-  text,
-}
+enum AppButtonVariant { primary, secondary, outlined, text }
 
 /// Button sizes.
-enum AppButtonSize {
-  small,
-  medium,
-  large,
-}
+enum AppButtonSize { small, medium, large }

@@ -6,7 +6,10 @@ import 'package:flutter/foundation.dart';
 ///
 /// This allows for multiple analytics providers and easy mocking in tests.
 abstract class AnalyticsProvider {
-  Future<void> logEvent({required String name, Map<String, Object?>? parameters});
+  Future<void> logEvent({
+    required String name,
+    Map<String, Object?>? parameters,
+  });
 
   Future<void> setUserId(String? userId);
   Future<void> setUserProperty({required String name, required String? value});
@@ -42,7 +45,8 @@ class AnalyticsService implements AnalyticsProvider {
   }
 
   /// Returns the FirebaseAnalyticsObserver for GoRouter.
-  FirebaseAnalyticsObserver get observer => FirebaseAnalyticsObserver(analytics: _analytics);
+  FirebaseAnalyticsObserver get observer =>
+      FirebaseAnalyticsObserver(analytics: _analytics);
 
   // ==================== User Properties ====================
 
@@ -53,7 +57,10 @@ class AnalyticsService implements AnalyticsProvider {
   }
 
   @override
-  Future<void> setUserProperty({required String name, required String? value}) async {
+  Future<void> setUserProperty({
+    required String name,
+    required String? value,
+  }) async {
     if (!_isEnabled) return;
     await _analytics.setUserProperty(name: name, value: value);
   }
@@ -68,9 +75,15 @@ class AnalyticsService implements AnalyticsProvider {
   // ==================== Screen Tracking ====================
 
   @override
-  Future<void> logScreenView({required String screenName, String? screenClass}) async {
+  Future<void> logScreenView({
+    required String screenName,
+    String? screenClass,
+  }) async {
     if (!_isEnabled) return;
-    await _analytics.logScreenView(screenName: screenName, screenClass: screenClass);
+    await _analytics.logScreenView(
+      screenName: screenName,
+      screenClass: screenClass,
+    );
     if (kDebugMode) {
       debugPrint('📊 Screen: $screenName');
     }
@@ -79,7 +92,10 @@ class AnalyticsService implements AnalyticsProvider {
   // ==================== Event Tracking ====================
 
   @override
-  Future<void> logEvent({required String name, Map<String, Object?>? parameters}) async {
+  Future<void> logEvent({
+    required String name,
+    Map<String, Object?>? parameters,
+  }) async {
     if (!_isEnabled) return;
     // Filter out null values for Firebase Analytics
     Map<String, Object>? cleanParams;
@@ -122,7 +138,11 @@ class AnalyticsService implements AnalyticsProvider {
   // ==================== Content Events ====================
 
   /// Logs when a post is created.
-  Future<void> logPostCreated({String? postId, bool hasImages = false, int tagsCount = 0}) async {
+  Future<void> logPostCreated({
+    String? postId,
+    bool hasImages = false,
+    int tagsCount = 0,
+  }) async {
     await logEvent(
       name: 'post_created',
       parameters: {
@@ -139,7 +159,10 @@ class AnalyticsService implements AnalyticsProvider {
   }
 
   /// Logs when a reaction is added.
-  Future<void> logReactionAdded({required String postId, required String reactionType}) async {
+  Future<void> logReactionAdded({
+    required String postId,
+    required String reactionType,
+  }) async {
     await logEvent(
       name: 'reaction_added',
       parameters: {'post_id': postId, 'reaction_type': reactionType},
@@ -170,17 +193,26 @@ class AnalyticsService implements AnalyticsProvider {
 
   /// Logs when a user views a profile.
   Future<void> logProfileViewed({required String profileId}) async {
-    await logEvent(name: 'profile_viewed', parameters: {'profile_id': profileId});
+    await logEvent(
+      name: 'profile_viewed',
+      parameters: {'profile_id': profileId},
+    );
   }
 
   /// Logs when a user follows another user.
   Future<void> logFollow({required String followedUserId}) async {
-    await logEvent(name: 'follow', parameters: {'followed_user_id': followedUserId});
+    await logEvent(
+      name: 'follow',
+      parameters: {'followed_user_id': followedUserId},
+    );
   }
 
   /// Logs when a user unfollows another user.
   Future<void> logUnfollow({required String unfollowedUserId}) async {
-    await logEvent(name: 'unfollow', parameters: {'unfollowed_user_id': unfollowedUserId});
+    await logEvent(
+      name: 'unfollow',
+      parameters: {'unfollowed_user_id': unfollowedUserId},
+    );
   }
 
   // ==================== Error Events ====================
@@ -246,7 +278,11 @@ class AnalyticsService implements AnalyticsProvider {
   }) async {
     await logEvent(
       name: 'api_response',
-      parameters: {'endpoint': endpoint, 'duration_ms': durationMs, 'status_code': statusCode},
+      parameters: {
+        'endpoint': endpoint,
+        'duration_ms': durationMs,
+        'status_code': statusCode,
+      },
     );
   }
 
@@ -259,7 +295,10 @@ class AnalyticsService implements AnalyticsProvider {
 
   /// Sets whether user has enabled notifications.
   Future<void> setNotificationsEnabled(bool enabled) async {
-    await setUserProperty(name: 'notifications_enabled', value: enabled.toString());
+    await setUserProperty(
+      name: 'notifications_enabled',
+      value: enabled.toString(),
+    );
   }
 
   /// Sets the user's preferred theme.

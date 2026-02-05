@@ -31,7 +31,8 @@ class DriverHomeRemoteDataSourceImpl
   Future<ApiResult<DriverHomeDataModel>> getDriverHomeData() async {
     return get<DriverHomeDataModel>(
       path: DriverHomeEndpoints.homeData,
-      decoder: (data) => DriverHomeDataModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          DriverHomeDataModel.fromJson(data as Map<String, dynamic>),
     );
   }
 }

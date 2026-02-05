@@ -31,10 +31,11 @@ class RouteTransitions {
     child: child,
     transitionDuration: duration,
     reverseTransitionDuration: duration,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(
-      opacity: CurvedAnimation(parent: animation, curve: curve),
-      child: child,
-    ),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        FadeTransition(
+          opacity: CurvedAnimation(parent: animation, curve: curve),
+          child: child,
+        ),
   );
 
   // ==================== Slide Transitions ====================
@@ -138,7 +139,10 @@ class RouteTransitions {
     transitionDuration: duration,
     reverseTransitionDuration: duration,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final tween = Tween<double>(begin: 0.9, end: 1.0).chain(CurveTween(curve: curve));
+      final tween = Tween<double>(
+        begin: 0.9,
+        end: 1.0,
+      ).chain(CurveTween(curve: curve));
 
       return ScaleTransition(
         scale: animation.drive(tween),
@@ -169,7 +173,10 @@ class RouteTransitions {
 
       return FadeTransition(
         opacity: CurvedAnimation(parent: animation, curve: curve),
-        child: SlideTransition(position: animation.drive(slideTween), child: child),
+        child: SlideTransition(
+          position: animation.drive(slideTween),
+          child: child,
+        ),
       );
     },
   );
@@ -193,7 +200,10 @@ class RouteTransitions {
 
       return FadeTransition(
         opacity: CurvedAnimation(parent: animation, curve: curve),
-        child: SlideTransition(position: animation.drive(slideTween), child: child),
+        child: SlideTransition(
+          position: animation.drive(slideTween),
+          child: child,
+        ),
       );
     },
   );
@@ -226,10 +236,13 @@ class RouteTransitions {
           curve: const Interval(0, 0.3, curve: Curves.easeIn),
         ),
       );
-      final slideOut = Tween(
-        begin: Offset.zero,
-        end: const Offset(-30, 0),
-      ).animate(CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeInCubic));
+      final slideOut = Tween(begin: Offset.zero, end: const Offset(-30, 0))
+          .animate(
+            CurvedAnimation(
+              parent: secondaryAnimation,
+              curve: Curves.easeInCubic,
+            ),
+          );
 
       return FadeTransition(
         opacity: fadeOut,
@@ -274,14 +287,17 @@ class RouteTransitions {
   // ==================== No Transition ====================
 
   /// Creates a page with no transition (instant).
-  static CustomTransitionPage<T> none<T>({required LocalKey key, required Widget child}) =>
-      CustomTransitionPage<T>(
-        key: key,
-        child: child,
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => child,
-      );
+  static CustomTransitionPage<T> none<T>({
+    required LocalKey key,
+    required Widget child,
+  }) => CustomTransitionPage<T>(
+    key: key,
+    child: child,
+    transitionDuration: Duration.zero,
+    reverseTransitionDuration: Duration.zero,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        child,
+  );
 
   // ==================== Platform Adaptive ====================
 
@@ -298,7 +314,12 @@ class RouteTransitions {
     final platform = Theme.of(context).platform;
 
     if (platform == TargetPlatform.iOS || platform == TargetPlatform.macOS) {
-      return slideFromRight<T>(key: key, child: child, duration: duration, curve: Curves.easeInOut);
+      return slideFromRight<T>(
+        key: key,
+        child: child,
+        duration: duration,
+        curve: Curves.easeInOut,
+      );
     }
 
     return fadeSlideFromRight<T>(key: key, child: child, duration: duration);
@@ -329,7 +350,10 @@ extension GoRouteTransitionExtension on GoRoute {
     parentNavigatorKey: parentNavigatorKey,
     pageBuilder: (context, state) {
       final childWidget = builder?.call(context, state) ?? const SizedBox();
-      return RouteTransitions.slideFromBottom(key: state.pageKey, child: childWidget);
+      return RouteTransitions.slideFromBottom(
+        key: state.pageKey,
+        child: childWidget,
+      );
     },
   );
 }

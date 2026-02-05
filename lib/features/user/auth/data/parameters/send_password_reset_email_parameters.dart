@@ -53,7 +53,9 @@ class SendPasswordResetEmailParametersBuilder
 
   /// Set cancel token
   @override
-  SendPasswordResetEmailParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SendPasswordResetEmailParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

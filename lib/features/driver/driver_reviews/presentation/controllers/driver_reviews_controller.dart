@@ -7,7 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class DriverReviewsController extends StateNotifier<DriverReviewsState> {
   final GetDriverReviews getDriverReviews;
 
-  DriverReviewsController({required this.getDriverReviews}) : super(DriverReviewsState.initial());
+  DriverReviewsController({required this.getDriverReviews})
+    : super(DriverReviewsState.initial());
 
   /// Load reviews for a driver
   Future<void> loadReviews({
@@ -21,7 +22,12 @@ class DriverReviewsController extends StateNotifier<DriverReviewsState> {
     bool refresh = false,
   }) async {
     if (refresh) {
-      state = state.copyWith(isLoading: true, reviews: [], currentPage: 1, hasMore: true);
+      state = state.copyWith(
+        isLoading: true,
+        reviews: [],
+        currentPage: 1,
+        hasMore: true,
+      );
     } else if (state.isLoading) {
       return;
     }

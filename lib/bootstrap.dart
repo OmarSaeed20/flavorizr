@@ -58,17 +58,23 @@ Future<void> bootstrap(Flavor flavor) async {
 
       // 7. Initialize logger
       await AppLogger.instance.initialize(
-        config: flavor.isProduction ? const AppLoggerConfig.prodction() : const AppLoggerConfig(),
+        config: flavor.isProduction
+            ? const AppLoggerConfig.prodction()
+            : const AppLoggerConfig(),
       );
 
       // 8. Initialize error handling
-      ErrorHandler.initialize(enableCrashReporting: flavor.enableCrashReporting);
+      ErrorHandler.initialize(
+        enableCrashReporting: flavor.enableCrashReporting,
+      );
 
       // 9. Initialize notification service
-      final notificationInitialized = await NotificationService.instance.initialize();
+      final notificationInitialized = await NotificationService.instance
+          .initialize();
       if (notificationInitialized) {
         // Set foreground notification presentation options for iOS
-        await NotificationService.instance.setForegroundNotificationPresentationOptions();
+        await NotificationService.instance
+            .setForegroundNotificationPresentationOptions();
 
         await AppLogger.instance.logInfo(
           'Notification service initialized',
@@ -145,7 +151,8 @@ Future<void> bootstrap(Flavor flavor) async {
 class _DevHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) =>
-      super.createHttpClient(context)..badCertificateCallback = (cert, host, port) => true;
+      super.createHttpClient(context)
+        ..badCertificateCallback = (cert, host, port) => true;
 }
 
 /// A Riverpod observer that logs provider state changes in debug mode.
@@ -180,7 +187,10 @@ final class _ProviderLogger extends ProviderObserver {
   ) {
     AppLogger.instance.logDebug(
       'Provider updated: ${provider.name ?? provider.runtimeType}',
-      data: {'previousValue': previousValue?.toString(), 'newValue': newValue?.toString()},
+      data: {
+        'previousValue': previousValue?.toString(),
+        'newValue': newValue?.toString(),
+      },
     );
   }
 

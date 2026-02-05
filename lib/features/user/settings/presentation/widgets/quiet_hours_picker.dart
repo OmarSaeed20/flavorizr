@@ -85,7 +85,10 @@ class QuietHoursPicker extends StatelessWidget {
               const SizedBox(width: 16),
 
               // Arrow
-              Icon(Icons.arrow_forward, color: theme.colorScheme.onSurfaceVariant),
+              Icon(
+                Icons.arrow_forward,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
 
               const SizedBox(width: 16),
 
@@ -111,7 +114,9 @@ class QuietHoursPicker extends StatelessWidget {
           // Info Text
           Text(
             'Notifications will be muted during quiet hours',
-            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),
@@ -142,9 +147,13 @@ class _TimeCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          color: theme.colorScheme.surfaceContainerHighest.withValues(
+            alpha: 0.5,
+          ),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
+          border: Border.all(
+            color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +171,12 @@ class _TimeCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 4),
-            Text(time, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              time,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ],
         ),
       ),

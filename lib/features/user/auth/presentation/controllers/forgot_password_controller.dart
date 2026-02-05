@@ -39,7 +39,8 @@ class ForgotPasswordState {
 }
 
 /// Controller for the forgot password page using Riverpod 3.x Notifier.
-class ForgotPasswordController extends AutoDisposeNotifier<ForgotPasswordState> {
+class ForgotPasswordController
+    extends AutoDisposeNotifier<ForgotPasswordState> {
   late final ForgotPasswordUseCase _forgotPasswordUseCase;
 
   @override
@@ -50,7 +51,11 @@ class ForgotPasswordController extends AutoDisposeNotifier<ForgotPasswordState> 
 
   /// Updates the phone field.
   void setPhone(String phone) {
-    state = state.copyWith(phone: phone, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      phone: phone,
+      clearError: true,
+      clearFieldErrors: true,
+    );
   }
 
   /// Clears all errors.
@@ -92,17 +97,25 @@ class ForgotPasswordController extends AutoDisposeNotifier<ForgotPasswordState> 
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
-      final result = await _forgotPasswordUseCase(ForgotPasswordParams(phone: state.phone.trim()));
+      final result = await _forgotPasswordUseCase(
+        ForgotPasswordParams(phone: state.phone.trim()),
+      );
 
       if (result.error != null) {
-        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: result.error!.message,
+        );
         return false;
       }
 
       state = state.copyWith(isLoading: false, isSuccess: true);
       return true;
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: 'An unexpected error occurred');
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'An unexpected error occurred',
+      );
       return false;
     }
   }

@@ -37,7 +37,8 @@ abstract class ApiTrip with _$ApiTrip {
     @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
   }) = _ApiTrip;
 
-  factory ApiTrip.fromJson(Map<String, dynamic> json) => _$ApiTripFromJson(json);
+  factory ApiTrip.fromJson(Map<String, dynamic> json) =>
+      _$ApiTripFromJson(json);
 }
 
 /// API Trip Type model representing trip type data from the backend
@@ -57,7 +58,8 @@ abstract class ApiTripType with _$ApiTripType {
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
   }) = _ApiTripType;
 
-  factory ApiTripType.fromJson(Map<String, dynamic> json) => _$ApiTripTypeFromJson(json);
+  factory ApiTripType.fromJson(Map<String, dynamic> json) =>
+      _$ApiTripTypeFromJson(json);
 }
 
 /// API Trip Order model representing trip order data from the backend
@@ -89,7 +91,8 @@ abstract class ApiTripOrder with _$ApiTripOrder {
     @JsonKey(name: 'cancelled_at') DateTime? cancelledAt,
   }) = _ApiTripOrder;
 
-  factory ApiTripOrder.fromJson(Map<String, dynamic> json) => _$ApiTripOrderFromJson(json);
+  factory ApiTripOrder.fromJson(Map<String, dynamic> json) =>
+      _$ApiTripOrderFromJson(json);
 }
 
 /// API Trip Evaluation model representing trip evaluation data from the backend
@@ -106,5 +109,6 @@ abstract class ApiTripEvaluation with _$ApiTripEvaluation {
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
   }) = _ApiTripEvaluation;
 
-  factory ApiTripEvaluation.fromJson(Map<String, dynamic> json) => _$ApiTripEvaluationFromJson(json);
+  factory ApiTripEvaluation.fromJson(Map<String, dynamic> json) =>
+      _$ApiTripEvaluationFromJson(json);
 }

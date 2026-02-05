@@ -40,10 +40,17 @@ mixin BaseRemoteDataSource {
       final data = decoder != null ? decoder(response.data) : response.data;
       return ApiResult.success(data as T);
     } on DioException catch (e) {
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e),
+      );
     } catch (e, stackTrace) {
-      e.logError('GET request failed: $path', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'GET request failed: $path',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -69,13 +76,22 @@ mixin BaseRemoteDataSource {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      final decodedData = decoder != null ? decoder(response.data) : response.data;
+      final decodedData = decoder != null
+          ? decoder(response.data)
+          : response.data;
       return ApiResult.success(decodedData as T);
     } on DioException catch (e) {
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e),
+      );
     } catch (e, stackTrace) {
-      e.logError('POST request failed: $path', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'POST request failed: $path',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -101,13 +117,22 @@ mixin BaseRemoteDataSource {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      final decodedData = decoder != null ? decoder(response.data) : response.data;
+      final decodedData = decoder != null
+          ? decoder(response.data)
+          : response.data;
       return ApiResult.success(decodedData as T);
     } on DioException catch (e) {
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e),
+      );
     } catch (e, stackTrace) {
-      e.logError('PUT request failed: $path', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'PUT request failed: $path',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -133,13 +158,22 @@ mixin BaseRemoteDataSource {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      final decodedData = decoder != null ? decoder(response.data) : response.data;
+      final decodedData = decoder != null
+          ? decoder(response.data)
+          : response.data;
       return ApiResult.success(decodedData as T);
     } on DioException catch (e) {
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e),
+      );
     } catch (e, stackTrace) {
-      e.logError('PATCH request failed: $path', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'PATCH request failed: $path',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -161,13 +195,22 @@ mixin BaseRemoteDataSource {
         options: options,
         cancelToken: cancelToken,
       );
-      final decodedData = decoder != null ? decoder(response.data) : response.data;
+      final decodedData = decoder != null
+          ? decoder(response.data)
+          : response.data;
       return ApiResult.success(decodedData as T);
     } on DioException catch (e) {
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e),
+      );
     } catch (e, stackTrace) {
-      e.logError('DELETE request failed: $path', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'DELETE request failed: $path',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -193,13 +236,22 @@ mixin BaseRemoteDataSource {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      final decodedData = decoder != null ? decoder(response.data) : response.data;
+      final decodedData = decoder != null
+          ? decoder(response.data)
+          : response.data;
       return ApiResult.success(decodedData as T);
     } on DioException catch (e) {
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e),
+      );
     } catch (e, stackTrace) {
-      e.logError('Upload request failed: $path', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Upload request failed: $path',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -224,10 +276,17 @@ mixin BaseRemoteDataSource {
       );
       return ApiResult.success(savePath);
     } on DioException catch (e) {
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e),
+      );
     } catch (e, stackTrace) {
-      e.logError('Download failed: $urlPath', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Download failed: $urlPath',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -247,12 +306,17 @@ mixin BaseRemoteDataSource {
         }
       }
 
-      final data = results.whereType<ApiResultSuccess<T>>().map((e) => e.data).toList();
+      final data = results
+          .whereType<ApiResultSuccess<T>>()
+          .map((e) => e.data)
+          .toList();
 
       return ApiResult.success(data);
     } catch (e, stackTrace) {
       e.logError('fetchAll failed', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -282,7 +346,8 @@ mixin BaseRemoteDataSource {
       }
 
       // Check if we should retry this error
-      final shouldRetryError = shouldRetry?.call(error) ?? _defaultShouldRetry(error);
+      final shouldRetryError =
+          shouldRetry?.call(error) ?? _defaultShouldRetry(error);
 
       if (!shouldRetryError || attempt >= maxAttempts) {
         return result;
@@ -290,7 +355,9 @@ mixin BaseRemoteDataSource {
 
       // Wait before retrying
       await Future.delayed(delay);
-      delay = Duration(milliseconds: (delay.inMilliseconds * backoffFactor).round());
+      delay = Duration(
+        milliseconds: (delay.inMilliseconds * backoffFactor).round(),
+      );
     }
 
     return const ApiResult.exception(TimeoutException());
@@ -321,7 +388,10 @@ mixin BaseRemoteDataSource {
   }
 
   /// Create multipart/form-data for file uploads
-  FormData createFormData({required Map<String, dynamic> fields, List<FileInfo>? files}) {
+  FormData createFormData({
+    required Map<String, dynamic> fields,
+    List<FileInfo>? files,
+  }) {
     final formData = FormData();
 
     // Add text fields
@@ -353,7 +423,12 @@ mixin BaseRemoteDataSource {
 
 /// Helper class for file information in multipart requests
 class FileInfo {
-  const FileInfo({required this.field, required this.path, this.filename, this.contentType});
+  const FileInfo({
+    required this.field,
+    required this.path,
+    this.filename,
+    this.contentType,
+  });
 
   final String field;
   final String path;

@@ -15,7 +15,9 @@ class GeneralRepositoryImpl implements GeneralRepository {
   GeneralRepositoryImpl(this._dio);
 
   @override
-  Future<ApiResult<ApiResponse<ApiAboutUs>>> getAboutUs(GetAboutUsParameters parameters) async {
+  Future<ApiResult<ApiResponse<ApiAboutUs>>> getAboutUs(
+    GetAboutUsParameters parameters,
+  ) async {
     try {
       final response = await _dio.get(GeneralEndpoints.getAboutUs);
 
@@ -85,7 +87,9 @@ class GeneralRepositoryImpl implements GeneralRepository {
   }
 
   @override
-  Future<ApiResult<ApiResponse<ApiPolicies>>> getPolicies(GetPoliciesParameters parameters) async {
+  Future<ApiResult<ApiResponse<ApiPolicies>>> getPolicies(
+    GetPoliciesParameters parameters,
+  ) async {
     try {
       final response = await _dio.get(GeneralEndpoints.getPolicies);
 

@@ -18,7 +18,8 @@ class GetAboutUsParameters extends Parameters {
 }
 
 /// Builder for GetAboutUsParameters
-class GetAboutUsParametersBuilder extends ParametersBuilder<GetAboutUsParameters> {
+class GetAboutUsParametersBuilder
+    extends ParametersBuilder<GetAboutUsParameters> {
   @override
   GetAboutUsParameters build() {
     return const GetAboutUsParameters._();
@@ -47,7 +48,8 @@ class GetQuestionsParameters extends Parameters {
 }
 
 /// Builder for GetQuestionsParameters
-class GetQuestionsParametersBuilder extends ParametersBuilder<GetQuestionsParameters> {
+class GetQuestionsParametersBuilder
+    extends ParametersBuilder<GetQuestionsParameters> {
   @override
   GetQuestionsParameters build() {
     return const GetQuestionsParameters._();
@@ -76,7 +78,8 @@ class GetPoliciesParameters extends Parameters {
 }
 
 /// Builder for GetPoliciesParameters
-class GetPoliciesParametersBuilder extends ParametersBuilder<GetPoliciesParameters> {
+class GetPoliciesParametersBuilder
+    extends ParametersBuilder<GetPoliciesParameters> {
   @override
   GetPoliciesParameters build() {
     return const GetPoliciesParameters._();
@@ -101,18 +104,22 @@ class GetGeneralSettingsParameters extends Parameters {
   @override
   CancelToken? get cancelToken => null;
 
-  GetGeneralSettingsParametersBuilder builder() => GetGeneralSettingsParametersBuilder();
+  GetGeneralSettingsParametersBuilder builder() =>
+      GetGeneralSettingsParametersBuilder();
 }
 
 /// Builder for GetGeneralSettingsParameters
-class GetGeneralSettingsParametersBuilder extends ParametersBuilder<GetGeneralSettingsParameters> {
+class GetGeneralSettingsParametersBuilder
+    extends ParametersBuilder<GetGeneralSettingsParameters> {
   @override
   GetGeneralSettingsParameters build() {
     return const GetGeneralSettingsParameters._();
   }
 
   @override
-  GetGeneralSettingsParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  GetGeneralSettingsParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     // No-op since this parameters class doesn't support cancel tokens
     return this;
   }

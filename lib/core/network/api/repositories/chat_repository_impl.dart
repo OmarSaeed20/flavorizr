@@ -22,13 +22,18 @@ class ChatRepositoryImpl implements ChatRepository {
       final response = await _dio.get(
         ChatEndpoints.getChatByOrder,
         data: {'order_id': parameters.orderId},
-        queryParameters: {'page': parameters.page, 'per_page': parameters.pageSize},
+        queryParameters: {
+          'page': parameters.page,
+          'per_page': parameters.pageSize,
+        },
       );
 
       final apiResponse = ApiResponse<List<ApiChatMessage>>.fromJson(
         response.data,
         (json) => (json as List)
-            .map((item) => ApiChatMessage.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) => ApiChatMessage.fromJson(item as Map<String, dynamic>),
+            )
             .toList(),
       );
 
@@ -50,7 +55,10 @@ class ChatRepositoryImpl implements ChatRepository {
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
+        UnknownNetworkException(
+          message: 'An unexpected error occurred: $e',
+          exception: e,
+        ),
       );
     }
   }
@@ -92,7 +100,10 @@ class ChatRepositoryImpl implements ChatRepository {
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
+        UnknownNetworkException(
+          message: 'An unexpected error occurred: $e',
+          exception: e,
+        ),
       );
     }
   }

@@ -44,7 +44,8 @@ class ResetDriverPasswordParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static ResetDriverPasswordParametersBuilder builder() => ResetDriverPasswordParametersBuilder();
+  static ResetDriverPasswordParametersBuilder builder() =>
+      ResetDriverPasswordParametersBuilder();
 }
 
 /// Builder for ResetDriverPasswordParameters
@@ -75,14 +76,18 @@ class ResetDriverPasswordParametersBuilder
   }
 
   /// Set the password confirmation
-  ResetDriverPasswordParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
+  ResetDriverPasswordParametersBuilder withPasswordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
 
   /// Set the cancel token for request cancellation
   @override
-  ResetDriverPasswordParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  ResetDriverPasswordParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

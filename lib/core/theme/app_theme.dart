@@ -21,7 +21,10 @@ class AppTheme {
   ///
   /// If [dynamicScheme] is provided and [settings./useDynamicColor] is true,
   /// it will be used instead of the selected color scheme.
-  static ThemeData light({required ThemeSettings settings, ColorScheme? dynamicScheme}) {
+  static ThemeData light({
+    required ThemeSettings settings,
+    ColorScheme? dynamicScheme,
+  }) {
     final useDynamic = settings.useDynamicColor && dynamicScheme != null;
     final scheme = AppColorSchemes.getScheme(settings.colorSchemeIndex);
 
@@ -46,7 +49,10 @@ class AppTheme {
   /// it will be used instead of the selected color scheme.
   ///
   /// If [settings./useOledBlack] is true, surfaces will use true black.
-  static ThemeData dark({required ThemeSettings settings, ColorScheme? dynamicScheme}) {
+  static ThemeData dark({
+    required ThemeSettings settings,
+    ColorScheme? dynamicScheme,
+  }) {
     final useDynamic = settings.useDynamicColor && dynamicScheme != null;
     final scheme = AppColorSchemes.getScheme(settings.colorSchemeIndex);
 
@@ -69,113 +75,114 @@ class AppTheme {
   }
 
   /// Gets the sub-themes configuration.
-  static FlexSubThemesData _getSubThemesData(ThemeSettings settings) => const FlexSubThemesData(
-    // Overall settings
-    interactionEffects: true,
-    tintedDisabledControls: true,
-    splashType: FlexSplashType.inkSparkle,
+  static FlexSubThemesData _getSubThemesData(ThemeSettings settings) =>
+      const FlexSubThemesData(
+        // Overall settings
+        interactionEffects: true,
+        tintedDisabledControls: true,
+        splashType: FlexSplashType.inkSparkle,
 
-    // Blend levels
-    blendOnLevel: 10,
+        // Blend levels
+        blendOnLevel: 10,
 
-    // Text field
-    inputDecoratorSchemeColor: SchemeColor.primary,
-    inputDecoratorIsFilled: true,
-    inputDecoratorBackgroundAlpha: 20,
-    inputDecoratorBorderType: FlexInputBorderType.outline,
-    inputDecoratorRadius: 12,
-    inputDecoratorPrefixIconSchemeColor: SchemeColor.primary,
+        // Text field
+        inputDecoratorSchemeColor: SchemeColor.primary,
+        inputDecoratorIsFilled: true,
+        inputDecoratorBackgroundAlpha: 20,
+        inputDecoratorBorderType: FlexInputBorderType.outline,
+        inputDecoratorRadius: 12,
+        inputDecoratorPrefixIconSchemeColor: SchemeColor.primary,
 
-    // Buttons
-    filledButtonRadius: 20,
-    elevatedButtonRadius: 20,
-    outlinedButtonRadius: 20,
-    textButtonRadius: 20,
-    elevatedButtonSchemeColor: SchemeColor.primary,
-    elevatedButtonSecondarySchemeColor: SchemeColor.primaryContainer,
+        // Buttons
+        filledButtonRadius: 20,
+        elevatedButtonRadius: 20,
+        outlinedButtonRadius: 20,
+        textButtonRadius: 20,
+        elevatedButtonSchemeColor: SchemeColor.primary,
+        elevatedButtonSecondarySchemeColor: SchemeColor.primaryContainer,
 
-    // Toggle buttons
-    toggleButtonsRadius: 20,
-    segmentedButtonRadius: 20,
-    segmentedButtonSchemeColor: SchemeColor.primary,
+        // Toggle buttons
+        toggleButtonsRadius: 20,
+        segmentedButtonRadius: 20,
+        segmentedButtonSchemeColor: SchemeColor.primary,
 
-    // FAB
-    fabSchemeColor: SchemeColor.primaryContainer,
-    fabRadius: 16,
-    fabUseShape: true,
+        // FAB
+        fabSchemeColor: SchemeColor.primaryContainer,
+        fabRadius: 16,
+        fabUseShape: true,
 
-    // Chip
-    chipRadius: 8,
-    chipSchemeColor: SchemeColor.primary,
+        // Chip
+        chipRadius: 8,
+        chipSchemeColor: SchemeColor.primary,
 
-    // Card
-    cardRadius: 16,
-    cardElevation: 1,
+        // Card
+        cardRadius: 16,
+        cardElevation: 1,
 
-    // Dialogs
-    dialogRadius: 28,
-    dialogElevation: 6,
-    datePickerHeaderBackgroundSchemeColor: SchemeColor.primary,
-    timePickerDialogRadius: 28,
+        // Dialogs
+        dialogRadius: 28,
+        dialogElevation: 6,
+        datePickerHeaderBackgroundSchemeColor: SchemeColor.primary,
+        timePickerDialogRadius: 28,
 
-    // Bottom sheet
-    bottomSheetRadius: 28,
-    bottomSheetElevation: 4,
-    bottomSheetModalElevation: 8,
+        // Bottom sheet
+        bottomSheetRadius: 28,
+        bottomSheetElevation: 4,
+        bottomSheetModalElevation: 8,
 
-    // Snackbar
-    snackBarRadius: 8,
-    snackBarElevation: 4,
-    snackBarBackgroundSchemeColor: SchemeColor.inverseSurface,
+        // Snackbar
+        snackBarRadius: 8,
+        snackBarElevation: 4,
+        snackBarBackgroundSchemeColor: SchemeColor.inverseSurface,
 
-    // Navigation bar
-    bottomNavigationBarSelectedLabelSchemeColor: SchemeColor.primary,
-    bottomNavigationBarUnselectedLabelSchemeColor: SchemeColor.onSurface,
-    bottomNavigationBarSelectedIconSchemeColor: SchemeColor.primary,
-    bottomNavigationBarUnselectedIconSchemeColor: SchemeColor.onSurface,
-    bottomNavigationBarBackgroundSchemeColor: SchemeColor.surface,
-    bottomNavigationBarElevation: 3,
-    bottomNavigationBarType: BottomNavigationBarType.fixed,
+        // Navigation bar
+        bottomNavigationBarSelectedLabelSchemeColor: SchemeColor.primary,
+        bottomNavigationBarUnselectedLabelSchemeColor: SchemeColor.onSurface,
+        bottomNavigationBarSelectedIconSchemeColor: SchemeColor.primary,
+        bottomNavigationBarUnselectedIconSchemeColor: SchemeColor.onSurface,
+        bottomNavigationBarBackgroundSchemeColor: SchemeColor.surface,
+        bottomNavigationBarElevation: 3,
+        bottomNavigationBarType: BottomNavigationBarType.fixed,
 
-    // Navigation rail
-    navigationRailSelectedLabelSchemeColor: SchemeColor.primary,
-    navigationRailUnselectedLabelSchemeColor: SchemeColor.onSurface,
-    navigationRailSelectedIconSchemeColor: SchemeColor.primary,
-    navigationRailUnselectedIconSchemeColor: SchemeColor.onSurface,
-    navigationRailIndicatorSchemeColor: SchemeColor.primaryContainer,
-    navigationRailIndicatorOpacity: 1,
-    navigationRailBackgroundSchemeColor: SchemeColor.surface,
-    navigationRailLabelType: NavigationRailLabelType.all,
+        // Navigation rail
+        navigationRailSelectedLabelSchemeColor: SchemeColor.primary,
+        navigationRailUnselectedLabelSchemeColor: SchemeColor.onSurface,
+        navigationRailSelectedIconSchemeColor: SchemeColor.primary,
+        navigationRailUnselectedIconSchemeColor: SchemeColor.onSurface,
+        navigationRailIndicatorSchemeColor: SchemeColor.primaryContainer,
+        navigationRailIndicatorOpacity: 1,
+        navigationRailBackgroundSchemeColor: SchemeColor.surface,
+        navigationRailLabelType: NavigationRailLabelType.all,
 
-    // Drawer
-    drawerRadius: 16,
-    drawerElevation: 1,
-    drawerBackgroundSchemeColor: SchemeColor.surface,
-    drawerWidth: 304,
+        // Drawer
+        drawerRadius: 16,
+        drawerElevation: 1,
+        drawerBackgroundSchemeColor: SchemeColor.surface,
+        drawerWidth: 304,
 
-    // AppBar
-    appBarCenterTitle: true,
-    appBarScrolledUnderElevation: 4,
+        // AppBar
+        appBarCenterTitle: true,
+        appBarScrolledUnderElevation: 4,
 
-    // TabBar
-    tabBarIndicatorSchemeColor: SchemeColor.primary,
-    tabBarItemSchemeColor: SchemeColor.primary,
-    tabBarUnselectedItemSchemeColor: SchemeColor.onSurface,
-    tabBarDividerColor: Colors.transparent,
+        // TabBar
+        tabBarIndicatorSchemeColor: SchemeColor.primary,
+        tabBarItemSchemeColor: SchemeColor.primary,
+        tabBarUnselectedItemSchemeColor: SchemeColor.onSurface,
+        tabBarDividerColor: Colors.transparent,
 
-    // PopupMenu
-    popupMenuRadius: 8,
-    popupMenuElevation: 4,
+        // PopupMenu
+        popupMenuRadius: 8,
+        popupMenuElevation: 4,
 
-    // Menu
-    menuRadius: 8,
-    menuElevation: 4,
-    menuBarRadius: 0,
-    menuBarElevation: 1,
+        // Menu
+        menuRadius: 8,
+        menuElevation: 4,
+        menuBarRadius: 0,
+        menuBarElevation: 1,
 
-    // Tooltip
-    tooltipRadius: 4,
-  );
+        // Tooltip
+        tooltipRadius: 4,
+      );
 
   /// Applies custom theme modifications.
   static ThemeData _applyCustomizations(
@@ -239,7 +246,9 @@ class AppTheme {
       // Expansion tile theme
       expansionTileTheme: ExpansionTileThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        collapsedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
 
       // Badge theme
@@ -275,16 +284,26 @@ class AppTheme {
       extensions: [
         AppThemeExtension(
           success: SemanticColors.success,
-          successContainer: isDark ? SemanticColors.successDark : SemanticColors.successLight,
+          successContainer: isDark
+              ? SemanticColors.successDark
+              : SemanticColors.successLight,
           onSuccess: Colors.white,
           warning: SemanticColors.warning,
-          warningContainer: isDark ? SemanticColors.warningDark : SemanticColors.warningLight,
+          warningContainer: isDark
+              ? SemanticColors.warningDark
+              : SemanticColors.warningLight,
           onWarning: Colors.black,
           info: SemanticColors.info,
-          infoContainer: isDark ? SemanticColors.infoDark : SemanticColors.infoLight,
+          infoContainer: isDark
+              ? SemanticColors.infoDark
+              : SemanticColors.infoLight,
           onInfo: Colors.white,
-          shimmerBase: isDark ? AppColors.shimmerBaseDark : AppColors.shimmerBase,
-          shimmerHighlight: isDark ? AppColors.shimmerHighlightDark : AppColors.shimmerHighlight,
+          shimmerBase: isDark
+              ? AppColors.shimmerBaseDark
+              : AppColors.shimmerBase,
+          shimmerHighlight: isDark
+              ? AppColors.shimmerHighlightDark
+              : AppColors.shimmerHighlight,
         ),
       ],
     );
@@ -301,7 +320,9 @@ class AppTheme {
     statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
     statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
     systemNavigationBarColor: navigationBarColor ?? theme.colorScheme.surface,
-    systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+    systemNavigationBarIconBrightness: isDark
+        ? Brightness.light
+        : Brightness.dark,
     systemNavigationBarDividerColor: Colors.transparent,
   );
 }
@@ -367,16 +388,28 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     }
     return AppThemeExtension(
       success: Color.lerp(success, other.success, t)!,
-      successContainer: Color.lerp(successContainer, other.successContainer, t)!,
+      successContainer: Color.lerp(
+        successContainer,
+        other.successContainer,
+        t,
+      )!,
       onSuccess: Color.lerp(onSuccess, other.onSuccess, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
-      warningContainer: Color.lerp(warningContainer, other.warningContainer, t)!,
+      warningContainer: Color.lerp(
+        warningContainer,
+        other.warningContainer,
+        t,
+      )!,
       onWarning: Color.lerp(onWarning, other.onWarning, t)!,
       info: Color.lerp(info, other.info, t)!,
       infoContainer: Color.lerp(infoContainer, other.infoContainer, t)!,
       onInfo: Color.lerp(onInfo, other.onInfo, t)!,
       shimmerBase: Color.lerp(shimmerBase, other.shimmerBase, t)!,
-      shimmerHighlight: Color.lerp(shimmerHighlight, other.shimmerHighlight, t)!,
+      shimmerHighlight: Color.lerp(
+        shimmerHighlight,
+        other.shimmerHighlight,
+        t,
+      )!,
     );
   }
 }

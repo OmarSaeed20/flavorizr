@@ -32,12 +32,9 @@ class ResponsiveBuilder extends StatelessWidget {
     this.desktop,
     this.builder,
   }) : assert(
-          mobile != null ||
-              tablet != null ||
-              desktop != null ||
-              builder != null,
-          'At least one builder must be provided',
-        );
+         mobile != null || tablet != null || desktop != null || builder != null,
+         'At least one builder must be provided',
+       );
 
   @override
   Widget build(BuildContext context) {
@@ -147,10 +144,7 @@ class DeviceInfoBuilder extends StatelessWidget {
   /// Builder with full device info
   final Widget Function(BuildContext context, DeviceInfo info) builder;
 
-  const DeviceInfoBuilder({
-    super.key,
-    required this.builder,
-  });
+  const DeviceInfoBuilder({super.key, required this.builder});
 
   @override
   Widget build(BuildContext context) {

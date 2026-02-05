@@ -30,7 +30,8 @@ abstract class DriverTripsLocalDataSource {
 class DriverTripsLocalDataSourceImpl
     with BaseLocalDataSource
     implements DriverTripsLocalDataSource {
-  DriverTripsLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
+  DriverTripsLocalDataSourceImpl({required SharedPreferences prefs})
+    : _prefs = prefs;
 
   static const String _scheduleTripsKey = 'driver_schedule_trips';
   static const String _scheduleRequestsKey = 'driver_schedule_requests';
@@ -46,7 +47,9 @@ class DriverTripsLocalDataSourceImpl
         if (json == null) return null;
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list.map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>)).toList();
+          return list
+              .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
+              .toList();
         } catch (_) {
           return null;
         }
@@ -55,7 +58,9 @@ class DriverTripsLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheScheduleTrips(List<DriverTripModel> trips) async {
+  Future<ApiResult<void>> cacheScheduleTrips(
+    List<DriverTripModel> trips,
+  ) async {
     return saveLocalDataList<DriverTripModel>(
       key: _scheduleTripsKey,
       data: trips,
@@ -75,7 +80,9 @@ class DriverTripsLocalDataSourceImpl
         if (json == null) return null;
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list.map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>)).toList();
+          return list
+              .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
+              .toList();
         } catch (_) {
           return null;
         }
@@ -84,7 +91,9 @@ class DriverTripsLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheScheduleRequests(List<DriverTripModel> requests) async {
+  Future<ApiResult<void>> cacheScheduleRequests(
+    List<DriverTripModel> requests,
+  ) async {
     return saveLocalDataList<DriverTripModel>(
       key: _scheduleRequestsKey,
       data: requests,

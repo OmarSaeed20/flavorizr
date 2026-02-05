@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flavorizr/features/user/schedule_trip/domain/entities/scheduled_trip.dart';
+import 'package:flutter/material.dart';
 
 /// Widget for displaying a scheduled trip card.
 class ScheduledTripCard extends StatelessWidget {
@@ -29,11 +29,7 @@ class ScheduledTripCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
-                    _getStatusIcon(),
-                    color: _getStatusColor(),
-                    size: 24,
-                  ),
+                  Icon(_getStatusIcon(), color: _getStatusColor(), size: 24),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -149,10 +145,7 @@ class ScheduledTripCard extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
               ),
               Text(
                 location,

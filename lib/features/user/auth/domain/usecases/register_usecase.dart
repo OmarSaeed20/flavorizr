@@ -69,14 +69,18 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
     }
 
     // Validate gender
-    if (params.gender.toLowerCase() != 'male' && params.gender.toLowerCase() != 'female') {
+    if (params.gender.toLowerCase() != 'male' &&
+        params.gender.toLowerCase() != 'female') {
       errors['gender'] = ['Gender must be either "male" or "female"'];
     }
 
     // Return validation failure if there are errors
     if (errors.isNotEmpty) {
       return ApiResult.exception(
-        ValidationException(message: 'Please fix the errors below', errors: errors),
+        ValidationException(
+          message: 'Please fix the errors below',
+          errors: errors,
+        ),
       );
     }
 

@@ -1,30 +1,19 @@
-import '../../domain/entities/driver_earnings.dart';
+import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_earnings.dart';
 
 /// Model for driver earnings
 class DriverEarningsModel extends DriverEarnings {
   const DriverEarningsModel({
-    required double todayEarnings,
-    required double weeklyEarnings,
-    required double monthlyEarnings,
-    required double totalEarnings,
-    required int todayTrips,
-    required int weeklyTrips,
-    required int monthlyTrips,
-    required int totalTrips,
-    required double averageRating,
-    required DateTime lastUpdated,
-  }) : super(
-          todayEarnings: todayEarnings,
-          weeklyEarnings: weeklyEarnings,
-          monthlyEarnings: monthlyEarnings,
-          totalEarnings: totalEarnings,
-          todayTrips: todayTrips,
-          weeklyTrips: weeklyTrips,
-          monthlyTrips: monthlyTrips,
-          totalTrips: totalTrips,
-          averageRating: averageRating,
-          lastUpdated: lastUpdated,
-        );
+    required super.todayEarnings,
+    required super.weeklyEarnings,
+    required super.monthlyEarnings,
+    required super.totalEarnings,
+    required super.todayTrips,
+    required super.weeklyTrips,
+    required super.monthlyTrips,
+    required super.totalTrips,
+    required super.averageRating,
+    required super.lastUpdated,
+  });
 
   factory DriverEarningsModel.fromJson(Map<String, dynamic> json) {
     return DriverEarningsModel(
@@ -37,7 +26,9 @@ class DriverEarningsModel extends DriverEarnings {
       monthlyTrips: json['monthlyTrips'] ?? 0,
       totalTrips: json['totalTrips'] ?? 0,
       averageRating: (json['averageRating'] ?? 0.0).toDouble(),
-      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+      lastUpdated: DateTime.parse(
+        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 

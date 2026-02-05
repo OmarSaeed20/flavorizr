@@ -21,7 +21,9 @@ abstract class DriverSettingsRemoteDataSource {
 
   /// Update driver settings.
   /// Endpoint: POST /driver/settings/update
-  Future<ApiResult<DriverSettingsModel>> updateSettings(UpdateDriverSettingsParameters parameters);
+  Future<ApiResult<DriverSettingsModel>> updateSettings(
+    UpdateDriverSettingsParameters parameters,
+  );
 
   /// Update driver notification preferences.
   /// Endpoint: POST /driver/settings/notifications
@@ -31,11 +33,15 @@ abstract class DriverSettingsRemoteDataSource {
 
   /// Update driver language preference.
   /// Endpoint: POST /driver/settings/language
-  Future<ApiResult<DriverSettingsModel>> updateLanguage(UpdateLanguageParameters parameters);
+  Future<ApiResult<DriverSettingsModel>> updateLanguage(
+    UpdateLanguageParameters parameters,
+  );
 
   /// Update driver privacy settings.
   /// Endpoint: POST /driver/settings/privacy
-  Future<ApiResult<DriverSettingsModel>> updatePrivacy(UpdatePrivacyParameters parameters);
+  Future<ApiResult<DriverSettingsModel>> updatePrivacy(
+    UpdatePrivacyParameters parameters,
+  );
 
   /// Delete driver account.
   /// Endpoint: DELETE /driver/settings/account
@@ -59,7 +65,8 @@ class DriverSettingsRemoteDataSourceImpl
   Future<ApiResult<DriverSettingsModel>> getSettings() async {
     return get<DriverSettingsModel>(
       path: DriverSettingsEndpoints.getSettings,
-      decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -70,7 +77,8 @@ class DriverSettingsRemoteDataSourceImpl
     return post<DriverSettingsModel>(
       path: DriverSettingsEndpoints.updateSettings,
       data: parameters.toJson(),
-      decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -81,25 +89,32 @@ class DriverSettingsRemoteDataSourceImpl
     return post<DriverSettingsModel>(
       path: DriverSettingsEndpoints.updateNotifications,
       data: parameters.toJson(),
-      decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<DriverSettingsModel>> updateLanguage(UpdateLanguageParameters parameters) async {
+  Future<ApiResult<DriverSettingsModel>> updateLanguage(
+    UpdateLanguageParameters parameters,
+  ) async {
     return post<DriverSettingsModel>(
       path: DriverSettingsEndpoints.updateLanguage,
       data: parameters.toJson(),
-      decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<DriverSettingsModel>> updatePrivacy(UpdatePrivacyParameters parameters) async {
+  Future<ApiResult<DriverSettingsModel>> updatePrivacy(
+    UpdatePrivacyParameters parameters,
+  ) async {
     return post<DriverSettingsModel>(
       path: DriverSettingsEndpoints.updatePrivacy,
       data: parameters.toJson(),
-      decoder: (data) => DriverSettingsModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          DriverSettingsModel.fromJson(data as Map<String, dynamic>),
     );
   }
 

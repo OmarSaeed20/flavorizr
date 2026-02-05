@@ -49,7 +49,9 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Driver Home'),
-        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _onRefresh)],
+        actions: [
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _onRefresh),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
@@ -66,7 +68,8 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                     const SizedBox(height: 16),
 
                     // Stats Card
-                    if (state.homeData != null) DriverStatsCard(stats: state.homeData!.stats),
+                    if (state.homeData != null)
+                      DriverStatsCard(stats: state.homeData!.stats),
                     const SizedBox(height: 16),
 
                     // Earnings Card
@@ -77,14 +80,21 @@ class _DriverHomePageState extends ConsumerState<DriverHomePage> {
                     // Recent Trips Section
                     const Text(
                       'Recent Trips',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 12),
 
                     // Trips List
-                    if (state.homeData != null && state.homeData!.recentTrips.isEmpty)
+                    if (state.homeData != null &&
+                        state.homeData!.recentTrips.isEmpty)
                       const Center(
-                        child: Padding(padding: EdgeInsets.all(32.0), child: Text('No trips yet')),
+                        child: Padding(
+                          padding: EdgeInsets.all(32.0),
+                          child: Text('No trips yet'),
+                        ),
                       )
                     else if (state.homeData != null)
                       ...state.homeData!.recentTrips.map(

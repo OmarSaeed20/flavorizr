@@ -1,16 +1,21 @@
 import 'package:flavorizr/features/general_select/domain/entities/select_option.dart';
 
-class SelectOptionModel extends SelectOption {
+/// Data model for SelectOption, used for JSON serialization.
+///
+/// This model handles the conversion between API JSON
+/// and the domain SelectOption entity.
+class SelectOptionModel {
   const SelectOptionModel({
-    required super.id,
-    required super.label,
-    super.value,
-    super.description,
-    super.imageUrl,
-    super.isEnabled = true,
-    super.metadata,
+    required this.id,
+    required this.label,
+    this.value,
+    this.description,
+    this.imageUrl,
+    this.isEnabled = true,
+    this.metadata,
   });
 
+  /// Creates a model from JSON.
   factory SelectOptionModel.fromJson(Map<String, dynamic> json) {
     return SelectOptionModel(
       id: json['id'] as String,
@@ -23,6 +28,41 @@ class SelectOptionModel extends SelectOption {
     );
   }
 
+  /// Creates a model from a domain entity.
+  factory SelectOptionModel.fromEntity(SelectOption entity) {
+    return SelectOptionModel(
+      id: entity.id,
+      label: entity.label,
+      value: entity.value,
+      description: entity.description,
+      imageUrl: entity.imageUrl,
+      isEnabled: entity.isEnabled,
+      metadata: entity.metadata,
+    );
+  }
+
+  /// Unique identifier for the select option.
+  final String id;
+
+  /// Display label for the option.
+  final String label;
+
+  /// Optional value associated with the option.
+  final String? value;
+
+  /// Optional description of the option.
+  final String? description;
+
+  /// Optional image URL for the option.
+  final String? imageUrl;
+
+  /// Whether the option is enabled/active.
+  final bool isEnabled;
+
+  /// Optional metadata for additional information.
+  final Map<String, dynamic>? metadata;
+
+  /// Converts the model to JSON.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -35,5 +75,16 @@ class SelectOptionModel extends SelectOption {
     };
   }
 
-  SelectOption toEntity() => this;
+  /// Converts the model to a domain entity.
+  SelectOption toEntity() {
+    return SelectOption(
+      id: id,
+      label: label,
+      value: value,
+      description: description,
+      imageUrl: imageUrl,
+      isEnabled: isEnabled,
+      metadata: metadata,
+    );
+  }
 }

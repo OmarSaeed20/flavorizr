@@ -10,10 +10,6 @@ class GetScheduledTripsParameters {
   });
 
   Map<String, dynamic> toJson() {
-    return {
-      'page': page,
-      'limit': limit,
-      if (status != null) 'status': status,
-    };
+    return {'page': page, 'limit': limit, if (status != null) 'status': status};
   }
 }

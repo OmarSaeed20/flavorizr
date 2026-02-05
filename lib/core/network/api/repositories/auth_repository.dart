@@ -8,26 +8,40 @@ import 'package:flavorizr/features/user/auth/data/parameters/refresh_token_param
 /// Defines all authentication-related operations
 abstract class AuthRepository {
   /// Login user with phone and password
-  Future<ApiResult<ApiResponse<ApiAuthResponse>>> login(LoginParameters parameters);
+  Future<ApiResult<ApiResponse<ApiAuthResponse>>> login(
+    LoginParameters parameters,
+  );
 
   /// Register a new user
-  Future<ApiResult<ApiResponse<ApiAuthResponse>>> register(RegisterParameters parameters);
+  Future<ApiResult<ApiResponse<ApiAuthResponse>>> register(
+    RegisterParameters parameters,
+  );
 
   /// Logout current user
   Future<ApiResult<ApiResponse<void>>> logout(LogoutParameters parameters);
 
   /// Refresh authentication token
-  Future<ApiResult<ApiResponse<ApiAuthResponse>>> refreshToken(RefreshTokenParameters parameters);
+  Future<ApiResult<ApiResponse<ApiAuthResponse>>> refreshToken(
+    RefreshTokenParameters parameters,
+  );
 
   /// Verify user account with code
-  Future<ApiResult<ApiResponse<ApiUser>>> verifyUser(VerifyUserParameters parameters);
+  Future<ApiResult<ApiResponse<ApiUser>>> verifyUser(
+    VerifyUserParameters parameters,
+  );
 
   /// Reset user password
-  Future<ApiResult<ApiResponse<void>>> resetPassword(ResetPasswordParameters parameters);
+  Future<ApiResult<ApiResponse<void>>> resetPassword(
+    ResetPasswordParameters parameters,
+  );
 
   /// Request password reset (forget password)
-  Future<ApiResult<ApiResponse<void>>> forgetPassword(ForgetPasswordParameters parameters);
+  Future<ApiResult<ApiResponse<void>>> forgetPassword(
+    ForgetPasswordParameters parameters,
+  );
 
   /// Request confirmation code
-  Future<ApiResult<ApiResponse<void>>> confirmationCode(ConfirmationCodeParameters parameters);
+  Future<ApiResult<ApiResponse<void>>> confirmationCode(
+    ConfirmationCodeParameters parameters,
+  );
 }

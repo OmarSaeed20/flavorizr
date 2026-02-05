@@ -43,7 +43,9 @@ class LanguageSettingsPage extends ConsumerWidget {
   }) {
     return ListTile(
       title: Text(title),
-      trailing: isSelected ? Icon(Icons.check, color: Theme.of(context).primaryColor) : null,
+      trailing: isSelected
+          ? Icon(Icons.check, color: Theme.of(context).primaryColor)
+          : null,
       onTap: () {
         ref.read(localeControllerProvider.notifier).setLocale(locale);
       },

@@ -43,9 +43,9 @@ class ResponsiveVisibility extends StatelessWidget {
     this.maintainAnimation = false,
     this.maintainState = false,
   }) : assert(
-          visibleOn != null || hiddenOn != null,
-          'Either visibleOn or hiddenOn must be specified',
-        );
+         visibleOn != null || hiddenOn != null,
+         'Either visibleOn or hiddenOn must be specified',
+       );
 
   /// Show only on mobile
   factory ResponsiveVisibility.mobileOnly({
@@ -194,9 +194,9 @@ class WindowSizeVisibility extends StatelessWidget {
     this.hiddenOn,
     this.replacement,
   }) : assert(
-          visibleOn != null || hiddenOn != null,
-          'Either visibleOn or hiddenOn must be specified',
-        );
+         visibleOn != null || hiddenOn != null,
+         'Either visibleOn or hiddenOn must be specified',
+       );
 
   /// Show only on compact screens
   factory WindowSizeVisibility.compactOnly({
@@ -257,10 +257,7 @@ class WindowSizeVisibility extends StatelessWidget {
   }) {
     return WindowSizeVisibility(
       key: key,
-      visibleOn: const {
-        WindowSizeClass.large,
-        WindowSizeClass.extraLarge,
-      },
+      visibleOn: const {WindowSizeClass.large, WindowSizeClass.extraLarge},
       replacement: replacement,
       child: child,
     );
@@ -304,9 +301,9 @@ class OrientationVisibility extends StatelessWidget {
     this.landscapeOnly = false,
     this.replacement,
   }) : assert(
-          portraitOnly != landscapeOnly,
-          'Either portraitOnly or landscapeOnly must be true, but not both',
-        );
+         portraitOnly != landscapeOnly,
+         'Either portraitOnly or landscapeOnly must be true, but not both',
+       );
 
   /// Show only in portrait orientation
   factory OrientationVisibility.portrait({
@@ -373,9 +370,9 @@ class PlatformVisibility extends StatelessWidget {
     this.hiddenOn,
     this.replacement,
   }) : assert(
-          visibleOn != null || hiddenOn != null,
-          'Either visibleOn or hiddenOn must be specified',
-        );
+         visibleOn != null || hiddenOn != null,
+         'Either visibleOn or hiddenOn must be specified',
+       );
 
   /// Show only on web
   factory PlatformVisibility.webOnly({

@@ -1,28 +1,18 @@
-import '../../domain/entities/driver_stats.dart';
+import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_stats.dart';
 
 /// Model for driver statistics
 class DriverStatsModel extends DriverStats {
   const DriverStatsModel({
-    required int totalTrips,
-    required int completedTrips,
-    required int cancelledTrips,
-    required double completionRate,
-    required double averageRating,
-    required int totalReviews,
-    required double acceptanceRate,
-    required int totalHoursOnline,
-    required DateTime lastUpdated,
-  }) : super(
-          totalTrips: totalTrips,
-          completedTrips: completedTrips,
-          cancelledTrips: cancelledTrips,
-          completionRate: completionRate,
-          averageRating: averageRating,
-          totalReviews: totalReviews,
-          acceptanceRate: acceptanceRate,
-          totalHoursOnline: totalHoursOnline,
-          lastUpdated: lastUpdated,
-        );
+    required super.totalTrips,
+    required super.completedTrips,
+    required super.cancelledTrips,
+    required super.completionRate,
+    required super.averageRating,
+    required super.totalReviews,
+    required super.acceptanceRate,
+    required super.totalHoursOnline,
+    required super.lastUpdated,
+  });
 
   factory DriverStatsModel.fromJson(Map<String, dynamic> json) {
     return DriverStatsModel(
@@ -34,7 +24,9 @@ class DriverStatsModel extends DriverStats {
       totalReviews: json['totalReviews'] ?? 0,
       acceptanceRate: (json['acceptanceRate'] ?? 0.0).toDouble(),
       totalHoursOnline: json['totalHoursOnline'] ?? 0,
-      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+      lastUpdated: DateTime.parse(
+        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 

@@ -61,7 +61,11 @@ class WebSocketEventHandler {
   /// [priority] - Optional priority (higher = called first). Default is 0.
   ///
   /// Returns a function that can be called to unregister the handler.
-  VoidCallback on(String eventType, WebSocketEventCallback callback, {int priority = 0}) {
+  VoidCallback on(
+    String eventType,
+    WebSocketEventCallback callback, {
+    int priority = 0,
+  }) {
     _handlers.putIfAbsent(eventType, () => []);
 
     final entry = _HandlerEntry(callback: callback, priority: priority);
@@ -145,7 +149,9 @@ class WebSocketEventHandler {
       timeoutTimer = Timer(timeout, () {
         unregister?.call();
         if (!completer.isCompleted) {
-          completer.completeError(TimeoutException('Timeout waiting for event: $eventType'));
+          completer.completeError(
+            TimeoutException('Timeout waiting for event: $eventType'),
+          );
         }
       });
     }
@@ -197,7 +203,10 @@ class WebSocketEventHandler {
     final handlers = _handlers[event.type];
 
     if (handlers == null || handlers.isEmpty) {
-      AppLogger.instance.logDebug('No handlers for event: ${event.type}', data: event.data);
+      AppLogger.instance.logDebug(
+        'No handlers for event: ${event.type}',
+        data: event.data,
+      );
       return;
     }
 

@@ -11,7 +11,8 @@ abstract class NetworkInfo {
 
 /// Implementation of NetworkInfo using connectivity_plus
 class NetworkInfoImpl implements NetworkInfo {
-  NetworkInfoImpl([Connectivity? connectivity]) : _connectivity = connectivity ?? Connectivity();
+  NetworkInfoImpl([Connectivity? connectivity])
+    : _connectivity = connectivity ?? Connectivity();
   final Connectivity _connectivity;
 
   @override
@@ -21,7 +22,8 @@ class NetworkInfoImpl implements NetworkInfo {
   }
 
   @override
-  Stream<List<ConnectivityResult>> get onConnectivityChanged => _connectivity.onConnectivityChanged;
+  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
+      _connectivity.onConnectivityChanged;
 
   /// Check the current connectivity type
   Future<ConnectivityResult> get connectivityType async {

@@ -13,9 +13,6 @@ class DriverLoginUseCase {
     required String phone,
     required String password,
   }) {
-    return _repository.login(
-      phone: phone,
-      password: password,
-    );
+    return _repository.login(phone: phone, password: password);
   }
 }

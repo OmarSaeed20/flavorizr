@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class AdvertisementBanner extends StatelessWidget {
   final List<dynamic> advertisements;
 
-  const AdvertisementBanner({
-    super.key,
-    required this.advertisements,
-  });
+  const AdvertisementBanner({super.key, required this.advertisements});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +36,10 @@ class AdvertisementBanner extends StatelessWidget {
                   top: 8,
                   right: 8,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.6),
                       borderRadius: BorderRadius.circular(4),

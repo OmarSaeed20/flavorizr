@@ -59,7 +59,13 @@ class MainShell extends StatelessWidget {
   }
 
   void _onDestinationSelected(BuildContext context, int index) {
-    final routes = [Routes.home, Routes.search, Routes.notifications, Routes.settings, Routes.profile];
+    final routes = [
+      Routes.home,
+      Routes.search,
+      Routes.notifications,
+      Routes.settings,
+      Routes.profile,
+    ];
 
     if (index >= 0 && index < routes.length) {
       context.go(routes[index]);

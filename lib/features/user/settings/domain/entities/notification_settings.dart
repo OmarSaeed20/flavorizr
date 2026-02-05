@@ -174,11 +174,13 @@ class NotificationSettings {
       commentsEnabled: commentsEnabled ?? this.commentsEnabled,
       likesEnabled: likesEnabled ?? this.likesEnabled,
       followsEnabled: followsEnabled ?? this.followsEnabled,
-      directMessagesEnabled: directMessagesEnabled ?? this.directMessagesEnabled,
+      directMessagesEnabled:
+          directMessagesEnabled ?? this.directMessagesEnabled,
       groupMessagesEnabled: groupMessagesEnabled ?? this.groupMessagesEnabled,
       promotionalEnabled: promotionalEnabled ?? this.promotionalEnabled,
       updatesEnabled: updatesEnabled ?? this.updatesEnabled,
-      securityAlertsEnabled: securityAlertsEnabled ?? this.securityAlertsEnabled,
+      securityAlertsEnabled:
+          securityAlertsEnabled ?? this.securityAlertsEnabled,
       reminderEnabled: reminderEnabled ?? this.reminderEnabled,
       quietHoursEnabled: quietHoursEnabled ?? this.quietHoursEnabled,
       quietHoursStart: quietHoursStart ?? this.quietHoursStart,

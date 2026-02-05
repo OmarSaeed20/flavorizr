@@ -37,11 +37,13 @@ class DriverLoginParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static DriverLoginParametersBuilder builder() => DriverLoginParametersBuilder();
+  static DriverLoginParametersBuilder builder() =>
+      DriverLoginParametersBuilder();
 }
 
 /// Builder for DriverLoginParameters
-class DriverLoginParametersBuilder extends ParametersBuilder<DriverLoginParameters> {
+class DriverLoginParametersBuilder
+    extends ParametersBuilder<DriverLoginParameters> {
   String? _phone;
   String? _password;
   String? _firebaseToken;

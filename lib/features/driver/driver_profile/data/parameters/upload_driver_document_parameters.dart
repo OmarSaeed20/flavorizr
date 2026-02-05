@@ -19,12 +19,12 @@ class UploadDriverDocumentParameters extends Parameters {
     String? backImageUrl,
     DateTime? expiryDate,
     CancelToken? cancelToken,
-  })  : _documentType = documentType,
-        _documentNumber = documentNumber,
-        _frontImageUrl = frontImageUrl,
-        _backImageUrl = backImageUrl,
-        _expiryDate = expiryDate,
-        _cancelToken = cancelToken;
+  }) : _documentType = documentType,
+       _documentNumber = documentNumber,
+       _frontImageUrl = frontImageUrl,
+       _backImageUrl = backImageUrl,
+       _expiryDate = expiryDate,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -68,13 +68,17 @@ class UploadDriverDocumentParametersBuilder
   }
 
   /// Set the document number
-  UploadDriverDocumentParametersBuilder withDocumentNumber(String documentNumber) {
+  UploadDriverDocumentParametersBuilder withDocumentNumber(
+    String documentNumber,
+  ) {
     _documentNumber = documentNumber;
     return this;
   }
 
   /// Set the front image URL
-  UploadDriverDocumentParametersBuilder withFrontImageUrl(String frontImageUrl) {
+  UploadDriverDocumentParametersBuilder withFrontImageUrl(
+    String frontImageUrl,
+  ) {
     _frontImageUrl = frontImageUrl;
     return this;
   }
@@ -93,7 +97,9 @@ class UploadDriverDocumentParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  UploadDriverDocumentParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UploadDriverDocumentParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

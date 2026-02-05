@@ -14,7 +14,8 @@ abstract class Parameters {
   CancelToken? get cancelToken;
 
   /// Creates a builder for this parameters class.
-  static ParametersBuilder<Parameters> get builder => throw UnimplementedError();
+  static ParametersBuilder<Parameters> get builder =>
+      throw UnimplementedError();
 }
 
 /// Base builder class for parameters.

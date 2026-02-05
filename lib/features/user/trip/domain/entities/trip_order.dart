@@ -1,6 +1,5 @@
 // lib/features/trip/domain/entities/trip_order.dart
 
-
 /// Represents a trip order in the domain layer.
 ///
 /// A trip order is created when a user books a trip.
@@ -32,7 +31,9 @@ class TripOrder {
       tripId: map['tripId'] as String,
       userId: map['userId'] as String,
       status: OrderStatus.fromString(map['status'] as String? ?? 'pending'),
-      paymentStatus: PaymentStatus.fromString(map['paymentStatus'] as String? ?? 'pending'),
+      paymentStatus: PaymentStatus.fromString(
+        map['paymentStatus'] as String? ?? 'pending',
+      ),
       paymentMethod: map['paymentMethod'] as String?,
       totalAmount: (map['totalAmount'] as num?)?.toDouble(),
       currency: map['currency'] as String? ?? 'USD',

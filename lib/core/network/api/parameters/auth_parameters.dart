@@ -208,7 +208,9 @@ class RegisterParametersBuilder extends ParametersBuilder<RegisterParameters> {
   }
 
   /// Set the password confirmation
-  RegisterParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
+  RegisterParametersBuilder withPasswordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
@@ -247,7 +249,10 @@ class RegisterParametersBuilder extends ParametersBuilder<RegisterParameters> {
   /// Build the RegisterParameters
   @override
   RegisterParameters build() {
-    assert(_companyType != null && _companyType!.isNotEmpty, 'Company type is required');
+    assert(
+      _companyType != null && _companyType!.isNotEmpty,
+      'Company type is required',
+    );
     assert(_name != null && _name!.isNotEmpty, 'Name is required');
     assert(_phone != null && _phone!.isNotEmpty, 'Phone is required');
     assert(_password != null && _password!.isNotEmpty, 'Password is required');
@@ -256,8 +261,14 @@ class RegisterParametersBuilder extends ParametersBuilder<RegisterParameters> {
       'Password confirmation is required',
     );
     assert(_country != null && _country!.isNotEmpty, 'Country is required');
-    assert(_governorate != null && _governorate!.isNotEmpty, 'Governorate is required');
-    assert(_birthdate != null && _birthdate!.isNotEmpty, 'Birthdate is required');
+    assert(
+      _governorate != null && _governorate!.isNotEmpty,
+      'Governorate is required',
+    );
+    assert(
+      _birthdate != null && _birthdate!.isNotEmpty,
+      'Birthdate is required',
+    );
     assert(_gender != null && _gender!.isNotEmpty, 'Gender is required');
 
     return RegisterParameters._(
@@ -281,7 +292,8 @@ class RegisterParametersBuilder extends ParametersBuilder<RegisterParameters> {
 class LogoutParameters extends Parameters {
   final CancelToken? _cancelToken;
 
-  const LogoutParameters._({CancelToken? cancelToken}) : _cancelToken = cancelToken;
+  const LogoutParameters._({CancelToken? cancelToken})
+    : _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -337,7 +349,8 @@ class VerifyUserParameters extends Parameters {
 }
 
 /// Builder for VerifyUserParameters
-class VerifyUserParametersBuilder extends ParametersBuilder<VerifyUserParameters> {
+class VerifyUserParametersBuilder
+    extends ParametersBuilder<VerifyUserParameters> {
   String? _code;
   CancelToken? _cancelToken;
 
@@ -403,11 +416,13 @@ class ResetPasswordParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static ResetPasswordParametersBuilder builder() => ResetPasswordParametersBuilder();
+  static ResetPasswordParametersBuilder builder() =>
+      ResetPasswordParametersBuilder();
 }
 
 /// Builder for ResetPasswordParameters
-class ResetPasswordParametersBuilder extends ParametersBuilder<ResetPasswordParameters> {
+class ResetPasswordParametersBuilder
+    extends ParametersBuilder<ResetPasswordParameters> {
   String? _phone;
   String? _code;
   String? _password;
@@ -433,7 +448,9 @@ class ResetPasswordParametersBuilder extends ParametersBuilder<ResetPasswordPara
   }
 
   /// Set the password confirmation
-  ResetPasswordParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
+  ResetPasswordParametersBuilder withPasswordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
@@ -472,9 +489,11 @@ class ForgetPasswordParameters extends Parameters {
   final String _phone;
   final CancelToken? _cancelToken;
 
-  const ForgetPasswordParameters._({required String phone, CancelToken? cancelToken})
-    : _phone = phone,
-      _cancelToken = cancelToken;
+  const ForgetPasswordParameters._({
+    required String phone,
+    CancelToken? cancelToken,
+  }) : _phone = phone,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -487,11 +506,13 @@ class ForgetPasswordParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static ForgetPasswordParametersBuilder builder() => ForgetPasswordParametersBuilder();
+  static ForgetPasswordParametersBuilder builder() =>
+      ForgetPasswordParametersBuilder();
 }
 
 /// Builder for ForgetPasswordParameters
-class ForgetPasswordParametersBuilder extends ParametersBuilder<ForgetPasswordParameters> {
+class ForgetPasswordParametersBuilder
+    extends ParametersBuilder<ForgetPasswordParameters> {
   String? _phone;
   CancelToken? _cancelToken;
 
@@ -513,7 +534,10 @@ class ForgetPasswordParametersBuilder extends ParametersBuilder<ForgetPasswordPa
   ForgetPasswordParameters build() {
     assert(_phone != null && _phone!.isNotEmpty, 'Phone is required');
 
-    return ForgetPasswordParameters._(phone: _phone!, cancelToken: _cancelToken);
+    return ForgetPasswordParameters._(
+      phone: _phone!,
+      cancelToken: _cancelToken,
+    );
   }
 }
 
@@ -523,9 +547,11 @@ class ConfirmationCodeParameters extends Parameters {
   final String _phone;
   final CancelToken? _cancelToken;
 
-  const ConfirmationCodeParameters._({required String phone, CancelToken? cancelToken})
-    : _phone = phone,
-      _cancelToken = cancelToken;
+  const ConfirmationCodeParameters._({
+    required String phone,
+    CancelToken? cancelToken,
+  }) : _phone = phone,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -538,11 +564,13 @@ class ConfirmationCodeParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static ConfirmationCodeParametersBuilder builder() => ConfirmationCodeParametersBuilder();
+  static ConfirmationCodeParametersBuilder builder() =>
+      ConfirmationCodeParametersBuilder();
 }
 
 /// Builder for ConfirmationCodeParameters
-class ConfirmationCodeParametersBuilder extends ParametersBuilder<ConfirmationCodeParameters> {
+class ConfirmationCodeParametersBuilder
+    extends ParametersBuilder<ConfirmationCodeParameters> {
   String? _phone;
   CancelToken? _cancelToken;
 
@@ -564,6 +592,9 @@ class ConfirmationCodeParametersBuilder extends ParametersBuilder<ConfirmationCo
   ConfirmationCodeParameters build() {
     assert(_phone != null && _phone!.isNotEmpty, 'Phone is required');
 
-    return ConfirmationCodeParameters._(phone: _phone!, cancelToken: _cancelToken);
+    return ConfirmationCodeParameters._(
+      phone: _phone!,
+      cancelToken: _cancelToken,
+    );
   }
 }

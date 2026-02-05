@@ -1,17 +1,19 @@
 // lib/features/onboarding/presentation/providers/onboarding_providers.dart
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flavorizr/features/onboarding/data/datasources/onboarding_local_datasource.dart';
 import 'package:flavorizr/features/onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:flavorizr/features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:flavorizr/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
 import 'package:flavorizr/features/onboarding/domain/usecases/get_onboarding_pages_usecase.dart';
 import 'package:flavorizr/features/onboarding/domain/usecases/is_onboarding_completed_usecase.dart';
+import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ==================== Data Sources ====================
 
 /// Provider for OnboardingLocalDataSource.
-final onboardingLocalDataSourceProvider = Provider<OnboardingLocalDataSource>((ref) {
+final onboardingLocalDataSourceProvider = Provider<OnboardingLocalDataSource>((
+  ref,
+) {
   final prefs = ref.watch(sharedPreferencesProvider);
   return OnboardingLocalDataSourceImpl(prefs: prefs);
 });
@@ -27,19 +29,26 @@ final onboardingRepositoryProvider = Provider<OnboardingRepository>((ref) {
 // ==================== Use Cases ====================
 
 /// Provider for GetOnboardingPagesUseCase.
-final getOnboardingPagesUseCaseProvider = Provider<GetOnboardingPagesUseCase>((ref) {
+final getOnboardingPagesUseCaseProvider = Provider<GetOnboardingPagesUseCase>((
+  ref,
+) {
   return GetOnboardingPagesUseCase(ref.watch(onboardingRepositoryProvider));
 });
 
 /// Provider for CompleteOnboardingUseCase.
-final completeOnboardingUseCaseProvider = Provider<CompleteOnboardingUseCase>((ref) {
+final completeOnboardingUseCaseProvider = Provider<CompleteOnboardingUseCase>((
+  ref,
+) {
   return CompleteOnboardingUseCase(ref.watch(onboardingRepositoryProvider));
 });
 
 /// Provider for IsOnboardingCompletedUseCase.
-final isOnboardingCompletedUseCaseProvider = Provider<IsOnboardingCompletedUseCase>((ref) {
-  return IsOnboardingCompletedUseCase(ref.watch(onboardingRepositoryProvider));
-});
+final isOnboardingCompletedUseCaseProvider =
+    Provider<IsOnboardingCompletedUseCase>((ref) {
+      return IsOnboardingCompletedUseCase(
+        ref.watch(onboardingRepositoryProvider),
+      );
+    });
 
 // ==================== State Providers ====================
 

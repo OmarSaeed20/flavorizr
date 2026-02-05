@@ -66,7 +66,10 @@ class SettingsSwitchTile extends StatelessWidget {
               ),
             )
           : null,
-      trailing: Switch.adaptive(value: value, onChanged: isEnabled ? onChanged : null),
+      trailing: Switch.adaptive(
+        value: value,
+        onChanged: isEnabled ? onChanged : null,
+      ),
       onTap: isEnabled
           ? () {
               onChanged?.call(!value);

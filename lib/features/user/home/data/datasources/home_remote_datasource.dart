@@ -3,9 +3,9 @@ import 'package:flavorizr/core/network/api_client.dart';
 import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/user/home/data/endpoints/home_endpoints.dart';
-import 'package:flavorizr/features/user/home/data/models/banner_model.dart';
 import 'package:flavorizr/features/user/home/data/models/advertisement_model.dart';
 import 'package:flavorizr/features/user/home/data/models/available_trip_model.dart';
+import 'package:flavorizr/features/user/home/data/models/banner_model.dart';
 import 'package:flavorizr/features/user/home/data/models/home_data_model.dart';
 import 'package:flavorizr/features/user/home/data/parameters/get_available_trips_parameters.dart';
 
@@ -32,14 +32,22 @@ abstract class HomeRemoteDataSource {
   Future<ApiResult<int>> getNotificationCount();
 
   /// Gets featured trips.
-  Future<ApiResult<List<AvailableTripModel>>> getFeaturedTrips({int page = 1, int limit = 10});
+  Future<ApiResult<List<AvailableTripModel>>> getFeaturedTrips({
+    int page = 1,
+    int limit = 10,
+  });
 
   /// Gets recent trips.
-  Future<ApiResult<List<AvailableTripModel>>> getRecentTrips({int page = 1, int limit = 10});
+  Future<ApiResult<List<AvailableTripModel>>> getRecentTrips({
+    int page = 1,
+    int limit = 10,
+  });
 }
 
 /// Implementation of [HomeRemoteDataSource] using BaseRemoteDataSource.
-class HomeRemoteDataSourceImpl with BaseRemoteDataSource implements HomeRemoteDataSource {
+class HomeRemoteDataSourceImpl
+    with BaseRemoteDataSource
+    implements HomeRemoteDataSource {
   const HomeRemoteDataSourceImpl(this._apiClient);
   final ApiClient _apiClient;
 
@@ -92,7 +100,10 @@ class HomeRemoteDataSourceImpl with BaseRemoteDataSource implements HomeRemoteDa
 
   @override
   Future<ApiResult<int>> getNotificationCount() async {
-    return get<int>(path: HomeEndpoints.notificationCount, decoder: (data) => data['count'] as int);
+    return get<int>(
+      path: HomeEndpoints.notificationCount,
+      decoder: (data) => data['count'] as int,
+    );
   }
 
   @override
@@ -110,7 +121,10 @@ class HomeRemoteDataSourceImpl with BaseRemoteDataSource implements HomeRemoteDa
   }
 
   @override
-  Future<ApiResult<List<AvailableTripModel>>> getRecentTrips({int page = 1, int limit = 10}) async {
+  Future<ApiResult<List<AvailableTripModel>>> getRecentTrips({
+    int page = 1,
+    int limit = 10,
+  }) async {
     return get<List<AvailableTripModel>>(
       path: HomeEndpoints.recentTrips,
       queryParameters: {'page': page, 'limit': limit},

@@ -21,10 +21,12 @@ class NotificationSettingsPage extends ConsumerStatefulWidget {
   const NotificationSettingsPage({super.key});
 
   @override
-  ConsumerState<NotificationSettingsPage> createState() => _NotificationSettingsPageState();
+  ConsumerState<NotificationSettingsPage> createState() =>
+      _NotificationSettingsPageState();
 }
 
-class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsPage> {
+class _NotificationSettingsPageState
+    extends ConsumerState<NotificationSettingsPage> {
   @override
   void initState() {
     super.initState();
@@ -41,7 +43,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Discard Changes?'),
-        content: const Text('You have unsaved changes. Are you sure you want to discard them?'),
+        content: const Text(
+          'You have unsaved changes. Are you sure you want to discard them?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -59,7 +63,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
   }
 
   Future<void> _handleSave() async {
-    final success = await ref.read(notificationSettingsControllerProvider.notifier).saveSettings();
+    final success = await ref
+        .read(notificationSettingsControllerProvider.notifier)
+        .saveSettings();
 
     if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -87,7 +93,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: const Text('Reset'),
           ),
         ],
@@ -95,7 +103,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
     );
 
     if (shouldReset ?? false) {
-      await ref.read(notificationSettingsControllerProvider.notifier).resetToDefaults();
+      await ref
+          .read(notificationSettingsControllerProvider.notifier)
+          .resetToDefaults();
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -114,17 +124,21 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
     final theme = Theme.of(context);
 
     // Listen for errors
-    ref.listen<NotificationSettingsState>(notificationSettingsControllerProvider, (previous, next) {
-      if (next.errorMessage != null && next.errorMessage != previous?.errorMessage) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(next.errorMessage!),
-            backgroundColor: theme.colorScheme.error,
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    });
+    ref.listen<NotificationSettingsState>(
+      notificationSettingsControllerProvider,
+      (previous, next) {
+        if (next.errorMessage != null &&
+            next.errorMessage != previous?.errorMessage) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(next.errorMessage!),
+              backgroundColor: theme.colorScheme.error,
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      },
+    );
 
     return PopScope(
       canPop: !state.hasChanges,
@@ -149,7 +163,11 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
                 const PopupMenuItem(
                   value: 'reset',
                   child: Row(
-                    children: [Icon(Icons.refresh), SizedBox(width: 12), Text('Reset to Defaults')],
+                    children: [
+                      Icon(Icons.refresh),
+                      SizedBox(width: 12),
+                      Text('Reset to Defaults'),
+                    ],
                   ),
                 ),
               ],
@@ -159,13 +177,17 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
         body: state.isLoading
             ? const Center(child: CircularProgressIndicator())
             : _buildBody(context, state),
-        bottomNavigationBar: state.isLoading ? null : _buildBottomBar(context, state),
+        bottomNavigationBar: state.isLoading
+            ? null
+            : _buildBottomBar(context, state),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context, NotificationSettingsState state) {
-    final controller = ref.read(notificationSettingsControllerProvider.notifier);
+    final controller = ref.read(
+      notificationSettingsControllerProvider.notifier,
+    );
     final settings = state.settings;
 
     return ListView(
@@ -214,7 +236,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
               subtitle: 'Play sound when notification arrives',
               icon: Icons.volume_up_outlined,
               value: settings.soundEnabled,
-              onChanged: settings.pushEnabled ? controller.setSoundEnabled : null,
+              onChanged: settings.pushEnabled
+                  ? controller.setSoundEnabled
+                  : null,
               enabled: settings.pushEnabled,
             ),
             SettingsSwitchTile(
@@ -222,7 +246,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
               subtitle: 'Vibrate when notification arrives',
               icon: Icons.vibration_outlined,
               value: settings.vibrationEnabled,
-              onChanged: settings.pushEnabled ? controller.setVibrationEnabled : null,
+              onChanged: settings.pushEnabled
+                  ? controller.setVibrationEnabled
+                  : null,
               enabled: settings.pushEnabled,
             ),
             SettingsSwitchTile(
@@ -230,7 +256,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
               subtitle: 'Show unread count on app icon',
               icon: Icons.badge_outlined,
               value: settings.badgeEnabled,
-              onChanged: settings.pushEnabled ? controller.setBadgeEnabled : null,
+              onChanged: settings.pushEnabled
+                  ? controller.setBadgeEnabled
+                  : null,
               enabled: settings.pushEnabled,
             ),
             SettingsSwitchTile(
@@ -238,7 +266,9 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
               subtitle: 'Show notification content in preview',
               icon: Icons.preview_outlined,
               value: settings.previewEnabled,
-              onChanged: settings.pushEnabled ? controller.setPreviewEnabled : null,
+              onChanged: settings.pushEnabled
+                  ? controller.setPreviewEnabled
+                  : null,
               enabled: settings.pushEnabled,
             ),
           ],
@@ -361,7 +391,10 @@ class _NotificationSettingsPageState extends ConsumerState<NotificationSettingsP
     );
   }
 
-  Widget _buildBottomBar(BuildContext context, NotificationSettingsState state) {
+  Widget _buildBottomBar(
+    BuildContext context,
+    NotificationSettingsState state,
+  ) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),

@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class AvailableTripCard extends StatelessWidget {
   final dynamic trip;
 
-  const AvailableTripCard({
-    super.key,
-    required this.trip,
-  });
+  const AvailableTripCard({super.key, required this.trip});
 
   @override
   Widget build(BuildContext context) {

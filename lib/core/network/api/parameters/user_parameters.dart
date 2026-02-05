@@ -7,7 +7,8 @@ import 'package:meta/meta.dart';
 class GetProfileParameters extends Parameters {
   final CancelToken? _cancelToken;
 
-  const GetProfileParameters._({CancelToken? cancelToken}) : _cancelToken = cancelToken;
+  const GetProfileParameters._({CancelToken? cancelToken})
+    : _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -20,7 +21,8 @@ class GetProfileParameters extends Parameters {
 }
 
 /// Builder for GetProfileParameters
-class GetProfileParametersBuilder extends ParametersBuilder<GetProfileParameters> {
+class GetProfileParametersBuilder
+    extends ParametersBuilder<GetProfileParameters> {
   CancelToken? _cancelToken;
 
   /// Set the cancel token for request cancellation
@@ -96,11 +98,13 @@ class UpdateProfileParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static UpdateProfileParametersBuilder builder() => UpdateProfileParametersBuilder();
+  static UpdateProfileParametersBuilder builder() =>
+      UpdateProfileParametersBuilder();
 }
 
 /// Builder for UpdateProfileParameters
-class UpdateProfileParametersBuilder extends ParametersBuilder<UpdateProfileParameters> {
+class UpdateProfileParametersBuilder
+    extends ParametersBuilder<UpdateProfileParameters> {
   String? _name;
   String? _nickname;
   String? _email;

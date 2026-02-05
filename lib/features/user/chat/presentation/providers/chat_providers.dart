@@ -117,7 +117,8 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
     final result = await getConversations();
 
     result.when(
-      exception: (error) => state = state.copyWith(isLoading: false, error: error.message),
+      exception: (error) =>
+          state = state.copyWith(isLoading: false, error: error.message),
       success: (paginatedResult, _) => state = state.copyWith(
         isLoading: false,
         conversations: paginatedResult.items,
@@ -139,7 +140,8 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
     final result = await getConversations(cursor: state.nextCursor);
 
     result.when(
-      exception: (error) => state = state.copyWith(isLoadingMore: false, error: error.message),
+      exception: (error) =>
+          state = state.copyWith(isLoadingMore: false, error: error.message),
       success: (paginatedResult, _) => state = state.copyWith(
         isLoadingMore: false,
         conversations: [...state.conversations, ...paginatedResult.items],
@@ -150,7 +152,9 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
   }
 
   Future<Conversation?> createDirectConversation(String participantId) async {
-    final createConversation = ref.read(createDirectConversationUseCaseProvider);
+    final createConversation = ref.read(
+      createDirectConversationUseCaseProvider,
+    );
 
     final result = await createConversation(otherUserId: participantId);
 
@@ -160,7 +164,9 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
         return null;
       },
       success: (conversation, _) {
-        state = state.copyWith(conversations: [conversation, ...state.conversations]);
+        state = state.copyWith(
+          conversations: [conversation, ...state.conversations],
+        );
         return conversation;
       },
     );
@@ -187,14 +193,18 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
         return null;
       },
       success: (conversation, _) {
-        state = state.copyWith(conversations: [conversation, ...state.conversations]);
+        state = state.copyWith(
+          conversations: [conversation, ...state.conversations],
+        );
         return conversation;
       },
     );
   }
 
   void updateConversation(Conversation conversation) {
-    final index = state.conversations.indexWhere((c) => c.id == conversation.id);
+    final index = state.conversations.indexWhere(
+      (c) => c.id == conversation.id,
+    );
     if (index != -1) {
       final updated = List<Conversation>.from(state.conversations);
       updated[index] = conversation;
@@ -204,13 +214,17 @@ class ConversationsNotifier extends Notifier<ConversationsState> {
 
   void addConversation(Conversation conversation) {
     if (!state.conversations.any((c) => c.id == conversation.id)) {
-      state = state.copyWith(conversations: [conversation, ...state.conversations]);
+      state = state.copyWith(
+        conversations: [conversation, ...state.conversations],
+      );
     }
   }
 
   void removeConversation(String conversationId) {
     state = state.copyWith(
-      conversations: state.conversations.where((c) => c.id != conversationId).toList(),
+      conversations: state.conversations
+          .where((c) => c.id != conversationId)
+          .toList(),
     );
   }
 
@@ -246,7 +260,8 @@ class MessagesNotifier {
     final result = await getMessages(conversationId: conversationId);
 
     result.when(
-      exception: (error) => _updateState(_state.copyWith(isLoading: false, error: error.message)),
+      exception: (error) =>
+          _updateState(_state.copyWith(isLoading: false, error: error.message)),
       success: (paginatedResult, _) => _updateState(
         _state.copyWith(
           isLoading: false,
@@ -267,11 +282,15 @@ class MessagesNotifier {
 
     _updateState(_state.copyWith(isLoadingMore: true));
 
-    final result = await getMessages(conversationId: conversationId, cursor: _state.nextCursor);
+    final result = await getMessages(
+      conversationId: conversationId,
+      cursor: _state.nextCursor,
+    );
 
     result.when(
-      exception: (error) =>
-          _updateState(_state.copyWith(isLoadingMore: false, error: error.message)),
+      exception: (error) => _updateState(
+        _state.copyWith(isLoadingMore: false, error: error.message),
+      ),
       success: (paginatedResult, _) => _updateState(
         _state.copyWith(
           isLoadingMore: false,
@@ -326,10 +345,16 @@ class MessagesNotifier {
     );
   }
 
-  Future<bool> deleteMessage(String messageId, {bool forEveryone = false}) async {
+  Future<bool> deleteMessage(
+    String messageId, {
+    bool forEveryone = false,
+  }) async {
     final deleteMessage = _ref.read(deleteMessageUseCaseProvider);
 
-    final result = await deleteMessage(messageId: messageId, forEveryone: forEveryone);
+    final result = await deleteMessage(
+      messageId: messageId,
+      forEveryone: forEveryone,
+    );
 
     return result.when(
       exception: (error) {
@@ -338,7 +363,9 @@ class MessagesNotifier {
       },
       success: (_, __) {
         _updateState(
-          _state.copyWith(messages: _state.messages.where((m) => m.id != messageId).toList()),
+          _state.copyWith(
+            messages: _state.messages.where((m) => m.id != messageId).toList(),
+          ),
         );
         return true;
       },
@@ -348,7 +375,10 @@ class MessagesNotifier {
   Future<bool> addReaction(String messageId, String reaction) async {
     final addReactionUseCase = _ref.read(addReactionUseCaseProvider);
 
-    final result = await addReactionUseCase(messageId: messageId, reaction: reaction);
+    final result = await addReactionUseCase(
+      messageId: messageId,
+      reaction: reaction,
+    );
 
     return result.when(
       exception: (error) {
@@ -376,7 +406,9 @@ class MessagesNotifier {
 
   void removeMessage(String messageId) {
     _updateState(
-      _state.copyWith(messages: _state.messages.where((m) => m.id != messageId).toList()),
+      _state.copyWith(
+        messages: _state.messages.where((m) => m.id != messageId).toList(),
+      ),
     );
   }
 
@@ -448,13 +480,15 @@ final sendMessageUseCaseProvider = Provider<SendMessage>((ref) {
   return SendMessage(ref.watch(chatRepositoryProvider));
 });
 
-final createDirectConversationUseCaseProvider = Provider<CreateDirectConversation>((ref) {
-  return CreateDirectConversation(ref.watch(chatRepositoryProvider));
-});
+final createDirectConversationUseCaseProvider =
+    Provider<CreateDirectConversation>((ref) {
+      return CreateDirectConversation(ref.watch(chatRepositoryProvider));
+    });
 
-final createGroupConversationUseCaseProvider = Provider<CreateGroupConversation>((ref) {
-  return CreateGroupConversation(ref.watch(chatRepositoryProvider));
-});
+final createGroupConversationUseCaseProvider =
+    Provider<CreateGroupConversation>((ref) {
+      return CreateGroupConversation(ref.watch(chatRepositoryProvider));
+    });
 
 final editMessageUseCaseProvider = Provider<EditMessage>((ref) {
   return EditMessage(ref.watch(chatRepositoryProvider));
@@ -471,22 +505,35 @@ final addReactionUseCaseProvider = Provider<AddReaction>((ref) {
 // ==================== State Providers ====================
 
 /// Provider for conversations state and notifier.
-final conversationsProvider = NotifierProvider<ConversationsNotifier, ConversationsState>(
-  ConversationsNotifier.new,
-);
+final conversationsProvider =
+    NotifierProvider<ConversationsNotifier, ConversationsState>(
+      ConversationsNotifier.new,
+    );
 
 /// Provider for messages notifier (per conversation).
-final messagesNotifierProvider = Provider.family<MessagesNotifier, String>((ref, conversationId) {
+final messagesNotifierProvider = Provider.family<MessagesNotifier, String>((
+  ref,
+  conversationId,
+) {
   return MessagesNotifier(conversationId, ref);
 });
 
 /// Provider for typing users in a conversation.
-final typingUsersProvider = Provider.family<Set<String>, String>((ref, conversationId) {
+final typingUsersProvider = Provider.family<Set<String>, String>((
+  ref,
+  conversationId,
+) {
   return ref.watch(messagesNotifierProvider(conversationId)).state.typingUsers;
 });
 
 /// Provider to check if any user is online in a conversation.
-final isUserOnlineProvider = Provider.family<bool, String>((ref, conversationId) {
-  final presenceMap = ref.watch(messagesNotifierProvider(conversationId)).state.presenceMap;
+final isUserOnlineProvider = Provider.family<bool, String>((
+  ref,
+  conversationId,
+) {
+  final presenceMap = ref
+      .watch(messagesNotifierProvider(conversationId))
+      .state
+      .presenceMap;
   return presenceMap.values.any((status) => status.isOnline);
 });

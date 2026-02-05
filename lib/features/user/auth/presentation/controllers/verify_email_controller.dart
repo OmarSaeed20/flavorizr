@@ -82,7 +82,9 @@ class VerifyEmailController extends AutoDisposeNotifier<VerifyEmailState> {
 
     // Validate token
     if (state.token.isEmpty) {
-      state = state.copyWith(errorMessage: 'Invalid verification link. Please request a new one.');
+      state = state.copyWith(
+        errorMessage: 'Invalid verification link. Please request a new one.',
+      );
       return false;
     }
 
@@ -93,7 +95,10 @@ class VerifyEmailController extends AutoDisposeNotifier<VerifyEmailState> {
       final result = await _repository.verifyEmail(params);
 
       if (result.error != null) {
-        state = state.copyWith(isVerifying: false, errorMessage: result.error!.message);
+        state = state.copyWith(
+          isVerifying: false,
+          errorMessage: result.error!.message,
+        );
         return false;
       }
 
@@ -120,13 +125,20 @@ class VerifyEmailController extends AutoDisposeNotifier<VerifyEmailState> {
   Future<bool> resendVerificationEmail() async {
     if (state.isResending || state.resendCooldown > 0) return false;
 
-    state = state.copyWith(isResending: true, clearError: true, resendSuccess: false);
+    state = state.copyWith(
+      isResending: true,
+      clearError: true,
+      resendSuccess: false,
+    );
 
     try {
       final result = await _repository.resendEmailVerification();
 
       if (result.error != null) {
-        state = state.copyWith(isResending: false, errorMessage: result.error!.message);
+        state = state.copyWith(
+          isResending: false,
+          errorMessage: result.error!.message,
+        );
         return false;
       }
 

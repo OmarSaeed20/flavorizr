@@ -1,11 +1,11 @@
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
 import 'package:flavorizr/features/driver/driver_settings/domain/entities/driver_settings.dart';
 import 'package:flavorizr/features/driver/driver_settings/domain/usecases/get_driver_settings_usecase.dart';
 import 'package:flavorizr/features/driver/driver_settings/domain/usecases/toggle_availability_status_usecase.dart';
 import 'package:flavorizr/features/driver/driver_settings/domain/usecases/toggle_online_status_usecase.dart';
 import 'package:flavorizr/features/driver/driver_settings/domain/usecases/update_driver_settings_usecase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver settings operations.
 class DriverSettingsState {
@@ -52,7 +52,7 @@ class DriverSettingsController extends StateNotifier<DriverSettingsState> {
 
   /// Gets driver settings.
   Future<void> getDriverSettings() async {
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true);
 
     final result = await _getDriverSettingsUseCase();
 
@@ -78,7 +78,7 @@ class DriverSettingsController extends StateNotifier<DriverSettingsState> {
     String? language,
     String? currency,
   }) async {
-    state = state.copyWith(isUpdating: true, error: null);
+    state = state.copyWith(isUpdating: true);
 
     final result = await _updateDriverSettingsUseCase(
       UpdateDriverSettingsParameters(
@@ -106,7 +106,7 @@ class DriverSettingsController extends StateNotifier<DriverSettingsState> {
 
   /// Toggles online status.
   Future<void> toggleOnlineStatus(bool isOnline) async {
-    state = state.copyWith(isUpdating: true, error: null);
+    state = state.copyWith(isUpdating: true);
 
     final result = await _toggleOnlineStatusUseCase(isOnline);
 
@@ -122,7 +122,7 @@ class DriverSettingsController extends StateNotifier<DriverSettingsState> {
 
   /// Toggles availability status.
   Future<void> toggleAvailabilityStatus(bool isAvailable) async {
-    state = state.copyWith(isUpdating: true, error: null);
+    state = state.copyWith(isUpdating: true);
 
     final result = await _toggleAvailabilityStatusUseCase(isAvailable);
 

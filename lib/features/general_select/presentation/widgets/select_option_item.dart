@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flavorizr/features/general_select/domain/entities/select_option.dart';
+import 'package:flutter/material.dart';
 
 /// Widget for displaying a single select option.
 class SelectOptionItem extends StatelessWidget {
@@ -24,12 +24,7 @@ class SelectOptionItem extends StatelessWidget {
           color: isSelected
               ? Theme.of(context).primaryColor.withOpacity(0.1)
               : Colors.transparent,
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.grey[300]!,
-              width: 1.0,
-            ),
-          ),
+          border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
         ),
         child: Row(
           children: [
@@ -83,10 +78,7 @@ class SelectOptionItem extends StatelessWidget {
               ),
             ),
             if (isSelected)
-              Icon(
-                Icons.check_circle,
-                color: Theme.of(context).primaryColor,
-              ),
+              Icon(Icons.check_circle, color: Theme.of(context).primaryColor),
           ],
         ),
       ),

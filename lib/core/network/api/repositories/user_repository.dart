@@ -7,11 +7,17 @@ import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 /// Defines all user-related operations
 abstract class UserRepository {
   /// Get user profile
-  Future<ApiResult<ApiResponse<ApiUserProfile>>> getProfile(GetProfileParameters parameters);
+  Future<ApiResult<ApiResponse<ApiUserProfile>>> getProfile(
+    GetProfileParameters parameters,
+  );
 
   /// Update user profile
-  Future<ApiResult<ApiResponse<ApiUserProfile>>> updateProfile(UpdateProfileParameters parameters);
+  Future<ApiResult<ApiResponse<ApiUserProfile>>> updateProfile(
+    UpdateProfileParameters parameters,
+  );
 
   /// Get user profile detail
-  Future<ApiResult<ApiResponse<ApiUserProfile>>> getProfileDetail(GetProfileParameters parameters);
+  Future<ApiResult<ApiResponse<ApiUserProfile>>> getProfileDetail(
+    GetProfileParameters parameters,
+  );
 }

@@ -16,7 +16,8 @@ abstract class DirectBookingEndpoints {
   static const String vehicleTypes = '/vehicle-types';
 
   /// Cancels a booking.
-  static String cancelBooking(String bookingId) => '/bookings/$bookingId/cancel';
+  static String cancelBooking(String bookingId) =>
+      '/bookings/$bookingId/cancel';
 
   /// Gets booking estimate.
   static const String bookingEstimate = '/bookings/estimate';
@@ -31,5 +32,6 @@ abstract class DirectBookingEndpoints {
   static String updateBooking(String bookingId) => '/bookings/$bookingId';
 
   /// Gets booking status.
-  static String bookingStatus(String bookingId) => '/bookings/$bookingId/status';
+  static String bookingStatus(String bookingId) =>
+      '/bookings/$bookingId/status';
 }

@@ -7,7 +7,9 @@ import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 /// Defines all trip-related operations
 abstract class TripRepository {
   /// Get trip types by location
-  Future<ApiResult<ApiResponse<List<ApiTripType>>>> getTripTypes(GetTripTypesParameters parameters);
+  Future<ApiResult<ApiResponse<List<ApiTripType>>>> getTripTypes(
+    GetTripTypesParameters parameters,
+  );
 
   /// Get captain trip detail by trip ID
   Future<ApiResult<ApiResponse<ApiTrip>>> getCaptainTripDetail(
@@ -15,22 +17,34 @@ abstract class TripRepository {
   );
 
   /// Store a public trip
-  Future<ApiResult<ApiResponse<ApiTrip>>> storePublicTrip(StorePublicTripParameters parameters);
+  Future<ApiResult<ApiResponse<ApiTrip>>> storePublicTrip(
+    StorePublicTripParameters parameters,
+  );
 
   /// Store a private trip
-  Future<ApiResult<ApiResponse<ApiTrip>>> storePrivateTrip(StorePrivateTripParameters parameters);
+  Future<ApiResult<ApiResponse<ApiTrip>>> storePrivateTrip(
+    StorePrivateTripParameters parameters,
+  );
 
   /// Edit a private trip
-  Future<ApiResult<ApiResponse<ApiTrip>>> editPrivateTrip(EditPrivateTripParameters parameters);
+  Future<ApiResult<ApiResponse<ApiTrip>>> editPrivateTrip(
+    EditPrivateTripParameters parameters,
+  );
 
   /// Book a trip now
-  Future<ApiResult<ApiResponse<ApiTripOrder>>> bookNowOrder(BookNowOrderParameters parameters);
+  Future<ApiResult<ApiResponse<ApiTripOrder>>> bookNowOrder(
+    BookNowOrderParameters parameters,
+  );
 
   /// Get trip history
-  Future<ApiResult<ApiResponse<List<ApiTrip>>>> getTripHistory(GetTripHistoryParameters parameters);
+  Future<ApiResult<ApiResponse<List<ApiTrip>>>> getTripHistory(
+    GetTripHistoryParameters parameters,
+  );
 
   /// Get my orders
-  Future<ApiResult<ApiResponse<List<ApiTripOrder>>>> getMyOrders(GetMyOrdersParameters parameters);
+  Future<ApiResult<ApiResponse<List<ApiTripOrder>>>> getMyOrders(
+    GetMyOrdersParameters parameters,
+  );
 
   /// Get available public trips
   Future<ApiResult<ApiResponse<List<ApiTrip>>>> getAvailablePublicTrips(
@@ -38,13 +52,19 @@ abstract class TripRepository {
   );
 
   /// Confirm a trip
-  Future<ApiResult<ApiResponse<ApiTrip>>> confirmTrip(ConfirmTripParameters parameters);
+  Future<ApiResult<ApiResponse<ApiTrip>>> confirmTrip(
+    ConfirmTripParameters parameters,
+  );
 
   /// Cancel a trip
-  Future<ApiResult<ApiResponse<void>>> cancelTrip(CancelTripParameters parameters);
+  Future<ApiResult<ApiResponse<void>>> cancelTrip(
+    CancelTripParameters parameters,
+  );
 
   /// Report a trip
-  Future<ApiResult<ApiResponse<void>>> reportTrip(ReportTripParameters parameters);
+  Future<ApiResult<ApiResponse<void>>> reportTrip(
+    ReportTripParameters parameters,
+  );
 
   /// Evaluate a trip
   Future<ApiResult<ApiResponse<ApiTripEvaluation>>> tripEvaluation(
@@ -52,5 +72,7 @@ abstract class TripRepository {
   );
 
   /// Get trip detail
-  Future<ApiResult<ApiResponse<ApiTrip>>> getTripDetail(GetTripDetailParameters parameters);
+  Future<ApiResult<ApiResponse<ApiTrip>>> getTripDetail(
+    GetTripDetailParameters parameters,
+  );
 }

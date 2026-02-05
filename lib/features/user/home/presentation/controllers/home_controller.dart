@@ -60,10 +60,7 @@ class HomeController extends StateNotifier<HomeState> {
     final result = await _getAvailableTripsUseCase(params);
     result.when(
       success: (data, _) {
-        state = state.copyWith(
-          featuredTrips: data,
-          isLoadingTrips: false,
-        );
+        state = state.copyWith(featuredTrips: data, isLoadingTrips: false);
       },
       exception: (error) {
         state = state.copyWith(
@@ -115,24 +112,24 @@ class HomeState {
   });
 
   const HomeState.initial()
-      : homeData = null,
-        banners = const [],
-        advertisements = const [],
-        featuredTrips = const [],
-        notificationCount = 0,
-        isLoading = false,
-        isLoadingTrips = false,
-        errorMessage = null;
+    : homeData = null,
+      banners = const [],
+      advertisements = const [],
+      featuredTrips = const [],
+      notificationCount = 0,
+      isLoading = false,
+      isLoadingTrips = false,
+      errorMessage = null;
 
   const HomeState.loading()
-      : homeData = null,
-        banners = const [],
-        advertisements = const [],
-        featuredTrips = const [],
-        notificationCount = 0,
-        isLoading = true,
-        isLoadingTrips = false,
-        errorMessage = null;
+    : homeData = null,
+      banners = const [],
+      advertisements = const [],
+      featuredTrips = const [],
+      notificationCount = 0,
+      isLoading = true,
+      isLoadingTrips = false,
+      errorMessage = null;
 
   const HomeState.loaded({
     required this.homeData,
@@ -140,18 +137,18 @@ class HomeState {
     required this.advertisements,
     required this.featuredTrips,
     required this.notificationCount,
-  })  : isLoading = false,
-        isLoadingTrips = false,
-        errorMessage = null;
+  }) : isLoading = false,
+       isLoadingTrips = false,
+       errorMessage = null;
 
   const HomeState.error(this.errorMessage)
-      : homeData = null,
-        banners = const [],
-        advertisements = const [],
-        featuredTrips = const [],
-        notificationCount = 0,
-        isLoading = false,
-        isLoadingTrips = false;
+    : homeData = null,
+      banners = const [],
+      advertisements = const [],
+      featuredTrips = const [],
+      notificationCount = 0,
+      isLoading = false,
+      isLoadingTrips = false;
 
   bool get isLoaded => homeData != null;
   bool get hasError => errorMessage != null;

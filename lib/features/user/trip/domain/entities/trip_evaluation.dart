@@ -27,7 +27,9 @@ class TripEvaluation {
       rating: (map['rating'] as num).toInt(),
       comment: map['comment'] as String?,
       categories: map['categories'] != null
-          ? EvaluationCategories.fromMap(map['categories'] as Map<String, dynamic>)
+          ? EvaluationCategories.fromMap(
+              map['categories'] as Map<String, dynamic>,
+            )
           : null,
       createdAt: DateTime.parse(map['createdAt'] as String),
       metadata: Map<String, dynamic>.from(map['metadata'] as Map? ?? {}),

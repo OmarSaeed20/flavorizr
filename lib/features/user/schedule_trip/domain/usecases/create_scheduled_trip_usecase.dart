@@ -9,9 +9,7 @@ class CreateScheduledTripUseCase {
 
   CreateScheduledTripUseCase(this._repository);
 
-  Future<ApiResult<ScheduledTrip>> call(
-    CreateScheduledTripParameters params,
-  ) {
+  Future<ApiResult<ScheduledTrip>> call(CreateScheduledTripParameters params) {
     return _repository.createScheduledTrip(params);
   }
 }

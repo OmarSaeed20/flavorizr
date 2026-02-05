@@ -1,6 +1,5 @@
 // lib/features/trip/domain/entities/trip_type.dart
 
-
 /// Represents a trip type in the domain layer.
 ///
 /// Trip types define different categories of trips (e.g., economy, premium, etc.)

@@ -1,6 +1,5 @@
 // lib/features/trip/domain/entities/trip.dart
 
-
 /// Represents a trip in the domain layer.
 ///
 /// This entity contains all trip-related information that the app
@@ -40,7 +39,9 @@ class Trip {
       tripType: map['tripType'] as String?,
       status: TripStatus.fromString(map['status'] as String? ?? 'pending'),
       origin: TripLocation.fromMap(map['origin'] as Map<String, dynamic>),
-      destination: TripLocation.fromMap(map['destination'] as Map<String, dynamic>),
+      destination: TripLocation.fromMap(
+        map['destination'] as Map<String, dynamic>,
+      ),
       scheduledAt: map['scheduledAt'] != null
           ? DateTime.parse(map['scheduledAt'] as String)
           : null,

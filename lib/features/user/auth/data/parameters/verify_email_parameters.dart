@@ -8,10 +8,7 @@ class VerifyEmailParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  const VerifyEmailParameters({
-    required this.token,
-    this.cancelToken,
-  });
+  const VerifyEmailParameters({required this.token, this.cancelToken});
 
   /// Convert to JSON for API request
   @override
@@ -37,7 +34,8 @@ class VerifyEmailParameters extends Parameters {
 }
 
 /// Builder for VerifyEmailParameters
-class VerifyEmailParametersBuilder extends ParametersBuilder<VerifyEmailParameters> {
+class VerifyEmailParametersBuilder
+    extends ParametersBuilder<VerifyEmailParameters> {
   String? _token;
   CancelToken? _cancelToken;
 
@@ -59,9 +57,6 @@ class VerifyEmailParametersBuilder extends ParametersBuilder<VerifyEmailParamete
   /// Build the parameters object
   @override
   VerifyEmailParameters build() {
-    return VerifyEmailParameters(
-      token: _token!,
-      cancelToken: _cancelToken,
-    );
+    return VerifyEmailParameters(token: _token!, cancelToken: _cancelToken);
   }
 }

@@ -56,14 +56,18 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }
 
   Future<Conversation> getConversation(String id) async {
-    final result = await get<Map<String, dynamic>>(path: ChatEndpoints.conversationById(id));
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.conversationById(id),
+    );
     if (result.isError) {
       throw result.error!;
     }
     return Conversation.fromMap(result.data!);
   }
 
-  Future<Conversation> createDirectConversation({required String otherUserId}) async {
+  Future<Conversation> createDirectConversation({
+    required String otherUserId,
+  }) async {
     final result = await post<Map<String, dynamic>>(
       path: ChatEndpoints.createDirectConversation,
       data: {'other_user_id': otherUserId},
@@ -129,7 +133,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     return Conversation.fromMap(result.data!);
   }
 
-  Future<void> removeParticipant({required String conversationId, required String userId}) async {
+  Future<void> removeParticipant({
+    required String conversationId,
+    required String userId,
+  }) async {
     final result = await delete<void>(
       path: ChatEndpoints.removeParticipant(conversationId, userId),
     );
@@ -139,14 +146,18 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }
 
   Future<void> leaveConversation(String conversationId) async {
-    final result = await post<void>(path: ChatEndpoints.leaveConversation(conversationId));
+    final result = await post<void>(
+      path: ChatEndpoints.leaveConversation(conversationId),
+    );
     if (result.isError) {
       throw result.error!;
     }
   }
 
   Future<void> deleteConversation(String conversationId) async {
-    final result = await delete<void>(path: ChatEndpoints.deleteConversation(conversationId));
+    final result = await delete<void>(
+      path: ChatEndpoints.deleteConversation(conversationId),
+    );
     if (result.isError) {
       throw result.error!;
     }
@@ -159,14 +170,20 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }) async {
     final result = await post<void>(
       path: ChatEndpoints.muteConversation(conversationId),
-      data: {'mute': mute, if (duration != null) 'duration_seconds': duration.inSeconds},
+      data: {
+        'mute': mute,
+        if (duration != null) 'duration_seconds': duration.inSeconds,
+      },
     );
     if (result.isError) {
       throw result.error!;
     }
   }
 
-  Future<void> pinConversation({required String conversationId, required bool pin}) async {
+  Future<void> pinConversation({
+    required String conversationId,
+    required bool pin,
+  }) async {
     final result = await post<void>(
       path: ChatEndpoints.pinConversation(conversationId),
       data: {'pin': pin},
@@ -176,7 +193,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     }
   }
 
-  Future<void> archiveConversation({required String conversationId, required bool archive}) async {
+  Future<void> archiveConversation({
+    required String conversationId,
+    required bool archive,
+  }) async {
     final result = await post<void>(
       path: ChatEndpoints.archiveConversation(conversationId),
       data: {'archive': archive},
@@ -220,7 +240,9 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }
 
   Future<Message> getMessage(String messageId) async {
-    final result = await get<Map<String, dynamic>>(path: ChatEndpoints.getMessage(messageId));
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.getMessage(messageId),
+    );
     if (result.isError) {
       throw result.error!;
     }
@@ -271,7 +293,9 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     final result = await upload<Map<String, dynamic>>(
       path: ChatEndpoints.sendMediaMessage(conversationId),
       formData: formData,
-      onSendProgress: onProgress != null ? (int sent, int total) => onProgress(sent / total) : null,
+      onSendProgress: onProgress != null
+          ? (int sent, int total) => onProgress(sent / total)
+          : null,
     );
     if (result.isError) {
       throw result.error!;
@@ -293,7 +317,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     return Message.fromMap(result.data!);
   }
 
-  Future<Message> editMessage({required String messageId, required String content}) async {
+  Future<Message> editMessage({
+    required String messageId,
+    required String content,
+  }) async {
     final result = await patch<Map<String, dynamic>>(
       path: ChatEndpoints.editMessage(messageId),
       data: {'content': content},
@@ -304,7 +331,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     return Message.fromMap(result.data!);
   }
 
-  Future<void> deleteMessage({required String messageId, bool forEveryone = false}) async {
+  Future<void> deleteMessage({
+    required String messageId,
+    bool forEveryone = false,
+  }) async {
     final result = await delete<void>(
       path: ChatEndpoints.deleteMessage(messageId),
       queryParameters: {'for_everyone': forEveryone},
@@ -314,7 +344,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     }
   }
 
-  Future<void> markAsRead({required String conversationId, String? upToMessageId}) async {
+  Future<void> markAsRead({
+    required String conversationId,
+    String? upToMessageId,
+  }) async {
     final result = await post<void>(
       path: ChatEndpoints.markConversationAsRead(conversationId),
       data: {if (upToMessageId != null) 'up_to_message_id': upToMessageId},
@@ -324,7 +357,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     }
   }
 
-  Future<void> addReaction({required String messageId, required String reaction}) async {
+  Future<void> addReaction({
+    required String messageId,
+    required String reaction,
+  }) async {
     final result = await post<void>(
       path: ChatEndpoints.addReaction(messageId),
       data: {'reaction': reaction},
@@ -334,26 +370,41 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     }
   }
 
-  Future<void> removeReaction({required String messageId, required String reaction}) async {
-    final result = await delete<void>(path: ChatEndpoints.removeReaction(messageId, reaction));
+  Future<void> removeReaction({
+    required String messageId,
+    required String reaction,
+  }) async {
+    final result = await delete<void>(
+      path: ChatEndpoints.removeReaction(messageId, reaction),
+    );
     if (result.isError) {
       throw result.error!;
     }
   }
 
-  Future<void> pinMessage({required String messageId, required bool pin}) async {
-    final result = await post<void>(path: ChatEndpoints.pinMessage(messageId), data: {'pin': pin});
+  Future<void> pinMessage({
+    required String messageId,
+    required bool pin,
+  }) async {
+    final result = await post<void>(
+      path: ChatEndpoints.pinMessage(messageId),
+      data: {'pin': pin},
+    );
     if (result.isError) {
       throw result.error!;
     }
   }
 
   Future<List<Message>> getPinnedMessages(String conversationId) async {
-    final result = await get<List<dynamic>>(path: ChatEndpoints.getPinnedMessages(conversationId));
+    final result = await get<List<dynamic>>(
+      path: ChatEndpoints.getPinnedMessages(conversationId),
+    );
     if (result.isError) {
       throw result.error!;
     }
-    return result.data!.map((e) => Message.fromMap(e as Map<String, dynamic>)).toList();
+    return result.data!
+        .map((e) => Message.fromMap(e as Map<String, dynamic>))
+        .toList();
   }
 
   // ==================== Search ====================
@@ -366,7 +417,11 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }) async {
     final result = await get<Map<String, dynamic>>(
       path: ChatEndpoints.searchMessages(conversationId),
-      queryParameters: {'q': query, if (cursor != null) 'cursor': cursor, 'limit': limit},
+      queryParameters: {
+        'q': query,
+        if (cursor != null) 'cursor': cursor,
+        'limit': limit,
+      },
     );
 
     if (result.isError) {
@@ -392,7 +447,11 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }) async {
     final result = await get<Map<String, dynamic>>(
       path: ChatEndpoints.searchAllMessages,
-      queryParameters: {'q': query, if (cursor != null) 'cursor': cursor, 'limit': limit},
+      queryParameters: {
+        'q': query,
+        if (cursor != null) 'cursor': cursor,
+        'limit': limit,
+      },
     );
 
     if (result.isError) {
@@ -426,7 +485,9 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     final result = await upload<Map<String, dynamic>>(
       path: ChatEndpoints.uploadAttachment,
       formData: formData,
-      onSendProgress: onProgress != null ? (int sent, int total) => onProgress(sent / total) : null,
+      onSendProgress: onProgress != null
+          ? (int sent, int total) => onProgress(sent / total)
+          : null,
     );
 
     if (result.isError) {

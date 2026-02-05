@@ -32,7 +32,10 @@ class OnlineStatusSwitch extends ConsumerWidget {
                     const SizedBox(width: 12),
                     const Text(
                       'Online Status',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -58,7 +61,10 @@ class OnlineStatusSwitch extends ConsumerWidget {
                     const SizedBox(width: 12),
                     const Text(
                       'Available for Trips',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),

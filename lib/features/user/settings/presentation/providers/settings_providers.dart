@@ -9,31 +9,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // ==================== Repository Providers ====================
 
 /// Provider for NotificationSettingsRepository.
-final notificationSettingsRepositoryProvider = Provider<NotificationSettingsRepository>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  final networkInfo = ref.watch(networkInfoProvider);
-  return NotificationSettingsRepositoryImpl(prefs: prefs, networkInfo: networkInfo);
-});
+final notificationSettingsRepositoryProvider =
+    Provider<NotificationSettingsRepository>((ref) {
+      final prefs = ref.watch(sharedPreferencesProvider);
+      final networkInfo = ref.watch(networkInfoProvider);
+      return NotificationSettingsRepositoryImpl(
+        prefs: prefs,
+        networkInfo: networkInfo,
+      );
+    });
 
 // ==================== State Providers ====================
 
 /// Provider for the current notification settings.
-final currentNotificationSettingsProvider = FutureProvider<NotificationSettings>((ref) async {
-  final repository = ref.watch(notificationSettingsRepositoryProvider);
-  final result = await repository.getSettings();
-  return result.data ?? const NotificationSettings();
-});
+final currentNotificationSettingsProvider =
+    FutureProvider<NotificationSettings>((ref) async {
+      final repository = ref.watch(notificationSettingsRepositoryProvider);
+      final result = await repository.getSettings();
+      return result.data ?? const NotificationSettings();
+    });
 
 /// Stream provider for notification settings updates.
-final notificationSettingsStreamProvider = StreamProvider<NotificationSettings>((ref) {
-  final repository = ref.watch(notificationSettingsRepositoryProvider);
-  return repository.settingsUpdates;
-});
+final notificationSettingsStreamProvider = StreamProvider<NotificationSettings>(
+  (ref) {
+    final repository = ref.watch(notificationSettingsRepositoryProvider);
+    return repository.settingsUpdates;
+  },
+);
 
 // ==================== Controller Providers ====================
 
 /// Provider for NotificationSettingsController.
 final notificationSettingsControllerProvider =
-    NotifierProvider.autoDispose<NotificationSettingsController, NotificationSettingsState>(
-      NotificationSettingsController.new,
-    );
+    NotifierProvider.autoDispose<
+      NotificationSettingsController,
+      NotificationSettingsState
+    >(NotificationSettingsController.new);

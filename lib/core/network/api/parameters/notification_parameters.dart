@@ -9,10 +9,13 @@ class GetNotificationsParameters extends Parameters {
   final int _pageSize;
   final CancelToken? _cancelToken;
 
-  const GetNotificationsParameters._({int page = 1, int pageSize = 20, CancelToken? cancelToken})
-    : _page = page,
-      _pageSize = pageSize,
-      _cancelToken = cancelToken;
+  const GetNotificationsParameters._({
+    int page = 1,
+    int pageSize = 20,
+    CancelToken? cancelToken,
+  }) : _page = page,
+       _pageSize = pageSize,
+       _cancelToken = cancelToken;
 
   /// Convert to query parameters for API request
   @override
@@ -30,11 +33,13 @@ class GetNotificationsParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static GetNotificationsParametersBuilder builder() => GetNotificationsParametersBuilder();
+  static GetNotificationsParametersBuilder builder() =>
+      GetNotificationsParametersBuilder();
 }
 
 /// Builder for GetNotificationsParameters
-class GetNotificationsParametersBuilder extends ParametersBuilder<GetNotificationsParameters> {
+class GetNotificationsParametersBuilder
+    extends ParametersBuilder<GetNotificationsParameters> {
   int _page = 1;
   int _pageSize = 20;
   CancelToken? _cancelToken;
@@ -81,7 +86,8 @@ class GetNotificationCountParameters extends Parameters {
   @override
   CancelToken? get cancelToken => null;
 
-  GetNotificationCountParametersBuilder builder() => GetNotificationCountParametersBuilder();
+  GetNotificationCountParametersBuilder builder() =>
+      GetNotificationCountParametersBuilder();
 }
 
 /// Builder for GetNotificationCountParameters
@@ -93,7 +99,9 @@ class GetNotificationCountParametersBuilder
   }
 
   @override
-  GetNotificationCountParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  GetNotificationCountParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     // No-op since this parameters class doesn't support cancel tokens
     return this;
   }

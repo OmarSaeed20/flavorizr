@@ -1,4 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_document.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_profile.dart';
@@ -10,6 +9,7 @@ import 'package:flavorizr/features/driver/driver_profile/domain/usecases/get_dri
 import 'package:flavorizr/features/driver/driver_profile/domain/usecases/update_driver_profile_usecase.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/usecases/update_driver_vehicle_usecase.dart';
 import 'package:flavorizr/features/driver/driver_profile/domain/usecases/upload_driver_document_usecase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver profile operations.
 class DriverProfileState {
@@ -70,22 +70,16 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
 
   /// Gets driver profile.
   Future<void> getDriverProfile() async {
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true);
 
     final result = await _getDriverProfileUseCase();
 
     result.when(
       success: (data) {
-        state = state.copyWith(
-          profile: data,
-          isLoading: false,
-        );
+        state = state.copyWith(profile: data, isLoading: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isLoading: false,
-          error: error.message,
-        );
+        state = state.copyWith(isLoading: false, error: error.message);
       },
     );
   }
@@ -104,7 +98,7 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     DateTime? dateOfBirth,
     String? gender,
   }) async {
-    state = state.copyWith(isUpdating: true, error: null);
+    state = state.copyWith(isUpdating: true);
 
     final result = await _updateDriverProfileUseCase(
       firstName: firstName,
@@ -122,38 +116,26 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
 
     result.when(
       success: (data) {
-        state = state.copyWith(
-          profile: data,
-          isUpdating: false,
-        );
+        state = state.copyWith(profile: data, isUpdating: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isUpdating: false,
-          error: error.message,
-        );
+        state = state.copyWith(isUpdating: false, error: error.message);
       },
     );
   }
 
   /// Gets driver vehicle.
   Future<void> getDriverVehicle() async {
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true);
 
     final result = await _getDriverVehicleUseCase();
 
     result.when(
       success: (data) {
-        state = state.copyWith(
-          vehicle: data,
-          isLoading: false,
-        );
+        state = state.copyWith(vehicle: data, isLoading: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isLoading: false,
-          error: error.message,
-        );
+        state = state.copyWith(isLoading: false, error: error.message);
       },
     );
   }
@@ -171,7 +153,7 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     String? registrationNumber,
     DateTime? registrationExpiry,
   }) async {
-    state = state.copyWith(isUpdating: true, error: null);
+    state = state.copyWith(isUpdating: true);
 
     final result = await _updateDriverVehicleUseCase(
       make: make,
@@ -188,16 +170,10 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
 
     result.when(
       success: (data) {
-        state = state.copyWith(
-          vehicle: data,
-          isUpdating: false,
-        );
+        state = state.copyWith(vehicle: data, isUpdating: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isUpdating: false,
-          error: error.message,
-        );
+        state = state.copyWith(isUpdating: false, error: error.message);
       },
     );
   }
@@ -210,7 +186,7 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     String? backImageUrl,
     DateTime? expiryDate,
   }) async {
-    state = state.copyWith(isUpdating: true, error: null);
+    state = state.copyWith(isUpdating: true);
 
     final result = await _uploadDriverDocumentUseCase(
       documentType: documentType,
@@ -223,62 +199,45 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     result.when(
       success: (data) {
         final updatedDocuments = [...state.documents, data];
-        state = state.copyWith(
-          documents: updatedDocuments,
-          isUpdating: false,
-        );
+        state = state.copyWith(documents: updatedDocuments, isUpdating: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isUpdating: false,
-          error: error.message,
-        );
+        state = state.copyWith(isUpdating: false, error: error.message);
       },
     );
   }
 
   /// Gets driver documents.
   Future<void> getDriverDocuments() async {
-    state = state.copyWith(isLoading: true, error: null);
+    state = state.copyWith(isLoading: true);
 
     final result = await _getDriverDocumentsUseCase();
 
     result.when(
       success: (data) {
-        state = state.copyWith(
-          documents: data,
-          isLoading: false,
-        );
+        state = state.copyWith(documents: data, isLoading: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isLoading: false,
-          error: error.message,
-        );
+        state = state.copyWith(isLoading: false, error: error.message);
       },
     );
   }
 
   /// Deletes driver document.
   Future<void> deleteDriverDocument(String documentId) async {
-    state = state.copyWith(isUpdating: true, error: null);
+    state = state.copyWith(isUpdating: true);
 
     final result = await _deleteDriverDocumentUseCase(documentId);
 
     result.when(
       success: (_) {
-        final updatedDocuments =
-            state.documents.where((doc) => doc.id != documentId).toList();
-        state = state.copyWith(
-          documents: updatedDocuments,
-          isUpdating: false,
-        );
+        final updatedDocuments = state.documents
+            .where((doc) => doc.id != documentId)
+            .toList();
+        state = state.copyWith(documents: updatedDocuments, isUpdating: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isUpdating: false,
-          error: error.message,
-        );
+        state = state.copyWith(isUpdating: false, error: error.message);
       },
     );
   }
@@ -290,6 +249,6 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
 
   /// Clears the error message.
   void clearError() {
-    state = state.copyWith(error: null);
+    state = state.copyWith();
   }
 }

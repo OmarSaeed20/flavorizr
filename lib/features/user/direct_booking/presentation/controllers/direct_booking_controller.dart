@@ -53,7 +53,8 @@ class DirectBookingState {
           ? null
           : (currentBooking ?? this.currentBooking),
       selectedVehicleType: selectedVehicleType ?? this.selectedVehicleType,
-      isLoadingVehicleTypes: isLoadingVehicleTypes ?? this.isLoadingVehicleTypes,
+      isLoadingVehicleTypes:
+          isLoadingVehicleTypes ?? this.isLoadingVehicleTypes,
       isLoadingDrivers: isLoadingDrivers ?? this.isLoadingDrivers,
       isCreatingBooking: isCreatingBooking ?? this.isCreatingBooking,
       isCancellingBooking: isCancellingBooking ?? this.isCancellingBooking,
@@ -78,16 +79,22 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
 
   /// Gets available vehicle types.
   Future<void> getVehicleTypes() async {
-    state = state.copyWith(isLoadingVehicleTypes: true, error: null);
+    state = state.copyWith(isLoadingVehicleTypes: true);
 
     final result = await _getVehicleTypesUseCase();
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(vehicleTypes: data, isLoadingVehicleTypes: false);
+        state = state.copyWith(
+          vehicleTypes: data,
+          isLoadingVehicleTypes: false,
+        );
       },
       exception: (error) {
-        state = state.copyWith(isLoadingVehicleTypes: false, error: error.message);
+        state = state.copyWith(
+          isLoadingVehicleTypes: false,
+          error: error.message,
+        );
       },
     );
   }
@@ -99,7 +106,7 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
     String? vehicleType,
     int? radius,
   }) async {
-    state = state.copyWith(isLoadingDrivers: true, error: null);
+    state = state.copyWith(isLoadingDrivers: true);
 
     final result = await _getNearbyDriversUseCase(
       GetNearbyDriversParameters(
@@ -133,7 +140,7 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
     String? notes,
     String? promoCode,
   }) async {
-    state = state.copyWith(isCreatingBooking: true, error: null);
+    state = state.copyWith(isCreatingBooking: true);
 
     final result = await _createBookingUseCase(
       CreateBookingParameters(
@@ -162,16 +169,19 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
 
   /// Cancels a booking.
   Future<void> cancelBooking(String bookingId) async {
-    state = state.copyWith(isCancellingBooking: true, error: null);
+    state = state.copyWith(isCancellingBooking: true);
 
     final result = await _cancelBookingUseCase(bookingId);
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(currentBooking: null, isCancellingBooking: false);
+        state = state.copyWith(isCancellingBooking: false);
       },
       exception: (error) {
-        state = state.copyWith(isCancellingBooking: false, error: error.message);
+        state = state.copyWith(
+          isCancellingBooking: false,
+          error: error.message,
+        );
       },
     );
   }

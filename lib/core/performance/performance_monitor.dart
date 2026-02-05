@@ -50,7 +50,11 @@ class PerformanceMonitor {
 
     _startupTime = duration;
     _events.add(
-      PerformanceEvent(name: 'app_startup', timestamp: DateTime.now(), duration: duration),
+      PerformanceEvent(
+        name: 'app_startup',
+        timestamp: DateTime.now(),
+        duration: duration,
+      ),
     );
 
     if (kDebugMode) {
@@ -59,7 +63,11 @@ class PerformanceMonitor {
   }
 
   /// Record a custom performance event.
-  void recordEvent(String name, {Duration? duration, Map<String, dynamic>? metadata}) {
+  void recordEvent(
+    String name, {
+    Duration? duration,
+    Map<String, dynamic>? metadata,
+  }) {
     if (!_enabled) return;
 
     _events.add(
@@ -176,7 +184,12 @@ class PerformanceEvent {
   final Duration? duration;
   final Map<String, dynamic>? metadata;
 
-  PerformanceEvent({required this.name, required this.timestamp, this.duration, this.metadata});
+  PerformanceEvent({
+    required this.name,
+    required this.timestamp,
+    this.duration,
+    this.metadata,
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -299,7 +312,8 @@ class _FrameRateMonitor {
   void _updateStats() {
     if (_frameTimes.isEmpty) return;
 
-    final avgFrameTime = _frameTimes.reduce((a, b) => a + b) / _frameTimes.length;
+    final avgFrameTime =
+        _frameTimes.reduce((a, b) => a + b) / _frameTimes.length;
     _currentFPS = 1000000 / avgFrameTime;
 
     _averageFPS = _frameCount / _frameTimes.length * 1000000 / avgFrameTime;
@@ -363,10 +377,15 @@ class PerformanceMonitorWidget extends StatefulWidget {
   final Widget child;
   final bool showOverlay;
 
-  const PerformanceMonitorWidget({super.key, required this.child, this.showOverlay = true});
+  const PerformanceMonitorWidget({
+    super.key,
+    required this.child,
+    this.showOverlay = true,
+  });
 
   @override
-  State<PerformanceMonitorWidget> createState() => _PerformanceMonitorWidgetState();
+  State<PerformanceMonitorWidget> createState() =>
+      _PerformanceMonitorWidgetState();
 }
 
 class _PerformanceMonitorWidgetState extends State<PerformanceMonitorWidget> {
@@ -408,7 +427,10 @@ class _PerformanceOverlay extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: Colors.black87,
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -433,10 +455,17 @@ class _PerformanceOverlay extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('$label: ', style: const TextStyle(color: Colors.white70, fontSize: 10)),
+          Text(
+            '$label: ',
+            style: const TextStyle(color: Colors.white70, fontSize: 10),
+          ),
           Text(
             value,
-            style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -452,7 +481,15 @@ extension PerformanceMonitorExtensions on BuildContext {
   }
 
   /// Record a performance event.
-  void recordPerformanceEvent(String name, {Duration? duration, Map<String, dynamic>? metadata}) {
-    PerformanceMonitor.instance.recordEvent(name, duration: duration, metadata: metadata);
+  void recordPerformanceEvent(
+    String name, {
+    Duration? duration,
+    Map<String, dynamic>? metadata,
+  }) {
+    PerformanceMonitor.instance.recordEvent(
+      name,
+      duration: duration,
+      metadata: metadata,
+    );
   }
 }

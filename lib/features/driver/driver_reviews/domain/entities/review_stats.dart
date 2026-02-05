@@ -28,17 +28,17 @@ class ReviewStats extends Equatable {
 
   @override
   List<Object?> get props => [
-        averageRating,
-        totalReviews,
-        fiveStarCount,
-        fourStarCount,
-        threeStarCount,
-        twoStarCount,
-        oneStarCount,
-        respondedCount,
-        pendingResponseCount,
-        lastReviewDate,
-      ];
+    averageRating,
+    totalReviews,
+    fiveStarCount,
+    fourStarCount,
+    threeStarCount,
+    twoStarCount,
+    oneStarCount,
+    respondedCount,
+    pendingResponseCount,
+    lastReviewDate,
+  ];
 
   ReviewStats copyWith({
     double? averageRating,

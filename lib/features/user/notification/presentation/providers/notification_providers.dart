@@ -11,28 +11,35 @@ import 'package:flavorizr/features/user/notification/presentation/controllers/no
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Datasource Provider
-final notificationRemoteDataSourceProvider = Provider<NotificationRemoteDataSource>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return NotificationRemoteDataSourceImpl(apiClient);
-});
+final notificationRemoteDataSourceProvider =
+    Provider<NotificationRemoteDataSource>((ref) {
+      final apiClient = ref.watch(apiClientProvider);
+      return NotificationRemoteDataSourceImpl(apiClient);
+    });
 
 // Repository Provider
 final notificationRepositoryProvider = Provider<NotificationRepository>((ref) {
   final remoteDataSource = ref.watch(notificationRemoteDataSourceProvider);
   final networkInfo = ref.watch(networkInfoProvider);
-  return NotificationRepositoryImpl(remoteDataSource: remoteDataSource, networkInfo: networkInfo);
+  return NotificationRepositoryImpl(
+    remoteDataSource: remoteDataSource,
+    networkInfo: networkInfo,
+  );
 });
 
 // Use Case Providers
-final getNotificationsUseCaseProvider = Provider<GetNotificationsUseCase>((ref) {
+final getNotificationsUseCaseProvider = Provider<GetNotificationsUseCase>((
+  ref,
+) {
   final repository = ref.watch(notificationRepositoryProvider);
   return GetNotificationsUseCase(repository);
 });
 
-final getNotificationCountUseCaseProvider = Provider<GetNotificationCountUseCase>((ref) {
-  final repository = ref.watch(notificationRepositoryProvider);
-  return GetNotificationCountUseCase(repository);
-});
+final getNotificationCountUseCaseProvider =
+    Provider<GetNotificationCountUseCase>((ref) {
+      final repository = ref.watch(notificationRepositoryProvider);
+      return GetNotificationCountUseCase(repository);
+    });
 
 final markAsReadUseCaseProvider = Provider<MarkAsReadUseCase>((ref) {
   final repository = ref.watch(notificationRepositoryProvider);

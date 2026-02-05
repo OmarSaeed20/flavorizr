@@ -161,16 +161,8 @@ class DeviceInfo {
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Returns a value based on device type
-  T byDevice<T>({
-    required T mobile,
-    T? tablet,
-    T? desktop,
-  }) {
-    return deviceType.when(
-      mobile: mobile,
-      tablet: tablet,
-      desktop: desktop,
-    );
+  T byDevice<T>({required T mobile, T? tablet, T? desktop}) {
+    return deviceType.when(mobile: mobile, tablet: tablet, desktop: desktop);
   }
 
   /// Returns a value based on window size class
@@ -191,10 +183,7 @@ class DeviceInfo {
   }
 
   /// Returns a value based on orientation
-  T byOrientation<T>({
-    required T portrait,
-    required T landscape,
-  }) {
+  T byOrientation<T>({required T portrait, required T landscape}) {
     return orientation.isPortrait ? portrait : landscape;
   }
 
@@ -230,29 +219,17 @@ class DeviceInfo {
 
   /// Base scale factor for the current device
   double get scaleFactor {
-    return byDevice(
-      mobile: 1.0,
-      tablet: 1.15,
-      desktop: 1.25,
-    );
+    return byDevice(mobile: 1.0, tablet: 1.15, desktop: 1.25);
   }
 
   /// Icon scale factor
   double get iconScaleFactor {
-    return byDevice(
-      mobile: 1.0,
-      tablet: 1.1,
-      desktop: 1.2,
-    );
+    return byDevice(mobile: 1.0, tablet: 1.1, desktop: 1.2);
   }
 
   /// Font scale factor (respects system text scale)
   double get fontScaleFactor {
-    final baseScale = byDevice(
-      mobile: 1.0,
-      tablet: 1.05,
-      desktop: 1.1,
-    );
+    final baseScale = byDevice(mobile: 1.0, tablet: 1.05, desktop: 1.1);
     return baseScale * textScaleFactor.clamp(0.8, 1.4);
   }
 
@@ -312,15 +289,15 @@ class DeviceInfo {
 
   @override
   int get hashCode => Object.hash(
-        deviceType,
-        windowSizeClass,
-        orientation,
-        platform,
-        screenWidth,
-        screenHeight,
-        pixelRatio,
-        isDarkMode,
-      );
+    deviceType,
+    windowSizeClass,
+    orientation,
+    platform,
+    screenWidth,
+    screenHeight,
+    pixelRatio,
+    isDarkMode,
+  );
 
   @override
   String toString() {

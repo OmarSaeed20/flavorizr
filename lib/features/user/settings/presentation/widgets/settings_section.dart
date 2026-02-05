@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 /// Provides a consistent visual structure with a title header
 /// and a list of setting items.
 class SettingsSection extends StatelessWidget {
-  const SettingsSection({super.key, required this.title, required this.children, this.padding});
+  const SettingsSection({
+    super.key,
+    required this.title,
+    required this.children,
+    this.padding,
+  });
 
   /// The title displayed at the top of the section.
   final String title;
@@ -44,8 +49,16 @@ class SettingsSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,
               border: Border(
-                top: BorderSide(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
-                bottom: BorderSide(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
+                top: BorderSide(
+                  color: theme.colorScheme.outlineVariant.withValues(
+                    alpha: 0.5,
+                  ),
+                ),
+                bottom: BorderSide(
+                  color: theme.colorScheme.outlineVariant.withValues(
+                    alpha: 0.5,
+                  ),
+                ),
               ),
             ),
             child: Column(children: _buildChildrenWithDividers(context)),
@@ -64,7 +77,9 @@ class SettingsSection extends StatelessWidget {
           Divider(
             height: 1,
             indent: 56,
-            color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.5),
+            color: Theme.of(
+              context,
+            ).colorScheme.outlineVariant.withValues(alpha: 0.5),
           ),
         );
       }

@@ -117,7 +117,9 @@ class ImageCacheService {
     List<ImageProvider> providers, {
     ImageSize size = ImageSize.medium,
   }) async {
-    final futures = providers.map((provider) => preloadImage(provider, size: size));
+    final futures = providers.map(
+      (provider) => preloadImage(provider, size: size),
+    );
 
     await Future.wait(futures);
   }
@@ -126,7 +128,8 @@ class ImageCacheService {
   int get cacheSize => PaintingBinding.instance.imageCache.currentSize;
 
   /// Gets the current cache size in bytes.
-  int get cacheSizeBytes => PaintingBinding.instance.imageCache.currentSizeBytes;
+  int get cacheSizeBytes =>
+      PaintingBinding.instance.imageCache.currentSizeBytes;
 
   /// Gets the cache status.
   Map<String, dynamic> get cacheStatus => {
@@ -134,7 +137,9 @@ class ImageCacheService {
     'maximumSize': maxCacheSize,
     'currentSizeBytes': cacheSizeBytes,
     'maximumSizeBytes': maxCacheBytes,
-    'usagePercentage': (cacheSizeBytes / maxCacheBytes * 100).toStringAsFixed(2),
+    'usagePercentage': (cacheSizeBytes / maxCacheBytes * 100).toStringAsFixed(
+      2,
+    ),
   };
 
   /// Evicts an image from the cache.

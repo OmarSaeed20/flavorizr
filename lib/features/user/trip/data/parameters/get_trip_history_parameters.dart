@@ -13,10 +13,7 @@ class GetTripHistoryParameters extends Parameters {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-    'page': page,
-    'per_page': perPage,
-  };
+  Map<String, dynamic> toJson() => {'page': page, 'per_page': perPage};
 
   final int page;
   final int perPage;
@@ -24,11 +21,13 @@ class GetTripHistoryParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static GetTripHistoryParametersBuilder builder() => GetTripHistoryParametersBuilder();
+  static GetTripHistoryParametersBuilder builder() =>
+      GetTripHistoryParametersBuilder();
 }
 
 /// Builder for GetTripHistoryParameters.
-class GetTripHistoryParametersBuilder extends ParametersBuilder<GetTripHistoryParameters> {
+class GetTripHistoryParametersBuilder
+    extends ParametersBuilder<GetTripHistoryParameters> {
   int _page = 1;
   int _perPage = 10;
   CancelToken? _cancelToken;

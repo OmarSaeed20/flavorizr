@@ -77,6 +77,5 @@ class SplashController extends Notifier<SplashState> {
 }
 
 /// Provider for SplashController.
-final splashControllerProvider = NotifierProvider<SplashController, SplashState>(
-  SplashController.new,
-);
+final splashControllerProvider =
+    NotifierProvider<SplashController, SplashState>(SplashController.new);

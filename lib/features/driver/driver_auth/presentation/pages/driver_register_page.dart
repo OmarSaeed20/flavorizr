@@ -1,19 +1,17 @@
+import 'package:flavorizr/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_email_input.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_name_input.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/controllers/driver_auth_controller.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_name_input.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_email_input.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
 
 /// Page for driver registration.
 class DriverRegisterPage extends ConsumerStatefulWidget {
   const DriverRegisterPage({super.key});
 
   @override
-  ConsumerState<DriverRegisterPage> createState() =>
-      _DriverRegisterPageState();
+  ConsumerState<DriverRegisterPage> createState() => _DriverRegisterPageState();
 }
 
 class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
@@ -36,7 +34,9 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
 
   void _handleRegister() {
     if (_formKey.currentState!.validate()) {
-      ref.read(driverAuthControllerProvider.notifier).register(
+      ref
+          .read(driverAuthControllerProvider.notifier)
+          .register(
             firstName: _firstNameController.text,
             lastName: _lastNameController.text,
             email: _emailController.text,
@@ -51,9 +51,7 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
     final state = ref.watch(driverAuthControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Driver Registration'),
-      ),
+      appBar: AppBar(title: const Text('Driver Registration')),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -63,27 +61,17 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 16),
-                const Icon(
-                  Icons.person_add,
-                  size: 80,
-                  color: Colors.blue,
-                ),
+                const Icon(Icons.person_add, size: 80, color: Colors.blue),
                 const SizedBox(height: 24),
                 const Text(
                   'Create Account',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Join as a driver',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
@@ -113,10 +101,7 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Text(
                       state.error!,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
+                      style: const TextStyle(color: Colors.red, fontSize: 14),
                       textAlign: TextAlign.center,
                     ),
                   ),

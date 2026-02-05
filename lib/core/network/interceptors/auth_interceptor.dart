@@ -10,7 +10,10 @@ class AuthInterceptor extends Interceptor {
   static const String _refreshTokenKey = 'refresh_token';
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     // Skip auth for public endpoints
     if (_isPublicEndpoint(options.path)) {
       return handler.next(options);
@@ -29,7 +32,10 @@ class AuthInterceptor extends Interceptor {
   }
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     // Handle 401 - try to refresh token
     if (err.response?.statusCode == 401) {
       try {
@@ -65,10 +71,16 @@ class AuthInterceptor extends Interceptor {
       if (refreshToken == null) return false;
 
       final dio = Dio(
-        BaseOptions(baseUrl: options.baseUrl, connectTimeout: const Duration(seconds: 10)),
+        BaseOptions(
+          baseUrl: options.baseUrl,
+          connectTimeout: const Duration(seconds: 10),
+        ),
       );
 
-      final response = await dio.post('/auth/token/refresh', data: {'refresh_token': refreshToken});
+      final response = await dio.post(
+        '/auth/token/refresh',
+        data: {'refresh_token': refreshToken},
+      );
 
       if (response.statusCode == 200) {
         final newAccessToken = response.data['access_token'];
@@ -76,7 +88,10 @@ class AuthInterceptor extends Interceptor {
 
         await _secureStorage.write(key: _accessTokenKey, value: newAccessToken);
         if (newRefreshToken != null) {
-          await _secureStorage.write(key: _refreshTokenKey, value: newRefreshToken);
+          await _secureStorage.write(
+            key: _refreshTokenKey,
+            value: newRefreshToken,
+          );
         }
 
         AppLogger.d('Token refreshed successfully');
@@ -106,7 +121,10 @@ class AuthInterceptor extends Interceptor {
   }
 
   /// Save tokens after successful authentication
-  static Future<void> saveTokens({required String accessToken, String? refreshToken}) async {
+  static Future<void> saveTokens({
+    required String accessToken,
+    String? refreshToken,
+  }) async {
     const storage = FlutterSecureStorage();
     await storage.write(key: _accessTokenKey, value: accessToken);
     if (refreshToken != null) {

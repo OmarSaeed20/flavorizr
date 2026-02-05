@@ -33,11 +33,13 @@ class UpdateTripLocationParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateTripLocationParametersBuilder builder() => UpdateTripLocationParametersBuilder();
+  static UpdateTripLocationParametersBuilder builder() =>
+      UpdateTripLocationParametersBuilder();
 }
 
 /// Builder for UpdateTripLocationParameters
-class UpdateTripLocationParametersBuilder extends ParametersBuilder<UpdateTripLocationParameters> {
+class UpdateTripLocationParametersBuilder
+    extends ParametersBuilder<UpdateTripLocationParameters> {
   String? _tripId;
   double? _latitude;
   double? _longitude;
@@ -63,7 +65,9 @@ class UpdateTripLocationParametersBuilder extends ParametersBuilder<UpdateTripLo
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateTripLocationParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UpdateTripLocationParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

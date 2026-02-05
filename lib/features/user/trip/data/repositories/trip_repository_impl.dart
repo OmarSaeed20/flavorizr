@@ -58,7 +58,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Trip Types ====================
 
   @override
-  Future<ApiResult<List<TripType>>> getTripTypes(GetTripTypesParameters parameters) async {
+  Future<ApiResult<List<TripType>>> getTripTypes(
+    GetTripTypesParameters parameters,
+  ) async {
     final result = await fetchWithCache<List<TripTypeModel>>(
       cacheKey: 'trip_types',
       remoteFetcher: () => _remoteDataSource.getTripTypes(parameters),
@@ -80,11 +82,14 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Trip CRUD ====================
 
   @override
-  Future<ApiResult<Trip>> getTripDetail(GetTripDetailParameters parameters) async {
+  Future<ApiResult<Trip>> getTripDetail(
+    GetTripDetailParameters parameters,
+  ) async {
     final result = await fetchWithCache<TripModel>(
       cacheKey: 'trip_${parameters.tripId}',
       remoteFetcher: () => _remoteDataSource.getTripDetail(parameters),
-      localFetcher: () => _localDataSource.getCachedTrip(parameters.tripId.toString()),
+      localFetcher: () =>
+          _localDataSource.getCachedTrip(parameters.tripId.toString()),
       cacheSaver: _localDataSource.saveTrip,
       maxCacheAge: const Duration(minutes: 5),
     );
@@ -96,7 +101,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<Trip>> getCaptainTripDetail(GetCaptainTripDetailParameters parameters) async {
+  Future<ApiResult<Trip>> getCaptainTripDetail(
+    GetCaptainTripDetailParameters parameters,
+  ) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.getCaptainTripDetail(parameters),
     );
@@ -108,7 +115,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<List<Trip>>> getTripHistory(GetTripHistoryParameters parameters) async {
+  Future<ApiResult<List<Trip>>> getTripHistory(
+    GetTripHistoryParameters parameters,
+  ) async {
     final result = await fetchWithCache<List<TripModel>>(
       cacheKey: 'trip_history',
       remoteFetcher: () => _remoteDataSource.getTripHistory(parameters),
@@ -136,7 +145,8 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
     );
 
     return result.when(
-      success: (data, error) => ApiResult.success(data.map((e) => e.toEntity()).toList(), error),
+      success: (data, error) =>
+          ApiResult.success(data.map((e) => e.toEntity()).toList(), error),
       exception: ApiResult.exception,
     );
   }
@@ -144,7 +154,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Trip Creation ====================
 
   @override
-  Future<ApiResult<Trip>> storePublicTrip(StorePublicTripParameters parameters) async {
+  Future<ApiResult<Trip>> storePublicTrip(
+    StorePublicTripParameters parameters,
+  ) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.storePublicTrip(parameters),
     );
@@ -159,7 +171,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<Trip>> storePrivateTrip(StorePrivateTripParameters parameters) async {
+  Future<ApiResult<Trip>> storePrivateTrip(
+    StorePrivateTripParameters parameters,
+  ) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.storePrivateTrip(parameters),
     );
@@ -174,7 +188,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<Trip>> editPrivateTrip(EditPrivateTripParameters parameters) async {
+  Future<ApiResult<Trip>> editPrivateTrip(
+    EditPrivateTripParameters parameters,
+  ) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.editPrivateTrip(parameters),
     );
@@ -230,7 +246,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<TripEvaluation>> tripEvaluation(TripEvaluationParameters parameters) async {
+  Future<ApiResult<TripEvaluation>> tripEvaluation(
+    TripEvaluationParameters parameters,
+  ) async {
     final result = await executeRemoteRequest<TripEvaluationModel>(
       request: () => _remoteDataSource.tripEvaluation(parameters),
     );
@@ -244,7 +262,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Orders ====================
 
   @override
-  Future<ApiResult<TripOrder>> bookNowOrder(BookNowOrderParameters parameters) async {
+  Future<ApiResult<TripOrder>> bookNowOrder(
+    BookNowOrderParameters parameters,
+  ) async {
     final result = await executeRemoteRequest<TripOrderModel>(
       request: () => _remoteDataSource.bookNowOrder(parameters),
     );
@@ -259,7 +279,9 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<List<TripOrder>>> getMyOrders(GetMyOrdersParameters parameters) async {
+  Future<ApiResult<List<TripOrder>>> getMyOrders(
+    GetMyOrdersParameters parameters,
+  ) async {
     final result = await fetchWithCache<List<TripOrderModel>>(
       cacheKey: 'my_orders',
       remoteFetcher: () => _remoteDataSource.getMyOrders(parameters),

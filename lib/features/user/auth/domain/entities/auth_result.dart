@@ -8,7 +8,11 @@ import 'package:flavorizr/features/user/auth/domain/entities/user.dart';
 /// for subsequent API requests.
 class AuthResult {
   /// Creates a new [AuthResult] instance.
-  const AuthResult({required this.user, required this.tokens, this.isNewUser = false});
+  const AuthResult({
+    required this.user,
+    required this.tokens,
+    this.isNewUser = false,
+  });
 
   /// The authenticated user.
   final User user;

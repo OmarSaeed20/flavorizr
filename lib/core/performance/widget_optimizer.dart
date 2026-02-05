@@ -45,7 +45,11 @@ class WidgetOptimizer {
     required Widget Function(BuildContext context, T value) builder,
     bool Function(T, T)? shouldRebuild,
   }) {
-    return _RebuildOptimizer<T>(value: value, builder: builder, shouldRebuild: shouldRebuild);
+    return _RebuildOptimizer<T>(
+      value: value,
+      builder: builder,
+      shouldRebuild: shouldRebuild,
+    );
   }
 
   /// Create an optimized list view.
@@ -53,7 +57,8 @@ class WidgetOptimizer {
   /// This uses various optimizations to improve list performance.
   static Widget optimizedListView<T>({
     required List<T> items,
-    required Widget Function(BuildContext context, T item, int index) itemBuilder,
+    required Widget Function(BuildContext context, T item, int index)
+    itemBuilder,
     Widget? separatorBuilder,
     ScrollController? controller,
     ScrollPhysics? physics,
@@ -102,7 +107,8 @@ class WidgetOptimizer {
   /// This uses various optimizations to improve grid performance.
   static Widget optimizedGridView<T>({
     required List<T> items,
-    required Widget Function(BuildContext context, T item, int index) itemBuilder,
+    required Widget Function(BuildContext context, T item, int index)
+    itemBuilder,
     required SliverGridDelegate gridDelegate,
     ScrollController? controller,
     ScrollPhysics? physics,
@@ -146,7 +152,8 @@ class WidgetOptimizer {
   /// This uses various optimizations to improve page view performance.
   static Widget optimizedPageView<T>({
     required List<T> items,
-    required Widget Function(BuildContext context, T item, int index) itemBuilder,
+    required Widget Function(BuildContext context, T item, int index)
+    itemBuilder,
     PageController? controller,
     ScrollPhysics? physics,
     bool pageSnapping = true,
@@ -188,7 +195,10 @@ class WidgetOptimizer {
   /// Create a memoized widget.
   ///
   /// This caches the widget and only rebuilds when dependencies change.
-  static Widget memoized<T>({required List<T> dependencies, required Widget Function() builder}) {
+  static Widget memoized<T>({
+    required List<T> dependencies,
+    required Widget Function() builder,
+  }) {
     return _MemoizedWidget<T>(dependencies: dependencies, builder: builder);
   }
 }
@@ -215,7 +225,8 @@ class _KeepAliveWrapper extends StatefulWidget {
   State<_KeepAliveWrapper> createState() => _KeepAliveWrapperState();
 }
 
-class _KeepAliveWrapperState extends State<_KeepAliveWrapper> with AutomaticKeepAliveClientMixin {
+class _KeepAliveWrapperState extends State<_KeepAliveWrapper>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -255,7 +266,11 @@ class _RebuildOptimizer<T> extends StatefulWidget {
   final Widget Function(BuildContext context, T value) builder;
   final bool Function(T, T)? shouldRebuild;
 
-  const _RebuildOptimizer({required this.value, required this.builder, this.shouldRebuild});
+  const _RebuildOptimizer({
+    required this.value,
+    required this.builder,
+    this.shouldRebuild,
+  });
 
   @override
   State<_RebuildOptimizer<T>> createState() => _RebuildOptimizerState<T>();

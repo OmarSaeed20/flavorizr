@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flavorizr/features/user/direct_booking/presentation/controllers/direct_booking_controller.dart';
 import 'package:flavorizr/features/user/direct_booking/presentation/providers/direct_booking_providers.dart';
-import 'package:flavorizr/features/user/direct_booking/presentation/widgets/vehicle_type_card.dart';
-import 'package:flavorizr/features/user/direct_booking/presentation/widgets/driver_info_card.dart';
 import 'package:flavorizr/features/user/direct_booking/presentation/widgets/booking_status_card.dart';
+import 'package:flavorizr/features/user/direct_booking/presentation/widgets/driver_info_card.dart';
+import 'package:flavorizr/features/user/direct_booking/presentation/widgets/vehicle_type_card.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Page for direct booking operations.
 class DirectBookingPage extends ConsumerStatefulWidget {
@@ -30,9 +30,7 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
     final state = ref.watch(directBookingControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Book a Ride'),
-      ),
+      appBar: AppBar(title: const Text('Book a Ride')),
       body: state.currentBooking != null
           ? BookingStatusCard(
               booking: state.currentBooking!,
@@ -73,10 +71,7 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
           children: [
             const Text(
               'Pickup Location',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             TextField(
@@ -91,10 +86,7 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
             const SizedBox(height: 16),
             const Text(
               'Dropoff Location',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             TextField(
@@ -118,34 +110,32 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
       children: [
         const Text(
           'Select Vehicle Type',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        state.isLoadingVehicleTypes
-            ? const Center(child: CircularProgressIndicator())
-            : state.vehicleTypes.isEmpty
-                ? const Text('No vehicle types available')
-                : ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.vehicleTypes.length,
-                    itemBuilder: (context, index) {
-                      final vehicleType = state.vehicleTypes[index];
-                      return VehicleTypeCard(
-                        vehicleType: vehicleType,
-                        isSelected:
-                            state.selectedVehicleType?.id == vehicleType.id,
-                        onTap: () {
-                          ref
-                              .read(directBookingControllerProvider.notifier)
-                              .selectVehicleType(vehicleType);
-                        },
-                      );
-                    },
-                  ),
+        if (state.isLoadingVehicleTypes)
+          const Center(child: CircularProgressIndicator())
+        else
+          state.vehicleTypes.isEmpty
+              ? const Text('No vehicle types available')
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.vehicleTypes.length,
+                  itemBuilder: (context, index) {
+                    final vehicleType = state.vehicleTypes[index];
+                    return VehicleTypeCard(
+                      vehicleType: vehicleType,
+                      isSelected:
+                          state.selectedVehicleType?.id == vehicleType.id,
+                      onTap: () {
+                        ref
+                            .read(directBookingControllerProvider.notifier)
+                            .selectVehicleType(vehicleType);
+                      },
+                    );
+                  },
+                ),
       ],
     );
   }
@@ -156,25 +146,23 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
       children: [
         const Text(
           'Nearby Drivers',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        state.isLoadingDrivers
-            ? const Center(child: CircularProgressIndicator())
-            : state.nearbyDrivers.isEmpty
-                ? const Text('No drivers nearby')
-                : ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.nearbyDrivers.length,
-                    itemBuilder: (context, index) {
-                      final driver = state.nearbyDrivers[index];
-                      return DriverInfoCard(driver: driver);
-                    },
-                  ),
+        if (state.isLoadingDrivers)
+          const Center(child: CircularProgressIndicator())
+        else
+          state.nearbyDrivers.isEmpty
+              ? const Text('No drivers nearby')
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.nearbyDrivers.length,
+                  itemBuilder: (context, index) {
+                    final driver = state.nearbyDrivers[index];
+                    return DriverInfoCard(driver: driver);
+                  },
+                ),
       ],
     );
   }

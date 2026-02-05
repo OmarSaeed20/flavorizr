@@ -11,7 +11,8 @@ import 'package:flavorizr/features/driver/driver_home/domain/repositories/driver
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Provides offline capability with local caching.
-class DriverHomeRepositoryImpl extends BaseRepository implements DriverHomeRepository {
+class DriverHomeRepositoryImpl extends BaseRepository
+    implements DriverHomeRepository {
   final DriverHomeRemoteDataSource _remoteDataSource;
   final DriverHomeLocalDataSource _localDataSource;
 

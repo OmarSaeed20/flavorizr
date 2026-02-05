@@ -31,7 +31,10 @@ class AccessibilityService {
   ///
   /// [message] - The text to announce.
   /// [assertiveness] - How urgently the announcement should be made.
-  void announce(String message, {Assertiveness assertiveness = Assertiveness.polite}) {
+  void announce(
+    String message, {
+    Assertiveness assertiveness = Assertiveness.polite,
+  }) {
     SemanticsService.announce(message, TextDirection.ltr);
   }
 

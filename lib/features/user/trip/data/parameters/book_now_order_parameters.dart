@@ -6,26 +6,23 @@ import 'package:meta/meta.dart';
 /// Parameters for booking a trip now.
 @immutable
 class BookNowOrderParameters extends Parameters {
-  const BookNowOrderParameters._({
-    required this.orderId,
-    this.cancelToken,
-  });
+  const BookNowOrderParameters._({required this.orderId, this.cancelToken});
 
   @override
-  Map<String, dynamic> toJson() => {
-    'order_id': orderId,
-  };
+  Map<String, dynamic> toJson() => {'order_id': orderId};
 
   final int orderId;
 
   @override
   final CancelToken? cancelToken;
 
-  static BookNowOrderParametersBuilder builder() => BookNowOrderParametersBuilder();
+  static BookNowOrderParametersBuilder builder() =>
+      BookNowOrderParametersBuilder();
 }
 
 /// Builder for BookNowOrderParameters.
-class BookNowOrderParametersBuilder extends ParametersBuilder<BookNowOrderParameters> {
+class BookNowOrderParametersBuilder
+    extends ParametersBuilder<BookNowOrderParameters> {
   int? _orderId;
   CancelToken? _cancelToken;
 

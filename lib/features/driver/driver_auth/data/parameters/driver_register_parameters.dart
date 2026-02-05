@@ -109,11 +109,13 @@ class DriverRegisterParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static DriverRegisterParametersBuilder builder() => DriverRegisterParametersBuilder();
+  static DriverRegisterParametersBuilder builder() =>
+      DriverRegisterParametersBuilder();
 }
 
 /// Builder for DriverRegisterParameters
-class DriverRegisterParametersBuilder extends ParametersBuilder<DriverRegisterParameters> {
+class DriverRegisterParametersBuilder
+    extends ParametersBuilder<DriverRegisterParameters> {
   String? _phone;
   String? _password;
   String? _passwordConfirmation;
@@ -146,7 +148,9 @@ class DriverRegisterParametersBuilder extends ParametersBuilder<DriverRegisterPa
   }
 
   /// Set the password confirmation
-  DriverRegisterParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
+  DriverRegisterParametersBuilder withPasswordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
@@ -206,13 +210,17 @@ class DriverRegisterParametersBuilder extends ParametersBuilder<DriverRegisterPa
   }
 
   /// Set the driving license image (base64)
-  DriverRegisterParametersBuilder withDrivingLicenseImage(String drivingLicenseImage) {
+  DriverRegisterParametersBuilder withDrivingLicenseImage(
+    String drivingLicenseImage,
+  ) {
     _drivingLicenseImage = drivingLicenseImage;
     return this;
   }
 
   /// Set the vehicle license image (base64)
-  DriverRegisterParametersBuilder withVehicleLicenseImage(String vehicleLicenseImage) {
+  DriverRegisterParametersBuilder withVehicleLicenseImage(
+    String vehicleLicenseImage,
+  ) {
     _vehicleLicenseImage = vehicleLicenseImage;
     return this;
   }
@@ -230,7 +238,9 @@ class DriverRegisterParametersBuilder extends ParametersBuilder<DriverRegisterPa
   }
 
   /// Set the vehicle plate number
-  DriverRegisterParametersBuilder withVehiclePlateNumber(String vehiclePlateNumber) {
+  DriverRegisterParametersBuilder withVehiclePlateNumber(
+    String vehiclePlateNumber,
+  ) {
     _vehiclePlateNumber = vehiclePlateNumber;
     return this;
   }

@@ -96,16 +96,8 @@ class ResponsiveContext {
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Returns value based on device type
-  T byDevice<T>({
-    required T mobile,
-    T? tablet,
-    T? desktop,
-  }) {
-    return device.byDevice(
-      mobile: mobile,
-      tablet: tablet,
-      desktop: desktop,
-    );
+  T byDevice<T>({required T mobile, T? tablet, T? desktop}) {
+    return device.byDevice(mobile: mobile, tablet: tablet, desktop: desktop);
   }
 
   /// Returns value based on window size class
@@ -126,14 +118,8 @@ class ResponsiveContext {
   }
 
   /// Returns value based on orientation
-  T byOrientation<T>({
-    required T portrait,
-    required T landscape,
-  }) {
-    return device.byOrientation(
-      portrait: portrait,
-      landscape: landscape,
-    );
+  T byOrientation<T>({required T portrait, required T landscape}) {
+    return device.byOrientation(portrait: portrait, landscape: landscape);
   }
 
   /// Returns value based on platform

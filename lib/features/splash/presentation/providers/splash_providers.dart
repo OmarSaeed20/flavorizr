@@ -1,9 +1,9 @@
 // lib/features/splash/presentation/providers/splash_providers.dart
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flavorizr/features/splash/data/datasources/splash_local_datasource.dart';
 import 'package:flavorizr/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:flavorizr/features/splash/domain/repositories/splash_repository.dart';
 import 'package:flavorizr/features/splash/domain/usecases/check_app_initialization_usecase.dart';
+import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ==================== Data Sources ====================
@@ -26,6 +26,7 @@ final splashRepositoryProvider = Provider<SplashRepository>((ref) {
 // ==================== Use Cases ====================
 
 /// Provider for CheckAppInitializationUseCase.
-final checkAppInitializationUseCaseProvider = Provider<CheckAppInitializationUseCase>((ref) {
-  return CheckAppInitializationUseCase(ref.watch(splashRepositoryProvider));
-});
+final checkAppInitializationUseCaseProvider =
+    Provider<CheckAppInitializationUseCase>((ref) {
+      return CheckAppInitializationUseCase(ref.watch(splashRepositoryProvider));
+    });

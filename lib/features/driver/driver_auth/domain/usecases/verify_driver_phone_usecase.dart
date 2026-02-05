@@ -14,6 +14,10 @@ class VerifyDriverPhoneUseCase {
     required String code,
     required String firebaseToken,
   }) {
-    return _repository.verifyPhone(phone: phone, code: code, firebaseToken: firebaseToken);
+    return _repository.verifyPhone(
+      phone: phone,
+      code: code,
+      firebaseToken: firebaseToken,
+    );
   }
 }

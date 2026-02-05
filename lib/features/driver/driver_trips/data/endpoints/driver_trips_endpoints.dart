@@ -35,7 +35,8 @@ abstract class DriverTripsEndpoints {
 
   /// Create a schedule trip request.
   /// Endpoint: POST /driver/schedule-trip/create-request
-  static const String createScheduleRequest = '/driver/schedule-trip/create-request';
+  static const String createScheduleRequest =
+      '/driver/schedule-trip/create-request';
 
   /// Get driver's schedule trip requests.
   /// Endpoint: POST /driver/schedule-trip/my-requests

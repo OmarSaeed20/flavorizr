@@ -61,7 +61,9 @@ class ResetPasswordUseCase implements UseCase<void, ResetPasswordParams> {
 
     // Validate password confirmation
     if (params.newPassword != params.confirmPassword) {
-      return const ApiResult.exception(ValidationException(message: 'Passwords do not match'));
+      return const ApiResult.exception(
+        ValidationException(message: 'Passwords do not match'),
+      );
     }
 
     final resetParams = ResetPasswordParameters(
@@ -135,7 +137,9 @@ class ChangePasswordUseCase implements UseCase<void, ChangePasswordParams> {
     // Check new password is different
     if (params.currentPassword == params.newPassword) {
       return const ApiResult.exception(
-        ValidationException(message: 'New password must be different from current password'),
+        ValidationException(
+          message: 'New password must be different from current password',
+        ),
       );
     }
 
@@ -168,7 +172,10 @@ class ChangePasswordUseCase implements UseCase<void, ChangePasswordParams> {
 
 /// Parameters for the change password use case.
 class ChangePasswordParams {
-  const ChangePasswordParams({required this.currentPassword, required this.newPassword});
+  const ChangePasswordParams({
+    required this.currentPassword,
+    required this.newPassword,
+  });
   final String currentPassword;
   final String newPassword;
 }

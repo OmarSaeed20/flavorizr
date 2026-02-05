@@ -6,7 +6,12 @@ import 'package:meta/meta.dart';
 /// Parameters for getting user's orders.
 @immutable
 class GetMyOrdersParameters extends Parameters {
-  const GetMyOrdersParameters._({this.page = 1, this.perPage = 10, this.status, this.cancelToken});
+  const GetMyOrdersParameters._({
+    this.page = 1,
+    this.perPage = 10,
+    this.status,
+    this.cancelToken,
+  });
 
   @override
   Map<String, dynamic> toJson() => {
@@ -22,11 +27,13 @@ class GetMyOrdersParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static GetMyOrdersParametersBuilder builder() => GetMyOrdersParametersBuilder();
+  static GetMyOrdersParametersBuilder builder() =>
+      GetMyOrdersParametersBuilder();
 }
 
 /// Builder for GetMyOrdersParameters.
-class GetMyOrdersParametersBuilder extends ParametersBuilder<GetMyOrdersParameters> {
+class GetMyOrdersParametersBuilder
+    extends ParametersBuilder<GetMyOrdersParameters> {
   int _page = 1;
   int _perPage = 10;
   String? _status;

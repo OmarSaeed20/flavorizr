@@ -13,10 +13,7 @@ class GetAvailablePublicTripsParameters extends Parameters {
   });
 
   @override
-  Map<String, dynamic> toJson() => {
-    'order_id': orderId,
-    'user_id': userId,
-  };
+  Map<String, dynamic> toJson() => {'order_id': orderId, 'user_id': userId};
 
   final String orderId;
   final String userId;
@@ -46,7 +43,9 @@ class GetAvailablePublicTripsParametersBuilder
   }
 
   @override
-  GetAvailablePublicTripsParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  GetAvailablePublicTripsParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

@@ -22,11 +22,7 @@ class ResponsiveValue<T> {
   /// Value for desktop devices (falls back to tablet, then mobile if null)
   final T? desktop;
 
-  const ResponsiveValue({
-    required this.mobile,
-    this.tablet,
-    this.desktop,
-  });
+  const ResponsiveValue({required this.mobile, this.tablet, this.desktop});
 
   /// Resolve the value based on the current context
   T resolve(BuildContext context) {
@@ -40,11 +36,7 @@ class ResponsiveValue<T> {
 
   /// Resolve using DeviceInfo directly
   T resolveWithInfo(DeviceInfo info) {
-    return info.byDevice(
-      mobile: mobile,
-      tablet: tablet,
-      desktop: desktop,
-    );
+    return info.byDevice(mobile: mobile, tablet: tablet, desktop: desktop);
   }
 }
 
@@ -101,18 +93,12 @@ class OrientationResponsiveValue<T> {
   /// Resolve the value based on the current context
   T resolve(BuildContext context) {
     final responsive = ResponsiveContext(context);
-    return responsive.byOrientation(
-      portrait: portrait,
-      landscape: landscape,
-    );
+    return responsive.byOrientation(portrait: portrait, landscape: landscape);
   }
 
   /// Resolve using DeviceInfo directly
   T resolveWithInfo(DeviceInfo info) {
-    return info.byOrientation(
-      portrait: portrait,
-      landscape: landscape,
-    );
+    return info.byOrientation(portrait: portrait, landscape: landscape);
   }
 }
 
@@ -168,11 +154,7 @@ class PlatformResponsiveValue<T> {
 extension ResponsiveValueExtension<T> on T {
   /// Create a responsive value with this as the mobile value
   ResponsiveValue<T> responsive({T? tablet, T? desktop}) {
-    return ResponsiveValue<T>(
-      mobile: this,
-      tablet: tablet,
-      desktop: desktop,
-    );
+    return ResponsiveValue<T>(mobile: this, tablet: tablet, desktop: desktop);
   }
 
   /// Create a window responsive value with this as the compact value

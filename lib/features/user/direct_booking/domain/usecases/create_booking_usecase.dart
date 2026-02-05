@@ -9,9 +9,7 @@ class CreateBookingUseCase {
 
   CreateBookingUseCase(this._repository);
 
-  Future<ApiResult<BookingResponse>> call(
-    CreateBookingParameters params,
-  ) {
+  Future<ApiResult<BookingResponse>> call(CreateBookingParameters params) {
     return _repository.createBooking(params);
   }
 }

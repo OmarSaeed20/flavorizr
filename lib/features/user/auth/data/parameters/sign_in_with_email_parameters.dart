@@ -17,13 +17,11 @@ class SignInWithEmailParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {
-    'email': email,
-    'password': password,
-  };
+  Map<String, dynamic> toJson() => {'email': email, 'password': password};
 
   /// Create a builder for this parameters type
-  SignInWithEmailParametersBuilder builder() => SignInWithEmailParametersBuilder();
+  SignInWithEmailParametersBuilder builder() =>
+      SignInWithEmailParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -43,7 +41,8 @@ class SignInWithEmailParameters extends Parameters {
 }
 
 /// Builder for SignInWithEmailParameters
-class SignInWithEmailParametersBuilder extends ParametersBuilder<SignInWithEmailParameters> {
+class SignInWithEmailParametersBuilder
+    extends ParametersBuilder<SignInWithEmailParameters> {
   String? _email;
   String? _password;
   CancelToken? _cancelToken;

@@ -61,7 +61,10 @@ class PerformanceProfiler {
   ///   return await expensiveAsyncOperation();
   /// });
   /// ```
-  static Future<T> profileAsync<T>(String name, Future<T> Function() operation) async {
+  static Future<T> profileAsync<T>(
+    String name,
+    Future<T> Function() operation,
+  ) async {
     if (!instance._enabled) {
       return operation();
     }
@@ -130,7 +133,9 @@ class PerformanceProfiler {
   /// Get all metrics sorted by average time.
   List<PerformanceMetric> get sortedMetrics {
     final metrics = _metrics.values.toList();
-    metrics.sort((a, b) => b.averageMicroseconds.compareTo(a.averageMicroseconds));
+    metrics.sort(
+      (a, b) => b.averageMicroseconds.compareTo(a.averageMicroseconds),
+    );
     return metrics;
   }
 
@@ -161,7 +166,10 @@ class PerformanceProfiler {
   final Map<String, PerformanceMetric> _metrics = {};
 
   void _recordMetric(String name, int microseconds) {
-    final metric = _metrics.putIfAbsent(name, () => PerformanceMetric(name: name));
+    final metric = _metrics.putIfAbsent(
+      name,
+      () => PerformanceMetric(name: name),
+    );
     metric.addSample(microseconds);
 
     if (kDebugMode) {
@@ -258,7 +266,10 @@ class _ProfiledWidgetState extends State<_ProfiledWidget> {
     final child = widget.builder();
     stopwatch.stop();
 
-    PerformanceProfiler.recordMetric('Widget: ${widget.name}', stopwatch.elapsedMicroseconds);
+    PerformanceProfiler.recordMetric(
+      'Widget: ${widget.name}',
+      stopwatch.elapsedMicroseconds,
+    );
 
     return child;
   }
@@ -354,7 +365,8 @@ class FrameRateMonitor {
   void _updateStats() {
     if (_frameTimes.isEmpty) return;
 
-    final avgFrameTime = _frameTimes.reduce((a, b) => a + b) / _frameTimes.length;
+    final avgFrameTime =
+        _frameTimes.reduce((a, b) => a + b) / _frameTimes.length;
     _currentFPS = 1000000 / avgFrameTime;
 
     _averageFPS = _frameCount / _frameTimes.length * 1000000 / avgFrameTime;

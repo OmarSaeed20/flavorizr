@@ -47,7 +47,9 @@ abstract class TripLocalDataSource {
 }
 
 /// Implementation of [TripLocalDataSource] using BaseLocalDataSource.
-class TripLocalDataSourceImpl with BaseLocalDataSource implements TripLocalDataSource {
+class TripLocalDataSourceImpl
+    with BaseLocalDataSource
+    implements TripLocalDataSource {
   TripLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   static const String _tripTypesKey = 'cached_trip_types';
@@ -80,7 +82,9 @@ class TripLocalDataSourceImpl with BaseLocalDataSource implements TripLocalDataS
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list.map((e) => TripTypeModel.fromJson(e as Map<String, dynamic>)).toList();
+          return list
+              .map((e) => TripTypeModel.fromJson(e as Map<String, dynamic>))
+              .toList();
         } catch (_) {
           return null;
         }
@@ -140,7 +144,9 @@ class TripLocalDataSourceImpl with BaseLocalDataSource implements TripLocalDataS
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list.map((e) => TripModel.fromJson(e as Map<String, dynamic>)).toList();
+          return list
+              .map((e) => TripModel.fromJson(e as Map<String, dynamic>))
+              .toList();
         } catch (_) {
           return null;
         }
@@ -200,7 +206,9 @@ class TripLocalDataSourceImpl with BaseLocalDataSource implements TripLocalDataS
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list.map((e) => TripOrderModel.fromJson(e as Map<String, dynamic>)).toList();
+          return list
+              .map((e) => TripOrderModel.fromJson(e as Map<String, dynamic>))
+              .toList();
         } catch (_) {
           return null;
         }

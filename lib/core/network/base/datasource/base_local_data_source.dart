@@ -16,12 +16,19 @@ mixin BaseLocalDataSource {
     try {
       final data = await fetcher();
       if (data == null) {
-        return ApiResult.exception(const NotFoundException(message: 'Local data not found'));
+        return ApiResult.exception(
+          const NotFoundException(message: 'Local data not found'),
+        );
       }
       return ApiResult.success(data);
     } catch (e, stackTrace) {
-      e.logError('Error getting local data: $key', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Error getting local data: $key',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -36,8 +43,13 @@ mixin BaseLocalDataSource {
       await saver(data);
       return ApiResult.success(data);
     } catch (e, stackTrace) {
-      e.logError('Error saving local data: $key', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Error saving local data: $key',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -51,20 +63,32 @@ mixin BaseLocalDataSource {
       await deleter();
       return const ApiResult.success(null);
     } catch (e, stackTrace) {
-      e.logError('Error deleting local data: $key', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Error deleting local data: $key',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
   /// Clear all local data
   /// Returns ApiResult with success or error
-  Future<ApiResult<void>> clearAllLocalData({required Future<void> Function() clearer}) async {
+  Future<ApiResult<void>> clearAllLocalData({
+    required Future<void> Function() clearer,
+  }) async {
     try {
       await clearer();
       return const ApiResult.success(null);
     } catch (e, stackTrace) {
-      e.logError('Error clearing local data', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Error clearing local data',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -78,8 +102,13 @@ mixin BaseLocalDataSource {
       final exists = await checker();
       return ApiResult.success(exists);
     } catch (e, stackTrace) {
-      e.logError('Error checking local data: $key', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Error checking local data: $key',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -92,12 +121,19 @@ mixin BaseLocalDataSource {
     try {
       final data = await fetcher();
       if (data == null || data.isEmpty) {
-        return const ApiResult.exception(NotFoundException(message: 'Local data list not found'));
+        return const ApiResult.exception(
+          NotFoundException(message: 'Local data list not found'),
+        );
       }
       return ApiResult.success(data);
     } catch (e, stackTrace) {
-      e.logError('Error getting local data list: $key', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Error getting local data list: $key',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 
@@ -112,8 +148,13 @@ mixin BaseLocalDataSource {
       await saver(data);
       return const ApiResult.success(null);
     } catch (e, stackTrace) {
-      e.logError('Error saving local data list: $key', stackTrace: stackTrace.toString());
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
+      e.logError(
+        'Error saving local data list: $key',
+        stackTrace: stackTrace.toString(),
+      );
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
+      );
     }
   }
 }

@@ -8,17 +8,15 @@ class SignInWithMagicLinkParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  const SignInWithMagicLinkParameters({
-    required this.token,
-    this.cancelToken,
-  });
+  const SignInWithMagicLinkParameters({required this.token, this.cancelToken});
 
   /// Convert to JSON for API request
   @override
   Map<String, dynamic> toJson() => {'token': token};
 
   /// Create a builder for this parameters type
-  SignInWithMagicLinkParametersBuilder builder() => SignInWithMagicLinkParametersBuilder();
+  SignInWithMagicLinkParametersBuilder builder() =>
+      SignInWithMagicLinkParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -37,7 +35,8 @@ class SignInWithMagicLinkParameters extends Parameters {
 }
 
 /// Builder for SignInWithMagicLinkParameters
-class SignInWithMagicLinkParametersBuilder extends ParametersBuilder<SignInWithMagicLinkParameters> {
+class SignInWithMagicLinkParametersBuilder
+    extends ParametersBuilder<SignInWithMagicLinkParameters> {
   String? _token;
   CancelToken? _cancelToken;
 
@@ -51,7 +50,9 @@ class SignInWithMagicLinkParametersBuilder extends ParametersBuilder<SignInWithM
 
   /// Set cancel token
   @override
-  SignInWithMagicLinkParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SignInWithMagicLinkParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

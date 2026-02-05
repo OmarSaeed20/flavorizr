@@ -1,10 +1,10 @@
+import 'package:flavorizr/features/driver/driver_trips/presentation/controllers/driver_trips_controller.dart';
+import 'package:flavorizr/features/driver/driver_trips/presentation/providers/driver_trips_providers.dart';
+import 'package:flavorizr/features/driver/driver_trips/presentation/widgets/pending_trip_card.dart';
+import 'package:flavorizr/features/driver/driver_trips/presentation/widgets/trip_card.dart';
+import 'package:flavorizr/features/driver/driver_trips/presentation/widgets/trip_filter_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/driver_trips_controller.dart';
-import '../providers/driver_trips_providers.dart';
-import '../widgets/trip_filter_chip.dart';
-import '../widgets/trip_card.dart';
-import '../widgets/pending_trip_card.dart';
 
 /// Driver trips page
 class DriverTripsPage extends ConsumerStatefulWidget {
@@ -47,7 +47,9 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
   }
 
   Future<void> _onRefresh() async {
-    await ref.read(driverTripsControllerProvider.notifier).loadTrips(refresh: true);
+    await ref
+        .read(driverTripsControllerProvider.notifier)
+        .loadTrips(refresh: true);
     await ref.read(driverTripsControllerProvider.notifier).loadPendingTrips();
   }
 
@@ -66,18 +68,12 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
           ],
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _onRefresh,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _onRefresh),
         ],
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          _buildAllTripsTab(state),
-          _buildPendingTripsTab(state),
-        ],
+        children: [_buildAllTripsTab(state), _buildPendingTripsTab(state)],
       ),
     );
   }
@@ -96,7 +92,9 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'All',
                   isSelected: state.selectedStatus == null,
                   onTap: () {
-                    ref.read(driverTripsControllerProvider.notifier).filterByStatus(null);
+                    ref
+                        .read(driverTripsControllerProvider.notifier)
+                        .filterByStatus(null);
                   },
                 ),
                 const SizedBox(width: 8),
@@ -104,7 +102,9 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'Pending',
                   isSelected: state.selectedStatus == 'pending',
                   onTap: () {
-                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('pending');
+                    ref
+                        .read(driverTripsControllerProvider.notifier)
+                        .filterByStatus('pending');
                   },
                 ),
                 const SizedBox(width: 8),
@@ -112,7 +112,9 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'In Progress',
                   isSelected: state.selectedStatus == 'in_progress',
                   onTap: () {
-                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('in_progress');
+                    ref
+                        .read(driverTripsControllerProvider.notifier)
+                        .filterByStatus('in_progress');
                   },
                 ),
                 const SizedBox(width: 8),
@@ -120,7 +122,9 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'Completed',
                   isSelected: state.selectedStatus == 'completed',
                   onTap: () {
-                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('completed');
+                    ref
+                        .read(driverTripsControllerProvider.notifier)
+                        .filterByStatus('completed');
                   },
                 ),
                 const SizedBox(width: 8),
@@ -128,7 +132,9 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'Cancelled',
                   isSelected: state.selectedStatus == 'cancelled',
                   onTap: () {
-                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('cancelled');
+                    ref
+                        .read(driverTripsControllerProvider.notifier)
+                        .filterByStatus('cancelled');
                   },
                 ),
               ],
@@ -143,29 +149,30 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
             child: state.isLoading && state.trips.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : state.trips.isEmpty
-                    ? const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(32.0),
-                          child: Text('No trips found'),
-                        ),
-                      )
-                    : ListView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        itemCount: state.trips.length + (state.hasMoreTrips ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          if (index == state.trips.length) {
-                            return const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: TripCard(trip: state.trips[index]),
-                          );
-                        },
-                      ),
+                ? const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(32.0),
+                      child: Text('No trips found'),
+                    ),
+                  )
+                : ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount:
+                        state.trips.length + (state.hasMoreTrips ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == state.trips.length) {
+                        return const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: TripCard(trip: state.trips[index]),
+                      );
+                    },
+                  ),
           ),
         ),
       ],
@@ -178,32 +185,32 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
       child: state.isLoadingPending
           ? const Center(child: CircularProgressIndicator())
           : state.pendingTrips.isEmpty
-              ? const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(32.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.inbox, size: 64, color: Colors.grey),
-                        SizedBox(height: 16),
-                        Text(
-                          'No pending trip requests',
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        ),
-                      ],
+          ? const Center(
+              child: Padding(
+                padding: EdgeInsets.all(32.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.inbox, size: 64, color: Colors.grey),
+                    SizedBox(height: 16),
+                    Text(
+                      'No pending trip requests',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
-                  ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: state.pendingTrips.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: PendingTripCard(trip: state.pendingTrips[index]),
-                    );
-                  },
+                  ],
                 ),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: state.pendingTrips.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: PendingTripCard(trip: state.pendingTrips[index]),
+                );
+              },
+            ),
     );
   }
 }

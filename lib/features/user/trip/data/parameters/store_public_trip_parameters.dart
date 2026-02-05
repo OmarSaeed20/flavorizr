@@ -57,11 +57,13 @@ class StorePublicTripParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static StorePublicTripParametersBuilder builder() => StorePublicTripParametersBuilder();
+  static StorePublicTripParametersBuilder builder() =>
+      StorePublicTripParametersBuilder();
 }
 
 /// Builder for StorePublicTripParameters.
-class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTripParameters> {
+class StorePublicTripParametersBuilder
+    extends ParametersBuilder<StorePublicTripParameters> {
   String? _pickUpLongitude;
   String? _pickUpLatitude;
   String? _destinationLongitude;

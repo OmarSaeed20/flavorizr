@@ -112,7 +112,12 @@ class CustomDropDown<T> extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) ...[
-          Text(label!, style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
+          Text(
+            label!,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const SizedBox(height: 8),
         ],
         DropdownButtonHideUnderline(
@@ -127,7 +132,10 @@ class CustomDropDown<T> extends StatelessWidget {
                 hint,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(fontSize: 14, color: Theme.of(context).hintColor),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).hintColor,
+                ),
               ),
             ),
             value: value,
@@ -139,7 +147,9 @@ class CustomDropDown<T> extends StatelessWidget {
               if (itemWidgetBuilder != null) {
                 child = itemWidgetBuilder!(context, item);
               } else {
-                final label = itemLabelBuilder != null ? itemLabelBuilder!(item) : item.toString();
+                final label = itemLabelBuilder != null
+                    ? itemLabelBuilder!(item)
+                    : item.toString();
                 child = Text(
                   label,
                   overflow: TextOverflow.ellipsis,
@@ -150,7 +160,10 @@ class CustomDropDown<T> extends StatelessWidget {
               return DropdownMenuItem<T>(
                 value: item,
                 // Align the child inside the menu item.
-                child: Container(alignment: valueAlignment ?? Alignment.centerLeft, child: child),
+                child: Container(
+                  alignment: valueAlignment ?? Alignment.centerLeft,
+                  child: child,
+                ),
               );
             }).toList(),
             onChanged: onChanged,
@@ -161,7 +174,8 @@ class CustomDropDown<T> extends StatelessWidget {
             buttonStyleData: ButtonStyleData(
               height: buttonHeight ?? 40,
               width: buttonWidth ?? 140,
-              padding: buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
+              padding:
+                  buttonPadding ?? const EdgeInsets.only(left: 14, right: 14),
               decoration:
                   buttonDecoration ??
                   BoxDecoration(
@@ -187,7 +201,8 @@ class CustomDropDown<T> extends StatelessWidget {
               width: dropdownWidth ?? 140,
               padding: dropdownPadding,
               decoration:
-                  dropdownDecoration ?? BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                  dropdownDecoration ??
+                  BoxDecoration(borderRadius: BorderRadius.circular(12)),
               elevation: dropdownElevation ?? 8,
               offset: offset,
               // Scrollbar customisation
@@ -206,7 +221,8 @@ class CustomDropDown<T> extends StatelessWidget {
             // -------------------------------------------------------------
             menuItemStyleData: MenuItemStyleData(
               height: itemHeight ?? 40,
-              padding: itemPadding ?? const EdgeInsets.symmetric(horizontal: 14),
+              padding:
+                  itemPadding ?? const EdgeInsets.symmetric(horizontal: 14),
             ),
           ),
         ),

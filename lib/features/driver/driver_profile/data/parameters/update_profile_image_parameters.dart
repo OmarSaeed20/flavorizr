@@ -11,8 +11,8 @@ class UpdateProfileImageParameters extends Parameters {
   const UpdateProfileImageParameters._({
     required String profileImage,
     CancelToken? cancelToken,
-  })  : _profileImage = profileImage,
-        _cancelToken = cancelToken;
+  }) : _profileImage = profileImage,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -43,7 +43,9 @@ class UpdateProfileImageParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateProfileImageParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UpdateProfileImageParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
