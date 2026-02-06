@@ -41,10 +41,7 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                   const SizedBox(height: 16),
                   Text(state.error!, textAlign: TextAlign.center),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _loadSettings,
-                    child: const Text('Retry'),
-                  ),
+                  ElevatedButton(onPressed: _loadSettings, child: const Text('Retry')),
                 ],
               ),
             )
@@ -62,10 +59,7 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                       children: [
                         const Text(
                           'Status',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 16),
                         OnlineStatusSwitch(
@@ -102,10 +96,7 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                       children: [
                         const Text(
                           'Notifications',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 16),
                         NotificationSettingsTile(
@@ -115,9 +106,7 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                           onChanged: (value) {
                             ref
                                 .read(driverSettingsControllerProvider.notifier)
-                                .updateDriverSettings(
-                                  notificationsEnabled: value,
-                                );
+                                .updateDriverSettings(notificationsEnabled: value);
                           },
                           isUpdating: state.isUpdating,
                         ),
@@ -160,15 +149,12 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                       children: [
                         const Text(
                           'Preferences',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 16),
                         ListTile(
                           title: const Text('Language'),
-                          subtitle: Text(state.settings!.language ?? 'Not set'),
+                          subtitle: Text(state.settings!.language),
                           trailing: const Icon(Icons.chevron_right),
                           onTap: () {
                             // Navigate to language selection

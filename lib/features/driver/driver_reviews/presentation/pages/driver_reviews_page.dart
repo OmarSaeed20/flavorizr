@@ -1,7 +1,6 @@
 import 'package:flavorizr/features/driver/driver_reviews/presentation/providers/driver_reviews_providers.dart';
 import 'package:flavorizr/features/driver/driver_reviews/presentation/widgets/review_card.dart';
 import 'package:flavorizr/features/driver/driver_reviews/presentation/widgets/review_filter_chip.dart';
-import 'package:flavorizr/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,16 +41,12 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.8) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent * 0.8) {
       final state = ref.read(driverReviewsControllerProvider);
       if (state.hasMore && !state.isLoading) {
         ref
             .read(driverReviewsControllerProvider.notifier)
-            .loadReviews(
-              driverId: widget.driverId,
-              page: state.currentPage + 1,
-            );
+            .loadReviews(driverId: widget.driverId, page: state.currentPage + 1);
       }
     }
   }
@@ -59,11 +54,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
   void _applyFilters() {
     ref
         .read(driverReviewsControllerProvider.notifier)
-        .loadReviews(
-          driverId: widget.driverId,
-          refresh: true,
-          rating: _selectedMinRating,
-        );
+        .loadReviews(driverId: widget.driverId, refresh: true, rating: _selectedMinRating);
   }
 
   void _clearFilters() {
@@ -78,7 +69,6 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(driverReviewsControllerProvider);
 
     return Scaffold(
@@ -131,9 +121,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                         ),
                       if (_filterWithResponse != null)
                         ReviewFilterChip(
-                          label: _filterWithResponse!
-                              ? 'With Response'
-                              : 'Without Response',
+                          label: _filterWithResponse! ? 'With Response' : 'Without Response',
                           onDeleted: () {
                             setState(() {
                               _filterWithResponse = null;
@@ -151,10 +139,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                             _applyFilters();
                           },
                         ),
-                      ReviewFilterChip(
-                        label: 'Clear Filters',
-                        onDeleted: _clearFilters,
-                      ),
+                      ReviewFilterChip(label: 'Clear Filters', onDeleted: _clearFilters),
                     ],
                   ),
                 ),
@@ -162,9 +147,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
 
             // Reviews List
             if (state.isLoading && state.reviews.isEmpty)
-              const SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
-              )
+              const SliverFillRemaining(child: Center(child: CircularProgressIndicator()))
             else if (state.error != null && state.reviews.isEmpty)
               SliverFillRemaining(
                 child: Center(
@@ -175,10 +158,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                       const SizedBox(height: 16),
                       Text(state.error!),
                       const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadData,
-                        child: const Text('Retry'),
-                      ),
+                      ElevatedButton(onPressed: _loadData, child: const Text('Retry')),
                     ],
                   ),
                 ),
@@ -245,10 +225,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                         ),
                         items: List.generate(5, (index) => index + 1)
                             .map(
-                              (rating) => DropdownMenuItem(
-                                value: rating,
-                                child: Text('$rating'),
-                              ),
+                              (rating) => DropdownMenuItem(value: rating, child: Text('$rating')),
                             )
                             .toList(),
                         onChanged: (value) {
@@ -268,10 +245,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                         ),
                         items: List.generate(5, (index) => index + 1)
                             .map(
-                              (rating) => DropdownMenuItem(
-                                value: rating,
-                                child: Text('$rating'),
-                              ),
+                              (rating) => DropdownMenuItem(value: rating, child: Text('$rating')),
                             )
                             .toList(),
                         onChanged: (value) {
@@ -307,10 +281,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
           },
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -339,9 +310,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                     backgroundImage: review.passengerAvatar != null
                         ? NetworkImage(review.passengerAvatar!)
                         : null,
-                    child: review.passengerAvatar == null
-                        ? Text(review.passengerName[0])
-                        : null,
+                    child: review.passengerAvatar == null ? Text(review.passengerName[0]) : null,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -353,9 +322,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
                           children: List.generate(
                             5,
                             (index) => Icon(
-                              index < review.rating
-                                  ? Icons.star
-                                  : Icons.star_border,
+                              index < review.rating ? Icons.star : Icons.star_border,
                               size: 16,
                               color: Colors.amber,
                             ),
@@ -370,10 +337,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
               Text(review.comment),
               const SizedBox(height: 16),
               if (review.response != null) ...[
-                const Text(
-                  'Your Response',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+                const Text('Your Response', style: TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -391,12 +355,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
             ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
+        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))],
       ),
     );
   }
@@ -417,10 +376,7 @@ class _DriverReviewsPageState extends ConsumerState<DriverReviewsPage> {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               if (controller.text.isNotEmpty) {

@@ -23,11 +23,7 @@ class LazyLoadingService {
     Widget? placeholder,
     double threshold = 0.1,
   }) {
-    return _LazyWidget(
-      builder: builder,
-      placeholder: placeholder,
-      threshold: threshold,
-    );
+    return _LazyWidget(builder: builder, placeholder: placeholder, threshold: threshold);
   }
 
   /// Creates a lazy-loaded list builder.
@@ -36,8 +32,7 @@ class LazyLoadingService {
   /// items that are currently visible.
   static Widget lazyList<T>({
     required List<T> items,
-    required Widget Function(BuildContext context, T item, int index)
-    itemBuilder,
+    required Widget Function(BuildContext context, T item, int index) itemBuilder,
     Widget? placeholder,
     double threshold = 0.1,
   }) {
@@ -59,8 +54,7 @@ class LazyLoadingService {
   /// items that are currently visible.
   static Widget lazyGrid<T>({
     required List<T> items,
-    required Widget Function(BuildContext context, T item, int index)
-    itemBuilder,
+    required Widget Function(BuildContext context, T item, int index) itemBuilder,
     required int crossAxisCount,
     Widget? placeholder,
     double threshold = 0.1,
@@ -92,8 +86,7 @@ class LazyLoadingService {
   /// pages that are currently visible.
   static Widget lazyPageView<T>({
     required List<T> items,
-    required Widget Function(BuildContext context, T item, int index)
-    itemBuilder,
+    required Widget Function(BuildContext context, T item, int index) itemBuilder,
     Widget? placeholder,
     double threshold = 0.1,
     PageController? controller,
@@ -124,21 +117,14 @@ class LazyLoadingService {
     Duration delay = const Duration(milliseconds: 300),
     Widget? placeholder,
   }) {
-    return _DeferredWidget(
-      builder: builder,
-      delay: delay,
-      placeholder: placeholder,
-    );
+    return _DeferredWidget(builder: builder, delay: delay, placeholder: placeholder);
   }
 
   /// Creates a widget that loads only when the app is idle.
   ///
   /// This is useful for loading non-critical content during
   /// idle periods to improve perceived performance.
-  static Widget idleLoad({
-    required Widget Function() builder,
-    Widget? placeholder,
-  }) {
+  static Widget idleLoad({required Widget Function() builder, Widget? placeholder}) {
     return _IdleLoadWidget(builder: builder, placeholder: placeholder);
   }
 }
@@ -149,11 +135,7 @@ class _LazyWidget extends StatefulWidget {
   final Widget? placeholder;
   final double threshold;
 
-  const _LazyWidget({
-    required this.builder,
-    this.placeholder,
-    this.threshold = 0.1,
-  });
+  const _LazyWidget({required this.builder, this.placeholder, this.threshold = 0.1});
 
   @override
   State<_LazyWidget> createState() => _LazyWidgetState();
@@ -175,9 +157,7 @@ class _LazyWidgetState extends State<_LazyWidget> {
           });
         }
       },
-      child: _isLoaded
-          ? widget.builder()
-          : widget.placeholder ?? const SizedBox.shrink(),
+      child: _isLoaded ? widget.builder() : widget.placeholder ?? const SizedBox.shrink(),
     );
   }
 }
@@ -188,11 +168,7 @@ class _DeferredWidget extends StatefulWidget {
   final Duration delay;
   final Widget? placeholder;
 
-  const _DeferredWidget({
-    required this.builder,
-    required this.delay,
-    this.placeholder,
-  });
+  const _DeferredWidget({required this.builder, required this.delay, this.placeholder});
 
   @override
   State<_DeferredWidget> createState() => _DeferredWidgetState();
@@ -215,9 +191,7 @@ class _DeferredWidgetState extends State<_DeferredWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoaded
-        ? widget.builder()
-        : widget.placeholder ?? const SizedBox.shrink();
+    return _isLoaded ? widget.builder() : widget.placeholder ?? const SizedBox.shrink();
   }
 }
 
@@ -251,9 +225,7 @@ class _IdleLoadWidgetState extends State<_IdleLoadWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoaded
-        ? widget.builder()
-        : widget.placeholder ?? const SizedBox.shrink();
+    return _isLoaded ? widget.builder() : widget.placeholder ?? const SizedBox.shrink();
   }
 }
 
@@ -290,8 +262,7 @@ class _VisibilityDetectorState extends State<VisibilityDetector> {
   void _checkVisibility() {
     if (!mounted) return;
 
-    final RenderBox? renderBox =
-        _key.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
 
     final Size size = renderBox.size;
@@ -301,25 +272,21 @@ class _VisibilityDetectorState extends State<VisibilityDetector> {
     final double visibleBottom = offset.dy + size.height;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    final double visibleHeight = (visibleBottom - visibleTop).clamp(
-      0.0,
-      screenHeight,
-    );
+    final double visibleHeight = (visibleBottom - visibleTop).clamp(0.0, screenHeight);
     final double visibleFraction = visibleHeight / size.height;
 
-    widget.onVisibilityChanged(
-      VisibilityInfo(
-        visibleFraction: visibleFraction,
-        visibleBounds: Rect.fromLTWH(
-          offset.dx,
-          offset.dy,
-          size.width,
-          size.height,
+    // Only notify if visibility has changed
+    if (_hasNotified && visibleFraction == 0.0) {
+      _hasNotified = false;
+    } else if (!_hasNotified && visibleFraction > 0.0) {
+      widget.onVisibilityChanged(
+        VisibilityInfo(
+          visibleFraction: visibleFraction,
+          visibleBounds: Rect.fromLTWH(offset.dx, offset.dy, size.width, size.height),
         ),
-      ),
-    );
-
-    _hasNotified = true;
+      );
+      _hasNotified = true;
+    }
   }
 
   @override
@@ -342,8 +309,5 @@ class VisibilityInfo {
   /// The bounds of the visible portion of the widget.
   final Rect visibleBounds;
 
-  const VisibilityInfo({
-    required this.visibleFraction,
-    required this.visibleBounds,
-  });
+  const VisibilityInfo({required this.visibleFraction, required this.visibleBounds});
 }

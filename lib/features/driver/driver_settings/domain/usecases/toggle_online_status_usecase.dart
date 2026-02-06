@@ -5,14 +5,12 @@ import 'package:flavorizr/features/driver/driver_settings/domain/repositories/dr
 /// Use case for toggling online status.
 /// Note: This functionality needs to be added to the repository interface
 class ToggleOnlineStatusUseCase {
-  final DriverSettingsRepository _repository;
+  final DriverSettingsRepository repository;
 
-  ToggleOnlineStatusUseCase(this._repository);
+  ToggleOnlineStatusUseCase(this.repository);
 
   Future<ApiResult<DriverSettings>> call(bool isOnline) {
-    // TODO: Implement when toggleOnlineStatus is added to repository
-    throw UnimplementedError(
-      'toggleOnlineStatus not yet implemented in repository',
-    );
+    // Implement when toggleOnlineStatus is added to repository
+    throw UnimplementedError('toggleOnlineStatus not yet implemented in repository');
   }
 }

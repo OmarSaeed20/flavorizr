@@ -80,19 +80,18 @@ class DriverSettingsController extends StateNotifier<DriverSettingsState> {
   }) async {
     state = state.copyWith(isUpdating: true);
 
-    final result = await _updateDriverSettingsUseCase(
-      UpdateDriverSettingsParameters(
-        isOnline: isOnline,
-        isAvailable: isAvailable,
-        notificationsEnabled: notificationsEnabled,
-        soundEnabled: soundEnabled,
-        vibrationEnabled: vibrationEnabled,
-        preferredVehicleType: preferredVehicleType,
-        maxDistance: maxDistance,
-        language: language,
-        currency: currency,
-      ),
-    );
+    final builder = UpdateDriverSettingsParameters.builder();
+    if (isOnline != null) {
+      builder.withIsOnline(isOnline);
+    }
+    if (isAvailable != null) {
+      builder.withIsAvailable(isAvailable);
+    }
+    if (language != null) {
+      builder.withLanguage(language);
+    }
+
+    final result = await _updateDriverSettingsUseCase(builder.build());
 
     result.when(
       success: (data, i) {

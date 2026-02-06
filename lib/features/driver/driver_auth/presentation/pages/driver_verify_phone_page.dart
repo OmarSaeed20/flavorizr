@@ -9,8 +9,7 @@ class DriverVerifyPhonePage extends ConsumerStatefulWidget {
   const DriverVerifyPhonePage({super.key, required this.phone});
 
   @override
-  ConsumerState<DriverVerifyPhonePage> createState() =>
-      _DriverVerifyPhonePageState();
+  ConsumerState<DriverVerifyPhonePage> createState() => _DriverVerifyPhonePageState();
 }
 
 class _DriverVerifyPhonePageState extends ConsumerState<DriverVerifyPhonePage> {
@@ -25,9 +24,16 @@ class _DriverVerifyPhonePageState extends ConsumerState<DriverVerifyPhonePage> {
 
   void _handleVerify() {
     if (_formKey.currentState!.validate()) {
+      // Firebase token should be obtained from notification service
+      // For now, using a placeholder token
+      const firebaseToken = 'placeholder_firebase_token';
       ref
           .read(driverAuthControllerProvider.notifier)
-          .verifyPhone(phone: widget.phone, otp: _otpController.text);
+          .verifyPhone(
+            phone: widget.phone,
+            code: _otpController.text,
+            firebaseToken: firebaseToken,
+          );
     }
   }
 
@@ -96,9 +102,7 @@ class _DriverVerifyPhonePageState extends ConsumerState<DriverVerifyPhonePage> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: state.isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Verify'),
+                  child: state.isLoading ? const CircularProgressIndicator() : const Text('Verify'),
                 ),
                 const SizedBox(height: 16),
                 TextButton(

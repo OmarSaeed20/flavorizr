@@ -29,15 +29,10 @@ class TripCard extends StatelessWidget {
                 children: [
                   Text(
                     'Trip #${trip.id.substring(0, 8)}',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: statusColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -59,14 +54,14 @@ class TripCard extends StatelessWidget {
               _buildRouteRow(
                 context,
                 Icons.location_on,
-                trip.pickupLocation?.address ?? 'Unknown pickup',
+                trip.origin.address ?? 'Unknown pickup',
                 Colors.green,
               ),
               const SizedBox(height: 8),
               _buildRouteRow(
                 context,
                 Icons.location_on,
-                trip.dropoffLocation?.address ?? 'Unknown dropoff',
+                trip.destination.address ?? 'Unknown dropoff',
                 Colors.red,
               ),
               const SizedBox(height: 12),
@@ -77,11 +72,7 @@ class TripCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.calendar_today,
-                        size: 16,
-                        color: theme.colorScheme.outline,
-                      ),
+                      Icon(Icons.calendar_today, size: 16, color: theme.colorScheme.outline),
                       const SizedBox(width: 4),
                       Text(
                         _formatDate(trip.createdAt),
@@ -91,9 +82,9 @@ class TripCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (trip.finalPrice != null || trip.estimatedPrice != null)
+                  if (trip.price != null)
                     Text(
-                      '\$${trip.finalPrice ?? trip.estimatedPrice ?? '0.00'}',
+                      '\$${trip.price?.toStringAsFixed(2) ?? '0.00'}',
                       style: theme.textTheme.titleMedium?.copyWith(
                         color: theme.colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -108,12 +99,7 @@ class TripCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRouteRow(
-    BuildContext context,
-    IconData icon,
-    String address,
-    Color color,
-  ) {
+  Widget _buildRouteRow(BuildContext context, IconData icon, String address, Color color) {
     final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

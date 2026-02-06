@@ -1,5 +1,4 @@
 import 'package:flavorizr/features/driver/driver_reviews/domain/entities/driver_review.dart';
-import 'package:flavorizr/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for displaying a single review
@@ -11,8 +10,6 @@ class ReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(

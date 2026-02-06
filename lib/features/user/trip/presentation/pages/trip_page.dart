@@ -6,6 +6,7 @@ import 'package:flavorizr/features/user/trip/presentation/widgets/trip_type_card
 import 'package:flavorizr/shared/presentation/widgets/buttons/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Main trip page for booking rides.
 ///
@@ -32,7 +33,6 @@ class _TripPageState extends ConsumerState<TripPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final state = ref.watch(tripControllerProvider);
 
     return Scaffold(
@@ -57,8 +57,7 @@ class _TripPageState extends ConsumerState<TripPage> {
         child: Column(
           children: [
             // Current trip section
-            if (state.currentTrip != null)
-              _buildCurrentTrip(context, state.currentTrip!),
+            if (state.currentTrip != null) _buildCurrentTrip(context, state.currentTrip!),
 
             // Trip types section
             Expanded(child: _buildTripTypes(context, state)),
@@ -82,16 +81,13 @@ class _TripPageState extends ConsumerState<TripPage> {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.directions_car,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+              Icon(Icons.directions_car, color: Theme.of(context).colorScheme.primary),
               const SizedBox(width: 8),
               Text(
                 'Current Trip',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.primary),
               ),
             ],
           ),
@@ -116,22 +112,21 @@ class _TripPageState extends ConsumerState<TripPage> {
             children: [
               Expanded(
                 child: AppButton(
-                  label: 'View Details',
                   onPressed: () {
                     context.push('${Routes.tripDetail}/${trip.id}');
                   },
                   variant: AppButtonVariant.outlined,
+                  child: const Text('View Details'),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: AppButton(
-                  label: 'Cancel',
                   onPressed: () {
                     _showCancelDialog(trip.id);
                   },
                   variant: AppButtonVariant.text,
-                  style: AppButtonStyle.danger,
+                  child: const Text('Cancel'),
                 ),
               ),
             ],
@@ -157,10 +152,7 @@ class _TripPageState extends ConsumerState<TripPage> {
               color: Theme.of(context).colorScheme.outline,
             ),
             const SizedBox(height: 16),
-            Text(
-              'No trip types available',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('No trip types available', style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
       );
@@ -205,10 +197,7 @@ class _TripPageState extends ConsumerState<TripPage> {
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -229,25 +218,29 @@ class _TripPageState extends ConsumerState<TripPage> {
         title: const Text('Cancel Trip'),
         content: const Text('Are you sure you want to cancel this trip?'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('No'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('No')),
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
+              final trip = ref.read(tripControllerProvider).currentTrip;
+              if (trip?.userId == null) {
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Unable to cancel trip: User ID not found')),
+                  );
+                }
+                return;
+              }
               final success = await ref
                   .read(tripControllerProvider.notifier)
-                  .cancelTrip(tripId);
+                  .cancelTrip(orderId: tripId, userId: trip!.userId!);
               if (success && mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Trip cancelled successfully')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('Trip cancelled successfully')));
               }
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error),
             child: const Text('Yes, Cancel'),
           ),
         ],

@@ -18,12 +18,10 @@ class DriverProfileHeader extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: profile.profileImage != null
-                      ? NetworkImage(profile.profileImage!)
-                      : null,
-                  child: profile.profileImage == null
+                  backgroundImage: profile.image != null ? NetworkImage(profile.image!) : null,
+                  child: profile.image == null
                       ? Text(
-                          profile.firstName[0] + profile.lastName[0],
+                          profile.name.isNotEmpty ? profile.name[0].toUpperCase() : 'D',
                           style: const TextStyle(fontSize: 24),
                         )
                       : null,
@@ -37,31 +35,18 @@ class DriverProfileHeader extends StatelessWidget {
                         children: [
                           Text(
                             profile.fullName,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           if (profile.isVerified) ...[
                             const SizedBox(width: 8),
-                            const Icon(
-                              Icons.verified,
-                              color: Colors.blue,
-                              size: 20,
-                            ),
+                            const Icon(Icons.verified, color: Colors.blue, size: 20),
                           ],
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        profile.email,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                      ),
+                      Text(profile.email, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
                       const SizedBox(height: 4),
-                      Text(
-                        profile.phone,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                      ),
+                      Text(profile.phone, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
                     ],
                   ),
                 ),
@@ -73,20 +58,9 @@ class DriverProfileHeader extends StatelessWidget {
               children: [
                 _buildStat('Rating', '${profile.rating.toStringAsFixed(1)} ⭐'),
                 _buildStat('Trips', '${profile.totalTrips}'),
-                _buildStat(
-                  'Joined',
-                  '${DateTime.now().difference(profile.createdAt).inDays}d',
-                ),
+                _buildStat('Joined', '${DateTime.now().difference(profile.createdAt).inDays}d'),
               ],
             ),
-            if (profile.bio != null) ...[
-              const SizedBox(height: 16),
-              Text(
-                profile.bio!,
-                style: TextStyle(fontSize: 14, color: Colors.grey[700]),
-                textAlign: TextAlign.center,
-              ),
-            ],
           ],
         ),
       ),
@@ -96,10 +70,7 @@ class DriverProfileHeader extends StatelessWidget {
   Widget _buildStat(String label, String value) {
     return Column(
       children: [
-        Text(
-          value,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
       ],
     );

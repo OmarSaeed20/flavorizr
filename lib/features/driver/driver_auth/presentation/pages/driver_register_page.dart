@@ -34,14 +34,29 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
 
   void _handleRegister() {
     if (_formKey.currentState!.validate()) {
+      // TODO: Collect all required fields from user input
+      // This is a placeholder implementation - the page needs to be updated
+      // to collect all required information from the user
       ref
           .read(driverAuthControllerProvider.notifier)
           .register(
-            firstName: _firstNameController.text,
-            lastName: _lastNameController.text,
-            email: _emailController.text,
             phone: _phoneController.text,
             password: _passwordController.text,
+            passwordConfirmation: _passwordController.text,
+            name: '${_firstNameController.text} ${_lastNameController.text}',
+            email: _emailController.text,
+            countryId: 1, // TODO: Get from user input
+            governorateId: 1, // TODO: Get from user input
+            cityId: 1, // TODO: Get from user input
+            birthdate: '1990-01-01', // TODO: Get from user input
+            gender: 'male', // TODO: Get from user input
+            nationalId: '', // TODO: Get from user input
+            nationalIdImage: '', // TODO: Get from user input
+            drivingLicenseImage: '', // TODO: Get from user input
+            vehicleLicenseImage: '', // TODO: Get from user input
+            vehicleImage: '', // TODO: Get from user input
+            vehicleTypeId: 1, // TODO: Get from user input
+            vehiclePlateNumber: '', // TODO: Get from user input
           );
     }
   }
@@ -81,20 +96,11 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
                   enabled: !state.isLoading,
                 ),
                 const SizedBox(height: 16),
-                DriverEmailInput(
-                  controller: _emailController,
-                  enabled: !state.isLoading,
-                ),
+                DriverEmailInput(controller: _emailController, enabled: !state.isLoading),
                 const SizedBox(height: 16),
-                DriverPhoneInput(
-                  controller: _phoneController,
-                  enabled: !state.isLoading,
-                ),
+                DriverPhoneInput(controller: _phoneController, enabled: !state.isLoading),
                 const SizedBox(height: 16),
-                DriverPasswordInput(
-                  controller: _passwordController,
-                  enabled: !state.isLoading,
-                ),
+                DriverPasswordInput(controller: _passwordController, enabled: !state.isLoading),
                 const SizedBox(height: 24),
                 if (state.error != null)
                   Padding(

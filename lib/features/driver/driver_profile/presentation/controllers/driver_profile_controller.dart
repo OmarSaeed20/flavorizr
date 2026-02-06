@@ -75,7 +75,7 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     final result = await _getDriverProfileUseCase();
 
     result.when(
-      success: (data) {
+      success: (data, _) {
         state = state.copyWith(profile: data, isLoading: false);
       },
       exception: (error) {
@@ -115,7 +115,7 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     );
 
     result.when(
-      success: (data) {
+      success: (data, _) {
         state = state.copyWith(profile: data, isUpdating: false);
       },
       exception: (error) {
@@ -131,7 +131,7 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     final result = await _getDriverVehicleUseCase();
 
     result.when(
-      success: (data) {
+      success: (data, _) {
         state = state.copyWith(vehicle: data, isLoading: false);
       },
       exception: (error) {
@@ -142,34 +142,22 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
 
   /// Updates driver vehicle.
   Future<void> updateDriverVehicle({
-    String? make,
-    String? model,
-    int? year,
-    String? color,
-    String? licensePlate,
-    String? vehicleType,
-    int? capacity,
-    String? vin,
-    String? registrationNumber,
-    DateTime? registrationExpiry,
+    String? vehicleTypeId,
+    String? vehiclePlateNumber,
+    String? vehicleImage,
+    String? vehicleLicenseImage,
   }) async {
     state = state.copyWith(isUpdating: true);
 
     final result = await _updateDriverVehicleUseCase(
-      make: make,
-      model: model,
-      year: year,
-      color: color,
-      licensePlate: licensePlate,
-      vehicleType: vehicleType,
-      capacity: capacity,
-      vin: vin,
-      registrationNumber: registrationNumber,
-      registrationExpiry: registrationExpiry,
+      vehicleTypeId: vehicleTypeId,
+      vehiclePlateNumber: vehiclePlateNumber,
+      vehicleImage: vehicleImage,
+      vehicleLicenseImage: vehicleLicenseImage,
     );
 
     result.when(
-      success: (data) {
+      success: (data, _) {
         state = state.copyWith(vehicle: data, isUpdating: false);
       },
       exception: (error) {
@@ -181,23 +169,17 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
   /// Uploads driver document.
   Future<void> uploadDriverDocument({
     required String documentType,
-    required String documentNumber,
-    String? frontImageUrl,
-    String? backImageUrl,
-    DateTime? expiryDate,
+    required String documentImage,
   }) async {
     state = state.copyWith(isUpdating: true);
 
     final result = await _uploadDriverDocumentUseCase(
       documentType: documentType,
-      documentNumber: documentNumber,
-      frontImageUrl: frontImageUrl,
-      backImageUrl: backImageUrl,
-      expiryDate: expiryDate,
+      documentImage: documentImage,
     );
 
     result.when(
-      success: (data) {
+      success: (data, _) {
         final updatedDocuments = [...state.documents, data];
         state = state.copyWith(documents: updatedDocuments, isUpdating: false);
       },
@@ -214,7 +196,7 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     final result = await _getDriverDocumentsUseCase();
 
     result.when(
-      success: (data) {
+      success: (data, _) {
         state = state.copyWith(documents: data, isLoading: false);
       },
       exception: (error) {
@@ -230,10 +212,8 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
     final result = await _deleteDriverDocumentUseCase(documentId);
 
     result.when(
-      success: (_) {
-        final updatedDocuments = state.documents
-            .where((doc) => doc.id != documentId)
-            .toList();
+      success: (_, __) {
+        final updatedDocuments = state.documents.where((doc) => doc.id != documentId).toList();
         state = state.copyWith(documents: updatedDocuments, isUpdating: false);
       },
       exception: (error) {

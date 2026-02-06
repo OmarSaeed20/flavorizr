@@ -7,11 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for profile viewing.
 class ProfileState {
-  const ProfileState({
-    this.profile,
-    this.isLoading = false,
-    this.errorMessage,
-  });
+  const ProfileState({this.profile, this.isLoading = false, this.errorMessage});
 
   final Profile? profile;
   final bool isLoading;
@@ -74,46 +70,10 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
 
     state = state.copyWith(isLoading: false, profile: result.data);
   }
-}
-
-    state = state.copyWith(isFollowLoading: true);
-
-    final userId = state.profile!.userId;
-    final wasFollowing = state.isFollowing;
-
-    // Optimistically update UI
-    state = state.copyWith(
-      isFollowing: !wasFollowing,
-      profile: state.profile!.copyWith(
-        followersCount: state.profile!.followersCount + (wasFollowing ? -1 : 1),
-      ),
-    );
-
-    final result = wasFollowing ? await _unfollowUser(userId) : await _followUser(userId);
-
-    void if (result.error != null) {
-      // Revert on failure
-      state = state.copyWith(
-        isFollowLoading: false,
-        isFollowing: wasFollowing,
-        profile: state.profile!.copyWith(
-          followersCount: state.profile!.followersCount + (wasFollowing ? 1 : -1),
-        ),
-        errorMessage: result.error!.message,
-      );
-      return;
-    }
-
-    state = state.copyWith(isFollowLoading: false);
-  }
 
   /// Refreshes the current profile.
   Future<void> refresh() async {
-    if (state.profile != null) {
-      await loadProfile(state.profile!.userId);
-    } else {
-      await loadCurrentProfile();
-    }
+    await loadProfile();
   }
 
   /// Clears the error message.

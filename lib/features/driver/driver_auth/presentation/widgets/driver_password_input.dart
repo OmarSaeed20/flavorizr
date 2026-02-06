@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class DriverPasswordInput extends StatefulWidget {
   final TextEditingController controller;
   final bool enabled;
+  final String labelText;
 
   const DriverPasswordInput({
     super.key,
     required this.controller,
     this.enabled = true,
+    this.labelText = 'Password',
   });
 
   @override
@@ -25,7 +27,7 @@ class _DriverPasswordInputState extends State<DriverPasswordInput> {
       enabled: widget.enabled,
       obscureText: _obscureText,
       decoration: InputDecoration(
-        labelText: 'Password',
+        labelText: widget.labelText,
         hintText: 'Enter your password',
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(

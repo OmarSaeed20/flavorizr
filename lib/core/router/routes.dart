@@ -125,6 +125,28 @@ abstract class Routes {
   static const String feedback = '/feedback';
   static const String feedbackName = 'feedback';
 
+  // ==================== Trip Routes ====================
+
+  /// Main trip booking page.
+  static const String trip = '/trip';
+  static const String tripName = 'trip';
+
+  /// Trip history page.
+  static const String tripHistory = '/trip/history';
+  static const String tripHistoryName = 'tripHistory';
+
+  /// Trip orders page.
+  static const String tripOrders = '/trip/orders';
+  static const String tripOrdersName = 'tripOrders';
+
+  /// Trip detail page.
+  static const String tripDetail = '/trip/detail';
+  static const String tripDetailName = 'tripDetail';
+
+  /// Trip booking page.
+  static const String tripBooking = '/trip/booking';
+  static const String tripBookingName = 'tripBooking';
+
   // ==================== Deep Link Routes ====================
 
   /// Generic deep link handler.
@@ -194,6 +216,11 @@ abstract class Routes {
     notifications => 'Notifications',
     help => 'Help',
     feedback => 'Feedback',
+    trip => 'Trip',
+    tripHistory => 'Trip History',
+    tripOrders => 'Trip Orders',
+    tripDetail => 'Trip Detail',
+    tripBooking => 'Trip Booking',
     error => 'Error',
     notFound => 'Not Found',
     _ => route.split('/').last.replaceAll('-', ' ').toTitleCase(),
@@ -206,9 +233,8 @@ extension StringExtension on String {
     if (isEmpty) return this;
     return split(' ')
         .map(
-          (word) => word.isEmpty
-              ? word
-              : '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}',
+          (word) =>
+              word.isEmpty ? word : '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}',
         )
         .join(' ');
   }

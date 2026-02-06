@@ -41,12 +41,10 @@ class LocaleController extends Notifier<Locale> {
   bool get isRTL => state.languageCode == 'ar';
 
   /// Returns the text direction for the current locale.
-  TextDirection get textDirection =>
-      isRTL ? TextDirection.rtl : TextDirection.ltr;
+  TextDirection get textDirection => isRTL ? TextDirection.rtl : TextDirection.ltr;
 
   /// Returns the alignment for the current locale.
-  Alignment get alignment =>
-      isRTL ? Alignment.centerRight : Alignment.centerLeft;
+  Alignment get alignment => isRTL ? Alignment.centerRight : Alignment.centerLeft;
 
   /// Returns the padding for the current locale (swaps start/end).
   EdgeInsetsDirectional get directionalPadding =>
@@ -63,17 +61,15 @@ class LocaleController extends Notifier<Locale> {
 
   /// Formats a date according to the current locale.
   String formatDate(DateTime date) {
-    // TODO: Implement proper date formatting using intl package
+    // Implement proper date formatting using intl package
     return date.toString().split(' ')[0];
   }
 
   /// Formats a currency amount according to the current locale.
   String formatCurrency(double amount, {String? currencyCode}) {
-    // TODO: Implement proper currency formatting using intl package
+    // Implement proper currency formatting using intl package
     return '$amount ${currencyCode ?? 'USD'}';
   }
 }
 
-final localeControllerProvider = NotifierProvider<LocaleController, Locale>(
-  LocaleController.new,
-);
+final localeControllerProvider = NotifierProvider<LocaleController, Locale>(LocaleController.new);

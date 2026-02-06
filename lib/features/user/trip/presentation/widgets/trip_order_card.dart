@@ -12,11 +12,8 @@ class TripOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final statusColor = _getStatusColor(context, order.orderStatus);
-    final paymentStatusColor = _getPaymentStatusColor(
-      context,
-      order.paymentStatus,
-    );
+    final statusColor = _getStatusColor(context, order.status);
+    final paymentStatusColor = _getPaymentStatusColor(context, order.paymentStatus);
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -34,22 +31,17 @@ class TripOrderCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'Order #${order.id.substring(0, 8)}',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: statusColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      _getOrderStatusText(order.orderStatus),
+                      _getOrderStatusText(order.status),
                       style: TextStyle(
                         color: statusColor,
                         fontSize: 12,
@@ -61,48 +53,12 @@ class TripOrderCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              // Route information
-              _buildRouteRow(
-                context,
-                Icons.location_on,
-                order.pickupAddress ?? 'Unknown pickup',
-                Colors.green,
-              ),
-              const SizedBox(height: 8),
-              _buildRouteRow(
-                context,
-                Icons.location_on,
-                order.dropoffAddress ?? 'Unknown dropoff',
-                Colors.red,
-              ),
-              const SizedBox(height: 12),
-
-              // Trip type and scheduled time
+              // Trip ID reference
               Row(
                 children: [
-                  Icon(
-                    Icons.directions_car,
-                    size: 16,
-                    color: theme.colorScheme.outline,
-                  ),
+                  Icon(Icons.directions_car, size: 16, color: theme.colorScheme.outline),
                   const SizedBox(width: 4),
-                  Text(
-                    order.tripTypeName ?? 'Standard',
-                    style: theme.textTheme.bodySmall,
-                  ),
-                  if (order.scheduledTime != null) ...[
-                    const SizedBox(width: 12),
-                    Icon(
-                      Icons.schedule,
-                      size: 16,
-                      color: theme.colorScheme.outline,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      _formatDateTime(order.scheduledTime!),
-                      style: theme.textTheme.bodySmall,
-                    ),
-                  ],
+                  Text('Trip: ${order.tripId.substring(0, 8)}', style: theme.textTheme.bodySmall),
                 ],
               ),
               const SizedBox(height: 12),
@@ -113,11 +69,7 @@ class TripOrderCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.calendar_today,
-                        size: 16,
-                        color: theme.colorScheme.outline,
-                      ),
+                      Icon(Icons.calendar_today, size: 16, color: theme.colorScheme.outline),
                       const SizedBox(width: 4),
                       Text(
                         _formatDate(order.createdAt),
@@ -131,17 +83,14 @@ class TripOrderCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '\$${order.totalPrice ?? '0.00'}',
+                        '\$${order.totalAmount?.toStringAsFixed(2) ?? '0.00'}',
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: theme.colorScheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                           color: paymentStatusColor.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
@@ -163,30 +112,6 @@ class TripOrderCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildRouteRow(
-    BuildContext context,
-    IconData icon,
-    String address,
-    Color color,
-  ) {
-    final theme = Theme.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, color: color, size: 18),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            address,
-            style: theme.textTheme.bodyMedium,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
     );
   }
 
@@ -228,12 +153,14 @@ class TripOrderCard extends StatelessWidget {
     switch (status) {
       case PaymentStatus.pending:
         return Colors.orange;
+      case PaymentStatus.processing:
+        return Colors.blue;
       case PaymentStatus.paid:
         return Colors.green;
       case PaymentStatus.failed:
         return Colors.red;
       case PaymentStatus.refunded:
-        return Colors.blue;
+        return Colors.purple;
     }
   }
 
@@ -241,6 +168,8 @@ class TripOrderCard extends StatelessWidget {
     switch (status) {
       case PaymentStatus.pending:
         return 'Pending';
+      case PaymentStatus.processing:
+        return 'Processing';
       case PaymentStatus.paid:
         return 'Paid';
       case PaymentStatus.failed:
@@ -264,9 +193,5 @@ class TripOrderCard extends StatelessWidget {
     } else {
       return '${date.day}/${date.month}/${date.year}';
     }
-  }
-
-  String _formatDateTime(DateTime dateTime) {
-    return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
   }
 }

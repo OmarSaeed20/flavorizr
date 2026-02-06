@@ -5,6 +5,7 @@ import 'package:flavorizr/features/user/trip/presentation/providers/trip_provide
 import 'package:flavorizr/features/user/trip/presentation/widgets/trip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Trip history page showing past trips.
 ///
@@ -34,7 +35,6 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final state = ref.watch(tripHistoryControllerProvider);
 
     return Scaffold(
@@ -74,22 +74,15 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.history,
-              size: 64,
-              color: Theme.of(context).colorScheme.outline,
-            ),
+            Icon(Icons.history, size: 64, color: Theme.of(context).colorScheme.outline),
             const SizedBox(height: 16),
-            Text(
-              'No trip history',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('No trip history', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             Text(
               'Your completed trips will appear here',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.outline,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.outline),
             ),
           ],
         ),
@@ -99,8 +92,7 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification &&
-            notification.metrics.pixels >=
-                notification.metrics.maxScrollExtent - 200) {
+            notification.metrics.pixels >= notification.metrics.maxScrollExtent - 200) {
           ref.read(tripHistoryControllerProvider.notifier).loadMore();
         }
         return false;

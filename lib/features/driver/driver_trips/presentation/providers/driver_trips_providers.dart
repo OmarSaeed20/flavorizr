@@ -1,4 +1,5 @@
 import 'package:flavorizr/core/di/providers.dart';
+import 'package:flavorizr/features/driver/driver_trips/data/datasources/driver_trips_local_datasource.dart';
 import 'package:flavorizr/features/driver/driver_trips/data/datasources/driver_trips_remote_datasource.dart';
 import 'package:flavorizr/features/driver/driver_trips/data/repositories/driver_trips_repository_impl.dart';
 import 'package:flavorizr/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
@@ -15,11 +16,16 @@ import 'package:flavorizr/features/user/auth/presentation/providers/auth_provide
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverTripsRemoteDataSource
-final driverTripsRemoteDataSourceProvider =
-    Provider<DriverTripsRemoteDataSource>((ref) {
-      final apiClient = ref.watch(apiClientProvider);
-      return DriverTripsRemoteDataSourceImpl(apiClient);
-    });
+final driverTripsRemoteDataSourceProvider = Provider<DriverTripsRemoteDataSource>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return DriverTripsRemoteDataSourceImpl(apiClient);
+});
+
+/// Provider for DriverTripsLocalDataSource
+final driverTripsLocalDataSourceProvider = Provider<DriverTripsLocalDataSource>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return DriverTripsLocalDataSourceImpl(prefs: prefs);
+});
 
 /// Provider for DriverTripsRepository
 final driverTripsRepositoryProvider = Provider<DriverTripsRepository>((ref) {

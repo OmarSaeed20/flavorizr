@@ -1,4 +1,5 @@
 import 'package:flavorizr/core/di/providers.dart';
+import 'package:flavorizr/features/driver/driver_settings/data/datasources/driver_settings_local_datasource.dart';
 import 'package:flavorizr/features/driver/driver_settings/data/datasources/driver_settings_remote_datasource.dart';
 import 'package:flavorizr/features/driver/driver_settings/data/repositories/driver_settings_repository_impl.dart';
 import 'package:flavorizr/features/driver/driver_settings/domain/repositories/driver_settings_repository.dart';
@@ -15,6 +16,10 @@ final driverSettingsRemoteDataSourceProvider =
     Provider<DriverSettingsRemoteDataSource>((ref) {
       return DriverSettingsRemoteDataSourceImpl(ref.watch(apiClientProvider));
     });
+    final driverSettingsLocalDataSourceProvider =
+    Provider<DriverSettingsLocalDataSource>((ref) {
+      return DriverSettingsLocalDataSourceImpl(ref.watch(sharedPreferencesProvider));
+    });
 
 /// Provider for DriverSettingsRepository.
 final driverSettingsRepositoryProvider = Provider<DriverSettingsRepository>((
@@ -22,7 +27,9 @@ final driverSettingsRepositoryProvider = Provider<DriverSettingsRepository>((
 ) {
   final networkInfo = ref.watch(networkInfoProvider);
   final remoteDataSource = ref.watch(driverSettingsRemoteDataSourceProvider);
+final localDataSource = ref.watch(driverSettingsLocalDataSourceProvider);
   return DriverSettingsRepositoryImpl(
+    localDataSource: localDataSource,
     remoteDataSource: remoteDataSource,
     networkInfo: networkInfo,
   );

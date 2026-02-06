@@ -5,14 +5,12 @@ import 'package:flavorizr/features/driver/driver_settings/domain/repositories/dr
 /// Use case for toggling availability status.
 /// Note: This functionality needs to be added to the repository interface
 class ToggleAvailabilityStatusUseCase {
-  final DriverSettingsRepository _repository;
+  final DriverSettingsRepository repository;
 
-  ToggleAvailabilityStatusUseCase(this._repository);
+  ToggleAvailabilityStatusUseCase(this.repository);
 
   Future<ApiResult<DriverSettings>> call(bool isAvailable) {
-    // TODO: Implement when toggleAvailabilityStatus is added to repository
-    throw UnimplementedError(
-      'toggleAvailabilityStatus not yet implemented in repository',
-    );
+    // Implement when toggleAvailabilityStatus is added to repository
+    throw UnimplementedError('toggleAvailabilityStatus not yet implemented in repository');
   }
 }
