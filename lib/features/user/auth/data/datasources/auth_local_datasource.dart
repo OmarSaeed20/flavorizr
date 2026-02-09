@@ -220,7 +220,7 @@ class AuthLocalDataSourceImpl
   }) async {
     return saveLocalData<void>(
       key: _biometricEmailKey,
-      data: (email: email, password: password),
+      data: null,
       saver: (data) async {
         await Future.wait([
           _secureStorage.write(key: _biometricEmailKey, value: email),

@@ -13,6 +13,7 @@ library;
 
 export 'app_router.dart';
 export 'navigation_state.dart';
+export 'role_based_guard.dart';
 export 'route_config.dart';
 export 'route_guards.dart';
 export 'route_transitions.dart';

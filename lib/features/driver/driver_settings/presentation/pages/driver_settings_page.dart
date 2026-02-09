@@ -1,6 +1,5 @@
 import 'package:flavorizr/features/driver/driver_settings/presentation/providers/driver_settings_providers.dart';
 import 'package:flavorizr/features/driver/driver_settings/presentation/widgets/availability_status_switch.dart';
-import 'package:flavorizr/features/driver/driver_settings/presentation/widgets/notification_settings_tile.dart';
 import 'package:flavorizr/features/driver/driver_settings/presentation/widgets/online_status_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,104 +87,104 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                 const SizedBox(height: 16),
 
                 // Notifications Section
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Notifications',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
-                        NotificationSettingsTile(
-                          title: 'Enable Notifications',
-                          subtitle: 'Receive push notifications',
-                          value: state.settings!.notificationsEnabled,
-                          onChanged: (value) {
-                            ref
-                                .read(driverSettingsControllerProvider.notifier)
-                                .updateDriverSettings(notificationsEnabled: value);
-                          },
-                          isUpdating: state.isUpdating,
-                        ),
-                        const Divider(),
-                        NotificationSettingsTile(
-                          title: 'Sound',
-                          subtitle: 'Play sound for notifications',
-                          value: state.settings!.soundEnabled,
-                          onChanged: (value) {
-                            ref
-                                .read(driverSettingsControllerProvider.notifier)
-                                .updateDriverSettings(soundEnabled: value);
-                          },
-                          isUpdating: state.isUpdating,
-                        ),
-                        const Divider(),
-                        NotificationSettingsTile(
-                          title: 'Vibration',
-                          subtitle: 'Vibrate for notifications',
-                          value: state.settings!.vibrationEnabled,
-                          onChanged: (value) {
-                            ref
-                                .read(driverSettingsControllerProvider.notifier)
-                                .updateDriverSettings(vibrationEnabled: value);
-                          },
-                          isUpdating: state.isUpdating,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Card(
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(16.0),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         const Text(
+                //           'Notifications',
+                //           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                //         ),
+                //         const SizedBox(height: 16),
+                //         NotificationSettingsTile(
+                //           title: 'Enable Notifications',
+                //           subtitle: 'Receive push notifications',
+                //           value: state.settings!.notificationsEnabled,
+                //           onChanged: (value) {
+                //             ref
+                //                 .read(driverSettingsControllerProvider.notifier)
+                //                 .updateDriverSettings(notificationsEnabled: value);
+                //           },
+                //           isUpdating: state.isUpdating,
+                //         ),
+                //         const Divider(),
+                //         NotificationSettingsTile(
+                //           title: 'Sound',
+                //           subtitle: 'Play sound for notifications',
+                //           value: state.settings!.soundEnabled,
+                //           onChanged: (value) {
+                //             ref
+                //                 .read(driverSettingsControllerProvider.notifier)
+                //                 .updateDriverSettings(soundEnabled: value);
+                //           },
+                //           isUpdating: state.isUpdating,
+                //         ),
+                //         const Divider(),
+                //         NotificationSettingsTile(
+                //           title: 'Vibration',
+                //           subtitle: 'Vibrate for notifications',
+                //           value: state.settings!.vibrationEnabled,
+                //           onChanged: (value) {
+                //             ref
+                //                 .read(driverSettingsControllerProvider.notifier)
+                //                 .updateDriverSettings(vibrationEnabled: value);
+                //           },
+                //           isUpdating: state.isUpdating,
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 16),
 
                 // Preferences Section
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Preferences',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
-                        ListTile(
-                          title: const Text('Language'),
-                          subtitle: Text(state.settings!.language),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () {
-                            // Navigate to language selection
-                          },
-                        ),
-                        const Divider(),
-                        ListTile(
-                          title: const Text('Currency'),
-                          subtitle: Text(state.settings!.currency ?? 'Not set'),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () {
-                            // Navigate to currency selection
-                          },
-                        ),
-                        const Divider(),
-                        ListTile(
-                          title: const Text('Max Distance'),
-                          subtitle: Text(
-                            state.settings!.maxDistance != null
-                                ? '${state.settings!.maxDistance} km'
-                                : 'Not set',
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () {
-                            // Navigate to max distance selection
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Card(
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(16.0),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         const Text(
+                //           'Preferences',
+                //           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                //         ),
+                //         const SizedBox(height: 16),
+                //         ListTile(
+                //           title: const Text('Language'),
+                //           subtitle: Text(state.settings!.language),
+                //           trailing: const Icon(Icons.chevron_right),
+                //           onTap: () {
+                //             // Navigate to language selection
+                //           },
+                //         ),
+                //         const Divider(),
+                //         ListTile(
+                //           title: const Text('Currency'),
+                //           subtitle: Text(state.settings!.currency ?? 'Not set'),
+                //           trailing: const Icon(Icons.chevron_right),
+                //           onTap: () {
+                //             // Navigate to currency selection
+                //           },
+                //         ),
+                //         const Divider(),
+                //         ListTile(
+                //           title: const Text('Max Distance'),
+                //           subtitle: Text(
+                //             state.settings!.maxDistance != null
+                //                 ? '${state.settings!.maxDistance} km'
+                //                 : 'Not set',
+                //           ),
+                //           trailing: const Icon(Icons.chevron_right),
+                //           onTap: () {
+                //             // Navigate to max distance selection
+                //           },
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
     );

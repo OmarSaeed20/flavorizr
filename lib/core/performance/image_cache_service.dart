@@ -18,11 +18,11 @@ import 'package:path_provider/path_provider.dart';
 class ImageCacheService {
   static ImageCacheService? _instance;
 
-  ImageCacheService._();
+  const ImageCacheService._();
 
   /// Gets the singleton instance.
   static ImageCacheService get instance {
-    _instance ??= ImageCacheService._();
+    _instance ??= const ImageCacheService._();
     return _instance!;
   }
 

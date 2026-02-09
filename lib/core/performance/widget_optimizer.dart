@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 
 /// Widget optimizer for improving app performance.
 class WidgetOptimizer {
-  WidgetOptimizer._();
+  const WidgetOptimizer._();
 
   /// Wrap a widget with const optimization.
   ///

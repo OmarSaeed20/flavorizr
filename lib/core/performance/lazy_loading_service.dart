@@ -12,7 +12,7 @@ import 'package:flutter/scheduler.dart';
 
 /// Service for managing lazy loading of widgets and resources.
 class LazyLoadingService {
-  LazyLoadingService._();
+  const LazyLoadingService._();
 
   /// Creates a lazy-loaded widget that only builds when visible.
   ///
