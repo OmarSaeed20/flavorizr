@@ -1,21 +1,20 @@
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_auth/data/datasources/driver_auth_local_datasource.dart';
-import 'package:flavorizr/features/driver/driver_auth/data/datasources/driver_auth_remote_datasource.dart';
-import 'package:flavorizr/features/driver/driver_auth/data/parameters/driver_login_parameters.dart';
-import 'package:flavorizr/features/driver/driver_auth/data/parameters/driver_register_parameters.dart';
-import 'package:flavorizr/features/driver/driver_auth/data/parameters/reset_driver_password_parameters.dart';
-import 'package:flavorizr/features/driver/driver_auth/data/parameters/verify_driver_phone_parameters.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver_credentials.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/repositories/driver_auth_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/datasources/driver_auth_local_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/datasources/driver_auth_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/parameters/driver_login_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/parameters/driver_register_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/parameters/reset_driver_password_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/parameters/verify_driver_phone_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/entities/driver_credentials.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/repositories/driver_auth_repository.dart';
 
 /// Implementation of DriverAuthRepository.
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Based on the FAST App API documentation.
-class DriverAuthRepositoryImpl extends BaseRepository
-    implements DriverAuthRepository {
+class DriverAuthRepositoryImpl extends BaseRepository implements DriverAuthRepository {
   final DriverAuthRemoteDataSource _remoteDataSource;
   final DriverAuthLocalDataSource _localDataSource;
 
@@ -42,9 +41,7 @@ class DriverAuthRepositoryImpl extends BaseRepository
         .withPassword(password)
         .build();
 
-    final result = await executeRemoteRequest(
-      request: () => _remoteDataSource.login(parameters),
-    );
+    final result = await executeRemoteRequest(request: () => _remoteDataSource.login(parameters));
 
     return result.when(
       success: (data, _) async {
@@ -140,9 +137,7 @@ class DriverAuthRepositoryImpl extends BaseRepository
 
   @override
   Future<ApiResult<void>> forgetPassword({required String phone}) async {
-    return executeRemoteRequest(
-      request: () => _remoteDataSource.forgetPassword(phone: phone),
-    );
+    return executeRemoteRequest(request: () => _remoteDataSource.forgetPassword(phone: phone));
   }
 
   @override
@@ -159,16 +154,12 @@ class DriverAuthRepositoryImpl extends BaseRepository
         .withPasswordConfirmation(passwordConfirmation)
         .build();
 
-    return executeRemoteRequest(
-      request: () => _remoteDataSource.resetPassword(parameters),
-    );
+    return executeRemoteRequest(request: () => _remoteDataSource.resetPassword(parameters));
   }
 
   @override
   Future<ApiResult<void>> logout() async {
-    final result = await executeRemoteRequest(
-      request: _remoteDataSource.logout,
-    );
+    final result = await executeRemoteRequest(request: _remoteDataSource.logout);
 
     return result.when(
       success: (_, __) async {
@@ -185,9 +176,7 @@ class DriverAuthRepositoryImpl extends BaseRepository
 
   @override
   Future<ApiResult<DriverCredentials>> refreshToken() async {
-    final result = await executeRemoteRequest(
-      request: _remoteDataSource.refreshToken,
-    );
+    final result = await executeRemoteRequest(request: _remoteDataSource.refreshToken);
 
     return result.when(
       success: (data, _) => ApiResult.success(data.toEntity()),

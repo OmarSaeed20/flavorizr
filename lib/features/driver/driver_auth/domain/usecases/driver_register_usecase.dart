@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver_credentials.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/repositories/driver_auth_repository.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/entities/driver_credentials.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/repositories/driver_auth_repository.dart';
 
 /// Use case for driver registration.
 class DriverRegisterUseCase {

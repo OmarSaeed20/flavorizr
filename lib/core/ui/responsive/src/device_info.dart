@@ -1,4 +1,4 @@
-import 'package:flavorizr/core/ui/responsive/src/breakpoints.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/breakpoints.dart';
 import 'package:flutter/material.dart';
 
 /// Comprehensive device information for responsive layouts
@@ -104,12 +104,10 @@ class DeviceInfo {
   DeviceType get type => deviceType;
 
   /// The shortest side of the screen
-  double get shortestSide =>
-      screenWidth < screenHeight ? screenWidth : screenHeight;
+  double get shortestSide => screenWidth < screenHeight ? screenWidth : screenHeight;
 
   /// The longest side of the screen
-  double get longestSide =>
-      screenWidth > screenHeight ? screenWidth : screenHeight;
+  double get longestSide => screenWidth > screenHeight ? screenWidth : screenHeight;
 
   /// Aspect ratio of the screen
   double get aspectRatio => screenWidth / screenHeight;
@@ -166,13 +164,7 @@ class DeviceInfo {
   }
 
   /// Returns a value based on window size class
-  T byWindowSize<T>({
-    required T compact,
-    T? medium,
-    T? expanded,
-    T? large,
-    T? extraLarge,
-  }) {
+  T byWindowSize<T>({required T compact, T? medium, T? expanded, T? large, T? extraLarge}) {
     return windowSizeClass.when(
       compact: compact,
       medium: medium,
@@ -250,13 +242,7 @@ class DeviceInfo {
 
   /// Number of columns for grid layouts
   int get gridColumns {
-    return byWindowSize(
-      compact: 1,
-      medium: 2,
-      expanded: 2,
-      large: 3,
-      extraLarge: 4,
-    );
+    return byWindowSize(compact: 1, medium: 2, expanded: 2, large: 3, extraLarge: 4);
   }
 
   /// Whether to use drawer navigation (vs rail/permanent)
@@ -266,12 +252,10 @@ class DeviceInfo {
   bool get useBottomNavigation => windowSizeClass.isCompact;
 
   /// Whether to use rail navigation
-  bool get useRailNavigation =>
-      windowSizeClass.isMedium || windowSizeClass.isExpanded;
+  bool get useRailNavigation => windowSizeClass.isMedium || windowSizeClass.isExpanded;
 
   /// Whether to use permanent navigation drawer
-  bool get usePermanentNavigation =>
-      windowSizeClass.isLarge || windowSizeClass.isExtraLarge;
+  bool get usePermanentNavigation => windowSizeClass.isLarge || windowSizeClass.isExtraLarge;
 
   @override
   bool operator ==(Object other) =>

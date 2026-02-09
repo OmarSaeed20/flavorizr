@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api_client.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/direct_booking/data/endpoints/direct_booking_endpoints.dart';
-import 'package:flavorizr/features/user/direct_booking/data/models/booking_response_model.dart';
-import 'package:flavorizr/features/user/direct_booking/data/models/driver_model.dart';
-import 'package:flavorizr/features/user/direct_booking/data/models/vehicle_type_model.dart';
-import 'package:flavorizr/features/user/direct_booking/data/parameters/create_booking_parameters.dart';
-import 'package:flavorizr/features/user/direct_booking/data/parameters/get_nearby_drivers_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/endpoints/direct_booking_endpoints.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/models/booking_response_model.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/models/driver_model.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/models/vehicle_type_model.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/create_booking_parameters.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/get_nearby_drivers_parameters.dart';
 
 /// Remote data source for direct booking operations.
 ///
@@ -15,14 +15,10 @@ import 'package:flavorizr/features/user/direct_booking/data/parameters/get_nearb
 /// Returns ApiResult with success or error data.
 abstract class DirectBookingRemoteDataSource {
   /// Creates a new booking.
-  Future<ApiResult<BookingResponseModel>> createBooking(
-    CreateBookingParameters parameters,
-  );
+  Future<ApiResult<BookingResponseModel>> createBooking(CreateBookingParameters parameters);
 
   /// Gets nearby drivers based on location.
-  Future<ApiResult<List<DriverModel>>> getNearbyDrivers(
-    GetNearbyDriversParameters parameters,
-  );
+  Future<ApiResult<List<DriverModel>>> getNearbyDrivers(GetNearbyDriversParameters parameters);
 
   /// Gets available vehicle types.
   Future<ApiResult<List<VehicleTypeModel>>> getVehicleTypes();
@@ -45,14 +41,11 @@ class DirectBookingRemoteDataSourceImpl
   String get baseUrl => _apiClient.dio.options.baseUrl;
 
   @override
-  Future<ApiResult<BookingResponseModel>> createBooking(
-    CreateBookingParameters parameters,
-  ) async {
+  Future<ApiResult<BookingResponseModel>> createBooking(CreateBookingParameters parameters) async {
     return post<BookingResponseModel>(
       path: DirectBookingEndpoints.createBooking,
       data: parameters.toJson(),
-      decoder: (data) =>
-          BookingResponseModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) => BookingResponseModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -81,9 +74,6 @@ class DirectBookingRemoteDataSourceImpl
 
   @override
   Future<ApiResult<void>> cancelBooking(String bookingId) async {
-    return post<void>(
-      path: DirectBookingEndpoints.cancelBooking(bookingId),
-      decoder: (data) {},
-    );
+    return post<void>(path: DirectBookingEndpoints.cancelBooking(bookingId), decoder: (data) {});
   }
 }

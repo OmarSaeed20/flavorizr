@@ -1,11 +1,11 @@
 // lib/features/auth/domain/usecases/password_reset_usecase.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart' show ApiResult;
-import 'package:flavorizr/features/user/auth/data/parameters/change_password_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/reset_password_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/send_password_reset_email_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart' show ApiResult;
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/change_password_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/reset_password_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_password_reset_email_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for requesting a password reset code.
 class ForgotPasswordUseCase implements UseCase<void, ForgotPasswordParams> {
@@ -61,9 +61,7 @@ class ResetPasswordUseCase implements UseCase<void, ResetPasswordParams> {
 
     // Validate password confirmation
     if (params.newPassword != params.confirmPassword) {
-      return const ApiResult.exception(
-        ValidationException(message: 'Passwords do not match'),
-      );
+      return const ApiResult.exception(ValidationException(message: 'Passwords do not match'));
     }
 
     final resetParams = ResetPasswordParameters(
@@ -137,9 +135,7 @@ class ChangePasswordUseCase implements UseCase<void, ChangePasswordParams> {
     // Check new password is different
     if (params.currentPassword == params.newPassword) {
       return const ApiResult.exception(
-        ValidationException(
-          message: 'New password must be different from current password',
-        ),
+        ValidationException(message: 'New password must be different from current password'),
       );
     }
 
@@ -172,10 +168,7 @@ class ChangePasswordUseCase implements UseCase<void, ChangePasswordParams> {
 
 /// Parameters for the change password use case.
 class ChangePasswordParams {
-  const ChangePasswordParams({
-    required this.currentPassword,
-    required this.newPassword,
-  });
+  const ChangePasswordParams({required this.currentPassword, required this.newPassword});
   final String currentPassword;
   final String newPassword;
 }

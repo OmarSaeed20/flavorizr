@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api/endpoints/general_endpoints.dart';
-import 'package:flavorizr/core/network/api/models/api_general.dart';
-import 'package:flavorizr/core/network/api/parameters/general_parameters.dart';
-import 'package:flavorizr/core/network/api/repositories/general_repository.dart';
-import 'package:flavorizr/core/network/api_response.dart';
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/api/endpoints/general_endpoints.dart';
+import 'package:fast_golden_taxi/core/network/api/models/api_general.dart';
+import 'package:fast_golden_taxi/core/network/api/parameters/general_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/general_repository.dart';
+import 'package:fast_golden_taxi/core/network/api_response.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
 
 /// General Repository Implementation
 /// Implements the general repository interface using Dio for API calls
@@ -15,9 +15,7 @@ class GeneralRepositoryImpl implements GeneralRepository {
   GeneralRepositoryImpl(this._dio);
 
   @override
-  Future<ApiResult<ApiResponse<ApiAboutUs>>> getAboutUs(
-    GetAboutUsParameters parameters,
-  ) async {
+  Future<ApiResult<ApiResponse<ApiAboutUs>>> getAboutUs(GetAboutUsParameters parameters) async {
     try {
       final response = await _dio.get(GeneralEndpoints.getAboutUs);
 
@@ -87,9 +85,7 @@ class GeneralRepositoryImpl implements GeneralRepository {
   }
 
   @override
-  Future<ApiResult<ApiResponse<ApiPolicies>>> getPolicies(
-    GetPoliciesParameters parameters,
-  ) async {
+  Future<ApiResult<ApiResponse<ApiPolicies>>> getPolicies(GetPoliciesParameters parameters) async {
     try {
       final response = await _dio.get(GeneralEndpoints.getPolicies);
 

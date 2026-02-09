@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for creating a schedule trip request.
@@ -92,33 +92,25 @@ class CreateScheduleRequestParametersBuilder
   CancelToken? _cancelToken;
 
   /// Set the pickup longitude
-  CreateScheduleRequestParametersBuilder withPickUpLongitude(
-    String pickUpLongitude,
-  ) {
+  CreateScheduleRequestParametersBuilder withPickUpLongitude(String pickUpLongitude) {
     _pickUpLongitude = pickUpLongitude;
     return this;
   }
 
   /// Set the pickup latitude
-  CreateScheduleRequestParametersBuilder withPickUpLatitude(
-    String pickUpLatitude,
-  ) {
+  CreateScheduleRequestParametersBuilder withPickUpLatitude(String pickUpLatitude) {
     _pickUpLatitude = pickUpLatitude;
     return this;
   }
 
   /// Set the destination longitude
-  CreateScheduleRequestParametersBuilder withDestinationLongitude(
-    String destinationLongitude,
-  ) {
+  CreateScheduleRequestParametersBuilder withDestinationLongitude(String destinationLongitude) {
     _destinationLongitude = destinationLongitude;
     return this;
   }
 
   /// Set the destination latitude
-  CreateScheduleRequestParametersBuilder withDestinationLatitude(
-    String destinationLatitude,
-  ) {
+  CreateScheduleRequestParametersBuilder withDestinationLatitude(String destinationLatitude) {
     _destinationLatitude = destinationLatitude;
     return this;
   }
@@ -130,9 +122,7 @@ class CreateScheduleRequestParametersBuilder
   }
 
   /// Set the destination name
-  CreateScheduleRequestParametersBuilder withDestinationName(
-    String destinationName,
-  ) {
+  CreateScheduleRequestParametersBuilder withDestinationName(String destinationName) {
     _destinationName = destinationName;
     return this;
   }
@@ -163,9 +153,7 @@ class CreateScheduleRequestParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  CreateScheduleRequestParametersBuilder withCancelToken(
-    CancelToken? cancelToken,
-  ) {
+  CreateScheduleRequestParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }

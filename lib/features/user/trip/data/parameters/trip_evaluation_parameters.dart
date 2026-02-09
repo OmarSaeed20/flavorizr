@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/trip_evaluation_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for evaluating a trip.
@@ -33,13 +33,11 @@ class TripEvaluationParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static TripEvaluationParametersBuilder builder() =>
-      TripEvaluationParametersBuilder();
+  static TripEvaluationParametersBuilder builder() => TripEvaluationParametersBuilder();
 }
 
 /// Builder for TripEvaluationParameters.
-class TripEvaluationParametersBuilder
-    extends ParametersBuilder<TripEvaluationParameters> {
+class TripEvaluationParametersBuilder extends ParametersBuilder<TripEvaluationParameters> {
   int? _orderId;
   int? _driverId;
   double? _rate;

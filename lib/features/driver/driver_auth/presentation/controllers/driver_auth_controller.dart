@@ -1,10 +1,10 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver_credentials.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/usecases/driver_login_usecase.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/usecases/driver_logout_usecase.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/usecases/driver_register_usecase.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/usecases/reset_driver_password_usecase.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/usecases/verify_driver_phone_usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/entities/driver_credentials.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/driver_login_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/driver_logout_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/driver_register_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/reset_driver_password_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/verify_driver_phone_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver authentication operations.
@@ -60,11 +60,7 @@ class DriverAuthController extends StateNotifier<DriverAuthState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(
-          credentials: data,
-          isAuthenticated: true,
-          isLoading: false,
-        );
+        state = state.copyWith(credentials: data, isAuthenticated: true, isLoading: false);
       },
       exception: (error) {
         state = state.copyWith(isLoading: false, error: error.message);
@@ -132,11 +128,7 @@ class DriverAuthController extends StateNotifier<DriverAuthState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(
-          credentials: data,
-          isAuthenticated: true,
-          isLoading: false,
-        );
+        state = state.copyWith(credentials: data, isAuthenticated: true, isLoading: false);
       },
       exception: (error) {
         state = state.copyWith(isLoading: false, error: error.message);
@@ -160,11 +152,7 @@ class DriverAuthController extends StateNotifier<DriverAuthState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(
-          credentials: data,
-          isAuthenticated: true,
-          isLoading: false,
-        );
+        state = state.copyWith(credentials: data, isAuthenticated: true, isLoading: false);
       },
       exception: (error) {
         state = state.copyWith(isLoading: false, error: error.message);

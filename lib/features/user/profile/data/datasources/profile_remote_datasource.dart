@@ -1,11 +1,11 @@
 // lib/features/profile/data/datasources/profile_remote_datasource.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api_client.dart';
-import 'package:flavorizr/core/network/api_endpoints.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/profile/data/models/profile_model.dart';
-import 'package:flavorizr/features/user/profile/domain/entities/profile.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/api_endpoints.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/profile/data/models/profile_model.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/entities/profile.dart';
 
 /// Remote data source for profile operations.
 ///
@@ -26,9 +26,7 @@ abstract class ProfileRemoteDataSource {
 }
 
 /// Implementation of [ProfileRemoteDataSource] using BaseRemoteDataSource.
-class ProfileRemoteDataSourceImpl
-    with BaseRemoteDataSource
-    implements ProfileRemoteDataSource {
+class ProfileRemoteDataSourceImpl with BaseRemoteDataSource implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl(this._apiClient);
 
   final ApiClient _apiClient;
@@ -56,21 +54,16 @@ class ProfileRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<ProfileModel>> updateProfileInfo(
-    ProfileUpdateData data,
-  ) async {
+  Future<ApiResult<ProfileModel>> updateProfileInfo(ProfileUpdateData data) async {
     return post<ProfileModel>(
       path: ApiEndpoints.updateProfileInfo,
       data: data.toJson(),
-      decoder: (responseData) =>
-          ProfileModel.fromJson(responseData as Map<String, dynamic>),
+      decoder: (responseData) => ProfileModel.fromJson(responseData as Map<String, dynamic>),
     );
   }
 
   @override
-  Future<ApiResult<List<DriverReviewModel>>> getDriverReviews(
-    String driverId,
-  ) async {
+  Future<ApiResult<List<DriverReviewModel>>> getDriverReviews(String driverId) async {
     return get<List<DriverReviewModel>>(
       path: ApiEndpoints.driverReviews,
       queryParameters: {'driver_id': driverId},

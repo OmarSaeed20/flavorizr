@@ -1,10 +1,10 @@
 /* // lib/core/navigation/navigation_service.dart
 import 'dart:convert';
 
-import 'package:flavorizr/core/router/app_router.dart';
-import 'package:flavorizr/core/router/routes.dart';
-import 'package:flavorizr/pages/advanced_app_router.dart';
-import 'package:flavorizr/pages/router_layouts_screens.dart';
+import 'package:fast_golden_taxi/core/router/app_router.dart';
+import 'package:fast_golden_taxi/core/router/routes.dart';
+import 'package:fast_golden_taxi/pages/advanced_app_router.dart';
+import 'package:fast_golden_taxi/pages/router_layouts_screens.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

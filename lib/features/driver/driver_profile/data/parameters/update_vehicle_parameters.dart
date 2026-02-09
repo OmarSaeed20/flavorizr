@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for updating driver vehicle information.
@@ -30,11 +30,9 @@ class UpdateVehicleParameters extends Parameters {
   Map<String, dynamic> toJson() {
     return {
       if (_vehicleTypeId != null) 'vehicle_type_id': _vehicleTypeId,
-      if (_vehiclePlateNumber != null)
-        'vehicle_plate_number': _vehiclePlateNumber,
+      if (_vehiclePlateNumber != null) 'vehicle_plate_number': _vehiclePlateNumber,
       if (_vehicleImage != null) 'vehicle_image': _vehicleImage,
-      if (_vehicleLicenseImage != null)
-        'vehicle_license_image': _vehicleLicenseImage,
+      if (_vehicleLicenseImage != null) 'vehicle_license_image': _vehicleLicenseImage,
     };
   }
 
@@ -46,13 +44,11 @@ class UpdateVehicleParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateVehicleParametersBuilder builder() =>
-      UpdateVehicleParametersBuilder();
+  static UpdateVehicleParametersBuilder builder() => UpdateVehicleParametersBuilder();
 }
 
 /// Builder for UpdateVehicleParameters
-class UpdateVehicleParametersBuilder
-    extends ParametersBuilder<UpdateVehicleParameters> {
+class UpdateVehicleParametersBuilder extends ParametersBuilder<UpdateVehicleParameters> {
   int? _vehicleTypeId;
   String? _vehiclePlateNumber;
   String? _vehicleImage;
@@ -66,9 +62,7 @@ class UpdateVehicleParametersBuilder
   }
 
   /// Set the vehicle plate number
-  UpdateVehicleParametersBuilder withVehiclePlateNumber(
-    String vehiclePlateNumber,
-  ) {
+  UpdateVehicleParametersBuilder withVehiclePlateNumber(String vehiclePlateNumber) {
     _vehiclePlateNumber = vehiclePlateNumber;
     return this;
   }
@@ -80,9 +74,7 @@ class UpdateVehicleParametersBuilder
   }
 
   /// Set the vehicle license image
-  UpdateVehicleParametersBuilder withVehicleLicenseImage(
-    String vehicleLicenseImage,
-  ) {
+  UpdateVehicleParametersBuilder withVehicleLicenseImage(String vehicleLicenseImage) {
     _vehicleLicenseImage = vehicleLicenseImage;
     return this;
   }

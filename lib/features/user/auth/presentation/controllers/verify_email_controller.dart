@@ -1,7 +1,7 @@
 // lib/features/auth/presentation/controllers/verify_email_controller.dart
-import 'package:flavorizr/features/user/auth/data/parameters/verify_email_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_email_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the verify email page.
@@ -82,9 +82,7 @@ class VerifyEmailController extends AutoDisposeNotifier<VerifyEmailState> {
 
     // Validate token
     if (state.token.isEmpty) {
-      state = state.copyWith(
-        errorMessage: 'Invalid verification link. Please request a new one.',
-      );
+      state = state.copyWith(errorMessage: 'Invalid verification link. Please request a new one.');
       return false;
     }
 
@@ -95,10 +93,7 @@ class VerifyEmailController extends AutoDisposeNotifier<VerifyEmailState> {
       final result = await _repository.verifyEmail(params);
 
       if (result.error != null) {
-        state = state.copyWith(
-          isVerifying: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isVerifying: false, errorMessage: result.error!.message);
         return false;
       }
 
@@ -125,20 +120,13 @@ class VerifyEmailController extends AutoDisposeNotifier<VerifyEmailState> {
   Future<bool> resendVerificationEmail() async {
     if (state.isResending || state.resendCooldown > 0) return false;
 
-    state = state.copyWith(
-      isResending: true,
-      clearError: true,
-      resendSuccess: false,
-    );
+    state = state.copyWith(isResending: true, clearError: true, resendSuccess: false);
 
     try {
       final result = await _repository.resendEmailVerification();
 
       if (result.error != null) {
-        state = state.copyWith(
-          isResending: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isResending: false, errorMessage: result.error!.message);
         return false;
       }
 

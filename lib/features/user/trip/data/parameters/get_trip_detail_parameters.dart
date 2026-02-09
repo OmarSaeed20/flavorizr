@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/get_trip_detail_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting trip details.
@@ -16,13 +16,11 @@ class GetTripDetailParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static GetTripDetailParametersBuilder builder() =>
-      GetTripDetailParametersBuilder();
+  static GetTripDetailParametersBuilder builder() => GetTripDetailParametersBuilder();
 }
 
 /// Builder for GetTripDetailParameters.
-class GetTripDetailParametersBuilder
-    extends ParametersBuilder<GetTripDetailParameters> {
+class GetTripDetailParametersBuilder extends ParametersBuilder<GetTripDetailParameters> {
   int? _tripId;
   CancelToken? _cancelToken;
 
@@ -39,9 +37,6 @@ class GetTripDetailParametersBuilder
 
   @override
   GetTripDetailParameters build() {
-    return GetTripDetailParameters._(
-      tripId: _tripId!,
-      cancelToken: _cancelToken,
-    );
+    return GetTripDetailParameters._(tripId: _tripId!, cancelToken: _cancelToken);
   }
 }

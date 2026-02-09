@@ -1,18 +1,18 @@
 // lib/features/auth/presentation/providers/auth_providers.dart
-import 'package:flavorizr/core/di/providers.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/features/user/auth/data/datasources/auth_local_datasource.dart';
-import 'package:flavorizr/features/user/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:flavorizr/features/user/auth/data/repositories/auth_repository_impl.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/user.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/biometric_auth_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/get_current_user_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/login_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/logout_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/password_reset_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/register_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/social_auth_usecase.dart';
+import 'package:fast_golden_taxi/core/di/providers.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/datasources/auth_local_datasource.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/repositories/auth_repository_impl.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/biometric_auth_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/get_current_user_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/login_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/logout_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/password_reset_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/register_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/social_auth_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -31,9 +31,7 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
   return const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    iOptions: IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock_this_device,
-    ),
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
   );
 });
 
@@ -95,10 +93,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
     appleSignIn: () async {
       try {
         final credential = await SignInWithApple.getAppleIDCredential(
-          scopes: [
-            AppleIDAuthorizationScopes.email,
-            AppleIDAuthorizationScopes.fullName,
-          ],
+          scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName],
         );
         return (
           idToken: credential.identityToken ?? '',
@@ -159,12 +154,11 @@ final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>((ref) {
 });
 
 /// Provider for CheckBiometricAvailabilityUseCase.
-final checkBiometricAvailabilityUseCaseProvider =
-    Provider<CheckBiometricAvailabilityUseCase>((ref) {
-      return CheckBiometricAvailabilityUseCase(
-        ref.watch(authRepositoryProvider),
-      );
-    });
+final checkBiometricAvailabilityUseCaseProvider = Provider<CheckBiometricAvailabilityUseCase>((
+  ref,
+) {
+  return CheckBiometricAvailabilityUseCase(ref.watch(authRepositoryProvider));
+});
 
 /// Provider for BiometricSignInUseCase.
 final biometricSignInUseCaseProvider = Provider<BiometricSignInUseCase>((ref) {

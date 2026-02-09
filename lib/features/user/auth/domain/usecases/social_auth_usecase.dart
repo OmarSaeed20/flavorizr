@@ -1,7 +1,7 @@
 // lib/features/auth/domain/usecases/social_auth_usecase.dart
-import 'package:flavorizr/features/user/auth/domain/entities/auth_result.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for Google OAuth sign-in.
 class GoogleSignInUseCase implements UseCase<AuthResult, NoParams> {

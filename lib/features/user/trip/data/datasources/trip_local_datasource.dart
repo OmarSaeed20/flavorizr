@@ -1,11 +1,11 @@
 // lib/features/trip/data/datasources/trip_local_datasource.dart
 import 'dart:convert';
 
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/trip/data/models/trip_model.dart';
-import 'package:flavorizr/features/user/trip/data/models/trip_order_model.dart';
-import 'package:flavorizr/features/user/trip/data/models/trip_type_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/models/trip_model.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/models/trip_order_model.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/models/trip_type_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for trip operations.
@@ -47,9 +47,7 @@ abstract class TripLocalDataSource {
 }
 
 /// Implementation of [TripLocalDataSource] using BaseLocalDataSource.
-class TripLocalDataSourceImpl
-    with BaseLocalDataSource
-    implements TripLocalDataSource {
+class TripLocalDataSourceImpl with BaseLocalDataSource implements TripLocalDataSource {
   TripLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   static const String _tripTypesKey = 'cached_trip_types';
@@ -82,9 +80,7 @@ class TripLocalDataSourceImpl
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map((e) => TripTypeModel.fromJson(e as Map<String, dynamic>))
-              .toList();
+          return list.map((e) => TripTypeModel.fromJson(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }
@@ -144,9 +140,7 @@ class TripLocalDataSourceImpl
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map((e) => TripModel.fromJson(e as Map<String, dynamic>))
-              .toList();
+          return list.map((e) => TripModel.fromJson(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }
@@ -206,9 +200,7 @@ class TripLocalDataSourceImpl
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map((e) => TripOrderModel.fromJson(e as Map<String, dynamic>))
-              .toList();
+          return list.map((e) => TripOrderModel.fromJson(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }

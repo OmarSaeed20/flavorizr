@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Refresh Token API parameters with builder pattern
 /// Used for refreshing authentication tokens
@@ -29,13 +29,11 @@ class RefreshTokenParameters extends Parameters {
   int get hashCode => refreshToken.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() =>
-      'RefreshTokenParameters(refreshToken: ****, cancelToken: $cancelToken)';
+  String toString() => 'RefreshTokenParameters(refreshToken: ****, cancelToken: $cancelToken)';
 }
 
 /// Builder for RefreshTokenParameters
-class RefreshTokenParametersBuilder
-    extends ParametersBuilder<RefreshTokenParameters> {
+class RefreshTokenParametersBuilder extends ParametersBuilder<RefreshTokenParameters> {
   String? _refreshToken;
   CancelToken? _cancelToken;
 
@@ -60,9 +58,6 @@ class RefreshTokenParametersBuilder
     if (_refreshToken == null || _refreshToken!.isEmpty) {
       throw ArgumentError('Refresh token is required');
     }
-    return RefreshTokenParameters(
-      refreshToken: _refreshToken!,
-      cancelToken: _cancelToken,
-    );
+    return RefreshTokenParameters(refreshToken: _refreshToken!, cancelToken: _cancelToken);
   }
 }

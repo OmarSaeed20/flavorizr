@@ -1,8 +1,8 @@
 // lib/features/chat/presentation/screens/chat_list_screen.dart
-import 'package:flavorizr/features/user/chat/domain/entities/conversation.dart';
-import 'package:flavorizr/features/user/chat/presentation/providers/chat_providers.dart';
-import 'package:flavorizr/features/user/chat/presentation/screens/conversation_screen.dart';
-import 'package:flavorizr/features/user/chat/presentation/widgets/conversation_tile.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/conversation.dart';
+import 'package:fast_golden_taxi/features/user/chat/presentation/providers/chat_providers.dart';
+import 'package:fast_golden_taxi/features/user/chat/presentation/screens/conversation_screen.dart';
+import 'package:fast_golden_taxi/features/user/chat/presentation/widgets/conversation_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,25 +37,20 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
       ref.read(conversationsProvider.notifier).loadMore();
     }
   }
 
   Future<void> _onRefresh() async {
-    await ref
-        .read(conversationsProvider.notifier)
-        .loadConversations(refresh: true);
+    await ref.read(conversationsProvider.notifier).loadConversations(refresh: true);
   }
 
   void _onConversationTap(Conversation conversation) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => ConversationScreen(
-          conversationId: conversation.id,
-          title: conversation.name ?? 'Chat',
-        ),
+        builder: (_) =>
+            ConversationScreen(conversationId: conversation.id, title: conversation.name ?? 'Chat'),
       ),
     );
   }
@@ -96,16 +91,16 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
 
   void _showUserPicker() {
     // TO-DO: Implement user picker for new direct message
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('User picker not implemented yet')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('User picker not implemented yet')));
   }
 
   void _showCreateGroupDialog() {
     // TO-DO: Implement create group dialog
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Create group not implemented yet')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Create group not implemented yet')));
   }
 
   @override
@@ -165,16 +160,12 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
             const SizedBox(height: 16),
             Text(
               'No conversations yet',
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(color: Colors.grey),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 8),
             Text(
               'Start a new chat to begin messaging',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
             ),
           ],
         ),
@@ -189,10 +180,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
         itemBuilder: (context, index) {
           if (index == state.conversations.length) {
             return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
+              child: Padding(padding: EdgeInsets.all(16), child: CircularProgressIndicator()),
             );
           }
 

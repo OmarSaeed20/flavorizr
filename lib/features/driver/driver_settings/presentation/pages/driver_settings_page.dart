@@ -1,6 +1,6 @@
-import 'package:flavorizr/features/driver/driver_settings/presentation/providers/driver_settings_providers.dart';
-import 'package:flavorizr/features/driver/driver_settings/presentation/widgets/availability_status_switch.dart';
-import 'package:flavorizr/features/driver/driver_settings/presentation/widgets/online_status_switch.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/presentation/providers/driver_settings_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/presentation/widgets/availability_status_switch.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/presentation/widgets/online_status_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

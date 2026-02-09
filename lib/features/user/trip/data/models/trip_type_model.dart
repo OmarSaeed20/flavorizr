@@ -1,5 +1,5 @@
 // lib/features/trip/data/models/trip_type_model.dart
-import 'package:flavorizr/features/user/trip/domain/entities/trip_type.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_type.dart';
 
 /// Data model for TripType, used for JSON serialization.
 ///

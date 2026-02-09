@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for cancelling a trip.
@@ -8,11 +8,9 @@ class CancelTripParameters extends Parameters {
   final String _tripId;
   final CancelToken? _cancelToken;
 
-  const CancelTripParameters._({
-    required String tripId,
-    CancelToken? cancelToken,
-  }) : _tripId = tripId,
-       _cancelToken = cancelToken;
+  const CancelTripParameters._({required String tripId, CancelToken? cancelToken})
+    : _tripId = tripId,
+      _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -29,8 +27,7 @@ class CancelTripParameters extends Parameters {
 }
 
 /// Builder for CancelTripParameters
-class CancelTripParametersBuilder
-    extends ParametersBuilder<CancelTripParameters> {
+class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters> {
   String? _tripId;
   CancelToken? _cancelToken;
 

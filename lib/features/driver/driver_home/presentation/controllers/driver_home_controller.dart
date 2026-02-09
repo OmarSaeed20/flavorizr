@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_home_data.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/usecases/get_driver_home_data.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_home_data.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/usecases/get_driver_home_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver home

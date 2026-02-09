@@ -1,5 +1,5 @@
 // lib/features/trip/data/models/trip_evaluation_model.dart
-import 'package:flavorizr/features/user/trip/domain/entities/trip_evaluation.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_evaluation.dart';
 
 /// Data model for TripEvaluation, used for JSON serialization.
 ///
@@ -28,9 +28,7 @@ class TripEvaluationModel {
       rating: (json['rating'] as num).toInt(),
       comment: json['comment'] as String?,
       categories: json['categories'] != null
-          ? EvaluationCategoriesModel.fromJson(
-              json['categories'] as Map<String, dynamic>,
-            )
+          ? EvaluationCategoriesModel.fromJson(json['categories'] as Map<String, dynamic>)
           : null,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)

@@ -1,5 +1,5 @@
-import 'package:flavorizr/core/localization/locale_controller.dart';
-import 'package:flavorizr/l10n/app_localizations.dart';
+import 'package:fast_golden_taxi/core/localization/locale_controller.dart';
+import 'package:fast_golden_taxi/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,9 +43,7 @@ class LanguageSettingsPage extends ConsumerWidget {
   }) {
     return ListTile(
       title: Text(title),
-      trailing: isSelected
-          ? Icon(Icons.check, color: Theme.of(context).primaryColor)
-          : null,
+      trailing: isSelected ? Icon(Icons.check, color: Theme.of(context).primaryColor) : null,
       onTap: () {
         ref.read(localeControllerProvider.notifier).setLocale(locale);
       },

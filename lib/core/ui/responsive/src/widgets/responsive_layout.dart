@@ -1,5 +1,5 @@
-import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
-import 'package:flavorizr/core/ui/responsive/src/responsive_data.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/device_info.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/responsive_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -264,9 +264,7 @@ class ResponsiveRowColumn extends StatelessWidget {
 
       // Wrap with Expanded when in Row mode and expandChildren is true
       if (!useColumn && expandChildren) {
-        final flex = (flexValues != null && i < flexValues!.length)
-            ? flexValues![i]
-            : 1;
+        final flex = (flexValues != null && i < flexValues!.length) ? flexValues![i] : 1;
         child = Expanded(flex: flex, child: child);
       }
 

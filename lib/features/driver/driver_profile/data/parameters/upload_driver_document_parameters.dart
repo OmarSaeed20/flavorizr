@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for uploading driver document.
@@ -47,8 +47,7 @@ class UploadDriverDocumentParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UploadDriverDocumentParametersBuilder builder() =>
-      UploadDriverDocumentParametersBuilder();
+  static UploadDriverDocumentParametersBuilder builder() => UploadDriverDocumentParametersBuilder();
 }
 
 /// Builder for UploadDriverDocumentParameters
@@ -68,17 +67,13 @@ class UploadDriverDocumentParametersBuilder
   }
 
   /// Set the document number
-  UploadDriverDocumentParametersBuilder withDocumentNumber(
-    String documentNumber,
-  ) {
+  UploadDriverDocumentParametersBuilder withDocumentNumber(String documentNumber) {
     _documentNumber = documentNumber;
     return this;
   }
 
   /// Set the front image URL
-  UploadDriverDocumentParametersBuilder withFrontImageUrl(
-    String frontImageUrl,
-  ) {
+  UploadDriverDocumentParametersBuilder withFrontImageUrl(String frontImageUrl) {
     _frontImageUrl = frontImageUrl;
     return this;
   }
@@ -97,9 +92,7 @@ class UploadDriverDocumentParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  UploadDriverDocumentParametersBuilder withCancelToken(
-    CancelToken? cancelToken,
-  ) {
+  UploadDriverDocumentParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }

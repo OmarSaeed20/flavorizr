@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/get_available_public_trips_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting available public trips.
@@ -43,9 +43,7 @@ class GetAvailablePublicTripsParametersBuilder
   }
 
   @override
-  GetAvailablePublicTripsParametersBuilder withCancelToken(
-    CancelToken? cancelToken,
-  ) {
+  GetAvailablePublicTripsParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }

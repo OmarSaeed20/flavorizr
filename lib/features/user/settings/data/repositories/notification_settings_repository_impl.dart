@@ -2,12 +2,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/settings/domain/entities/notification_settings.dart';
-import 'package:flavorizr/features/user/settings/domain/repositories/notification_settings_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/settings/domain/entities/notification_settings.dart';
+import 'package:fast_golden_taxi/features/user/settings/domain/repositories/notification_settings_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Implementation of [NotificationSettingsRepository] using SharedPreferences.
@@ -31,8 +31,7 @@ class NotificationSettingsRepositoryImpl extends BaseRepository
 
   static const String _settingsKey = 'notification_settings';
 
-  final _settingsController =
-      StreamController<NotificationSettings>.broadcast();
+  final _settingsController = StreamController<NotificationSettings>.broadcast();
 
   NotificationSettings? _currentSettings;
 
@@ -65,16 +64,12 @@ class NotificationSettingsRepositoryImpl extends BaseRepository
           NetworkExceptionFactory.mapExceptionToFailure(e),
         );
       }
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
     }
   }
 
   @override
-  Future<ApiResult<NotificationSettings>> updateSettings(
-    NotificationSettings settings,
-  ) async {
+  Future<ApiResult<NotificationSettings>> updateSettings(NotificationSettings settings) async {
     try {
       // Save to local storage
       await _saveToStorage(settings);
@@ -82,9 +77,7 @@ class NotificationSettingsRepositoryImpl extends BaseRepository
       _settingsController.add(settings);
       return ApiResult.success(settings);
     } catch (e) {
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
     }
   }
 
@@ -97,9 +90,7 @@ class NotificationSettingsRepositoryImpl extends BaseRepository
       _settingsController.add(defaults);
       return const ApiResult.success(defaults);
     } catch (e) {
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
     }
   }
 
@@ -122,24 +113,19 @@ class NotificationSettingsRepositoryImpl extends BaseRepository
   }
 
   @override
-  Future<ApiResult<void>> clearAllCache({
-    required Future<void> Function() clearer,
-  }) async {
+  Future<ApiResult<void>> clearAllCache({required Future<void> Function() clearer}) async {
     try {
       await clearer();
       _currentSettings = null;
       _settingsController.add(const NotificationSettings());
       return const ApiResult.success(null);
     } catch (e) {
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
     }
   }
 
   @override
-  Stream<NotificationSettings> get settingsUpdates =>
-      _settingsController.stream;
+  Stream<NotificationSettings> get settingsUpdates => _settingsController.stream;
 
   /// Loads settings from local storage.
   Future<NotificationSettings?> _loadFromStorage() async {

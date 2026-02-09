@@ -1,8 +1,8 @@
 // lib/core/error/error_handler.dart
 import 'dart:async';
 
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
 import 'package:flutter/foundation.dart';
 
 /// Global error handler for the application.
@@ -97,12 +97,7 @@ class ErrorHandler {
 
     // Report to crash analytics in release mode
     if (_crashReportingEnabled && kReleaseMode) {
-      FirebaseCrashlytics.instance.recordError(
-        error,
-        stack,
-        fatal: true,
-        reason: 'Zone Error',
-      );
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true, reason: 'Zone Error');
     }
   }
 
@@ -127,10 +122,7 @@ class ErrorHandler {
       // Add custom information
       if (information != null) {
         for (final entry in information.entries) {
-          await FirebaseCrashlytics.instance.setCustomKey(
-            entry.key,
-            entry.value.toString(),
-          );
+          await FirebaseCrashlytics.instance.setCustomKey(entry.key, entry.value.toString());
         }
       }
 

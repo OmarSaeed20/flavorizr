@@ -1,6 +1,6 @@
 // lib/features/splash/domain/usecases/check_app_initialization_usecase.dart
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/splash/domain/repositories/splash_repository.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/splash/domain/repositories/splash_repository.dart';
 
 /// Result of the app initialization check.
 enum InitializationResult {

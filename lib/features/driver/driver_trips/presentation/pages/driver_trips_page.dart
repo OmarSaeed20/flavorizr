@@ -1,8 +1,8 @@
-import 'package:flavorizr/features/driver/driver_trips/presentation/controllers/driver_trips_controller.dart';
-import 'package:flavorizr/features/driver/driver_trips/presentation/providers/driver_trips_providers.dart';
-import 'package:flavorizr/features/driver/driver_trips/presentation/widgets/pending_trip_card.dart';
-import 'package:flavorizr/features/driver/driver_trips/presentation/widgets/trip_card.dart';
-import 'package:flavorizr/features/driver/driver_trips/presentation/widgets/trip_filter_chip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/controllers/driver_trips_controller.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/providers/driver_trips_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/widgets/pending_trip_card.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/widgets/trip_card.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/widgets/trip_filter_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,16 +40,13 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.8) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent * 0.8) {
       ref.read(driverTripsControllerProvider.notifier).loadTrips();
     }
   }
 
   Future<void> _onRefresh() async {
-    await ref
-        .read(driverTripsControllerProvider.notifier)
-        .loadTrips(refresh: true);
+    await ref.read(driverTripsControllerProvider.notifier).loadTrips(refresh: true);
     await ref.read(driverTripsControllerProvider.notifier).loadPendingTrips();
   }
 
@@ -67,9 +64,7 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
             Tab(text: 'Pending Requests'),
           ],
         ),
-        actions: [
-          IconButton(icon: const Icon(Icons.refresh), onPressed: _onRefresh),
-        ],
+        actions: [IconButton(icon: const Icon(Icons.refresh), onPressed: _onRefresh)],
       ),
       body: TabBarView(
         controller: _tabController,
@@ -92,9 +87,7 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'All',
                   isSelected: state.selectedStatus == null,
                   onTap: () {
-                    ref
-                        .read(driverTripsControllerProvider.notifier)
-                        .filterByStatus(null);
+                    ref.read(driverTripsControllerProvider.notifier).filterByStatus(null);
                   },
                 ),
                 const SizedBox(width: 8),
@@ -102,9 +95,7 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'Pending',
                   isSelected: state.selectedStatus == 'pending',
                   onTap: () {
-                    ref
-                        .read(driverTripsControllerProvider.notifier)
-                        .filterByStatus('pending');
+                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('pending');
                   },
                 ),
                 const SizedBox(width: 8),
@@ -112,9 +103,7 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'In Progress',
                   isSelected: state.selectedStatus == 'in_progress',
                   onTap: () {
-                    ref
-                        .read(driverTripsControllerProvider.notifier)
-                        .filterByStatus('in_progress');
+                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('in_progress');
                   },
                 ),
                 const SizedBox(width: 8),
@@ -122,9 +111,7 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'Completed',
                   isSelected: state.selectedStatus == 'completed',
                   onTap: () {
-                    ref
-                        .read(driverTripsControllerProvider.notifier)
-                        .filterByStatus('completed');
+                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('completed');
                   },
                 ),
                 const SizedBox(width: 8),
@@ -132,9 +119,7 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                   label: 'Cancelled',
                   isSelected: state.selectedStatus == 'cancelled',
                   onTap: () {
-                    ref
-                        .read(driverTripsControllerProvider.notifier)
-                        .filterByStatus('cancelled');
+                    ref.read(driverTripsControllerProvider.notifier).filterByStatus('cancelled');
                   },
                 ),
               ],
@@ -150,16 +135,12 @@ class _DriverTripsPageState extends ConsumerState<DriverTripsPage>
                 ? const Center(child: CircularProgressIndicator())
                 : state.trips.isEmpty
                 ? const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(32.0),
-                      child: Text('No trips found'),
-                    ),
+                    child: Padding(padding: EdgeInsets.all(32.0), child: Text('No trips found')),
                   )
                 : ListView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount:
-                        state.trips.length + (state.hasMoreTrips ? 1 : 0),
+                    itemCount: state.trips.length + (state.hasMoreTrips ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == state.trips.length) {
                         return const Padding(

@@ -1,9 +1,9 @@
 // lib/features/trip/presentation/controllers/trip_history_controller.dart
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_history_parameters.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip.dart';
-import 'package:flavorizr/features/user/trip/domain/usecases/trip_usecases.dart';
-import 'package:flavorizr/features/user/trip/presentation/providers/trip_providers.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_history_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/usecases/trip_usecases.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/providers/trip_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for trip history operations.

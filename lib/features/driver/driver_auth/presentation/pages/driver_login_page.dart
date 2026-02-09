@@ -1,6 +1,6 @@
-import 'package:flavorizr/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,10 +28,7 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
     if (_formKey.currentState!.validate()) {
       ref
           .read(driverAuthControllerProvider.notifier)
-          .login(
-            phone: _phoneController.text,
-            password: _passwordController.text,
-          );
+          .login(phone: _phoneController.text, password: _passwordController.text);
     }
   }
 
@@ -64,15 +61,9 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                DriverPhoneInput(
-                  controller: _phoneController,
-                  enabled: !state.isLoading,
-                ),
+                DriverPhoneInput(controller: _phoneController, enabled: !state.isLoading),
                 const SizedBox(height: 16),
-                DriverPasswordInput(
-                  controller: _passwordController,
-                  enabled: !state.isLoading,
-                ),
+                DriverPasswordInput(controller: _passwordController, enabled: !state.isLoading),
                 const SizedBox(height: 24),
                 if (state.error != null)
                   Padding(
@@ -88,19 +79,14 @@ class _DriverLoginPageState extends ConsumerState<DriverLoginPage> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: state.isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Login'),
+                  child: state.isLoading ? const CircularProgressIndicator() : const Text('Login'),
                 ),
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: state.isLoading
                       ? null
                       : () {
-                          Navigator.pushNamed(
-                            context,
-                            '/driver/forgot-password',
-                          );
+                          Navigator.pushNamed(context, '/driver/forgot-password');
                         },
                   child: const Text('Forgot Password?'),
                 ),

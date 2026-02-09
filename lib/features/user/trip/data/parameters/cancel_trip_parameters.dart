@@ -1,16 +1,12 @@
 // lib/features/trip/data/parameters/cancel_trip_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for cancelling a trip.
 @immutable
 class CancelTripParameters extends Parameters {
-  const CancelTripParameters._({
-    required this.orderId,
-    required this.userId,
-    this.cancelToken,
-  });
+  const CancelTripParameters._({required this.orderId, required this.userId, this.cancelToken});
 
   @override
   Map<String, dynamic> toJson() => {'order_id': orderId, 'user_id': userId};
@@ -25,8 +21,7 @@ class CancelTripParameters extends Parameters {
 }
 
 /// Builder for CancelTripParameters.
-class CancelTripParametersBuilder
-    extends ParametersBuilder<CancelTripParameters> {
+class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters> {
   String? _orderId;
   String? _userId;
   CancelToken? _cancelToken;
@@ -49,10 +44,6 @@ class CancelTripParametersBuilder
 
   @override
   CancelTripParameters build() {
-    return CancelTripParameters._(
-      orderId: _orderId!,
-      userId: _userId!,
-      cancelToken: _cancelToken,
-    );
+    return CancelTripParameters._(orderId: _orderId!, userId: _userId!, cancelToken: _cancelToken);
   }
 }

@@ -1,15 +1,11 @@
 // lib/core/network/interceptors/analytics_interceptor.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
 
 class AnalyticsInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    _trackApiCall(
-      method: options.method,
-      endpoint: options.path,
-      event: 'api_request_started',
-    );
+    _trackApiCall(method: options.method, endpoint: options.path, event: 'api_request_started');
     handler.next(options);
   }
 

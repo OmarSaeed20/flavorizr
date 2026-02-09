@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Verify Email API parameters with builder pattern
 /// Used for verifying email with token
@@ -29,13 +29,11 @@ class VerifyEmailParameters extends Parameters {
   int get hashCode => token.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() =>
-      'VerifyEmailParameters(token: ****, cancelToken: $cancelToken)';
+  String toString() => 'VerifyEmailParameters(token: ****, cancelToken: $cancelToken)';
 }
 
 /// Builder for VerifyEmailParameters
-class VerifyEmailParametersBuilder
-    extends ParametersBuilder<VerifyEmailParameters> {
+class VerifyEmailParametersBuilder extends ParametersBuilder<VerifyEmailParameters> {
   String? _token;
   CancelToken? _cancelToken;
 

@@ -1,5 +1,5 @@
 // lib/features/onboarding/presentation/widgets/onboarding_page_view.dart
-import 'package:flavorizr/features/onboarding/domain/entities/onboarding_page.dart';
+import 'package:fast_golden_taxi/features/onboarding/domain/entities/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
 /// Widget displaying a single onboarding page.

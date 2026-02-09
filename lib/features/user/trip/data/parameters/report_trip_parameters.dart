@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/report_trip_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for reporting a trip.
@@ -31,8 +31,7 @@ class ReportTripParameters extends Parameters {
 }
 
 /// Builder for ReportTripParameters.
-class ReportTripParametersBuilder
-    extends ParametersBuilder<ReportTripParameters> {
+class ReportTripParametersBuilder extends ParametersBuilder<ReportTripParameters> {
   int? _orderId;
   String? _comment;
   String? _anotherNote;

@@ -1,5 +1,5 @@
 // lib/features/trip/presentation/widgets/trip_type_card.dart
-import 'package:flavorizr/features/user/trip/domain/entities/trip_type.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_type.dart';
 import 'package:flutter/material.dart';
 
 /// Card widget displaying trip type information.
@@ -44,41 +44,23 @@ class TripTypeCard extends StatelessWidget {
                   children: [
                     Text(
                       tripType.name,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       tripType.description ?? 'Standard ride',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.outline,
-                      ),
+                      style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline),
                     ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(
-                          Icons.people,
-                          size: 16,
-                          color: theme.colorScheme.outline,
-                        ),
+                        Icon(Icons.people, size: 16, color: theme.colorScheme.outline),
                         const SizedBox(width: 4),
-                        Text(
-                          '${tripType.capacity} passengers',
-                          style: theme.textTheme.bodySmall,
-                        ),
+                        Text('${tripType.capacity} passengers', style: theme.textTheme.bodySmall),
                         const SizedBox(width: 12),
-                        Icon(
-                          Icons.attach_money,
-                          size: 16,
-                          color: theme.colorScheme.outline,
-                        ),
+                        Icon(Icons.attach_money, size: 16, color: theme.colorScheme.outline),
                         const SizedBox(width: 4),
-                        Text(
-                          'Base \$${tripType.basePrice}',
-                          style: theme.textTheme.bodySmall,
-                        ),
+                        Text('Base \$${tripType.basePrice}', style: theme.textTheme.bodySmall),
                       ],
                     ),
                   ],

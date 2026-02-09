@@ -1,5 +1,5 @@
-import 'package:flavorizr/bootstrap.dart';
-import 'package:flavorizr/config/flavors.dart';
+import 'package:fast_golden_taxi/bootstrap.dart';
+import 'package:fast_golden_taxi/config/flavors.dart';
 import 'package:flutter/services.dart' show appFlavor;
 
 void main() {

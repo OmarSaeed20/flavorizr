@@ -1,10 +1,10 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/entities/driver_settings.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/usecases/get_driver_settings_usecase.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/usecases/toggle_availability_status_usecase.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/usecases/toggle_online_status_usecase.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/usecases/update_driver_settings_usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/entities/driver_settings.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/usecases/get_driver_settings_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/usecases/toggle_availability_status_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/usecases/toggle_online_status_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/usecases/update_driver_settings_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver settings operations.

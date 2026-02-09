@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/entities/driver.dart';
 
 /// Driver credentials entity for authentication.
 class DriverCredentials {
@@ -17,8 +17,6 @@ class DriverCredentials {
   });
 
   bool get isExpired {
-    return DateTime.now()
-        .add(Duration(seconds: expiresIn))
-        .isBefore(DateTime.now());
+    return DateTime.now().add(Duration(seconds: expiresIn)).isBefore(DateTime.now());
   }
 }

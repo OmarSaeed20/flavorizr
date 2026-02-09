@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/ui/responsive/src/breakpoints.dart';
-import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
-import 'package:flavorizr/core/ui/responsive/src/responsive_data.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/breakpoints.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/device_info.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/responsive_data.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,8 +53,7 @@ class AdaptiveNavigationConfig {
   });
 
   /// Default configuration
-  static const AdaptiveNavigationConfig defaultConfig =
-      AdaptiveNavigationConfig();
+  static const AdaptiveNavigationConfig defaultConfig = AdaptiveNavigationConfig();
 
   /// Configuration with no navigation
   static const AdaptiveNavigationConfig noNavigation = AdaptiveNavigationConfig(
@@ -64,8 +63,9 @@ class AdaptiveNavigationConfig {
   );
 
   /// Configuration for always expanded rail
-  static const AdaptiveNavigationConfig alwaysExpanded =
-      AdaptiveNavigationConfig(initiallyExpanded: true);
+  static const AdaptiveNavigationConfig alwaysExpanded = AdaptiveNavigationConfig(
+    initiallyExpanded: true,
+  );
 }
 
 /// An adaptive scaffold that changes navigation based on device type
@@ -114,15 +114,10 @@ class AdaptiveScaffold extends StatefulWidget {
   final Color? backgroundColor;
 
   /// Custom drawer widget builder (for mobile)
-  final Widget Function(BuildContext context, StatefulNavigationShell shell)?
-  drawerBuilder;
+  final Widget Function(BuildContext context, StatefulNavigationShell shell)? drawerBuilder;
 
   /// Custom navigation rail widget builder (for tablet/desktop)
-  final Widget Function(
-    BuildContext context,
-    StatefulNavigationShell shell,
-    bool isExpanded,
-  )?
+  final Widget Function(BuildContext context, StatefulNavigationShell shell, bool isExpanded)?
   railBuilder;
 
   /// Whether the scaffold is in a nested navigation context
@@ -225,21 +220,16 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
     final config = widget.navigationConfig;
 
     return switch (info.deviceType) {
-      DeviceType.mobile =>
-        config.showDrawerOnMobile ? NavigationType.drawer : NavigationType.none,
-      DeviceType.tablet =>
-        config.showRailOnTablet ? NavigationType.rail : NavigationType.none,
+      DeviceType.mobile => config.showDrawerOnMobile ? NavigationType.drawer : NavigationType.none,
+      DeviceType.tablet => config.showRailOnTablet ? NavigationType.rail : NavigationType.none,
       DeviceType.desktop =>
         config.showExtendedRailOnDesktop
             ? NavigationType.extendedRail
-            : (config.showRailOnTablet
-                  ? NavigationType.rail
-                  : NavigationType.none),
+            : (config.showRailOnTablet ? NavigationType.rail : NavigationType.none),
     };
   }
 
-  int get _currentIndex =>
-      widget.navigationShell?.currentIndex ?? widget.selectedIndex;
+  int get _currentIndex => widget.navigationShell?.currentIndex ?? widget.selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -264,9 +254,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
       floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
       restorationId: widget.restorationId,
-      drawer: navigationType == NavigationType.drawer
-          ? _buildDrawer(context, info, data)
-          : null,
+      drawer: navigationType == NavigationType.drawer ? _buildDrawer(context, info, data) : null,
     );
   }
 
@@ -311,11 +299,7 @@ class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
     }
   }
 
-  Widget? _buildDrawer(
-    BuildContext context,
-    DeviceInfo info,
-    ResponsiveData data,
-  ) {
+  Widget? _buildDrawer(BuildContext context, DeviceInfo info, ResponsiveData data) {
     if (widget.navigationShell == null) return null;
 
     // Use custom drawer builder if provided
@@ -506,8 +490,7 @@ class ResponsiveScaffold extends StatelessWidget {
     // Apply responsive centering and constraints
     if (centerBody) {
       final effectiveMaxWidth = maxBodyWidth ?? info.maxContentWidth;
-      final effectiveHorizontalPadding =
-          horizontalPadding ?? data.padding.screen;
+      final effectiveHorizontalPadding = horizontalPadding ?? data.padding.screen;
       final effectiveVerticalPadding = verticalPadding ?? 0.0;
 
       content = Center(
@@ -550,8 +533,7 @@ class ResponsiveScaffold extends StatelessWidget {
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       bottomSheet: bottomSheet,
       persistentFooterButtons: persistentFooterButtons,
-      persistentFooterAlignment:
-          persistentFooterAlignment ?? AlignmentDirectional.centerEnd,
+      persistentFooterAlignment: persistentFooterAlignment ?? AlignmentDirectional.centerEnd,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       extendBody: extendBody,
       drawer: drawer,
@@ -673,10 +655,7 @@ class ResponsiveScaffold extends StatelessWidget {
       maxBodyWidth: maxBodyWidth,
       includeBottomSafeArea: true,
       appBar: title != null || titleWidget != null || actions != null
-          ? AppBar(
-              title: titleWidget ?? (title != null ? Text(title) : null),
-              actions: actions,
-            )
+          ? AppBar(title: titleWidget ?? (title != null ? Text(title) : null), actions: actions)
           : null,
     );
   }
@@ -759,26 +738,20 @@ extension ResponsiveScaffoldExtensions on ResponsiveScaffold {
       horizontalPadding: horizontalPadding ?? this.horizontalPadding,
       verticalPadding: verticalPadding ?? this.verticalPadding,
       applySafeArea: applySafeArea ?? this.applySafeArea,
-      includeBottomSafeArea:
-          includeBottomSafeArea ?? this.includeBottomSafeArea,
+      includeBottomSafeArea: includeBottomSafeArea ?? this.includeBottomSafeArea,
       includeLeftSafeArea: includeLeftSafeArea ?? this.includeLeftSafeArea,
       includeRightSafeArea: includeRightSafeArea ?? this.includeRightSafeArea,
-      resizeToAvoidBottomInset:
-          resizeToAvoidBottomInset ?? this.resizeToAvoidBottomInset,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? this.resizeToAvoidBottomInset,
       bottomSheet: bottomSheet ?? this.bottomSheet,
-      persistentFooterButtons:
-          persistentFooterButtons ?? this.persistentFooterButtons,
-      persistentFooterAlignment:
-          persistentFooterAlignment ?? this.persistentFooterAlignment,
-      extendBodyBehindAppBar:
-          extendBodyBehindAppBar ?? this.extendBodyBehindAppBar,
+      persistentFooterButtons: persistentFooterButtons ?? this.persistentFooterButtons,
+      persistentFooterAlignment: persistentFooterAlignment ?? this.persistentFooterAlignment,
+      extendBodyBehindAppBar: extendBodyBehindAppBar ?? this.extendBodyBehindAppBar,
       extendBody: extendBody ?? this.extendBody,
       drawer: drawer ?? this.drawer,
       endDrawer: endDrawer ?? this.endDrawer,
       drawerScrimColor: drawerScrimColor ?? this.drawerScrimColor,
       drawerEdgeDragWidth: drawerEdgeDragWidth ?? this.drawerEdgeDragWidth,
-      drawerEnableOpenDragGesture:
-          drawerEnableOpenDragGesture ?? this.drawerEnableOpenDragGesture,
+      drawerEnableOpenDragGesture: drawerEnableOpenDragGesture ?? this.drawerEnableOpenDragGesture,
       endDrawerEnableOpenDragGesture:
           endDrawerEnableOpenDragGesture ?? this.endDrawerEnableOpenDragGesture,
       onDrawerChanged: onDrawerChanged ?? this.onDrawerChanged,

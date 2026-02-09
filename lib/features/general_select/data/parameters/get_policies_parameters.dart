@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting app policies.
@@ -29,13 +29,11 @@ class GetPoliciesParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetPoliciesParametersBuilder builder() =>
-      GetPoliciesParametersBuilder();
+  static GetPoliciesParametersBuilder builder() => GetPoliciesParametersBuilder();
 }
 
 /// Builder for GetPoliciesParameters
-class GetPoliciesParametersBuilder
-    extends ParametersBuilder<GetPoliciesParameters> {
+class GetPoliciesParametersBuilder extends ParametersBuilder<GetPoliciesParameters> {
   String? _type;
   CancelToken? _cancelToken;
 

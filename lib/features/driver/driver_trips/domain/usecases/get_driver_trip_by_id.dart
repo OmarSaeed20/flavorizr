@@ -1,7 +1,7 @@
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/repositories/driver_trips_repository.dart';
 
 /// Use case for getting a specific driver trip by ID
 class GetDriverTripById {
@@ -16,8 +16,7 @@ class GetDriverTripById {
       success: (trips, _) {
         final trip = trips.firstWhere(
           (t) => t.id == tripId,
-          orElse: () =>
-              throw const NotFoundException(message: 'Trip not found'),
+          orElse: () => throw const NotFoundException(message: 'Trip not found'),
         );
         return ApiResult.success(trip);
       },

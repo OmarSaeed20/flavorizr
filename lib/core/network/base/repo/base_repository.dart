@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
 
 /// Base class for repositories
 /// Provides common functionality for data operations combining remote and local sources
@@ -18,8 +18,7 @@ abstract class BaseRepository {
   Future<bool> get isConnected => networkInfo.isConnected;
 
   /// Stream of connectivity changes
-  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
-      networkInfo.onConnectivityChanged;
+  Stream<List<ConnectivityResult>> get onConnectivityChanged => networkInfo.onConnectivityChanged;
 
   /// Execute a remote request with connectivity check
   /// Returns ApiResult with the response data or an error
@@ -33,9 +32,7 @@ abstract class BaseRepository {
       final connected = await isConnected;
       if (!connected) {
         if (cachedData != null) {
-          'No internet connection, returning cached data'.logInfo(
-            'executeRemoteRequest',
-          );
+          'No internet connection, returning cached data'.logInfo('executeRemoteRequest');
           return ApiResult.success(cachedData);
         }
         return const ApiResult.exception(NoInternetException());
@@ -47,14 +44,10 @@ abstract class BaseRepository {
     } catch (e, stackTrace) {
       e.logError('Remote request failed', stackTrace: stackTrace.toString());
       if (cachedData != null) {
-        'Remote request failed, returning cached data'.logInfo(
-          'executeRemoteRequest',
-        );
+        'Remote request failed, returning cached data'.logInfo('executeRemoteRequest');
         return ApiResult.success(cachedData);
       }
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
     }
   }
 
@@ -67,9 +60,7 @@ abstract class BaseRepository {
       return await request();
     } catch (e, stackTrace) {
       e.logError('Local request failed', stackTrace: stackTrace.toString());
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
     }
   }
 
@@ -254,16 +245,14 @@ abstract class BaseRepository {
         return result;
       }
 
-      final shouldRetryError =
-          shouldRetry?.call(error) ?? _defaultShouldRetry(error);
+      final shouldRetryError = shouldRetry?.call(error) ?? _defaultShouldRetry(error);
       if (!shouldRetryError || attempt >= maxAttempts) {
         return result;
       }
 
       // Calculate delay with exponential backoff
       final delay = initialDelay * (backoffFactor ~/ (attempt - 1));
-      'Retry attempt $attempt failed, waiting ${delay.inSeconds}s before retry'
-          .logInfo('retry');
+      'Retry attempt $attempt failed, waiting ${delay.inSeconds}s before retry'.logInfo('retry');
       await Future.delayed(delay);
     }
 
@@ -319,9 +308,7 @@ abstract class BaseRepository {
       return ApiResult.success(dataList);
     } catch (e, stackTrace) {
       e.logError('Fetch all failed', stackTrace: stackTrace.toString());
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
     }
   }
 
@@ -362,32 +349,20 @@ abstract class BaseRepository {
       await _removeCacheTimestamp(key);
       return const ApiResult.success(null);
     } catch (e, stackTrace) {
-      e.logError(
-        'Failed to clear cache for key: $key',
-        stackTrace: stackTrace.toString(),
-      );
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
-      );
+      e.logError('Failed to clear cache for key: $key', stackTrace: stackTrace.toString());
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
     }
   }
 
   /// Clear all cache
-  Future<ApiResult<void>> clearAllCache({
-    required Future<void> Function() clearer,
-  }) async {
+  Future<ApiResult<void>> clearAllCache({required Future<void> Function() clearer}) async {
     try {
       await clearer();
       await _clearAllCacheTimestamps();
       return const ApiResult.success(null);
     } catch (e, stackTrace) {
-      e.logError(
-        'Failed to clear all cache',
-        stackTrace: stackTrace.toString(),
-      );
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace),
-      );
+      e.logError('Failed to clear all cache', stackTrace: stackTrace.toString());
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stackTrace));
     }
   }
 
@@ -460,8 +435,7 @@ mixin RemoteRepositoryMixin on BaseRepository {
     bool requireConnection = true,
   }) {
     return executeRemoteRequest(
-      request: () =>
-          remoteDataSource.get<T>(path: path, queryParameters: queryParameters),
+      request: () => remoteDataSource.get<T>(path: path, queryParameters: queryParameters),
       requireConnection: requireConnection,
     );
   }
@@ -473,11 +447,8 @@ mixin RemoteRepositoryMixin on BaseRepository {
     bool requireConnection = true,
   }) {
     return executeRemoteRequest(
-      request: () => remoteDataSource.post<T>(
-        path: path,
-        data: data,
-        queryParameters: queryParameters,
-      ),
+      request: () =>
+          remoteDataSource.post<T>(path: path, data: data, queryParameters: queryParameters),
       requireConnection: requireConnection,
     );
   }
@@ -489,11 +460,8 @@ mixin RemoteRepositoryMixin on BaseRepository {
     bool requireConnection = true,
   }) {
     return executeRemoteRequest(
-      request: () => remoteDataSource.put<T>(
-        path: path,
-        data: data,
-        queryParameters: queryParameters,
-      ),
+      request: () =>
+          remoteDataSource.put<T>(path: path, data: data, queryParameters: queryParameters),
       requireConnection: requireConnection,
     );
   }
@@ -505,11 +473,8 @@ mixin RemoteRepositoryMixin on BaseRepository {
     bool requireConnection = true,
   }) {
     return executeRemoteRequest(
-      request: () => remoteDataSource.patch<T>(
-        path: path,
-        data: data,
-        queryParameters: queryParameters,
-      ),
+      request: () =>
+          remoteDataSource.patch<T>(path: path, data: data, queryParameters: queryParameters),
       requireConnection: requireConnection,
     );
   }
@@ -520,10 +485,7 @@ mixin RemoteRepositoryMixin on BaseRepository {
     bool requireConnection = true,
   }) {
     return executeRemoteRequest(
-      request: () => remoteDataSource.delete<T>(
-        path: path,
-        queryParameters: queryParameters,
-      ),
+      request: () => remoteDataSource.delete<T>(path: path, queryParameters: queryParameters),
       requireConnection: requireConnection,
     );
   }
@@ -535,13 +497,9 @@ mixin LocalRepositoryMixin on BaseRepository {
   BaseLocalDataSource get localDataSource;
 
   /// Execute a local get request
-  Future<ApiResult<T>> localGet<T>({
-    required String key,
-    required Future<T?> Function() fetcher,
-  }) {
+  Future<ApiResult<T>> localGet<T>({required String key, required Future<T?> Function() fetcher}) {
     return executeLocalRequest(
-      request: () =>
-          localDataSource.getLocalData<T>(key: key, fetcher: fetcher),
+      request: () => localDataSource.getLocalData<T>(key: key, fetcher: fetcher),
     );
   }
 
@@ -552,8 +510,7 @@ mixin LocalRepositoryMixin on BaseRepository {
     required Future<void> Function(T data) saver,
   }) {
     return executeLocalRequest(
-      request: () =>
-          localDataSource.saveLocalData<T>(key: key, data: data, saver: saver),
+      request: () => localDataSource.saveLocalData<T>(key: key, data: data, saver: saver),
     );
   }
 
@@ -563,18 +520,13 @@ mixin LocalRepositoryMixin on BaseRepository {
     required Future<void> Function() deleter,
   }) {
     return executeLocalRequest(
-      request: () =>
-          localDataSource.deleteLocalData(key: key, deleter: deleter),
+      request: () => localDataSource.deleteLocalData(key: key, deleter: deleter),
     );
   }
 
   /// Execute a local clear all request
-  Future<ApiResult<void>> localClearAll({
-    required Future<void> Function() clearer,
-  }) {
-    return executeLocalRequest(
-      request: () => localDataSource.clearAllLocalData(clearer: clearer),
-    );
+  Future<ApiResult<void>> localClearAll({required Future<void> Function() clearer}) {
+    return executeLocalRequest(request: () => localDataSource.clearAllLocalData(clearer: clearer));
   }
 
   /// Check if local data exists

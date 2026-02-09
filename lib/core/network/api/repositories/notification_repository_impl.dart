@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api/endpoints/notification_endpoints.dart';
-import 'package:flavorizr/core/network/api/models/api_notification.dart';
-import 'package:flavorizr/core/network/api/parameters/notification_parameters.dart';
-import 'package:flavorizr/core/network/api/repositories/notification_repository.dart';
-import 'package:flavorizr/core/network/api_response.dart';
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/api/endpoints/notification_endpoints.dart';
+import 'package:fast_golden_taxi/core/network/api/models/api_notification.dart';
+import 'package:fast_golden_taxi/core/network/api/parameters/notification_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/notification_repository.dart';
+import 'package:fast_golden_taxi/core/network/api_response.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
 
 /// Notification Repository Implementation
 /// Implements the notification repository interface using Dio for API calls
@@ -21,18 +21,13 @@ class NotificationRepositoryImpl implements NotificationRepository {
     try {
       final response = await _dio.get(
         NotificationEndpoints.getNotifications,
-        queryParameters: {
-          'page': parameters.page,
-          'page_size': parameters.pageSize,
-        },
+        queryParameters: {'page': parameters.page, 'page_size': parameters.pageSize},
       );
 
       final apiResponse = ApiResponse<List<ApiNotification>>.fromJson(
         response.data,
         (json) => (json as List)
-            .map(
-              (item) => ApiNotification.fromJson(item as Map<String, dynamic>),
-            )
+            .map((item) => ApiNotification.fromJson(item as Map<String, dynamic>))
             .toList(),
       );
 
@@ -54,10 +49,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'An unexpected error occurred: $e',
-          exception: e,
-        ),
+        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
       );
     }
   }
@@ -67,9 +59,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
     GetNotificationCountParameters parameters,
   ) async {
     try {
-      final response = await _dio.get(
-        NotificationEndpoints.getNotificationCount,
-      );
+      final response = await _dio.get(NotificationEndpoints.getNotificationCount);
 
       final apiResponse = ApiResponse<ApiNotificationCount>.fromJson(
         response.data,
@@ -94,10 +84,7 @@ class NotificationRepositoryImpl implements NotificationRepository {
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'An unexpected error occurred: $e',
-          exception: e,
-        ),
+        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
       );
     }
   }

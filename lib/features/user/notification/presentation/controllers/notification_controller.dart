@@ -1,11 +1,11 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/notification/data/parameters/get_notifications_parameters.dart';
-import 'package:flavorizr/features/user/notification/domain/entities/notification.dart';
-import 'package:flavorizr/features/user/notification/domain/usecases/get_notification_count_usecase.dart';
-import 'package:flavorizr/features/user/notification/domain/usecases/get_notifications_usecase.dart';
-import 'package:flavorizr/features/user/notification/domain/usecases/mark_all_as_read_usecase.dart';
-import 'package:flavorizr/features/user/notification/domain/usecases/mark_as_read_usecase.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/notification/data/parameters/get_notifications_parameters.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/entities/notification.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/usecases/get_notification_count_usecase.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/usecases/get_notifications_usecase.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/usecases/mark_all_as_read_usecase.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/usecases/mark_as_read_usecase.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NotificationController extends StateNotifier<NotificationState> {
@@ -46,10 +46,7 @@ class NotificationController extends StateNotifier<NotificationState> {
         _currentPage++;
 
         if (refresh) {
-          state = NotificationState.loaded(
-            notifications: newNotifications,
-            hasMore: _hasMore,
-          );
+          state = NotificationState.loaded(notifications: newNotifications, hasMore: _hasMore);
         } else {
           state = NotificationState.loaded(
             notifications: [...state.notifications, ...newNotifications],
@@ -106,10 +103,7 @@ class NotificationController extends StateNotifier<NotificationState> {
         final updatedNotifications = state.notifications.map((n) {
           return n.copyWith(isRead: true);
         }).toList();
-        state = state.copyWith(
-          notifications: updatedNotifications,
-          unreadCount: 0,
-        );
+        state = state.copyWith(notifications: updatedNotifications, unreadCount: 0);
       },
       exception: (error) {
         // Handle error silently

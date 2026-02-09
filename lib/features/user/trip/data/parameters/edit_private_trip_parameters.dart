@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/edit_private_trip_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for editing a private trip.
@@ -54,13 +54,11 @@ class EditPrivateTripParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static EditPrivateTripParametersBuilder builder() =>
-      EditPrivateTripParametersBuilder();
+  static EditPrivateTripParametersBuilder builder() => EditPrivateTripParametersBuilder();
 }
 
 /// Builder for EditPrivateTripParameters.
-class EditPrivateTripParametersBuilder
-    extends ParametersBuilder<EditPrivateTripParameters> {
+class EditPrivateTripParametersBuilder extends ParametersBuilder<EditPrivateTripParameters> {
   int? _orderId;
   String? _pickUpLongitude;
   String? _pickUpLatitude;
@@ -80,19 +78,13 @@ class EditPrivateTripParametersBuilder
     return this;
   }
 
-  EditPrivateTripParametersBuilder withPickUpLocation(
-    String longitude,
-    String latitude,
-  ) {
+  EditPrivateTripParametersBuilder withPickUpLocation(String longitude, String latitude) {
     _pickUpLongitude = longitude;
     _pickUpLatitude = latitude;
     return this;
   }
 
-  EditPrivateTripParametersBuilder withDestinationLocation(
-    String longitude,
-    String latitude,
-  ) {
+  EditPrivateTripParametersBuilder withDestinationLocation(String longitude, String latitude) {
     _destinationLongitude = longitude;
     _destinationLatitude = latitude;
     return this;

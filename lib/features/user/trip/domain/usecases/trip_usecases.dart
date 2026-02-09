@@ -1,29 +1,28 @@
 // lib/features/trip/domain/usecases/trip_usecases.dart
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/book_now_order_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/cancel_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/confirm_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/edit_private_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_available_public_trips_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_captain_trip_detail_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_my_orders_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_detail_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_history_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_types_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/report_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/store_private_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/store_public_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/trip_evaluation_parameters.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_evaluation.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_order.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_type.dart';
-import 'package:flavorizr/features/user/trip/domain/repositories/trip_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/book_now_order_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/cancel_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/confirm_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/edit_private_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_available_public_trips_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_captain_trip_detail_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_my_orders_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_detail_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_history_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_types_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/report_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/store_private_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/store_public_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/trip_evaluation_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_evaluation.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_order.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_type.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/repositories/trip_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for getting trip types.
-class GetTripTypesUseCase
-    extends UseCase<List<TripType>, GetTripTypesParameters> {
+class GetTripTypesUseCase extends UseCase<List<TripType>, GetTripTypesParameters> {
   GetTripTypesUseCase(this._repository);
 
   final TripRepository _repository;
@@ -47,8 +46,7 @@ class GetTripDetailUseCase extends UseCase<Trip, GetTripDetailParameters> {
 }
 
 /// Use case for getting captain's trip details.
-class GetCaptainTripDetailUseCase
-    extends UseCase<Trip, GetCaptainTripDetailParameters> {
+class GetCaptainTripDetailUseCase extends UseCase<Trip, GetCaptainTripDetailParameters> {
   GetCaptainTripDetailUseCase(this._repository);
 
   final TripRepository _repository;
@@ -60,8 +58,7 @@ class GetCaptainTripDetailUseCase
 }
 
 /// Use case for getting trip history.
-class GetTripHistoryUseCase
-    extends UseCase<List<Trip>, GetTripHistoryParameters> {
+class GetTripHistoryUseCase extends UseCase<List<Trip>, GetTripHistoryParameters> {
   GetTripHistoryUseCase(this._repository);
 
   final TripRepository _repository;
@@ -98,8 +95,7 @@ class StorePublicTripUseCase extends UseCase<Trip, StorePublicTripParameters> {
 }
 
 /// Use case for creating a private trip.
-class StorePrivateTripUseCase
-    extends UseCase<Trip, StorePrivateTripParameters> {
+class StorePrivateTripUseCase extends UseCase<Trip, StorePrivateTripParameters> {
   StorePrivateTripUseCase(this._repository);
 
   final TripRepository _repository;
@@ -159,8 +155,7 @@ class ReportTripUseCase extends UseCase<void, ReportTripParameters> {
 }
 
 /// Use case for evaluating a trip.
-class TripEvaluationUseCase
-    extends UseCase<TripEvaluation, TripEvaluationParameters> {
+class TripEvaluationUseCase extends UseCase<TripEvaluation, TripEvaluationParameters> {
   TripEvaluationUseCase(this._repository);
 
   final TripRepository _repository;
@@ -184,8 +179,7 @@ class BookNowOrderUseCase extends UseCase<TripOrder, BookNowOrderParameters> {
 }
 
 /// Use case for getting user's orders.
-class GetMyOrdersUseCase
-    extends UseCase<List<TripOrder>, GetMyOrdersParameters> {
+class GetMyOrdersUseCase extends UseCase<List<TripOrder>, GetMyOrdersParameters> {
   GetMyOrdersUseCase(this._repository);
 
   final TripRepository _repository;

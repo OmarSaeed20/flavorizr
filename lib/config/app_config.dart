@@ -1,5 +1,5 @@
-import 'package:flavorizr/config/firebase/firebase_config.dart';
-import 'package:flavorizr/config/flavors.dart' show F, Flavor, FlavorExtension;
+import 'package:fast_golden_taxi/config/firebase/firebase_config.dart';
+import 'package:fast_golden_taxi/config/flavors.dart' show F, Flavor, FlavorExtension;
 import 'package:flutter/foundation.dart';
 
 /// Application configuration that varies by environment.
@@ -93,9 +93,7 @@ class AppConfig {
   /// Throws [StateError] if [initialize] has not been called.
   static AppConfig get instance {
     if (_instance == null) {
-      throw StateError(
-        'AppConfig not initialized. Call AppConfig.initialize() first.',
-      );
+      throw StateError('AppConfig not initialized. Call AppConfig.initialize() first.');
     }
     return _instance!;
   }
@@ -113,7 +111,7 @@ class AppConfig {
   }
 
   /// Returns the full app name including any flavor suffix.
-  String get appName => 'Flavorizr${flavor.appNameSuffix}';
+  String get appName => 'Fast Golden Taxi${flavor.appNameSuffix}';
 
   /// Whether the app is running in development mode.
   bool get isDev => flavor == Flavor.dev;
@@ -156,16 +154,14 @@ class AppConfig {
     apiBaseUrl: apiBaseUrl ?? this.apiBaseUrl,
     wsBaseUrl: wsBaseUrl ?? this.wsBaseUrl,
     showDebugBanner: showDebugBanner ?? this.showDebugBanner,
-    showPerformanceOverlay:
-        showPerformanceOverlay ?? this.showPerformanceOverlay,
+    showPerformanceOverlay: showPerformanceOverlay ?? this.showPerformanceOverlay,
     connectionTimeout: connectionTimeout ?? this.connectionTimeout,
     receiveTimeout: receiveTimeout ?? this.receiveTimeout,
     maxRetryAttempts: maxRetryAttempts ?? this.maxRetryAttempts,
     enableLogging: enableLogging ?? this.enableLogging,
     enableAnalytics: enableAnalytics ?? this.enableAnalytics,
     enableCrashReporting: enableCrashReporting ?? this.enableCrashReporting,
-    enablePerformanceMonitoring:
-        enablePerformanceMonitoring ?? this.enablePerformanceMonitoring,
+    enablePerformanceMonitoring: enablePerformanceMonitoring ?? this.enablePerformanceMonitoring,
   );
 
   @override

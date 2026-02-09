@@ -1,34 +1,34 @@
 // lib/features/trip/data/repositories/trip_repository_impl.dart
 import 'dart:async';
 
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/trip/data/datasources/trip_local_datasource.dart';
-import 'package:flavorizr/features/user/trip/data/datasources/trip_remote_datasource.dart';
-import 'package:flavorizr/features/user/trip/data/models/trip_evaluation_model.dart';
-import 'package:flavorizr/features/user/trip/data/models/trip_model.dart';
-import 'package:flavorizr/features/user/trip/data/models/trip_order_model.dart';
-import 'package:flavorizr/features/user/trip/data/models/trip_type_model.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/book_now_order_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/cancel_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/confirm_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/edit_private_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_available_public_trips_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_captain_trip_detail_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_my_orders_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_detail_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_history_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_types_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/report_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/store_private_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/store_public_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/trip_evaluation_parameters.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_evaluation.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_order.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_type.dart';
-import 'package:flavorizr/features/user/trip/domain/repositories/trip_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/datasources/trip_local_datasource.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/datasources/trip_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/models/trip_evaluation_model.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/models/trip_model.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/models/trip_order_model.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/models/trip_type_model.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/book_now_order_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/cancel_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/confirm_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/edit_private_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_available_public_trips_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_captain_trip_detail_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_my_orders_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_detail_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_history_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_types_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/report_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/store_private_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/store_public_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/trip_evaluation_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_evaluation.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_order.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_type.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/repositories/trip_repository.dart';
 
 /// Implementation of [TripRepository].
 ///
@@ -58,9 +58,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Trip Types ====================
 
   @override
-  Future<ApiResult<List<TripType>>> getTripTypes(
-    GetTripTypesParameters parameters,
-  ) async {
+  Future<ApiResult<List<TripType>>> getTripTypes(GetTripTypesParameters parameters) async {
     final result = await fetchWithCache<List<TripTypeModel>>(
       cacheKey: 'trip_types',
       remoteFetcher: () => _remoteDataSource.getTripTypes(parameters),
@@ -82,14 +80,11 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Trip CRUD ====================
 
   @override
-  Future<ApiResult<Trip>> getTripDetail(
-    GetTripDetailParameters parameters,
-  ) async {
+  Future<ApiResult<Trip>> getTripDetail(GetTripDetailParameters parameters) async {
     final result = await fetchWithCache<TripModel>(
       cacheKey: 'trip_${parameters.tripId}',
       remoteFetcher: () => _remoteDataSource.getTripDetail(parameters),
-      localFetcher: () =>
-          _localDataSource.getCachedTrip(parameters.tripId.toString()),
+      localFetcher: () => _localDataSource.getCachedTrip(parameters.tripId.toString()),
       cacheSaver: _localDataSource.saveTrip,
       maxCacheAge: const Duration(minutes: 5),
     );
@@ -101,9 +96,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<Trip>> getCaptainTripDetail(
-    GetCaptainTripDetailParameters parameters,
-  ) async {
+  Future<ApiResult<Trip>> getCaptainTripDetail(GetCaptainTripDetailParameters parameters) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.getCaptainTripDetail(parameters),
     );
@@ -115,9 +108,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<List<Trip>>> getTripHistory(
-    GetTripHistoryParameters parameters,
-  ) async {
+  Future<ApiResult<List<Trip>>> getTripHistory(GetTripHistoryParameters parameters) async {
     final result = await fetchWithCache<List<TripModel>>(
       cacheKey: 'trip_history',
       remoteFetcher: () => _remoteDataSource.getTripHistory(parameters),
@@ -145,8 +136,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
     );
 
     return result.when(
-      success: (data, error) =>
-          ApiResult.success(data.map((e) => e.toEntity()).toList(), error),
+      success: (data, error) => ApiResult.success(data.map((e) => e.toEntity()).toList(), error),
       exception: ApiResult.exception,
     );
   }
@@ -154,9 +144,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Trip Creation ====================
 
   @override
-  Future<ApiResult<Trip>> storePublicTrip(
-    StorePublicTripParameters parameters,
-  ) async {
+  Future<ApiResult<Trip>> storePublicTrip(StorePublicTripParameters parameters) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.storePublicTrip(parameters),
     );
@@ -171,9 +159,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<Trip>> storePrivateTrip(
-    StorePrivateTripParameters parameters,
-  ) async {
+  Future<ApiResult<Trip>> storePrivateTrip(StorePrivateTripParameters parameters) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.storePrivateTrip(parameters),
     );
@@ -188,9 +174,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<Trip>> editPrivateTrip(
-    EditPrivateTripParameters parameters,
-  ) async {
+  Future<ApiResult<Trip>> editPrivateTrip(EditPrivateTripParameters parameters) async {
     final result = await executeRemoteRequest<TripModel>(
       request: () => _remoteDataSource.editPrivateTrip(parameters),
     );
@@ -246,9 +230,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<TripEvaluation>> tripEvaluation(
-    TripEvaluationParameters parameters,
-  ) async {
+  Future<ApiResult<TripEvaluation>> tripEvaluation(TripEvaluationParameters parameters) async {
     final result = await executeRemoteRequest<TripEvaluationModel>(
       request: () => _remoteDataSource.tripEvaluation(parameters),
     );
@@ -262,9 +244,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   // ==================== Orders ====================
 
   @override
-  Future<ApiResult<TripOrder>> bookNowOrder(
-    BookNowOrderParameters parameters,
-  ) async {
+  Future<ApiResult<TripOrder>> bookNowOrder(BookNowOrderParameters parameters) async {
     final result = await executeRemoteRequest<TripOrderModel>(
       request: () => _remoteDataSource.bookNowOrder(parameters),
     );
@@ -279,9 +259,7 @@ class TripRepositoryImpl extends BaseRepository implements TripRepository {
   }
 
   @override
-  Future<ApiResult<List<TripOrder>>> getMyOrders(
-    GetMyOrdersParameters parameters,
-  ) async {
+  Future<ApiResult<List<TripOrder>>> getMyOrders(GetMyOrdersParameters parameters) async {
     final result = await fetchWithCache<List<TripOrderModel>>(
       cacheKey: 'my_orders',
       remoteFetcher: () => _remoteDataSource.getMyOrders(parameters),

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for driver login.
@@ -37,13 +37,11 @@ class DriverLoginParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static DriverLoginParametersBuilder builder() =>
-      DriverLoginParametersBuilder();
+  static DriverLoginParametersBuilder builder() => DriverLoginParametersBuilder();
 }
 
 /// Builder for DriverLoginParameters
-class DriverLoginParametersBuilder
-    extends ParametersBuilder<DriverLoginParameters> {
+class DriverLoginParametersBuilder extends ParametersBuilder<DriverLoginParameters> {
   String? _phone;
   String? _password;
   String? _firebaseToken;

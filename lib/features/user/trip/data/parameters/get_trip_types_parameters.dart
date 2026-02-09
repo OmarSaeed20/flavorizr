@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/get_trip_types_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting trip types by location.
@@ -30,13 +30,11 @@ class GetTripTypesParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static GetTripTypesParametersBuilder builder() =>
-      GetTripTypesParametersBuilder();
+  static GetTripTypesParametersBuilder builder() => GetTripTypesParametersBuilder();
 }
 
 /// Builder for GetTripTypesParameters.
-class GetTripTypesParametersBuilder
-    extends ParametersBuilder<GetTripTypesParameters> {
+class GetTripTypesParametersBuilder extends ParametersBuilder<GetTripTypesParameters> {
   double? _pickupLatitude;
   double? _pickupLongitude;
   double? _destinationLatitude;
@@ -53,16 +51,12 @@ class GetTripTypesParametersBuilder
     return this;
   }
 
-  GetTripTypesParametersBuilder withDestinationLatitude(
-    double destinationLatitude,
-  ) {
+  GetTripTypesParametersBuilder withDestinationLatitude(double destinationLatitude) {
     _destinationLatitude = destinationLatitude;
     return this;
   }
 
-  GetTripTypesParametersBuilder withDestinationLongitude(
-    double destinationLongitude,
-  ) {
+  GetTripTypesParametersBuilder withDestinationLongitude(double destinationLongitude) {
     _destinationLongitude = destinationLongitude;
     return this;
   }

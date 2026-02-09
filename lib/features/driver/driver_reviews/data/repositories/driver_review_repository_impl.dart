@@ -1,18 +1,17 @@
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_reviews/data/datasources/driver_review_local_datasource.dart';
-import 'package:flavorizr/features/driver/driver_reviews/data/datasources/driver_review_remote_datasource.dart';
-import 'package:flavorizr/features/driver/driver_reviews/data/models/driver_review_model.dart';
-import 'package:flavorizr/features/driver/driver_reviews/data/parameters/get_driver_reviews_parameters.dart';
-import 'package:flavorizr/features/driver/driver_reviews/domain/entities/driver_review.dart';
-import 'package:flavorizr/features/driver/driver_reviews/domain/repositories/driver_review_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/data/datasources/driver_review_local_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/data/datasources/driver_review_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/data/models/driver_review_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/data/parameters/get_driver_reviews_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/entities/driver_review.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/repositories/driver_review_repository.dart';
 
 /// Implementation of DriverReviewRepository.
 ///
 /// Provides offline capability with caching.
-class DriverReviewRepositoryImpl extends BaseRepository
-    implements DriverReviewRepository {
+class DriverReviewRepositoryImpl extends BaseRepository implements DriverReviewRepository {
   final DriverReviewRemoteDataSource _remoteDataSource;
   final DriverReviewLocalDataSource _localDataSource;
 
@@ -59,8 +58,7 @@ class DriverReviewRepositoryImpl extends BaseRepository
     );
 
     return result.when(
-      success: (data, _) =>
-          ApiResult.success(data.map((e) => e.toEntity()).toList()),
+      success: (data, _) => ApiResult.success(data.map((e) => e.toEntity()).toList()),
       exception: ApiResult.exception,
     );
   }

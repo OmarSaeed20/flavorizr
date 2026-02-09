@@ -1,14 +1,13 @@
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/notification/data/datasources/notification_remote_datasource.dart';
-import 'package:flavorizr/features/user/notification/data/parameters/get_notifications_parameters.dart';
-import 'package:flavorizr/features/user/notification/domain/entities/notification.dart';
-import 'package:flavorizr/features/user/notification/domain/repositories/notification_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/notification/data/datasources/notification_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/user/notification/data/parameters/get_notifications_parameters.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/entities/notification.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/repositories/notification_repository.dart';
 
 /// Implementation of [NotificationRepository].
-class NotificationRepositoryImpl extends BaseRepository
-    implements NotificationRepository {
+class NotificationRepositoryImpl extends BaseRepository implements NotificationRepository {
   final NotificationRemoteDataSource _remoteDataSource;
 
   NotificationRepositoryImpl({
@@ -22,31 +21,24 @@ class NotificationRepositoryImpl extends BaseRepository
   NetworkInfo get networkInfo => _networkInfo;
 
   @override
-  Future<ApiResult<List<Notification>>> getNotifications(
-    GetNotificationsParameters params,
-  ) async {
+  Future<ApiResult<List<Notification>>> getNotifications(GetNotificationsParameters params) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.getNotifications(params),
     );
     return result.map(
-      success: (data) =>
-          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }
 
   @override
   Future<ApiResult<int>> getNotificationCount() async {
-    return executeRemoteRequest(
-      request: _remoteDataSource.getNotificationCount,
-    );
+    return executeRemoteRequest(request: _remoteDataSource.getNotificationCount);
   }
 
   @override
   Future<ApiResult<void>> markAsRead(int notificationId) async {
-    return executeRemoteRequest(
-      request: () => _remoteDataSource.markAsRead(notificationId),
-    );
+    return executeRemoteRequest(request: () => _remoteDataSource.markAsRead(notificationId));
   }
 
   @override

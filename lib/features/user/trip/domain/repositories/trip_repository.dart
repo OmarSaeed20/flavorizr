@@ -1,5 +1,5 @@
 // lib/features/trip/domain/repositories/trip_repository.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart'
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart'
     show
         ConflictException,
         NoInternetException,
@@ -7,25 +7,25 @@ import 'package:flavorizr/core/network/exception/network_exceptions.dart'
         ServerException,
         UnauthorizedException,
         ValidationException;
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/book_now_order_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/cancel_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/confirm_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/edit_private_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_available_public_trips_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_captain_trip_detail_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_my_orders_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_detail_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_history_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/get_trip_types_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/report_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/store_private_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/store_public_trip_parameters.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/trip_evaluation_parameters.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_evaluation.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_order.dart';
-import 'package:flavorizr/features/user/trip/domain/entities/trip_type.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/book_now_order_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/cancel_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/confirm_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/edit_private_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_available_public_trips_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_captain_trip_detail_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_my_orders_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_detail_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_history_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_trip_types_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/report_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/store_private_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/store_public_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/trip_evaluation_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_evaluation.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_order.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_type.dart';
 
 /// Type alias for ApiResult-based result handling.
 typedef TripEither<T> = Future<ApiResult<T>>;
@@ -66,9 +66,7 @@ abstract class TripRepository {
   /// - [NotFoundException] - Trip not found
   /// - [UnauthorizedException] - Not authorized to view this trip
   /// - [NoInternetException] - No internet connection
-  TripEither<Trip> getCaptainTripDetail(
-    GetCaptainTripDetailParameters parameters,
-  );
+  TripEither<Trip> getCaptainTripDetail(GetCaptainTripDetailParameters parameters);
 
   /// Get user's trip history.
   ///
@@ -86,9 +84,7 @@ abstract class TripRepository {
   /// Possible failures:
   /// - [NoInternetException] - No internet connection
   /// - [ServerException] - Server error
-  TripEither<List<Trip>> getAvailablePublicTrips(
-    GetAvailablePublicTripsParameters parameters,
-  );
+  TripEither<List<Trip>> getAvailablePublicTrips(GetAvailablePublicTripsParameters parameters);
 
   // ==================== Trip Creation ====================
 
@@ -168,9 +164,7 @@ abstract class TripRepository {
   /// - [UnauthorizedException] - Not authorized to evaluate this trip
   /// - [ConflictException] - Trip already evaluated
   /// - [NoInternetException] - No internet connection
-  TripEither<TripEvaluation> tripEvaluation(
-    TripEvaluationParameters parameters,
-  );
+  TripEither<TripEvaluation> tripEvaluation(TripEvaluationParameters parameters);
 
   // ==================== Orders ====================
 

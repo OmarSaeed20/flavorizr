@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for updating driver settings.
@@ -39,8 +39,7 @@ class UpdateDriverSettingsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateDriverSettingsParametersBuilder builder() =>
-      UpdateDriverSettingsParametersBuilder();
+  static UpdateDriverSettingsParametersBuilder builder() => UpdateDriverSettingsParametersBuilder();
 }
 
 /// Builder for UpdateDriverSettingsParameters
@@ -71,9 +70,7 @@ class UpdateDriverSettingsParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateDriverSettingsParametersBuilder withCancelToken(
-    CancelToken? cancelToken,
-  ) {
+  UpdateDriverSettingsParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }

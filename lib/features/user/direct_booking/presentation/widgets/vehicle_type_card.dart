@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/user/direct_booking/domain/entities/vehicle_type.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/entities/vehicle_type.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for displaying a vehicle type card.
@@ -19,9 +19,7 @@ class VehicleTypeCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 12.0),
       elevation: isSelected ? 4 : 1,
-      color: isSelected
-          ? Theme.of(context).primaryColor.withOpacity(0.1)
-          : null,
+      color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
       child: InkWell(
         onTap: vehicleType.isAvailable ? onTap : null,
         child: Padding(
@@ -41,10 +39,7 @@ class VehicleTypeCard extends StatelessWidget {
                         width: 80,
                         height: 60,
                         color: Colors.grey[300],
-                        child: const Icon(
-                          Icons.directions_car,
-                          color: Colors.grey,
-                        ),
+                        child: const Icon(Icons.directions_car, color: Colors.grey),
                       );
                     },
                   ),
@@ -57,10 +52,7 @@ class VehicleTypeCard extends StatelessWidget {
                   children: [
                     Text(
                       vehicleType.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     if (vehicleType.description != null) ...[
                       const SizedBox(height: 4),
@@ -76,24 +68,14 @@ class VehicleTypeCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           '${vehicleType.capacity} seats',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
+                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                         const SizedBox(width: 16),
-                        Icon(
-                          Icons.attach_money,
-                          size: 16,
-                          color: Colors.grey[600],
-                        ),
+                        Icon(Icons.attach_money, size: 16, color: Colors.grey[600]),
                         const SizedBox(width: 4),
                         Text(
                           'Base: \$${vehicleType.baseFare.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
+                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                       ],
                     ),
@@ -101,11 +83,7 @@ class VehicleTypeCard extends StatelessWidget {
                 ),
               ),
               if (isSelected)
-                Icon(
-                  Icons.check_circle,
-                  color: Theme.of(context).primaryColor,
-                  size: 28,
-                ),
+                Icon(Icons.check_circle, color: Theme.of(context).primaryColor, size: 28),
             ],
           ),
         ),

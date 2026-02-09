@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/general_select/domain/entities/select_option.dart';
+import 'package:fast_golden_taxi/features/general_select/domain/entities/select_option.dart';
 
 /// Data model for SelectOption, used for JSON serialization.
 ///

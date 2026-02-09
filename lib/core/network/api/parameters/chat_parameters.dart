@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting chat messages by order
@@ -32,8 +32,7 @@ class GetChatByOrderParameters extends Parameters {
   @override
   CancelToken? get cancelToken => _cancelToken;
 
-  static GetChatByOrderParametersBuilder builder() =>
-      GetChatByOrderParametersBuilder();
+  static GetChatByOrderParametersBuilder builder() => GetChatByOrderParametersBuilder();
 
   @override
   Map<String, dynamic> toJson() {
@@ -42,8 +41,7 @@ class GetChatByOrderParameters extends Parameters {
 }
 
 /// Builder for GetChatByOrderParameters
-class GetChatByOrderParametersBuilder
-    extends ParametersBuilder<GetChatByOrderParameters> {
+class GetChatByOrderParametersBuilder extends ParametersBuilder<GetChatByOrderParameters> {
   int? _orderId;
   int _page = 1;
   int _pageSize = 20;
@@ -123,8 +121,7 @@ class SaveMessageParameters extends Parameters {
 }
 
 /// Builder for SaveMessageParameters
-class SaveMessageParametersBuilder
-    extends ParametersBuilder<SaveMessageParameters> {
+class SaveMessageParametersBuilder extends ParametersBuilder<SaveMessageParameters> {
   int? _orderId;
   int? _driverId;
   String? _message;

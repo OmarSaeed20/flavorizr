@@ -1,19 +1,18 @@
 // lib/features/profile/data/repositories/profile_repository_impl.dart
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/profile/data/datasources/profile_local_datasource.dart';
-import 'package:flavorizr/features/user/profile/data/datasources/profile_remote_datasource.dart';
-import 'package:flavorizr/features/user/profile/data/models/profile_model.dart';
-import 'package:flavorizr/features/user/profile/domain/entities/profile.dart';
-import 'package:flavorizr/features/user/profile/domain/repositories/profile_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/profile/data/datasources/profile_local_datasource.dart';
+import 'package:fast_golden_taxi/features/user/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/user/profile/data/models/profile_model.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/entities/profile.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/repositories/profile_repository.dart';
 
 /// Implementation of [ProfileRepository].
 ///
 /// Coordinates with remote and local data sources for profile operations
 /// as per FAST API specification.
-class ProfileRepositoryImpl extends BaseRepository
-    implements ProfileRepository {
+class ProfileRepositoryImpl extends BaseRepository implements ProfileRepository {
   ProfileRepositoryImpl({
     required ProfileRemoteDataSource remoteDataSource,
     required ProfileLocalDataSource localDataSource,
@@ -37,16 +36,13 @@ class ProfileRepositoryImpl extends BaseRepository
     // If cache exists and is valid, return it
     if (cachedResult.isSuccess && cachedResult.data != null) {
       return cachedResult.when(
-        success: (profileModel, _) =>
-            ApiResult.success(profileModel.toEntity()),
+        success: (profileModel, _) => ApiResult.success(profileModel.toEntity()),
         exception: ApiResult.exception,
       );
     }
 
     // Fetch from remote
-    final result = await executeRemoteRequest<ProfileModel>(
-      request: _remoteDataSource.getProfile,
-    );
+    final result = await executeRemoteRequest<ProfileModel>(request: _remoteDataSource.getProfile);
 
     return result.when(
       success: (profileModel, _) async {
@@ -92,9 +88,7 @@ class ProfileRepositoryImpl extends BaseRepository
   }
 
   @override
-  Future<ApiResult<List<DriverReview>>> getDriverReviews(
-    String driverId,
-  ) async {
+  Future<ApiResult<List<DriverReview>>> getDriverReviews(String driverId) async {
     // Driver reviews are always fetched from remote
     final result = await executeRemoteRequest<List<DriverReviewModel>>(
       request: () => _remoteDataSource.getDriverReviews(driverId),

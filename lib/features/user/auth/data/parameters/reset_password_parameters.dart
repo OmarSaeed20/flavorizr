@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Reset Password API parameters with builder pattern
 /// Used for resetting user password
@@ -57,8 +57,7 @@ class ResetPasswordParameters extends Parameters {
 }
 
 /// Builder for ResetPasswordParameters
-class ResetPasswordParametersBuilder
-    extends ParametersBuilder<ResetPasswordParameters> {
+class ResetPasswordParametersBuilder extends ParametersBuilder<ResetPasswordParameters> {
   String? _phone;
   String? _token;
   String? _password;
@@ -86,9 +85,7 @@ class ResetPasswordParametersBuilder
   }
 
   /// Set password confirmation
-  ResetPasswordParametersBuilder withPasswordConfirmation(
-    String passwordConfirmation,
-  ) {
+  ResetPasswordParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }

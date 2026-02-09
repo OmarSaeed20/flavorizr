@@ -1,5 +1,5 @@
-import 'package:flavorizr/features/general_select/presentation/providers/general_select_providers.dart';
-import 'package:flavorizr/features/general_select/presentation/widgets/select_option_item.dart';
+import 'package:fast_golden_taxi/features/general_select/presentation/providers/general_select_providers.dart';
+import 'package:fast_golden_taxi/features/general_select/presentation/widgets/select_option_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,13 +10,7 @@ class GeneralSelectPage extends ConsumerStatefulWidget {
   final String? searchHint;
   final int? limit;
 
-  const GeneralSelectPage({
-    super.key,
-    required this.type,
-    this.title,
-    this.searchHint,
-    this.limit,
-  });
+  const GeneralSelectPage({super.key, required this.type, this.title, this.searchHint, this.limit});
 
   @override
   ConsumerState<GeneralSelectPage> createState() => _GeneralSelectPageState();
@@ -43,9 +37,7 @@ class _GeneralSelectPageState extends ConsumerState<GeneralSelectPage> {
         .read(generalSelectControllerProvider.notifier)
         .getSelectOptions(
           type: widget.type,
-          search: _searchController.text.isEmpty
-              ? null
-              : _searchController.text,
+          search: _searchController.text.isEmpty ? null : _searchController.text,
           limit: widget.limit,
         );
   }
@@ -76,9 +68,7 @@ class _GeneralSelectPageState extends ConsumerState<GeneralSelectPage> {
               decoration: InputDecoration(
                 hintText: widget.searchHint ?? 'Search...',
                 prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
               ),
               onChanged: _onSearchChanged,
             ),
@@ -95,10 +85,7 @@ class _GeneralSelectPageState extends ConsumerState<GeneralSelectPage> {
                         const SizedBox(height: 16),
                         Text(state.error!, textAlign: TextAlign.center),
                         const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: _loadOptions,
-                          child: const Text('Retry'),
-                        ),
+                        ElevatedButton(onPressed: _loadOptions, child: const Text('Retry')),
                       ],
                     ),
                   )
@@ -109,10 +96,7 @@ class _GeneralSelectPageState extends ConsumerState<GeneralSelectPage> {
                       children: [
                         Icon(Icons.list_alt, size: 48, color: Colors.grey[400]),
                         const SizedBox(height: 16),
-                        Text(
-                          'No options found',
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
+                        Text('No options found', style: TextStyle(color: Colors.grey[600])),
                       ],
                     ),
                   )

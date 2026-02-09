@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

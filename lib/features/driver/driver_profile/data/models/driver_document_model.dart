@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_document.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_document.dart';
 
 /// Model for DriverDocument entity.
 class DriverDocumentModel extends DriverDocument {
@@ -30,9 +30,7 @@ class DriverDocumentModel extends DriverDocument {
       isVerified: json['is_verified'] as bool? ?? false,
       rejectionReason: json['rejection_reason'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'] as String)
-          : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
     );
   }
 

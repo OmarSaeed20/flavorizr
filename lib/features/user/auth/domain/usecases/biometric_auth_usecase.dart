@@ -1,10 +1,10 @@
 // lib/features/auth/domain/usecases/biometric_auth_usecase.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/save_biometric_credentials_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/auth_result.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/save_biometric_credentials_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for checking if biometric authentication is available.
 class CheckBiometricAvailabilityUseCase implements UseCase<bool, NoParams> {
@@ -18,18 +18,14 @@ class CheckBiometricAvailabilityUseCase implements UseCase<bool, NoParams> {
       return ApiResult.success(isAvailable);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check biometric availability',
-          exception: e,
-        ),
+        UnknownNetworkException(message: 'Failed to check biometric availability', exception: e),
       );
     }
   }
 }
 
 /// Use case for enabling biometric authentication.
-class EnableBiometricUseCase
-    implements UseCase<void, SaveBiometricCredentialsParameters> {
+class EnableBiometricUseCase implements UseCase<void, SaveBiometricCredentialsParameters> {
   EnableBiometricUseCase(this._repository);
   final AuthRepository _repository;
 
@@ -39,9 +35,7 @@ class EnableBiometricUseCase
     final isAvailable = await _repository.isBiometricAvailable();
     if (!isAvailable) {
       return const ApiResult.exception(
-        BadRequestException(
-          message: 'Biometric authentication is not available on this device',
-        ),
+        BadRequestException(message: 'Biometric authentication is not available on this device'),
       );
     }
 
@@ -71,9 +65,7 @@ class BiometricSignInUseCase implements UseCase<AuthResult, NoParams> {
     final isAvailable = await _repository.isBiometricAvailable();
     if (!isAvailable) {
       return const ApiResult.exception(
-        BadRequestException(
-          message: 'Biometric authentication is not available on this device',
-        ),
+        BadRequestException(message: 'Biometric authentication is not available on this device'),
       );
     }
 
@@ -82,8 +74,7 @@ class BiometricSignInUseCase implements UseCase<AuthResult, NoParams> {
     if (!isEnabled) {
       return const ApiResult.exception(
         UnauthorizedException(
-          message:
-              'Biometric authentication is not enabled. Please enable it first.',
+          message: 'Biometric authentication is not enabled. Please enable it first.',
         ),
       );
     }

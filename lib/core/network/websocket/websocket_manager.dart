@@ -2,10 +2,9 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
-import 'package:flavorizr/core/network/websocket/websocket_client.dart';
-import 'package:flavorizr/core/network/websocket/websocket_event_handler.dart';
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/network/websocket/websocket_client.dart';
+import 'package:fast_golden_taxi/core/network/websocket/websocket_event_handler.dart';
 
 /// Manages the WebSocket connection lifecycle.
 ///
@@ -96,28 +95,18 @@ class WebSocketManager {
   }
 
   void _setupConnectivityListener() {
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
-      _onConnectivityChanged,
-    );
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_onConnectivityChanged);
   }
 
   void _onConnectivityChanged(List<ConnectivityResult> results) {
-    final hasConnection = results.any(
-      (result) => result != ConnectivityResult.none,
-    );
+    final hasConnection = results.any((result) => result != ConnectivityResult.none);
 
     AppLogger.instance.logDebug(
       'Connectivity changed',
-      data: {
-        'hasConnection': hasConnection,
-        'results': results.map((e) => e.name).toList(),
-      },
+      data: {'hasConnection': hasConnection, 'results': results.map((e) => e.name).toList()},
     );
 
-    if (hasConnection &&
-        !_client.isConnected &&
-        _appInForeground &&
-        _authToken != null) {
+    if (hasConnection && !_client.isConnected && _appInForeground && _authToken != null) {
       AppLogger.instance.logInfo('Network restored, reconnecting WebSocket');
       _client.reconnect();
     }

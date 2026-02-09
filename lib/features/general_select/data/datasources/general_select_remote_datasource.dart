@@ -1,18 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api_client.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/general_select/data/endpoints/general_select_endpoints.dart';
-import 'package:flavorizr/features/general_select/data/models/select_option_model.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_about_us_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_cities_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_common_problems_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_countries_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_general_settings_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_policies_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_questions_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_select_options_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_vehicle_types_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/general_select/data/endpoints/general_select_endpoints.dart';
+import 'package:fast_golden_taxi/features/general_select/data/models/select_option_model.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_about_us_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_cities_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_common_problems_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_countries_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_general_settings_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_policies_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_questions_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_select_options_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_vehicle_types_parameters.dart';
 
 /// Remote data source for general select operations.
 ///
@@ -26,15 +26,11 @@ abstract class GeneralSelectRemoteDataSource {
 
   /// Gets vehicle types.
   /// Endpoint: GET /select/vehicle-type
-  Future<ApiResult<List<SelectOptionModel>>> getVehicleTypes(
-    GetVehicleTypesParameters parameters,
-  );
+  Future<ApiResult<List<SelectOptionModel>>> getVehicleTypes(GetVehicleTypesParameters parameters);
 
   /// Gets cities.
   /// Endpoint: GET /select/cities
-  Future<ApiResult<List<SelectOptionModel>>> getCities(
-    GetCitiesParameters parameters,
-  );
+  Future<ApiResult<List<SelectOptionModel>>> getCities(GetCitiesParameters parameters);
 
   /// Gets common problems.
   /// Endpoint: GET /select/common-problem
@@ -44,27 +40,19 @@ abstract class GeneralSelectRemoteDataSource {
 
   /// Gets countries.
   /// Endpoint: GET /select/countries
-  Future<ApiResult<List<SelectOptionModel>>> getCountries(
-    GetCountriesParameters parameters,
-  );
+  Future<ApiResult<List<SelectOptionModel>>> getCountries(GetCountriesParameters parameters);
 
   /// Gets about us information.
   /// Endpoint: GET /setting/about_us
-  Future<ApiResult<Map<String, dynamic>>> getAboutUs(
-    GetAboutUsParameters parameters,
-  );
+  Future<ApiResult<Map<String, dynamic>>> getAboutUs(GetAboutUsParameters parameters);
 
   /// Gets frequently asked questions.
   /// Endpoint: GET /setting/questions
-  Future<ApiResult<List<Map<String, dynamic>>>> getQuestions(
-    GetQuestionsParameters parameters,
-  );
+  Future<ApiResult<List<Map<String, dynamic>>>> getQuestions(GetQuestionsParameters parameters);
 
   /// Gets app policies.
   /// Endpoint: GET /setting/policies
-  Future<ApiResult<Map<String, dynamic>>> getPolicies(
-    GetPoliciesParameters parameters,
-  );
+  Future<ApiResult<Map<String, dynamic>>> getPolicies(GetPoliciesParameters parameters);
 
   /// Gets general app settings.
   /// Endpoint: GET /setting/general
@@ -113,9 +101,7 @@ class GeneralSelectRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<List<SelectOptionModel>>> getCities(
-    GetCitiesParameters parameters,
-  ) async {
+  Future<ApiResult<List<SelectOptionModel>>> getCities(GetCitiesParameters parameters) async {
     return get<List<SelectOptionModel>>(
       path: GeneralSelectEndpoints.cities,
       queryParameters: parameters.toJson(),
@@ -139,9 +125,7 @@ class GeneralSelectRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<List<SelectOptionModel>>> getCountries(
-    GetCountriesParameters parameters,
-  ) async {
+  Future<ApiResult<List<SelectOptionModel>>> getCountries(GetCountriesParameters parameters) async {
     return get<List<SelectOptionModel>>(
       path: GeneralSelectEndpoints.countries,
       queryParameters: parameters.toJson(),
@@ -152,9 +136,7 @@ class GeneralSelectRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<Map<String, dynamic>>> getAboutUs(
-    GetAboutUsParameters parameters,
-  ) async {
+  Future<ApiResult<Map<String, dynamic>>> getAboutUs(GetAboutUsParameters parameters) async {
     return get<Map<String, dynamic>>(
       path: GeneralSelectEndpoints.aboutUs,
       queryParameters: parameters.toJson(),
@@ -169,16 +151,12 @@ class GeneralSelectRemoteDataSourceImpl
     return get<List<Map<String, dynamic>>>(
       path: GeneralSelectEndpoints.questions,
       queryParameters: parameters.toJson(),
-      decoder: (data) => (data as List<dynamic>)
-          .map((e) => e as Map<String, dynamic>)
-          .toList(),
+      decoder: (data) => (data as List<dynamic>).map((e) => e as Map<String, dynamic>).toList(),
     );
   }
 
   @override
-  Future<ApiResult<Map<String, dynamic>>> getPolicies(
-    GetPoliciesParameters parameters,
-  ) async {
+  Future<ApiResult<Map<String, dynamic>>> getPolicies(GetPoliciesParameters parameters) async {
     return get<Map<String, dynamic>>(
       path: GeneralSelectEndpoints.policies,
       queryParameters: parameters.toJson(),

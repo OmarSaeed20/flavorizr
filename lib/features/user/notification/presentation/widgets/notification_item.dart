@@ -1,15 +1,11 @@
-import 'package:flavorizr/features/user/notification/domain/entities/notification.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/entities/notification.dart';
 import 'package:flutter/material.dart' hide Notification;
 
 class NotificationItem extends StatelessWidget {
   final Notification notification;
   final VoidCallback onTap;
 
-  const NotificationItem({
-    super.key,
-    required this.notification,
-    required this.onTap,
-  });
+  const NotificationItem({super.key, required this.notification, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +24,7 @@ class NotificationItem extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: _getNotificationColor(
-                    notification.type,
-                  ).withOpacity(0.2),
+                  color: _getNotificationColor(notification.type).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Icon(
@@ -51,9 +45,7 @@ class NotificationItem extends StatelessWidget {
                           child: Text(
                             notification.title,
                             style: TextStyle(
-                              fontWeight: notification.isRead
-                                  ? FontWeight.normal
-                                  : FontWeight.bold,
+                              fontWeight: notification.isRead ? FontWeight.normal : FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting select options.
@@ -42,13 +42,11 @@ class GetSelectOptionsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetSelectOptionsParametersBuilder builder() =>
-      GetSelectOptionsParametersBuilder();
+  static GetSelectOptionsParametersBuilder builder() => GetSelectOptionsParametersBuilder();
 }
 
 /// Builder for GetSelectOptionsParameters
-class GetSelectOptionsParametersBuilder
-    extends ParametersBuilder<GetSelectOptionsParameters> {
+class GetSelectOptionsParametersBuilder extends ParametersBuilder<GetSelectOptionsParameters> {
   String? _type;
   String? _search;
   int? _limit;

@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/user/notification/domain/entities/notification.dart';
+import 'package:fast_golden_taxi/features/user/notification/domain/entities/notification.dart';
 
 class NotificationModel extends Notification {
   const NotificationModel({

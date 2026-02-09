@@ -1,7 +1,7 @@
 // lib/features/settings/presentation/controllers/notification_settings_controller.dart
-import 'package:flavorizr/features/user/settings/domain/entities/notification_settings.dart';
-import 'package:flavorizr/features/user/settings/domain/repositories/notification_settings_repository.dart';
-import 'package:flavorizr/features/user/settings/presentation/providers/settings_providers.dart';
+import 'package:fast_golden_taxi/features/user/settings/domain/entities/notification_settings.dart';
+import 'package:fast_golden_taxi/features/user/settings/domain/repositories/notification_settings_repository.dart';
+import 'package:fast_golden_taxi/features/user/settings/presentation/providers/settings_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for notification settings.
@@ -47,8 +47,7 @@ class NotificationSettingsState {
 }
 
 /// Controller for notification settings.
-class NotificationSettingsController
-    extends AutoDisposeNotifier<NotificationSettingsState> {
+class NotificationSettingsController extends AutoDisposeNotifier<NotificationSettingsState> {
   late final NotificationSettingsRepository _repository;
 
   @override
@@ -66,10 +65,7 @@ class NotificationSettingsController
     final result = await _repository.getSettings();
 
     if (result.isError) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: result.error!.message,
-      );
+      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
       return;
     }
 
@@ -91,10 +87,7 @@ class NotificationSettingsController
     final result = await _repository.updateSettings(state.settings);
 
     if (result.isError) {
-      state = state.copyWith(
-        isSaving: false,
-        errorMessage: result.error!.message,
-      );
+      state = state.copyWith(isSaving: false, errorMessage: result.error!.message);
       return false;
     }
 
@@ -117,10 +110,7 @@ class NotificationSettingsController
     final result = await _repository.resetToDefaults();
 
     if (result.isError) {
-      state = state.copyWith(
-        isSaving: false,
-        errorMessage: result.error!.message,
-      );
+      state = state.copyWith(isSaving: false, errorMessage: result.error!.message);
       return;
     }
 
@@ -136,11 +126,7 @@ class NotificationSettingsController
 
   /// Resets to original settings (discards changes).
   void discardChanges() {
-    state = state.copyWith(
-      settings: state.originalSettings,
-      hasChanges: false,
-      clearError: true,
-    );
+    state = state.copyWith(settings: state.originalSettings, hasChanges: false, clearError: true);
   }
 
   void _updateSettings(NotificationSettings newSettings) {

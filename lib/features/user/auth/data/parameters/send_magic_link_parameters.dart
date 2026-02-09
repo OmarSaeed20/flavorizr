@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Send Magic Link API parameters with builder pattern
 /// Used for sending magic link to email
@@ -29,13 +29,11 @@ class SendMagicLinkParameters extends Parameters {
   int get hashCode => email.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() =>
-      'SendMagicLinkParameters(email: $email, cancelToken: $cancelToken)';
+  String toString() => 'SendMagicLinkParameters(email: $email, cancelToken: $cancelToken)';
 }
 
 /// Builder for SendMagicLinkParameters
-class SendMagicLinkParametersBuilder
-    extends ParametersBuilder<SendMagicLinkParameters> {
+class SendMagicLinkParametersBuilder extends ParametersBuilder<SendMagicLinkParameters> {
   String? _email;
   CancelToken? _cancelToken;
 

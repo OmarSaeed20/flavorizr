@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting frequently asked questions.
@@ -29,13 +29,11 @@ class GetQuestionsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetQuestionsParametersBuilder builder() =>
-      GetQuestionsParametersBuilder();
+  static GetQuestionsParametersBuilder builder() => GetQuestionsParametersBuilder();
 }
 
 /// Builder for GetQuestionsParameters
-class GetQuestionsParametersBuilder
-    extends ParametersBuilder<GetQuestionsParameters> {
+class GetQuestionsParametersBuilder extends ParametersBuilder<GetQuestionsParameters> {
   String? _category;
   CancelToken? _cancelToken;
 
@@ -55,9 +53,6 @@ class GetQuestionsParametersBuilder
   /// Build the GetQuestionsParameters
   @override
   GetQuestionsParameters build() {
-    return GetQuestionsParameters._(
-      category: _category,
-      cancelToken: _cancelToken,
-    );
+    return GetQuestionsParameters._(category: _category, cancelToken: _cancelToken);
   }
 }

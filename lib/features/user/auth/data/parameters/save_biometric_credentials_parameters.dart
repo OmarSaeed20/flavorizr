@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Save Biometric Credentials API parameters with builder pattern
 /// Used for saving credentials for biometric authentication
@@ -63,9 +63,7 @@ class SaveBiometricCredentialsParametersBuilder
 
   /// Set cancel token
   @override
-  SaveBiometricCredentialsParametersBuilder withCancelToken(
-    CancelToken? cancelToken,
-  ) {
+  SaveBiometricCredentialsParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }

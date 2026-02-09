@@ -1,10 +1,10 @@
 // lib/features/onboarding/presentation/controllers/onboarding_controller.dart
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/onboarding/domain/entities/onboarding_page.dart';
-import 'package:flavorizr/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
-import 'package:flavorizr/features/onboarding/domain/usecases/get_onboarding_pages_usecase.dart';
-import 'package:flavorizr/features/onboarding/presentation/providers/onboarding_providers.dart';
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/onboarding/domain/entities/onboarding_page.dart';
+import 'package:fast_golden_taxi/features/onboarding/domain/usecases/complete_onboarding_usecase.dart';
+import 'package:fast_golden_taxi/features/onboarding/domain/usecases/get_onboarding_pages_usecase.dart';
+import 'package:fast_golden_taxi/features/onboarding/presentation/providers/onboarding_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the onboarding screen.
@@ -40,13 +40,10 @@ class OnboardingState {
 
   /// Current page or null if no pages.
   OnboardingPage? get currentPage =>
-      pages.isNotEmpty && currentPageIndex < pages.length
-      ? pages[currentPageIndex]
-      : null;
+      pages.isNotEmpty && currentPageIndex < pages.length ? pages[currentPageIndex] : null;
 
   /// Progress percentage (0.0 to 1.0).
-  double get progress =>
-      pages.isEmpty ? 0.0 : (currentPageIndex + 1) / pages.length;
+  double get progress => pages.isEmpty ? 0.0 : (currentPageIndex + 1) / pages.length;
 
   /// Creates a copy with updated values.
   OnboardingState copyWith({
@@ -98,10 +95,7 @@ class OnboardingController extends Notifier<OnboardingState> {
         state = state.copyWith(isLoading: false, error: failure.message);
       },
       success: (pages, _) {
-        AppLogger.instance.logInfo(
-          'Loaded onboarding pages',
-          data: {'count': pages.length},
-        );
+        AppLogger.instance.logInfo('Loaded onboarding pages', data: {'count': pages.length});
         state = state.copyWith(isLoading: false, pages: pages);
       },
     );
@@ -161,7 +155,6 @@ class OnboardingController extends Notifier<OnboardingState> {
 }
 
 /// Provider for OnboardingController.
-final onboardingControllerProvider =
-    NotifierProvider<OnboardingController, OnboardingState>(
-      OnboardingController.new,
-    );
+final onboardingControllerProvider = NotifierProvider<OnboardingController, OnboardingState>(
+  OnboardingController.new,
+);

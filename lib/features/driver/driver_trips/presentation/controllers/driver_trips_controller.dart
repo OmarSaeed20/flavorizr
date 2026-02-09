@@ -1,13 +1,13 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/accept_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/cancel_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/complete_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/get_driver_trip_by_id.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/get_driver_trips.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/get_pending_trips.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/reject_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/usecases/start_trip.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/accept_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/cancel_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/complete_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/get_driver_trip_by_id.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/get_driver_trips.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/get_pending_trips.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/reject_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/start_trip.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver trips

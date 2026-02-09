@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/store_public_trip_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for creating a public trip.
@@ -57,13 +57,11 @@ class StorePublicTripParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static StorePublicTripParametersBuilder builder() =>
-      StorePublicTripParametersBuilder();
+  static StorePublicTripParametersBuilder builder() => StorePublicTripParametersBuilder();
 }
 
 /// Builder for StorePublicTripParameters.
-class StorePublicTripParametersBuilder
-    extends ParametersBuilder<StorePublicTripParameters> {
+class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTripParameters> {
   String? _pickUpLongitude;
   String? _pickUpLatitude;
   String? _destinationLongitude;
@@ -79,19 +77,13 @@ class StorePublicTripParametersBuilder
   int? _vehicleTypeId;
   CancelToken? _cancelToken;
 
-  StorePublicTripParametersBuilder withPickUpLocation(
-    String longitude,
-    String latitude,
-  ) {
+  StorePublicTripParametersBuilder withPickUpLocation(String longitude, String latitude) {
     _pickUpLongitude = longitude;
     _pickUpLatitude = latitude;
     return this;
   }
 
-  StorePublicTripParametersBuilder withDestinationLocation(
-    String longitude,
-    String latitude,
-  ) {
+  StorePublicTripParametersBuilder withDestinationLocation(String longitude, String latitude) {
     _destinationLongitude = longitude;
     _destinationLatitude = latitude;
     return this;

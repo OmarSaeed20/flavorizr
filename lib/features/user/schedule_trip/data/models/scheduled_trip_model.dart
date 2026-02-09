@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/user/schedule_trip/domain/entities/scheduled_trip.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/entities/scheduled_trip.dart';
 
 class ScheduledTripModel extends ScheduledTrip {
   const ScheduledTripModel({

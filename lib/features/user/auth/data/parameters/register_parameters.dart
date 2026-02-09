@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Register API parameters with builder pattern
 /// Used for new user registration
@@ -163,9 +163,7 @@ class RegisterParametersBuilder extends ParametersBuilder<RegisterParameters> {
   }
 
   /// Set password confirmation
-  RegisterParametersBuilder withPasswordConfirmation(
-    String passwordConfirmation,
-  ) {
+  RegisterParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }

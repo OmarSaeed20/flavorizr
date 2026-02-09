@@ -1,8 +1,8 @@
 // lib/features/splash/presentation/controllers/splash_controller.dart
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/splash/domain/usecases/check_app_initialization_usecase.dart';
-import 'package:flavorizr/features/splash/presentation/providers/splash_providers.dart';
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/splash/domain/usecases/check_app_initialization_usecase.dart';
+import 'package:fast_golden_taxi/features/splash/presentation/providers/splash_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the splash screen.
@@ -77,5 +77,6 @@ class SplashController extends Notifier<SplashState> {
 }
 
 /// Provider for SplashController.
-final splashControllerProvider =
-    NotifierProvider<SplashController, SplashState>(SplashController.new);
+final splashControllerProvider = NotifierProvider<SplashController, SplashState>(
+  SplashController.new,
+);

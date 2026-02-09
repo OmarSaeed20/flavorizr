@@ -1,5 +1,5 @@
 // lib/features/profile/presentation/pages/profile_settings_page.dart
-import 'package:flavorizr/features/user/profile/presentation/providers/profile_providers.dart';
+import 'package:fast_golden_taxi/features/user/profile/presentation/providers/profile_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

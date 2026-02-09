@@ -1,7 +1,7 @@
 // lib/features/settings/presentation/pages/settings_page.dart
-import 'package:flavorizr/core/router/routes.dart';
-import 'package:flavorizr/features/user/settings/presentation/widgets/settings_section.dart';
-import 'package:flavorizr/l10n/app_localizations.dart';
+import 'package:fast_golden_taxi/core/router/routes.dart';
+import 'package:fast_golden_taxi/features/user/settings/presentation/widgets/settings_section.dart';
+import 'package:fast_golden_taxi/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

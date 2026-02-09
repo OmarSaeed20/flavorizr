@@ -1,5 +1,5 @@
-import 'package:flavorizr/features/driver/driver_auth/data/models/driver_model.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver_credentials.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/models/driver_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/entities/driver_credentials.dart';
 
 /// Model for DriverCredentials entity.
 class DriverCredentialsModel extends DriverCredentials {

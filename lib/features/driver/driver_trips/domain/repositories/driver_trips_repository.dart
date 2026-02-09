@@ -1,5 +1,5 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/entities/driver_trip.dart';
 
 /// Repository interface for driver trips operations.
 abstract class DriverTripsRepository {
@@ -39,8 +39,5 @@ abstract class DriverTripsRepository {
   });
 
   /// Gets driver's schedule trip requests.
-  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({
-    String? date,
-    String? status,
-  });
+  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({String? date, String? status});
 }

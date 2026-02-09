@@ -1,11 +1,11 @@
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_home/data/datasources/driver_home_local_datasource.dart';
-import 'package:flavorizr/features/driver/driver_home/data/datasources/driver_home_remote_datasource.dart';
-import 'package:flavorizr/features/driver/driver_home/data/models/driver_home_data_model.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_home_data.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/repositories/driver_home_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/data/datasources/driver_home_local_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/data/datasources/driver_home_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/data/models/driver_home_data_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_home_data.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/repositories/driver_home_repository.dart';
 
 /// Implementation of DriverHomeRepository.
 ///

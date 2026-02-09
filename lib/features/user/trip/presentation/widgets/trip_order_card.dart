@@ -1,5 +1,5 @@
 // lib/features/trip/presentation/widgets/trip_order_card.dart
-import 'package:flavorizr/features/user/trip/domain/entities/trip_order.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_order.dart';
 import 'package:flutter/material.dart';
 
 /// Card widget displaying trip order information.

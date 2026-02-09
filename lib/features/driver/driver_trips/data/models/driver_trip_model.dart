@@ -1,5 +1,5 @@
-import 'package:flavorizr/features/driver/driver_trips/data/models/trip_route_model.dart';
-import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/data/models/trip_route_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/entities/driver_trip.dart';
 
 /// Model for driver trip
 class DriverTripModel extends DriverTrip {
@@ -38,21 +38,11 @@ class DriverTripModel extends DriverTrip {
       estimatedFare: (json['estimatedFare'] ?? 0).toDouble(),
       actualFare: (json['actualFare'] ?? 0).toDouble(),
       status: json['status'] ?? 'pending',
-      createdAt: DateTime.parse(
-        json['createdAt'] ?? DateTime.now().toIso8601String(),
-      ),
-      acceptedAt: json['acceptedAt'] != null
-          ? DateTime.parse(json['acceptedAt'])
-          : null,
-      startedAt: json['startedAt'] != null
-          ? DateTime.parse(json['startedAt'])
-          : null,
-      completedAt: json['completedAt'] != null
-          ? DateTime.parse(json['completedAt'])
-          : null,
-      cancelledAt: json['cancelledAt'] != null
-          ? DateTime.parse(json['cancelledAt'])
-          : null,
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+      acceptedAt: json['acceptedAt'] != null ? DateTime.parse(json['acceptedAt']) : null,
+      startedAt: json['startedAt'] != null ? DateTime.parse(json['startedAt']) : null,
+      completedAt: json['completedAt'] != null ? DateTime.parse(json['completedAt']) : null,
+      cancelledAt: json['cancelledAt'] != null ? DateTime.parse(json['cancelledAt']) : null,
       cancellationReason: json['cancellationReason'],
       paymentMethod: json['paymentMethod'] ?? 'cash',
       rating: json['rating']?.toDouble(),

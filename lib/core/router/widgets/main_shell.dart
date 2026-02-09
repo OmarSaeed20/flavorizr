@@ -1,5 +1,5 @@
 // lib/core/router/widgets/main_shell.dart
-import 'package:flavorizr/core/router/routes.dart';
+import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

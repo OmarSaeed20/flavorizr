@@ -1,12 +1,12 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flavorizr/config/firebase/firebase_options/firebase_options_dev.dart'
+import 'package:fast_golden_taxi/config/firebase/firebase_options/firebase_options_dev.dart'
     as fb_options_dev;
-import 'package:flavorizr/config/firebase/firebase_options/firebase_options_prod.dart'
+import 'package:fast_golden_taxi/config/firebase/firebase_options/firebase_options_prod.dart'
     as fb_options_prod;
-import 'package:flavorizr/config/firebase/firebase_options/firebase_options_staging.dart'
+import 'package:fast_golden_taxi/config/firebase/firebase_options/firebase_options_staging.dart'
     as fb_options_staging;
-import 'package:flavorizr/config/flavors.dart' as f show F;
-import 'package:flavorizr/config/flavors.dart';
+import 'package:fast_golden_taxi/config/flavors.dart' as f show F;
+import 'package:fast_golden_taxi/config/flavors.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FirebaseConfig {
   const FirebaseConfig();
@@ -46,9 +46,9 @@ class FirebaseConfig {
   };
 
   static String get flavorDisplayName => switch (f.F.appFlavor) {
-    Flavor.dev => 'Flavorizr Dev',
-    Flavor.staging => 'Flavorizr Staging',
-    Flavor.prod => 'Flavorizr',
+    Flavor.dev => 'Fast Golden Taxi Dev',
+    Flavor.staging => 'Fast Golden Taxi Staging',
+    Flavor.prod => 'Fast Golden Taxi',
   };
 }
 

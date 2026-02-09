@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api_client.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/notification/data/endpoints/notification_endpoints.dart';
-import 'package:flavorizr/features/user/notification/data/models/notification_model.dart';
-import 'package:flavorizr/features/user/notification/data/parameters/get_notifications_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/notification/data/endpoints/notification_endpoints.dart';
+import 'package:fast_golden_taxi/features/user/notification/data/models/notification_model.dart';
+import 'package:fast_golden_taxi/features/user/notification/data/parameters/get_notifications_parameters.dart';
 
 /// Remote data source for notification operations.
 ///
@@ -62,9 +62,7 @@ class NotificationRemoteDataSourceImpl
 
   @override
   Future<ApiResult<void>> markAsRead(int notificationId) async {
-    return post<void>(
-      path: NotificationEndpoints.markAsRead(notificationId.toString()),
-    );
+    return post<void>(path: NotificationEndpoints.markAsRead(notificationId.toString()));
   }
 
   @override

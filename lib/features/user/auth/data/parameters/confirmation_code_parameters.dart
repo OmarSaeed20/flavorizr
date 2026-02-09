@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Confirmation Code API parameters with builder pattern
 /// Used for resending confirmation code
@@ -15,8 +15,7 @@ class ConfirmationCodeParameters extends Parameters {
   Map<String, dynamic> toJson() => {'phone': phone};
 
   /// Create a builder for this parameters type
-  ConfirmationCodeParametersBuilder builder() =>
-      ConfirmationCodeParametersBuilder();
+  ConfirmationCodeParametersBuilder builder() => ConfirmationCodeParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -30,13 +29,11 @@ class ConfirmationCodeParameters extends Parameters {
   int get hashCode => phone.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() =>
-      'ConfirmationCodeParameters(phone: $phone, cancelToken: $cancelToken)';
+  String toString() => 'ConfirmationCodeParameters(phone: $phone, cancelToken: $cancelToken)';
 }
 
 /// Builder for ConfirmationCodeParameters
-class ConfirmationCodeParametersBuilder
-    extends ParametersBuilder<ConfirmationCodeParameters> {
+class ConfirmationCodeParametersBuilder extends ParametersBuilder<ConfirmationCodeParameters> {
   String? _phone;
   CancelToken? _cancelToken;
 
@@ -61,9 +58,6 @@ class ConfirmationCodeParametersBuilder
     if (_phone == null || _phone!.isEmpty) {
       throw ArgumentError('Phone is required');
     }
-    return ConfirmationCodeParameters(
-      phone: _phone!,
-      cancelToken: _cancelToken,
-    );
+    return ConfirmationCodeParameters(phone: _phone!, cancelToken: _cancelToken);
   }
 }

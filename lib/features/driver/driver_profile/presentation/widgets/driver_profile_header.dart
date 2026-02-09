@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_profile.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_profile.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for displaying driver profile header.

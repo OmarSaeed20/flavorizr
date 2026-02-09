@@ -1,6 +1,6 @@
 // lib/features/trip/presentation/pages/trip_detail_page.dart
-import 'package:flavorizr/features/user/trip/presentation/controllers/trip_controller.dart';
-import 'package:flavorizr/features/user/trip/presentation/providers/trip_providers.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/controllers/trip_controller.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/providers/trip_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

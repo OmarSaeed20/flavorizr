@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Sign In With Magic Link API parameters with builder pattern
 /// Used for passwordless authentication via magic link
@@ -15,8 +15,7 @@ class SignInWithMagicLinkParameters extends Parameters {
   Map<String, dynamic> toJson() => {'token': token};
 
   /// Create a builder for this parameters type
-  SignInWithMagicLinkParametersBuilder builder() =>
-      SignInWithMagicLinkParametersBuilder();
+  SignInWithMagicLinkParametersBuilder builder() => SignInWithMagicLinkParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -30,8 +29,7 @@ class SignInWithMagicLinkParameters extends Parameters {
   int get hashCode => token.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() =>
-      'SignInWithMagicLinkParameters(token: ****, cancelToken: $cancelToken)';
+  String toString() => 'SignInWithMagicLinkParameters(token: ****, cancelToken: $cancelToken)';
 }
 
 /// Builder for SignInWithMagicLinkParameters
@@ -50,9 +48,7 @@ class SignInWithMagicLinkParametersBuilder
 
   /// Set cancel token
   @override
-  SignInWithMagicLinkParametersBuilder withCancelToken(
-    CancelToken? cancelToken,
-  ) {
+  SignInWithMagicLinkParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -60,9 +56,6 @@ class SignInWithMagicLinkParametersBuilder
   /// Build the parameters object
   @override
   SignInWithMagicLinkParameters build() {
-    return SignInWithMagicLinkParameters(
-      token: _token!,
-      cancelToken: _cancelToken,
-    );
+    return SignInWithMagicLinkParameters(token: _token!, cancelToken: _cancelToken);
   }
 }

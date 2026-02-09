@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Logout API parameters with builder pattern
 /// Used for user logout
@@ -40,10 +40,7 @@ class LogoutParameters extends Parameters {
 
   @override
   int get hashCode =>
-      deviceType.hashCode ^
-      deviceToken.hashCode ^
-      deviceId.hashCode ^
-      cancelToken.hashCode;
+      deviceType.hashCode ^ deviceToken.hashCode ^ deviceId.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>

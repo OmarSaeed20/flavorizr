@@ -1,14 +1,14 @@
-import 'package:flavorizr/core/network/api/repositories/chat_repository.dart';
-import 'package:flavorizr/core/network/api/repositories/chat_repository_impl.dart';
-import 'package:flavorizr/core/network/api/repositories/general_repository.dart';
-import 'package:flavorizr/core/network/api/repositories/general_repository_impl.dart';
-import 'package:flavorizr/core/network/api/repositories/notification_repository.dart';
-import 'package:flavorizr/core/network/api/repositories/notification_repository_impl.dart';
-import 'package:flavorizr/core/network/api/repositories/trip_repository.dart';
-import 'package:flavorizr/core/network/api/repositories/trip_repository_impl.dart';
-import 'package:flavorizr/core/network/api/repositories/user_repository.dart';
-import 'package:flavorizr/core/network/api/repositories/user_repository_impl.dart';
-import 'package:flavorizr/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/chat_repository.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/chat_repository_impl.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/general_repository.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/general_repository_impl.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/notification_repository.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/notification_repository_impl.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/trip_repository.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/trip_repository_impl.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/user_repository.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/user_repository_impl.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Dependency Injection Providers

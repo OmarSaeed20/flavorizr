@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_reviews/domain/entities/review_stats.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/entities/review_stats.dart';
 
 /// Model for review statistics
 class ReviewStatsModel extends ReviewStats {

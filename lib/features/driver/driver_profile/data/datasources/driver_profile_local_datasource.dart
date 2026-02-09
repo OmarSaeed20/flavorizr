@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/models/driver_document_model.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/models/driver_profile_model.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/models/driver_vehicle_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_document_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_profile_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_vehicle_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for driver profile operations.
@@ -44,8 +44,7 @@ abstract class DriverProfileLocalDataSource {
 class DriverProfileLocalDataSourceImpl
     with BaseLocalDataSource
     implements DriverProfileLocalDataSource {
-  DriverProfileLocalDataSourceImpl({required SharedPreferences prefs})
-    : _prefs = prefs;
+  DriverProfileLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   static const String _profileKey = 'driver_profile';
   static const String _vehicleKey = 'driver_vehicle';
@@ -62,9 +61,7 @@ class DriverProfileLocalDataSourceImpl
         final json = _prefs.getString(_profileKey);
         if (json == null) return null;
         try {
-          return DriverProfileModel.fromJson(
-            jsonDecode(json) as Map<String, dynamic>,
-          );
+          return DriverProfileModel.fromJson(jsonDecode(json) as Map<String, dynamic>);
         } catch (_) {
           return null;
         }
@@ -92,9 +89,7 @@ class DriverProfileLocalDataSourceImpl
         final json = _prefs.getString(_vehicleKey);
         if (json == null) return null;
         try {
-          return DriverVehicleModel.fromJson(
-            jsonDecode(json) as Map<String, dynamic>,
-          );
+          return DriverVehicleModel.fromJson(jsonDecode(json) as Map<String, dynamic>);
         } catch (_) {
           return null;
         }
@@ -123,11 +118,7 @@ class DriverProfileLocalDataSourceImpl
         if (json == null) return null;
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map(
-                (e) => DriverDocumentModel.fromJson(e as Map<String, dynamic>),
-              )
-              .toList();
+          return list.map((e) => DriverDocumentModel.fromJson(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }
@@ -136,9 +127,7 @@ class DriverProfileLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheDocuments(
-    List<DriverDocumentModel> documents,
-  ) async {
+  Future<ApiResult<void>> cacheDocuments(List<DriverDocumentModel> documents) async {
     return saveLocalDataList<DriverDocumentModel>(
       key: _documentsKey,
       data: documents,
@@ -166,9 +155,7 @@ class DriverProfileLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheVerificationStatus(
-    Map<String, dynamic> status,
-  ) async {
+  Future<ApiResult<void>> cacheVerificationStatus(Map<String, dynamic> status) async {
     return saveLocalData<Map<String, dynamic>>(
       key: _verificationStatusKey,
       data: status,
@@ -181,18 +168,9 @@ class DriverProfileLocalDataSourceImpl
 
   @override
   Future<ApiResult<void>> clearProfileCache() async {
-    await deleteLocalData(
-      key: _profileKey,
-      deleter: () async => _prefs.remove(_profileKey),
-    );
-    await deleteLocalData(
-      key: _vehicleKey,
-      deleter: () async => _prefs.remove(_vehicleKey),
-    );
-    await deleteLocalData(
-      key: _documentsKey,
-      deleter: () async => _prefs.remove(_documentsKey),
-    );
+    await deleteLocalData(key: _profileKey, deleter: () async => _prefs.remove(_profileKey));
+    await deleteLocalData(key: _vehicleKey, deleter: () async => _prefs.remove(_vehicleKey));
+    await deleteLocalData(key: _documentsKey, deleter: () async => _prefs.remove(_documentsKey));
     return deleteLocalData(
       key: _verificationStatusKey,
       deleter: () async => _prefs.remove(_verificationStatusKey),

@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_reviews/domain/entities/driver_review.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/entities/driver_review.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for displaying a single review
@@ -27,9 +27,7 @@ class ReviewCard extends StatelessWidget {
                     backgroundImage: review.passengerAvatar != null
                         ? NetworkImage(review.passengerAvatar!)
                         : null,
-                    child: review.passengerAvatar == null
-                        ? Text(review.passengerName[0])
-                        : null,
+                    child: review.passengerAvatar == null ? Text(review.passengerName[0]) : null,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -38,16 +36,15 @@ class ReviewCard extends StatelessWidget {
                       children: [
                         Text(
                           review.passengerName,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         Row(
                           children: List.generate(
                             5,
                             (index) => Icon(
-                              index < review.rating
-                                  ? Icons.star
-                                  : Icons.star_border,
+                              index < review.rating ? Icons.star : Icons.star_border,
                               size: 16,
                               color: Colors.amber,
                             ),
@@ -58,28 +55,20 @@ class ReviewCard extends StatelessWidget {
                   ),
                   Text(
                     _formatDate(review.createdAt),
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
 
               // Comment
-              Text(
-                review.comment,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              Text(review.comment, style: Theme.of(context).textTheme.bodyMedium),
 
               // Trip details if available
               if (review.tripDetails != null) ...[
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(4),
@@ -89,10 +78,7 @@ class ReviewCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.directions_car, size: 16),
                       const SizedBox(width: 4),
-                      Text(
-                        review.tripDetails!,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
+                      Text(review.tripDetails!, style: Theme.of(context).textTheme.bodySmall),
                     ],
                   ),
                 ),
@@ -113,32 +99,25 @@ class ReviewCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Icon(
-                            Icons.reply,
-                            size: 16,
-                            color: Colors.green,
-                          ),
+                          const Icon(Icons.reply, size: 16, color: Colors.green),
                           const SizedBox(width: 4),
                           Text(
                             'Your Response',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green[700],
-                                ),
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green[700],
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        review.response!,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
+                      Text(review.response!, style: Theme.of(context).textTheme.bodySmall),
                       if (review.respondedAt != null)
                         Text(
                           _formatDate(review.respondedAt!),
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: Colors.grey[600], fontSize: 10),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(color: Colors.grey[600], fontSize: 10),
                         ),
                     ],
                   ),
@@ -153,9 +132,9 @@ class ReviewCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         'Pending Response',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.orange[700],
-                        ),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.orange[700]),
                       ),
                     ],
                   ),

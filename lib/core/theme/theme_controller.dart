@@ -1,7 +1,7 @@
 // lib/core/theme/theme_controller.dart
 import 'dart:convert';
 
-import 'package:flavorizr/core/theme/theme_settings.dart';
+import 'package:fast_golden_taxi/core/theme/theme_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,8 +19,9 @@ const String _themeSettingsKey = 'theme_settings';
 /// // Update settings
 /// ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.dark);
 /// ```
-final themeControllerProvider =
-    NotifierProvider<ThemeController, ThemeSettings>(ThemeController.new);
+final themeControllerProvider = NotifierProvider<ThemeController, ThemeSettings>(
+  ThemeController.new,
+);
 
 /// Controls theme settings with persistence.
 ///
@@ -135,9 +136,7 @@ final currentBrightnessProvider = Provider<Brightness>((ref) {
   final settings = ref.watch(themeControllerProvider);
   // This will be overridden by the actual platform brightness
   // when building the MaterialApp
-  return settings.themeMode == ThemeMode.dark
-      ? Brightness.dark
-      : Brightness.light;
+  return settings.themeMode == ThemeMode.dark ? Brightness.dark : Brightness.light;
 });
 
 /// Provider for whether dark mode is active.

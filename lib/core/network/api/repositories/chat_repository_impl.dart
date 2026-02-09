@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api/endpoints/chat_endpoints.dart';
-import 'package:flavorizr/core/network/api/models/api_chat.dart';
-import 'package:flavorizr/core/network/api/parameters/chat_parameters.dart';
-import 'package:flavorizr/core/network/api/repositories/chat_repository.dart';
-import 'package:flavorizr/core/network/api_response.dart';
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/api/endpoints/chat_endpoints.dart';
+import 'package:fast_golden_taxi/core/network/api/models/api_chat.dart';
+import 'package:fast_golden_taxi/core/network/api/parameters/chat_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/chat_repository.dart';
+import 'package:fast_golden_taxi/core/network/api_response.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
 
 /// Chat Repository Implementation
 /// Implements the chat repository interface using Dio for API calls
@@ -22,18 +22,13 @@ class ChatRepositoryImpl implements ChatRepository {
       final response = await _dio.get(
         ChatEndpoints.getChatByOrder,
         data: {'order_id': parameters.orderId},
-        queryParameters: {
-          'page': parameters.page,
-          'per_page': parameters.pageSize,
-        },
+        queryParameters: {'page': parameters.page, 'per_page': parameters.pageSize},
       );
 
       final apiResponse = ApiResponse<List<ApiChatMessage>>.fromJson(
         response.data,
         (json) => (json as List)
-            .map(
-              (item) => ApiChatMessage.fromJson(item as Map<String, dynamic>),
-            )
+            .map((item) => ApiChatMessage.fromJson(item as Map<String, dynamic>))
             .toList(),
       );
 
@@ -55,10 +50,7 @@ class ChatRepositoryImpl implements ChatRepository {
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'An unexpected error occurred: $e',
-          exception: e,
-        ),
+        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
       );
     }
   }
@@ -100,10 +92,7 @@ class ChatRepositoryImpl implements ChatRepository {
       );
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'An unexpected error occurred: $e',
-          exception: e,
-        ),
+        UnknownNetworkException(message: 'An unexpected error occurred: $e', exception: e),
       );
     }
   }

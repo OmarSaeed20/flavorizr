@@ -1,5 +1,5 @@
 // lib/features/auth/data/models/user_model.dart
-import 'package:flavorizr/features/user/auth/domain/entities/user.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user.dart';
 
 /// Data model for User, used for JSON serialization.
 ///
@@ -26,19 +26,11 @@ class UserModel {
     return UserModel(
       id: json['id'] as String? ?? json['uid'] as String,
       email: json['email'] as String,
-      displayName:
-          json['display_name'] as String? ?? json['displayName'] as String?,
+      displayName: json['display_name'] as String? ?? json['displayName'] as String?,
       photoUrl: json['photo_url'] as String? ?? json['photoUrl'] as String?,
-      phoneNumber:
-          json['phone_number'] as String? ?? json['phoneNumber'] as String?,
-      emailVerified:
-          json['email_verified'] as bool? ??
-          json['emailVerified'] as bool? ??
-          false,
-      phoneVerified:
-          json['phone_verified'] as bool? ??
-          json['phoneVerified'] as bool? ??
-          false,
+      phoneNumber: json['phone_number'] as String? ?? json['phoneNumber'] as String?,
+      emailVerified: json['email_verified'] as bool? ?? json['emailVerified'] as bool? ?? false,
+      phoneVerified: json['phone_verified'] as bool? ?? json['phoneVerified'] as bool? ?? false,
       isActive: json['is_active'] as bool? ?? json['isActive'] as bool? ?? true,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)

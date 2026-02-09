@@ -1,23 +1,22 @@
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/datasources/driver_settings_local_datasource.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/datasources/driver_settings_remote_datasource.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_language_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_notification_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_privacy_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/entities/driver_settings.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/repositories/driver_settings_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/datasources/driver_settings_local_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/datasources/driver_settings_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_language_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_notification_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_privacy_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/entities/driver_settings.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/repositories/driver_settings_repository.dart';
 
 /// Implementation of [DriverSettingsRepository].
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Provides offline capability with local caching.
 /// Based on the FAST App API documentation.
-class DriverSettingsRepositoryImpl extends BaseRepository
-    implements DriverSettingsRepository {
+class DriverSettingsRepositoryImpl extends BaseRepository implements DriverSettingsRepository {
   final DriverSettingsRemoteDataSource _remoteDataSource;
   final DriverSettingsLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
@@ -50,10 +49,7 @@ class DriverSettingsRepositoryImpl extends BaseRepository
       success: (data, e) {
         if (data == null) {
           return ApiResult.exception(
-            e ??
-                const UnknownNetworkException(
-                  message: 'No cached driver settings found',
-                ),
+            e ?? const UnknownNetworkException(message: 'No cached driver settings found'),
           );
         }
         return ApiResult.success(data);
@@ -99,9 +95,7 @@ class DriverSettingsRepositoryImpl extends BaseRepository
   }
 
   @override
-  Future<ApiResult<DriverSettings>> updateLanguage(
-    UpdateLanguageParameters parameters,
-  ) async {
+  Future<ApiResult<DriverSettings>> updateLanguage(UpdateLanguageParameters parameters) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.updateLanguage(parameters),
     );
@@ -118,9 +112,7 @@ class DriverSettingsRepositoryImpl extends BaseRepository
   }
 
   @override
-  Future<ApiResult<DriverSettings>> updatePrivacy(
-    UpdatePrivacyParameters parameters,
-  ) async {
+  Future<ApiResult<DriverSettings>> updatePrivacy(UpdatePrivacyParameters parameters) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.updatePrivacy(parameters),
     );
@@ -137,9 +129,7 @@ class DriverSettingsRepositoryImpl extends BaseRepository
 
   @override
   Future<ApiResult<void>> deleteAccount() async {
-    final result = await executeRemoteRequest(
-      request: _remoteDataSource.deleteAccount,
-    );
+    final result = await executeRemoteRequest(request: _remoteDataSource.deleteAccount);
 
     return result.when(
       success: (_, __) async {

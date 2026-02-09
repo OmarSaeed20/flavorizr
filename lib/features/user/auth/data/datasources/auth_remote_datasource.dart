@@ -1,20 +1,20 @@
 // lib/features/auth/data/datasources/auth_remote_datasource.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api_client.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/auth/data/endpoints/auth_endpoints.dart';
-import 'package:flavorizr/features/user/auth/data/models/user_model.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/forget_password_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/login_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/logout_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/refresh_token_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/register_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/reset_password_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/send_verification_code_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/verify_phone_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/auth_result.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/auth_tokens.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/endpoints/auth_endpoints.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/forget_password_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/login_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/logout_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/refresh_token_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/register_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/reset_password_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_verification_code_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_phone_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_tokens.dart';
 
 /// Remote data source for authentication operations.
 ///
@@ -32,9 +32,7 @@ abstract class AuthRemoteDataSource {
   Future<ApiResult<void>> logout(LogoutParameters parameters);
 
   /// Sends verification code to user's phone.
-  Future<ApiResult<void>> sendVerificationCode(
-    SendVerificationCodeParameters parameters,
-  );
+  Future<ApiResult<void>> sendVerificationCode(SendVerificationCodeParameters parameters);
 
   /// Verifies user phone number with verification code.
   Future<ApiResult<AuthResult>> verifyPhone(VerifyPhoneParameters parameters);
@@ -56,9 +54,7 @@ abstract class AuthRemoteDataSource {
 }
 
 /// Implementation of [AuthRemoteDataSource] using BaseRemoteDataSource.
-class AuthRemoteDataSourceImpl
-    with BaseRemoteDataSource
-    implements AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDataSource {
   const AuthRemoteDataSourceImpl(this._apiClient);
   final ApiClient _apiClient;
 
@@ -98,9 +94,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> sendVerificationCode(
-    SendVerificationCodeParameters parameters,
-  ) async {
+  Future<ApiResult<void>> sendVerificationCode(SendVerificationCodeParameters parameters) async {
     return post<void>(
       path: AuthEndpoints.sendVerificationCode,
       data: parameters.toJson(),
@@ -109,9 +103,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<AuthResult>> verifyPhone(
-    VerifyPhoneParameters parameters,
-  ) async {
+  Future<ApiResult<AuthResult>> verifyPhone(VerifyPhoneParameters parameters) async {
     return post<AuthResult>(
       path: AuthEndpoints.verifyPhone,
       data: parameters.toJson(),
@@ -121,9 +113,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> resetPassword(
-    ResetPasswordParameters parameters,
-  ) async {
+  Future<ApiResult<void>> resetPassword(ResetPasswordParameters parameters) async {
     return post<void>(
       path: AuthEndpoints.resetPassword,
       data: parameters.toJson(),
@@ -132,9 +122,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> forgetPassword(
-    ForgetPasswordParameters parameters,
-  ) async {
+  Future<ApiResult<void>> forgetPassword(ForgetPasswordParameters parameters) async {
     return post<void>(
       path: AuthEndpoints.forgetPassword,
       data: parameters.toJson(),
@@ -148,9 +136,7 @@ class AuthRemoteDataSourceImpl
       path: AuthEndpoints.profile,
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
-        return UserModel.fromJson(
-          jsonData['user'] as Map<String, dynamic>? ?? jsonData,
-        );
+        return UserModel.fromJson(jsonData['user'] as Map<String, dynamic>? ?? jsonData);
       },
     );
   }
@@ -162,9 +148,7 @@ class AuthRemoteDataSourceImpl
 
   /// Refresh authentication tokens
   @override
-  Future<ApiResult<AuthTokens>> refreshToken(
-    RefreshTokenParameters parameters,
-  ) async {
+  Future<ApiResult<AuthTokens>> refreshToken(RefreshTokenParameters parameters) async {
     return post<AuthTokens>(
       path: AuthEndpoints.refreshToken,
       data: parameters.toJson(),
@@ -187,11 +171,9 @@ class AuthRemoteDataSourceImpl
     final refreshExpiresIn = data['refresh_expires_in'] as int?;
 
     // Handle both 'token' and 'access_token' field names
-    final accessToken =
-        (data['access_token'] as String?) ?? (data['token'] as String?);
+    final accessToken = (data['access_token'] as String?) ?? (data['token'] as String?);
     // Handle both 'refreshToken' and 'refresh_token' field names
-    final refreshToken =
-        (data['refresh_token'] as String?) ?? (data['refreshToken'] as String?);
+    final refreshToken = (data['refresh_token'] as String?) ?? (data['refreshToken'] as String?);
 
     return AuthTokens(
       accessToken: accessToken ?? '',

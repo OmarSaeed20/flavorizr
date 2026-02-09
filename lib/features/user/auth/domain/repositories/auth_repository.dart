@@ -1,5 +1,5 @@
 // lib/features/auth/domain/repositories/auth_repository.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart'
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart'
     show
         ConflictException,
         NoInternetException,
@@ -7,22 +7,22 @@ import 'package:flavorizr/core/network/exception/network_exceptions.dart'
         ServerException,
         UnauthorizedException,
         ValidationException;
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/change_password_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/logout_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/register_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/reset_password_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/save_biometric_credentials_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/send_magic_link_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/send_otp_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/send_password_reset_email_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/sign_in_with_magic_link_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/sign_in_with_otp_parameters.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/verify_email_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/auth_result.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/auth_tokens.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/user.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/change_password_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/logout_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/register_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/reset_password_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/save_biometric_credentials_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_magic_link_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_otp_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_password_reset_email_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_magic_link_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_otp_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_email_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_tokens.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user.dart';
 
 /// Type alias for ApiResult-based result handling.
 typedef AuthEither<T> = Future<ApiResult<T>>;
@@ -74,9 +74,7 @@ abstract class AuthRepository {
   /// Signs in with magic link (passwordless).
   ///
   /// User clicks a link in their email to authenticate.
-  AuthEither<AuthResult> signInWithMagicLink(
-    SignInWithMagicLinkParameters parameters,
-  );
+  AuthEither<AuthResult> signInWithMagicLink(SignInWithMagicLinkParameters parameters);
 
   // ==================== Registration ====================
 
@@ -97,9 +95,7 @@ abstract class AuthRepository {
   /// Possible failures:
   /// - [NotFoundException] - Email not registered
   /// - [NoInternetException] - No internet connection
-  AuthEither<void> sendPasswordResetEmail(
-    SendPasswordResetEmailParameters parameters,
-  );
+  AuthEither<void> sendPasswordResetEmail(SendPasswordResetEmailParameters parameters);
 
   /// Resets the password using a reset token.
   AuthEither<void> resetPassword(ResetPasswordParameters parameters);
@@ -159,9 +155,7 @@ abstract class AuthRepository {
   /// Enables biometric authentication.
   ///
   /// Stores credentials securely for biometric unlock.
-  AuthEither<void> enableBiometric(
-    SaveBiometricCredentialsParameters parameters,
-  );
+  AuthEither<void> enableBiometric(SaveBiometricCredentialsParameters parameters);
 
   /// Disables biometric authentication.
   AuthEither<void> disableBiometric();

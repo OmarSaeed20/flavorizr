@@ -1,5 +1,5 @@
-import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
-import 'package:flavorizr/core/ui/responsive/src/responsive_context.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/device_info.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/responsive_context.dart';
 import 'package:flutter/material.dart';
 
 /// A responsive value that changes based on device type or screen size
@@ -27,11 +27,7 @@ class ResponsiveValue<T> {
   /// Resolve the value based on the current context
   T resolve(BuildContext context) {
     final responsive = ResponsiveContext(context);
-    return responsive.byDevice(
-      mobile: mobile,
-      tablet: tablet,
-      desktop: desktop,
-    );
+    return responsive.byDevice(mobile: mobile, tablet: tablet, desktop: desktop);
   }
 
   /// Resolve using DeviceInfo directly
@@ -85,10 +81,7 @@ class OrientationResponsiveValue<T> {
   final T portrait;
   final T landscape;
 
-  const OrientationResponsiveValue({
-    required this.portrait,
-    required this.landscape,
-  });
+  const OrientationResponsiveValue({required this.portrait, required this.landscape});
 
   /// Resolve the value based on the current context
   T resolve(BuildContext context) {
@@ -158,12 +151,7 @@ extension ResponsiveValueExtension<T> on T {
   }
 
   /// Create a window responsive value with this as the compact value
-  WindowResponsiveValue<T> windowResponsive({
-    T? medium,
-    T? expanded,
-    T? large,
-    T? extraLarge,
-  }) {
+  WindowResponsiveValue<T> windowResponsive({T? medium, T? expanded, T? large, T? extraLarge}) {
     return WindowResponsiveValue<T>(
       compact: this,
       medium: medium,

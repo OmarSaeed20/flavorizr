@@ -1,14 +1,14 @@
 // lib/features/trip/presentation/providers/trip_providers.dart
-import 'package:flavorizr/core/di/providers.dart';
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
-import 'package:flavorizr/features/user/trip/data/datasources/trip_local_datasource.dart';
-import 'package:flavorizr/features/user/trip/data/datasources/trip_remote_datasource.dart';
-import 'package:flavorizr/features/user/trip/data/repositories/trip_repository_impl.dart';
-import 'package:flavorizr/features/user/trip/domain/repositories/trip_repository.dart';
-import 'package:flavorizr/features/user/trip/domain/usecases/trip_usecases.dart';
-import 'package:flavorizr/features/user/trip/presentation/controllers/trip_controller.dart';
-import 'package:flavorizr/features/user/trip/presentation/controllers/trip_history_controller.dart';
-import 'package:flavorizr/features/user/trip/presentation/controllers/trip_order_controller.dart';
+import 'package:fast_golden_taxi/core/di/providers.dart';
+import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/datasources/trip_local_datasource.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/datasources/trip_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/repositories/trip_repository_impl.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/repositories/trip_repository.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/usecases/trip_usecases.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/controllers/trip_controller.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/controllers/trip_history_controller.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/controllers/trip_order_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ==================== Data Sources ====================
@@ -55,11 +55,10 @@ final getTripDetailUseCaseProvider = Provider<GetTripDetailUseCase>((ref) {
 });
 
 /// Provider for GetCaptainTripDetailUseCase.
-final getCaptainTripDetailUseCaseProvider =
-    Provider<GetCaptainTripDetailUseCase>((ref) {
-      final repository = ref.watch(tripRepositoryProvider);
-      return GetCaptainTripDetailUseCase(repository);
-    });
+final getCaptainTripDetailUseCaseProvider = Provider<GetCaptainTripDetailUseCase>((ref) {
+  final repository = ref.watch(tripRepositoryProvider);
+  return GetCaptainTripDetailUseCase(repository);
+});
 
 /// Provider for GetTripHistoryUseCase.
 final getTripHistoryUseCaseProvider = Provider<GetTripHistoryUseCase>((ref) {
@@ -68,11 +67,10 @@ final getTripHistoryUseCaseProvider = Provider<GetTripHistoryUseCase>((ref) {
 });
 
 /// Provider for GetAvailablePublicTripsUseCase.
-final getAvailablePublicTripsUseCaseProvider =
-    Provider<GetAvailablePublicTripsUseCase>((ref) {
-      final repository = ref.watch(tripRepositoryProvider);
-      return GetAvailablePublicTripsUseCase(repository);
-    });
+final getAvailablePublicTripsUseCaseProvider = Provider<GetAvailablePublicTripsUseCase>((ref) {
+  final repository = ref.watch(tripRepositoryProvider);
+  return GetAvailablePublicTripsUseCase(repository);
+});
 
 /// Provider for StorePublicTripUseCase.
 final storePublicTripUseCaseProvider = Provider<StorePublicTripUseCase>((ref) {
@@ -81,9 +79,7 @@ final storePublicTripUseCaseProvider = Provider<StorePublicTripUseCase>((ref) {
 });
 
 /// Provider for StorePrivateTripUseCase.
-final storePrivateTripUseCaseProvider = Provider<StorePrivateTripUseCase>((
-  ref,
-) {
+final storePrivateTripUseCaseProvider = Provider<StorePrivateTripUseCase>((ref) {
   final repository = ref.watch(tripRepositoryProvider);
   return StorePrivateTripUseCase(repository);
 });
@@ -133,17 +129,14 @@ final getMyOrdersUseCaseProvider = Provider<GetMyOrdersUseCase>((ref) {
 // ==================== Controllers ====================
 
 /// Provider for TripController.
-final tripControllerProvider =
-    AutoDisposeNotifierProvider<TripController, TripState>(TripController.new);
+final tripControllerProvider = AutoDisposeNotifierProvider<TripController, TripState>(
+  TripController.new,
+);
 
 /// Provider for TripHistoryController.
 final tripHistoryControllerProvider =
-    AutoDisposeNotifierProvider<TripHistoryController, TripHistoryState>(
-      TripHistoryController.new,
-    );
+    AutoDisposeNotifierProvider<TripHistoryController, TripHistoryState>(TripHistoryController.new);
 
 /// Provider for TripOrderController.
 final tripOrderControllerProvider =
-    AutoDisposeNotifierProvider<TripOrderController, TripOrderState>(
-      TripOrderController.new,
-    );
+    AutoDisposeNotifierProvider<TripOrderController, TripOrderState>(TripOrderController.new);

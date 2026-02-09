@@ -21,7 +21,7 @@
 /// ```
 library;
 
-import 'package:flavorizr/core/network/websocket/websocket.dart'
+import 'package:fast_golden_taxi/core/network/websocket/websocket.dart'
     show WebSocketClient, WebSocketEventHandler, WebSocketManager;
 
 export 'websocket_client.dart';

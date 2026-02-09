@@ -1,14 +1,13 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_reviews/domain/entities/driver_review.dart';
-import 'package:flavorizr/features/driver/driver_reviews/domain/usecases/get_driver_reviews.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/entities/driver_review.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/usecases/get_driver_reviews.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Controller for driver reviews
 class DriverReviewsController extends StateNotifier<DriverReviewsState> {
   final GetDriverReviews getDriverReviews;
 
-  DriverReviewsController({required this.getDriverReviews})
-    : super(DriverReviewsState.initial());
+  DriverReviewsController({required this.getDriverReviews}) : super(DriverReviewsState.initial());
 
   /// Load reviews for a driver
   Future<void> loadReviews({
@@ -22,12 +21,7 @@ class DriverReviewsController extends StateNotifier<DriverReviewsState> {
     bool refresh = false,
   }) async {
     if (refresh) {
-      state = state.copyWith(
-        isLoading: true,
-        reviews: [],
-        currentPage: 1,
-        hasMore: true,
-      );
+      state = state.copyWith(isLoading: true, reviews: [], currentPage: 1, hasMore: true);
     } else if (state.isLoading) {
       return;
     }

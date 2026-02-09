@@ -1,13 +1,13 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/direct_booking/data/parameters/create_booking_parameters.dart';
-import 'package:flavorizr/features/user/direct_booking/data/parameters/get_nearby_drivers_parameters.dart';
-import 'package:flavorizr/features/user/direct_booking/domain/entities/booking_response.dart';
-import 'package:flavorizr/features/user/direct_booking/domain/entities/driver.dart';
-import 'package:flavorizr/features/user/direct_booking/domain/entities/vehicle_type.dart';
-import 'package:flavorizr/features/user/direct_booking/domain/usecases/cancel_booking_usecase.dart';
-import 'package:flavorizr/features/user/direct_booking/domain/usecases/create_booking_usecase.dart';
-import 'package:flavorizr/features/user/direct_booking/domain/usecases/get_nearby_drivers_usecase.dart';
-import 'package:flavorizr/features/user/direct_booking/domain/usecases/get_vehicle_types_usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/create_booking_parameters.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/get_nearby_drivers_parameters.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/entities/booking_response.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/entities/driver.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/entities/vehicle_type.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/usecases/cancel_booking_usecase.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/usecases/create_booking_usecase.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/usecases/get_nearby_drivers_usecase.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/domain/usecases/get_vehicle_types_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for direct booking operations.
@@ -53,8 +53,7 @@ class DirectBookingState {
           ? null
           : (currentBooking ?? this.currentBooking),
       selectedVehicleType: selectedVehicleType ?? this.selectedVehicleType,
-      isLoadingVehicleTypes:
-          isLoadingVehicleTypes ?? this.isLoadingVehicleTypes,
+      isLoadingVehicleTypes: isLoadingVehicleTypes ?? this.isLoadingVehicleTypes,
       isLoadingDrivers: isLoadingDrivers ?? this.isLoadingDrivers,
       isCreatingBooking: isCreatingBooking ?? this.isCreatingBooking,
       isCancellingBooking: isCancellingBooking ?? this.isCancellingBooking,
@@ -85,16 +84,10 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(
-          vehicleTypes: data,
-          isLoadingVehicleTypes: false,
-        );
+        state = state.copyWith(vehicleTypes: data, isLoadingVehicleTypes: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isLoadingVehicleTypes: false,
-          error: error.message,
-        );
+        state = state.copyWith(isLoadingVehicleTypes: false, error: error.message);
       },
     );
   }
@@ -178,10 +171,7 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
         state = state.copyWith(isCancellingBooking: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isCancellingBooking: false,
-          error: error.message,
-        );
+        state = state.copyWith(isCancellingBooking: false, error: error.message);
       },
     );
   }

@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/general_select/domain/entities/select_option.dart';
+import 'package:fast_golden_taxi/features/general_select/domain/entities/select_option.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for displaying a single select option.
@@ -21,9 +21,7 @@ class SelectOptionItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         decoration: BoxDecoration(
-          color: isSelected
-              ? Theme.of(context).primaryColor.withOpacity(0.1)
-              : Colors.transparent,
+          color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
           border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
         ),
         child: Row(
@@ -57,9 +55,7 @@ class SelectOptionItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: option.isEnabled
-                          ? Colors.black87
-                          : Colors.grey[400],
+                      color: option.isEnabled ? Colors.black87 : Colors.grey[400],
                     ),
                   ),
                   if (option.description != null) ...[
@@ -68,17 +64,14 @@ class SelectOptionItem extends StatelessWidget {
                       option.description!,
                       style: TextStyle(
                         fontSize: 14,
-                        color: option.isEnabled
-                            ? Colors.grey[600]
-                            : Colors.grey[400],
+                        color: option.isEnabled ? Colors.grey[600] : Colors.grey[400],
                       ),
                     ),
                   ],
                 ],
               ),
             ),
-            if (isSelected)
-              Icon(Icons.check_circle, color: Theme.of(context).primaryColor),
+            if (isSelected) Icon(Icons.check_circle, color: Theme.of(context).primaryColor),
           ],
         ),
       ),

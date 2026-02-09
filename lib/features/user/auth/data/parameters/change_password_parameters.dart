@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Change Password API parameters with builder pattern
 /// Used for changing current user's password
@@ -23,8 +23,7 @@ class ChangePasswordParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
-  static ChangePasswordParametersBuilder builder() =>
-      ChangePasswordParametersBuilder();
+  static ChangePasswordParametersBuilder builder() => ChangePasswordParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -36,8 +35,7 @@ class ChangePasswordParameters extends Parameters {
   }
 
   @override
-  int get hashCode =>
-      currentPassword.hashCode ^ newPassword.hashCode ^ cancelToken.hashCode;
+  int get hashCode => currentPassword.hashCode ^ newPassword.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -45,8 +43,7 @@ class ChangePasswordParameters extends Parameters {
 }
 
 /// Builder for ChangePasswordParameters
-class ChangePasswordParametersBuilder
-    extends ParametersBuilder<ChangePasswordParameters> {
+class ChangePasswordParametersBuilder extends ParametersBuilder<ChangePasswordParameters> {
   String? _currentPassword;
   String? _newPassword;
   CancelToken? _cancelToken;

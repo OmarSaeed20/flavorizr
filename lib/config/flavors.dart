@@ -16,9 +16,9 @@ class F {
   static String get name => appFlavor.name;
 
   static String get title => switch (appFlavor) {
-    Flavor.dev => 'Flavorizr Dev',
-    Flavor.staging => 'Flavorizr Staging',
-    Flavor.prod => 'Flavorizr',
+    Flavor.dev => 'Fast Golden Taxi Dev',
+    Flavor.staging => 'Fast Golden Taxi Staging',
+    Flavor.prod => 'Fast Golden Taxi',
   };
 }
 
@@ -50,23 +50,23 @@ extension FlavorExtension on Flavor {
   /// Returns the app name suffix for the flavor.
   /// Used to distinguish different flavor installations on a device.
   String get appNameSuffix => switch (this) {
-    Flavor.dev => ' (Dev)',
-    Flavor.staging => ' (Staging)',
+    Flavor.dev => ' Dev',
+    Flavor.staging => ' Staging',
     Flavor.prod => '',
   };
 
   /// Returns the base URL for API requests.
   String get baseUrl => switch (this) {
-    Flavor.dev => 'https://dev-api.example.com',
-    Flavor.staging => 'https://staging-api.example.com',
-    Flavor.prod => 'https://api.example.com',
+    Flavor.dev => 'https://fasttaxi.questifysolutions.com/api/v1',
+    Flavor.staging => 'https://fasttaxi.questifysolutions.com/api/v1',
+    Flavor.prod => 'https://fasttaxi.questifysolutions.com/api/v1',
   };
 
   /// Returns the WebSocket URL for real-time communication.
   String get wsUrl => switch (this) {
-    Flavor.dev => 'wss://dev-ws.example.com',
-    Flavor.staging => 'wss://staging-ws.example.com',
-    Flavor.prod => 'wss://ws.example.com',
+    Flavor.dev => 'wss://fasttaxi.questifysolutions.com/ws',
+    Flavor.staging => 'wss://fasttaxi.questifysolutions.com/ws',
+    Flavor.prod => 'wss://fasttaxi.questifysolutions.com/ws',
   };
 
   /// Returns whether verbose logging should be enabled.

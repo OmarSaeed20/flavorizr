@@ -1,7 +1,7 @@
 // lib/core/theme/theme_settings.dart
-import 'package:flavorizr/core/core.dart' show AppColorSchemes;
-import 'package:flavorizr/core/theme/color_schemes.dart' show AppColorSchemes;
-import 'package:flavorizr/core/theme/theme.dart' show AppColorSchemes;
+import 'package:fast_golden_taxi/core/core.dart' show AppColorSchemes;
+import 'package:fast_golden_taxi/core/theme/color_schemes.dart' show AppColorSchemes;
+import 'package:fast_golden_taxi/core/theme/theme.dart' show AppColorSchemes;
 import 'package:flutter/material.dart';
 
 /// User's theme preferences that are persisted locally.

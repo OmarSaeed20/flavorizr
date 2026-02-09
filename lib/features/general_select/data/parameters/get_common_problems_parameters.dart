@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting common problems.
@@ -9,8 +9,7 @@ import 'package:meta/meta.dart';
 class GetCommonProblemsParameters extends Parameters {
   final CancelToken? _cancelToken;
 
-  const GetCommonProblemsParameters._({CancelToken? cancelToken})
-    : _cancelToken = cancelToken;
+  const GetCommonProblemsParameters._({CancelToken? cancelToken}) : _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -22,13 +21,11 @@ class GetCommonProblemsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetCommonProblemsParametersBuilder builder() =>
-      GetCommonProblemsParametersBuilder();
+  static GetCommonProblemsParametersBuilder builder() => GetCommonProblemsParametersBuilder();
 }
 
 /// Builder for GetCommonProblemsParameters
-class GetCommonProblemsParametersBuilder
-    extends ParametersBuilder<GetCommonProblemsParameters> {
+class GetCommonProblemsParametersBuilder extends ParametersBuilder<GetCommonProblemsParameters> {
   CancelToken? _cancelToken;
 
   /// Set the cancel token for request cancellation

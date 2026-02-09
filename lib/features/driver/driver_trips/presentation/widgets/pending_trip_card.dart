@@ -1,5 +1,5 @@
-import 'package:flavorizr/features/driver/driver_trips/domain/entities/driver_trip.dart';
-import 'package:flavorizr/features/driver/driver_trips/presentation/providers/driver_trips_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/entities/driver_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/providers/driver_trips_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,10 +39,7 @@ class PendingTripCard extends ConsumerWidget {
                     children: [
                       Text(
                         trip.passengerName,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Text(
                         trip.passengerPhone,
@@ -52,10 +49,7 @@ class PendingTripCard extends ConsumerWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.orange.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(20),
@@ -90,17 +84,11 @@ class PendingTripCard extends ConsumerWidget {
                   label: '${trip.route.distance.toStringAsFixed(1)} km',
                 ),
                 const SizedBox(width: 16),
-                _TripDetail(
-                  icon: Icons.access_time,
-                  label: '${trip.route.duration.toInt()} min',
-                ),
+                _TripDetail(icon: Icons.access_time, label: '${trip.route.duration.toInt()} min'),
                 const SizedBox(width: 16),
                 _TripDetail(icon: Icons.payment, label: trip.paymentMethod),
                 const SizedBox(width: 16),
-                _TripDetail(
-                  icon: Icons.people,
-                  label: '${trip.passengerCount} passenger(s)',
-                ),
+                _TripDetail(icon: Icons.people, label: '${trip.passengerCount} passenger(s)'),
               ],
             ),
             const SizedBox(height: 16),
@@ -112,10 +100,7 @@ class PendingTripCard extends ConsumerWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Estimated Fare',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    ),
+                    Text('Estimated Fare', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
                     Text(
                       '\$${trip.estimatedFare.toStringAsFixed(2)}',
                       style: const TextStyle(
@@ -126,16 +111,12 @@ class PendingTripCard extends ConsumerWidget {
                     ),
                   ],
                 ),
-                Text(
-                  trip.vehicleType,
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                ),
+                Text(trip.vehicleType, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
               ],
             ),
 
             // Special requests
-            if (trip.specialRequests != null &&
-                trip.specialRequests!.isNotEmpty) ...[
+            if (trip.specialRequests != null && trip.specialRequests!.isNotEmpty) ...[
               const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.all(8),
@@ -145,19 +126,12 @@ class PendingTripCard extends ConsumerWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(
-                      Icons.info_outline,
-                      size: 16,
-                      color: Colors.blue,
-                    ),
+                    const Icon(Icons.info_outline, size: 16, color: Colors.blue),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         trip.specialRequests!,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.blue,
-                        ),
+                        style: const TextStyle(fontSize: 12, color: Colors.blue),
                       ),
                     ),
                   ],
@@ -231,10 +205,7 @@ class PendingTripCard extends ConsumerWidget {
           maxLines: 3,
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, controller.text),
             style: ElevatedButton.styleFrom(
@@ -271,15 +242,10 @@ class _RouteInfo extends StatelessWidget {
             Container(
               width: 12,
               height: 12,
-              decoration: const BoxDecoration(
-                color: Colors.green,
-                shape: BoxShape.circle,
-              ),
+              decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
             ),
             const SizedBox(width: 8),
-            Expanded(
-              child: Text(pickupLocation, style: const TextStyle(fontSize: 14)),
-            ),
+            Expanded(child: Text(pickupLocation, style: const TextStyle(fontSize: 14))),
           ],
         ),
         Padding(
@@ -294,18 +260,10 @@ class _RouteInfo extends StatelessWidget {
             Container(
               width: 12,
               height: 12,
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
+              decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
             ),
             const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                dropoffLocation,
-                style: const TextStyle(fontSize: 14),
-              ),
-            ),
+            Expanded(child: Text(dropoffLocation, style: const TextStyle(fontSize: 14))),
           ],
         ),
       ],

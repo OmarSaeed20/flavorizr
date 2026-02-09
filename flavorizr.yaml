@@ -2,47 +2,47 @@ app:
   android:
     flavorDimensions: "flavor-type"
   ios:
-    bundleId: com.example.flavorizr
+    bundleId: com.questifysolutions.fastgoldentaxi
 
 flavors:
   dev:
     app:
-      name: "Flavorizr Dev"
+      name: "Fast Golden Taxi Dev"
     android:
-      applicationId: "com.example.flavorizr.dev"
+      applicationId: "com.questifysolutions.fastgoldentaxi.dev"
       resValues:
         app_name:
           type: "string"
-          value: "Flavorizr Dev"
+          value: "Fast Golden Taxi Dev"
     ios:
-      bundleId: "com.example.flavorizr.dev"
+      bundleId: "com.questifysolutions.fastgoldentaxi.dev"
       buildSettings:
-        PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr.dev"
+        PRODUCT_BUNDLE_IDENTIFIER: "com.questifysolutions.fastgoldentaxi.dev"
 
   staging:
     app:
-      name: "Flavorizr Staging"
+      name: "Fast Golden Taxi Staging"
     android:
-      applicationId: "com.example.flavorizr.staging"
+      applicationId: "com.questifysolutions.fastgoldentaxi.staging"
       resValues:
         app_name:
           type: "string"
-          value: "Flavorizr Staging"
+          value: "Fast Golden Taxi Staging"
     ios:
-      bundleId: "com.example.flavorizr.staging"
+      bundleId: "com.questifysolutions.fastgoldentaxi.staging"
       buildSettings:
-        PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr.staging"
+        PRODUCT_BUNDLE_IDENTIFIER: "com.questifysolutions.fastgoldentaxi.staging"
 
   prod:
     app:
-      name: "Flavorizr"
+      name: "Fast Golden Taxi"
     android:
-      applicationId: "com.example.flavorizr"
+      applicationId: "com.questifysolutions.fastgoldentaxi"
       resValues:
         app_name:
           type: "string"
-          value: "Flavorizr"
+          value: "Fast Golden Taxi"
     ios:
-      bundleId: "com.example.flavorizr"
+      bundleId: "com.questifysolutions.fastgoldentaxi"
       buildSettings:
-        PRODUCT_BUNDLE_IDENTIFIER: "com.example.flavorizr"
+        PRODUCT_BUNDLE_IDENTIFIER: "com.questifysolutions.fastgoldentaxi"

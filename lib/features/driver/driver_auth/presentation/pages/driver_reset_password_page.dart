@@ -1,6 +1,6 @@
-import 'package:flavorizr/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
-import 'package:flavorizr/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,12 +9,10 @@ class DriverResetPasswordPage extends ConsumerStatefulWidget {
   const DriverResetPasswordPage({super.key});
 
   @override
-  ConsumerState<DriverResetPasswordPage> createState() =>
-      _DriverResetPasswordPageState();
+  ConsumerState<DriverResetPasswordPage> createState() => _DriverResetPasswordPageState();
 }
 
-class _DriverResetPasswordPageState
-    extends ConsumerState<DriverResetPasswordPage> {
+class _DriverResetPasswordPageState extends ConsumerState<DriverResetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _otpController = TextEditingController();
@@ -72,10 +70,7 @@ class _DriverResetPasswordPageState
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                DriverPhoneInput(
-                  controller: _phoneController,
-                  enabled: !state.isLoading,
-                ),
+                DriverPhoneInput(controller: _phoneController, enabled: !state.isLoading),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _otpController,

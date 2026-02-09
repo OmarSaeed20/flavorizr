@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting about us information.
@@ -9,8 +9,7 @@ import 'package:meta/meta.dart';
 class GetAboutUsParameters extends Parameters {
   final CancelToken? _cancelToken;
 
-  const GetAboutUsParameters._({CancelToken? cancelToken})
-    : _cancelToken = cancelToken;
+  const GetAboutUsParameters._({CancelToken? cancelToken}) : _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -26,8 +25,7 @@ class GetAboutUsParameters extends Parameters {
 }
 
 /// Builder for GetAboutUsParameters
-class GetAboutUsParametersBuilder
-    extends ParametersBuilder<GetAboutUsParameters> {
+class GetAboutUsParametersBuilder extends ParametersBuilder<GetAboutUsParameters> {
   CancelToken? _cancelToken;
 
   /// Set the cancel token for request cancellation

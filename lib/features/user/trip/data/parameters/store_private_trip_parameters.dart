@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/store_private_trip_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for creating a private trip.
@@ -60,13 +60,11 @@ class StorePrivateTripParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static StorePrivateTripParametersBuilder builder() =>
-      StorePrivateTripParametersBuilder();
+  static StorePrivateTripParametersBuilder builder() => StorePrivateTripParametersBuilder();
 }
 
 /// Builder for StorePrivateTripParameters.
-class StorePrivateTripParametersBuilder
-    extends ParametersBuilder<StorePrivateTripParameters> {
+class StorePrivateTripParametersBuilder extends ParametersBuilder<StorePrivateTripParameters> {
   String? _pickUpLongitude;
   String? _pickUpLatitude;
   String? _destinationLongitude;
@@ -83,19 +81,13 @@ class StorePrivateTripParametersBuilder
   String? _dropUpTime;
   CancelToken? _cancelToken;
 
-  StorePrivateTripParametersBuilder withPickUpLocation(
-    String longitude,
-    String latitude,
-  ) {
+  StorePrivateTripParametersBuilder withPickUpLocation(String longitude, String latitude) {
     _pickUpLongitude = longitude;
     _pickUpLatitude = latitude;
     return this;
   }
 
-  StorePrivateTripParametersBuilder withDestinationLocation(
-    String longitude,
-    String latitude,
-  ) {
+  StorePrivateTripParametersBuilder withDestinationLocation(String longitude, String latitude) {
     _destinationLongitude = longitude;
     _destinationLatitude = latitude;
     return this;
@@ -106,9 +98,7 @@ class StorePrivateTripParametersBuilder
     return this;
   }
 
-  StorePrivateTripParametersBuilder withDestinationName(
-    String destinationName,
-  ) {
+  StorePrivateTripParametersBuilder withDestinationName(String destinationName) {
     _destinationName = destinationName;
     return this;
   }
@@ -133,9 +123,7 @@ class StorePrivateTripParametersBuilder
     return this;
   }
 
-  StorePrivateTripParametersBuilder withAppointmentType(
-    String appointmentType,
-  ) {
+  StorePrivateTripParametersBuilder withAppointmentType(String appointmentType) {
     _appointmentType = appointmentType;
     return this;
   }

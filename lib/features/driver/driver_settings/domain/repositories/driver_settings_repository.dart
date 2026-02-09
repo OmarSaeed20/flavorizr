@@ -1,9 +1,9 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_language_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_notification_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/parameters/update_privacy_parameters.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/entities/driver_settings.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_language_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_notification_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_privacy_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/entities/driver_settings.dart';
 
 /// Repository interface for driver settings operations.
 ///
@@ -15,27 +15,19 @@ abstract class DriverSettingsRepository {
 
   /// Update driver settings.
   /// Endpoint: POST /driver/settings/update
-  Future<ApiResult<DriverSettings>> updateSettings(
-    UpdateDriverSettingsParameters parameters,
-  );
+  Future<ApiResult<DriverSettings>> updateSettings(UpdateDriverSettingsParameters parameters);
 
   /// Update driver notification preferences.
   /// Endpoint: POST /driver/settings/notifications
-  Future<ApiResult<DriverSettings>> updateNotifications(
-    UpdateNotificationParameters parameters,
-  );
+  Future<ApiResult<DriverSettings>> updateNotifications(UpdateNotificationParameters parameters);
 
   /// Update driver language preference.
   /// Endpoint: POST /driver/settings/language
-  Future<ApiResult<DriverSettings>> updateLanguage(
-    UpdateLanguageParameters parameters,
-  );
+  Future<ApiResult<DriverSettings>> updateLanguage(UpdateLanguageParameters parameters);
 
   /// Update driver privacy settings.
   /// Endpoint: POST /driver/settings/privacy
-  Future<ApiResult<DriverSettings>> updatePrivacy(
-    UpdatePrivacyParameters parameters,
-  );
+  Future<ApiResult<DriverSettings>> updatePrivacy(UpdatePrivacyParameters parameters);
 
   /// Delete driver account.
   /// Endpoint: DELETE /driver/settings/account

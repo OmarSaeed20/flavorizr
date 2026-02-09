@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_home/data/models/driver_home_data_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/data/models/driver_home_data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for driver home data.
@@ -18,9 +18,7 @@ abstract class DriverHomeLocalDataSource {
 }
 
 /// Implementation of [DriverHomeLocalDataSource] using BaseLocalDataSource.
-class DriverHomeLocalDataSourceImpl
-    with BaseLocalDataSource
-    implements DriverHomeLocalDataSource {
+class DriverHomeLocalDataSourceImpl with BaseLocalDataSource implements DriverHomeLocalDataSource {
   const DriverHomeLocalDataSourceImpl(this._preferences);
   final SharedPreferences _preferences;
 

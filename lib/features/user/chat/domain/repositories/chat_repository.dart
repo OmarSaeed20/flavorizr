@@ -1,8 +1,8 @@
 // lib/features/chat/domain/repositories/chat_repository.dart
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/chat/domain/entities/conversation.dart';
-import 'package:flavorizr/features/user/chat/domain/entities/message.dart';
-import 'package:flavorizr/features/user/chat/domain/entities/typing_indicator.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/conversation.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/message.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/typing_indicator.dart';
 
 /// Result type for paginated data.
 class PaginatedResult<T> {
@@ -57,9 +57,7 @@ abstract class ChatRepository {
   /// Creates a new direct conversation with another user.
   ///
   /// Returns existing conversation if one already exists.
-  Future<ApiResult<Conversation>> createDirectConversation({
-    required String otherUserId,
-  });
+  Future<ApiResult<Conversation>> createDirectConversation({required String otherUserId});
 
   /// Creates a new group conversation.
   Future<ApiResult<Conversation>> createGroupConversation({
@@ -103,10 +101,7 @@ abstract class ChatRepository {
   });
 
   /// Pins/unpins a conversation.
-  Future<ApiResult<void>> pinConversation({
-    required String conversationId,
-    required bool pin,
-  });
+  Future<ApiResult<void>> pinConversation({required String conversationId, required bool pin});
 
   /// Archives/unarchives a conversation.
   Future<ApiResult<void>> archiveConversation({
@@ -164,44 +159,26 @@ abstract class ChatRepository {
   });
 
   /// Edits a message.
-  Future<ApiResult<Message>> editMessage({
-    required String messageId,
-    required String content,
-  });
+  Future<ApiResult<Message>> editMessage({required String messageId, required String content});
 
   /// Deletes a message.
   ///
   /// [forEveryone] - If true, deletes for all users.
-  Future<ApiResult<void>> deleteMessage({
-    required String messageId,
-    bool forEveryone = false,
-  });
+  Future<ApiResult<void>> deleteMessage({required String messageId, bool forEveryone = false});
 
   /// Marks messages as read.
   ///
   /// [upToMessageId] - Mark all messages up to this ID as read.
-  Future<ApiResult<void>> markAsRead({
-    required String conversationId,
-    String? upToMessageId,
-  });
+  Future<ApiResult<void>> markAsRead({required String conversationId, String? upToMessageId});
 
   /// Adds a reaction to a message.
-  Future<ApiResult<void>> addReaction({
-    required String messageId,
-    required String reaction,
-  });
+  Future<ApiResult<void>> addReaction({required String messageId, required String reaction});
 
   /// Removes a reaction from a message.
-  Future<ApiResult<void>> removeReaction({
-    required String messageId,
-    required String reaction,
-  });
+  Future<ApiResult<void>> removeReaction({required String messageId, required String reaction});
 
   /// Pins a message in the conversation.
-  Future<ApiResult<void>> pinMessage({
-    required String messageId,
-    required bool pin,
-  });
+  Future<ApiResult<void>> pinMessage({required String messageId, required bool pin});
 
   /// Gets pinned messages in a conversation.
   Future<ApiResult<List<Message>>> getPinnedMessages(String conversationId);

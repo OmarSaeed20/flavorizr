@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/user/schedule_trip/domain/entities/scheduled_trip.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/entities/scheduled_trip.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for displaying a scheduled trip card.
@@ -43,10 +43,7 @@ class ScheduledTripCard extends StatelessWidget {
                   ),
                   Text(
                     trip.estimatedFare,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -75,17 +72,11 @@ class ScheduledTripCard extends StatelessWidget {
                       children: [
                         Text(
                           'Scheduled Time',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                          ),
+                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                         Text(
                           _formatDateTime(trip.scheduledTime),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                       ],
                     ),
@@ -94,10 +85,7 @@ class ScheduledTripCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     trip.vehicleType,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -115,9 +103,7 @@ class ScheduledTripCard extends StatelessWidget {
                           )
                         : const Icon(Icons.cancel),
                     label: Text(isCancelling ? 'Cancelling...' : 'Cancel Trip'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                    ),
+                    style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
                   ),
                 ),
               ],
@@ -143,17 +129,8 @@ class ScheduledTripCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                label,
-                style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-              ),
-              Text(
-                location,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              Text(location, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
             ],
           ),
         ),

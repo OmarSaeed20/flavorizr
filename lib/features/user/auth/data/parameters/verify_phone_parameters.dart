@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Verify Phone API parameters with builder pattern
 /// Used for verifying user phone number with verification code
@@ -41,10 +41,7 @@ class VerifyPhoneParameters extends Parameters {
 
   @override
   int get hashCode =>
-      phone.hashCode ^
-      verificationCode.hashCode ^
-      firebaseToken.hashCode ^
-      cancelToken.hashCode;
+      phone.hashCode ^ verificationCode.hashCode ^ firebaseToken.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -52,8 +49,7 @@ class VerifyPhoneParameters extends Parameters {
 }
 
 /// Builder for VerifyPhoneParameters
-class VerifyPhoneParametersBuilder
-    extends ParametersBuilder<VerifyPhoneParameters> {
+class VerifyPhoneParametersBuilder extends ParametersBuilder<VerifyPhoneParameters> {
   String? _phone;
   String? _verificationCode;
   String? _firebaseToken;

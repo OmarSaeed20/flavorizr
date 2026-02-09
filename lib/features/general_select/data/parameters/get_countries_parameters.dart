@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting countries.
@@ -29,13 +29,11 @@ class GetCountriesParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetCountriesParametersBuilder builder() =>
-      GetCountriesParametersBuilder();
+  static GetCountriesParametersBuilder builder() => GetCountriesParametersBuilder();
 }
 
 /// Builder for GetCountriesParameters
-class GetCountriesParametersBuilder
-    extends ParametersBuilder<GetCountriesParameters> {
+class GetCountriesParametersBuilder extends ParametersBuilder<GetCountriesParameters> {
   String? _search;
   CancelToken? _cancelToken;
 

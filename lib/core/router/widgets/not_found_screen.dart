@@ -1,5 +1,5 @@
 // lib/core/router/widgets/not_found_screen.dart
-import 'package:flavorizr/core/router/routes.dart';
+import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,23 +17,13 @@ class NotFoundScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.search_off_rounded,
-              size: 64,
-              color: theme.colorScheme.tertiary,
-            ),
+            Icon(Icons.search_off_rounded, size: 64, color: theme.colorScheme.tertiary),
             const SizedBox(height: 16),
             Text('Page Not Found', style: theme.textTheme.titleLarge),
             const SizedBox(height: 8),
-            Text(
-              "The page you are looking for doesn't exist.",
-              style: theme.textTheme.bodyMedium,
-            ),
+            Text("The page you are looking for doesn't exist.", style: theme.textTheme.bodyMedium),
             const SizedBox(height: 24),
-            FilledButton(
-              onPressed: () => context.go(Routes.home),
-              child: const Text('Go Home'),
-            ),
+            FilledButton(onPressed: () => context.go(Routes.home), child: const Text('Go Home')),
           ],
         ),
       ),

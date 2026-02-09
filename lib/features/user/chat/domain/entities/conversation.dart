@@ -1,6 +1,6 @@
 // lib/features/chat/domain/entities/conversation.dart
-import 'package:flavorizr/features/user/auth/domain/entities/user.dart';
-import 'package:flavorizr/features/user/chat/domain/entities/message.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/message.dart';
 
 /// Type of conversation.
 enum ConversationType {
@@ -68,39 +68,24 @@ class Conversation {
               .toList() ??
           [],
       participantIds:
-          (map['participant_ids'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          (map['participantIds'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
+          (map['participant_ids'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          (map['participantIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
           [],
       lastMessage: map['last_message'] != null
           ? Message.fromMap(map['last_message'] as Map<String, dynamic>)
           : map['lastMessage'] != null
           ? Message.fromMap(map['lastMessage'] as Map<String, dynamic>)
           : null,
-      unreadCount:
-          map['unread_count'] as int? ?? map['unreadCount'] as int? ?? 0,
-      createdAt: DateTime.parse(
-        map['created_at'] as String? ?? map['createdAt'] as String,
-      ),
-      updatedAt: DateTime.parse(
-        map['updated_at'] as String? ?? map['updatedAt'] as String,
-      ),
+      unreadCount: map['unread_count'] as int? ?? map['unreadCount'] as int? ?? 0,
+      createdAt: DateTime.parse(map['created_at'] as String? ?? map['createdAt'] as String),
+      updatedAt: DateTime.parse(map['updated_at'] as String? ?? map['updatedAt'] as String),
       createdBy: map['created_by'] as String? ?? map['createdBy'] as String?,
       adminIds:
-          (map['admin_ids'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          (map['adminIds'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
+          (map['admin_ids'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          (map['adminIds'] as List<dynamic>?)?.map((e) => e as String).toList() ??
           [],
       muteStatus: MuteStatus.values.byName(
-        map['mute_status'] as String? ??
-            map['muteStatus'] as String? ??
-            'unmuted',
+        map['mute_status'] as String? ?? map['muteStatus'] as String? ?? 'unmuted',
       ),
       muteUntil: map['mute_until'] != null
           ? DateTime.parse(map['mute_until'] as String)
@@ -108,10 +93,8 @@ class Conversation {
           ? DateTime.parse(map['muteUntil'] as String)
           : null,
       isPinned: map['is_pinned'] as bool? ?? map['isPinned'] as bool? ?? false,
-      isArchived:
-          map['is_archived'] as bool? ?? map['isArchived'] as bool? ?? false,
-      isReadOnly:
-          map['is_read_only'] as bool? ?? map['isReadOnly'] as bool? ?? false,
+      isArchived: map['is_archived'] as bool? ?? map['isArchived'] as bool? ?? false,
+      isReadOnly: map['is_read_only'] as bool? ?? map['isReadOnly'] as bool? ?? false,
       settings: Map<String, dynamic>.from(map['settings'] as Map? ?? {}),
       metadata: Map<String, dynamic>.from(map['metadata'] as Map? ?? {}),
     );
@@ -257,9 +240,7 @@ class Conversation {
     if (parts.length >= 2) {
       return '${parts.first[0]}${parts.last[0]}'.toUpperCase();
     }
-    return displayNameStr
-        .substring(0, displayNameStr.length >= 2 ? 2 : 1)
-        .toUpperCase();
+    return displayNameStr.substring(0, displayNameStr.length >= 2 ? 2 : 1).toUpperCase();
   }
 
   /// Creates a copy with modified values.
@@ -336,9 +317,7 @@ class Conversation {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Conversation &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is Conversation && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

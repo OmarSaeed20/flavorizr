@@ -1,6 +1,6 @@
 // lib/features/auth/presentation/controllers/forgot_password_controller.dart
-import 'package:flavorizr/features/user/auth/domain/usecases/password_reset_usecase.dart';
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/password_reset_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the forgot password form.
@@ -39,8 +39,7 @@ class ForgotPasswordState {
 }
 
 /// Controller for the forgot password page using Riverpod 3.x Notifier.
-class ForgotPasswordController
-    extends AutoDisposeNotifier<ForgotPasswordState> {
+class ForgotPasswordController extends AutoDisposeNotifier<ForgotPasswordState> {
   late final ForgotPasswordUseCase _forgotPasswordUseCase;
 
   @override
@@ -51,11 +50,7 @@ class ForgotPasswordController
 
   /// Updates the phone field.
   void setPhone(String phone) {
-    state = state.copyWith(
-      phone: phone,
-      clearError: true,
-      clearFieldErrors: true,
-    );
+    state = state.copyWith(phone: phone, clearError: true, clearFieldErrors: true);
   }
 
   /// Clears all errors.
@@ -97,25 +92,17 @@ class ForgotPasswordController
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
-      final result = await _forgotPasswordUseCase(
-        ForgotPasswordParams(phone: state.phone.trim()),
-      );
+      final result = await _forgotPasswordUseCase(ForgotPasswordParams(phone: state.phone.trim()));
 
       if (result.error != null) {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return false;
       }
 
       state = state.copyWith(isLoading: false, isSuccess: true);
       return true;
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'An unexpected error occurred',
-      );
+      state = state.copyWith(isLoading: false, errorMessage: 'An unexpected error occurred');
       return false;
     }
   }

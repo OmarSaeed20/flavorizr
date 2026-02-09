@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_auth/data/models/driver_credentials_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/data/models/driver_credentials_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for driver authentication operations.
@@ -50,9 +50,7 @@ abstract class DriverAuthLocalDataSource {
 }
 
 /// Implementation of [DriverAuthLocalDataSource] using BaseLocalDataSource.
-class DriverAuthLocalDataSourceImpl
-    with BaseLocalDataSource
-    implements DriverAuthLocalDataSource {
+class DriverAuthLocalDataSourceImpl with BaseLocalDataSource implements DriverAuthLocalDataSource {
   const DriverAuthLocalDataSourceImpl(this._preferences);
   final SharedPreferences _preferences;
 
@@ -80,9 +78,7 @@ class DriverAuthLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheCredentials(
-    DriverCredentialsModel credentials,
-  ) async {
+  Future<ApiResult<void>> cacheCredentials(DriverCredentialsModel credentials) async {
     return saveLocalData<DriverCredentialsModel>(
       key: _keyCredentials,
       data: credentials,

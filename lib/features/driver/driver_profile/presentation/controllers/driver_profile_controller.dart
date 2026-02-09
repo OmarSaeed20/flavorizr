@@ -1,14 +1,14 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_document.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_profile.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_vehicle.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/usecases/delete_driver_document_usecase.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/usecases/get_driver_documents_usecase.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/usecases/get_driver_profile_usecase.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/usecases/get_driver_vehicle_usecase.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/usecases/update_driver_profile_usecase.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/usecases/update_driver_vehicle_usecase.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/usecases/upload_driver_document_usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_document.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_profile.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_vehicle.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/delete_driver_document_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/get_driver_documents_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/get_driver_profile_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/get_driver_vehicle_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/update_driver_profile_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/update_driver_vehicle_usecase.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/upload_driver_document_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for driver profile operations.

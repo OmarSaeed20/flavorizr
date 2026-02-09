@@ -1,25 +1,24 @@
-import 'package:flavorizr/core/network/base/repo/base_repository.dart';
-import 'package:flavorizr/core/network/network_info.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/datasources/driver_profile_local_datasource.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/datasources/driver_profile_remote_datasource.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/models/driver_document_model.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/models/driver_profile_model.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/models/driver_vehicle_model.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_driver_profile_parameters.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/parameters/update_vehicle_parameters.dart';
-import 'package:flavorizr/features/driver/driver_profile/data/parameters/upload_driver_document_parameters.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_document.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_profile.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_vehicle.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/repositories/driver_profile_repository.dart';
+import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
+import 'package:fast_golden_taxi/core/network/network_info.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/datasources/driver_profile_local_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/datasources/driver_profile_remote_datasource.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_document_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_profile_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_vehicle_model.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/parameters/update_driver_profile_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/parameters/update_vehicle_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/data/parameters/upload_driver_document_parameters.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_document.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_profile.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_vehicle.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/repositories/driver_profile_repository.dart';
 
 /// Implementation of DriverProfileRepository.
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Provides offline capability with local caching.
-class DriverProfileRepositoryImpl extends BaseRepository
-    implements DriverProfileRepository {
+class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfileRepository {
   final DriverProfileRemoteDataSource _remoteDataSource;
   final DriverProfileLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
@@ -179,8 +178,7 @@ class DriverProfileRepositoryImpl extends BaseRepository
     );
 
     return result.when(
-      success: (data, _) =>
-          ApiResult.success(data.map((e) => e.toEntity()).toList()),
+      success: (data, _) => ApiResult.success(data.map((e) => e.toEntity()).toList()),
       exception: ApiResult.exception,
     );
   }
@@ -243,10 +241,8 @@ class DriverProfileRepositoryImpl extends BaseRepository
     final data = {
       if (nationalId != null) 'national_id': nationalId,
       if (nationalIdImage != null) 'national_id_image': nationalIdImage,
-      if (drivingLicenseImage != null)
-        'driving_license_image': drivingLicenseImage,
-      if (vehicleLicenseImage != null)
-        'vehicle_license_image': vehicleLicenseImage,
+      if (drivingLicenseImage != null) 'driving_license_image': drivingLicenseImage,
+      if (vehicleLicenseImage != null) 'vehicle_license_image': vehicleLicenseImage,
       if (vehicleImage != null) 'vehicle_image': vehicleImage,
     };
 

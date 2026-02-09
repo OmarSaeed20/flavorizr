@@ -1,9 +1,9 @@
 // lib/features/profile/data/datasources/profile_local_datasource.dart
 import 'dart:convert';
 
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/profile/data/models/profile_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/profile/data/models/profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for caching profile data.
@@ -20,10 +20,7 @@ abstract class ProfileLocalDataSource {
   Future<ApiResult<ProfileModel>> getProfileById(String userId);
 
   /// Saves a profile for a specific user ID.
-  Future<ApiResult<ProfileModel>> saveProfileById(
-    String userId,
-    ProfileModel profile,
-  );
+  Future<ApiResult<ProfileModel>> saveProfileById(String userId, ProfileModel profile);
 
   /// Deletes cached profile.
   Future<ApiResult<void>> deleteProfile();
@@ -36,11 +33,8 @@ abstract class ProfileLocalDataSource {
 }
 
 /// Implementation of [ProfileLocalDataSource] using BaseLocalDataSource.
-class ProfileLocalDataSourceImpl
-    with BaseLocalDataSource
-    implements ProfileLocalDataSource {
-  const ProfileLocalDataSourceImpl({required SharedPreferences prefs})
-    : _prefs = prefs;
+class ProfileLocalDataSourceImpl with BaseLocalDataSource implements ProfileLocalDataSource {
+  const ProfileLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   final SharedPreferences _prefs;
 
@@ -102,10 +96,7 @@ class ProfileLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<ProfileModel>> saveProfileById(
-    String userId,
-    ProfileModel profile,
-  ) async {
+  Future<ApiResult<ProfileModel>> saveProfileById(String userId, ProfileModel profile) async {
     return saveLocalData<ProfileModel>(
       key: '$_profileByIdPrefix$userId',
       data: profile,
@@ -118,18 +109,12 @@ class ProfileLocalDataSourceImpl
 
   @override
   Future<ApiResult<void>> deleteProfile() async {
-    return deleteLocalData(
-      key: _profileKey,
-      deleter: () => _prefs.remove(_profileKey),
-    );
+    return deleteLocalData(key: _profileKey, deleter: () => _prefs.remove(_profileKey));
   }
 
   @override
   Future<ApiResult<bool>> hasProfile() async {
-    return hasLocalData(
-      key: _profileKey,
-      checker: () async => _prefs.containsKey(_profileKey),
-    );
+    return hasLocalData(key: _profileKey, checker: () async => _prefs.containsKey(_profileKey));
   }
 
   @override

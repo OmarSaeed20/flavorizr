@@ -1,7 +1,7 @@
 // lib/features/auth/domain/usecases/logout_usecase.dart
-import 'package:flavorizr/features/user/auth/data/parameters/logout_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/logout_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for logging out the current user.
 ///
@@ -26,11 +26,7 @@ class LogoutUseCase implements UseCase<void, LogoutParams> {
 
 /// Parameters for the logout use case.
 class LogoutParams {
-  const LogoutParams({
-    required this.deviceType,
-    this.deviceToken,
-    this.deviceId,
-  });
+  const LogoutParams({required this.deviceType, this.deviceToken, this.deviceId});
 
   final String deviceType;
   final String? deviceToken;

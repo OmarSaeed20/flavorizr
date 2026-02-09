@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Send OTP API parameters with builder pattern
 /// Used for sending OTP to phone number
@@ -29,8 +29,7 @@ class SendOtpParameters extends Parameters {
   int get hashCode => phoneNumber.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() =>
-      'SendOtpParameters(phoneNumber: $phoneNumber, cancelToken: $cancelToken)';
+  String toString() => 'SendOtpParameters(phoneNumber: $phoneNumber, cancelToken: $cancelToken)';
 }
 
 /// Builder for SendOtpParameters
@@ -56,9 +55,6 @@ class SendOtpParametersBuilder extends ParametersBuilder<SendOtpParameters> {
   /// Build the parameters object
   @override
   SendOtpParameters build() {
-    return SendOtpParameters(
-      phoneNumber: _phoneNumber!,
-      cancelToken: _cancelToken,
-    );
+    return SendOtpParameters(phoneNumber: _phoneNumber!, cancelToken: _cancelToken);
   }
 }

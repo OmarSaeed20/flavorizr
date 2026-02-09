@@ -1,11 +1,11 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/home/data/parameters/get_available_trips_parameters.dart';
-import 'package:flavorizr/features/user/home/domain/entities/home_data.dart';
-import 'package:flavorizr/features/user/home/domain/usecases/get_advertisements_usecase.dart';
-import 'package:flavorizr/features/user/home/domain/usecases/get_available_trips_usecase.dart';
-import 'package:flavorizr/features/user/home/domain/usecases/get_home_data_usecase.dart';
-import 'package:flavorizr/features/user/home/domain/usecases/get_notification_count_usecase.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/home/data/parameters/get_available_trips_parameters.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/entities/home_data.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/usecases/get_advertisements_usecase.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/usecases/get_available_trips_usecase.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/usecases/get_home_data_usecase.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/usecases/get_notification_count_usecase.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeController extends StateNotifier<HomeState> {
@@ -63,10 +63,7 @@ class HomeController extends StateNotifier<HomeState> {
         state = state.copyWith(featuredTrips: data, isLoadingTrips: false);
       },
       exception: (error) {
-        state = state.copyWith(
-          isLoadingTrips: false,
-          errorMessage: error.message,
-        );
+        state = state.copyWith(isLoadingTrips: false, errorMessage: error.message);
       },
     );
   }

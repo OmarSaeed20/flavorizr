@@ -1,4 +1,4 @@
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// A Riverpod observer that logs provider state changes in debug mode.

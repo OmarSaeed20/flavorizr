@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_stats.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_stats.dart';
 
 /// Model for driver statistics
 class DriverStatsModel extends DriverStats {
@@ -24,9 +24,7 @@ class DriverStatsModel extends DriverStats {
       totalReviews: json['totalReviews'] ?? 0,
       acceptanceRate: (json['acceptanceRate'] ?? 0.0).toDouble(),
       totalHoursOnline: json['totalHoursOnline'] ?? 0,
-      lastUpdated: DateTime.parse(
-        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
-      ),
+      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
     );
   }
 

@@ -1,8 +1,8 @@
-/* import 'package:flavorizr/core/network/api/models/api_user.dart';
-import 'package:flavorizr/core/network/api/parameters/auth_parameters.dart';
-import 'package:flavorizr/core/network/api/repositories/auth_repository.dart';
-import 'package:flavorizr/core/network/api_response.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+/* import 'package:fast_golden_taxi/core/network/api/models/api_user.dart';
+import 'package:fast_golden_taxi/core/network/api/parameters/auth_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/core/network/api_response.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Auth Service

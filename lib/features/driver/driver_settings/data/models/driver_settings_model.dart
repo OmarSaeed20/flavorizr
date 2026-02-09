@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_settings/domain/entities/driver_settings.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/entities/driver_settings.dart';
 
 /// Model for DriverSettings entity.
 ///
@@ -38,9 +38,7 @@ class DriverSettingsModel extends DriverSettings {
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
           : DateTime.now(),
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'] as String)
-          : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
     );
   }
 

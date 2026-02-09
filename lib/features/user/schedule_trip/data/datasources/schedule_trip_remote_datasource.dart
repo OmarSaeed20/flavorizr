@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api_client.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/schedule_trip/data/endpoints/schedule_trip_endpoints.dart';
-import 'package:flavorizr/features/user/schedule_trip/data/models/scheduled_trip_model.dart';
-import 'package:flavorizr/features/user/schedule_trip/data/parameters/create_scheduled_trip_parameters.dart';
-import 'package:flavorizr/features/user/schedule_trip/data/parameters/get_scheduled_trips_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/data/endpoints/schedule_trip_endpoints.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/data/models/scheduled_trip_model.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/data/parameters/create_scheduled_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/data/parameters/get_scheduled_trips_parameters.dart';
 
 /// Remote data source for schedule trip operations.
 ///
@@ -55,8 +55,7 @@ class ScheduleTripRemoteDataSourceImpl
     return post<ScheduledTripModel>(
       path: ScheduleTripEndpoints.createScheduledTrip,
       data: parameters.toJson(),
-      decoder: (data) =>
-          ScheduledTripModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) => ScheduledTripModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -74,22 +73,16 @@ class ScheduleTripRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<ScheduledTripModel>> getScheduledTripById(
-    String tripId,
-  ) async {
+  Future<ApiResult<ScheduledTripModel>> getScheduledTripById(String tripId) async {
     return get<ScheduledTripModel>(
       path: ScheduleTripEndpoints.scheduledTripById(tripId),
-      decoder: (data) =>
-          ScheduledTripModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) => ScheduledTripModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
   @override
   Future<ApiResult<void>> cancelScheduledTrip(String tripId) async {
-    return post<void>(
-      path: ScheduleTripEndpoints.cancelScheduledTrip(tripId),
-      decoder: (data) {},
-    );
+    return post<void>(path: ScheduleTripEndpoints.cancelScheduledTrip(tripId), decoder: (data) {});
   }
 
   @override
@@ -100,8 +93,7 @@ class ScheduleTripRemoteDataSourceImpl
     return put<ScheduledTripModel>(
       path: ScheduleTripEndpoints.updateScheduledTrip(tripId),
       data: parameters.toJson(),
-      decoder: (data) =>
-          ScheduledTripModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) => ScheduledTripModel.fromJson(data as Map<String, dynamic>),
     );
   }
 }

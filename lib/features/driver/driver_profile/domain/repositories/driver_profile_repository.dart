@@ -1,7 +1,7 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_document.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_profile.dart';
-import 'package:flavorizr/features/driver/driver_profile/domain/entities/driver_vehicle.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_document.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_profile.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_vehicle.dart';
 
 /// Repository interface for driver profile operations.
 abstract class DriverProfileRepository {

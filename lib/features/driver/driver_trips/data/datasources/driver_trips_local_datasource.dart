@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_trips/data/models/driver_trip_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/data/models/driver_trip_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for driver trips operations.
@@ -30,8 +30,7 @@ abstract class DriverTripsLocalDataSource {
 class DriverTripsLocalDataSourceImpl
     with BaseLocalDataSource
     implements DriverTripsLocalDataSource {
-  DriverTripsLocalDataSourceImpl({required SharedPreferences prefs})
-    : _prefs = prefs;
+  DriverTripsLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   static const String _scheduleTripsKey = 'driver_schedule_trips';
   static const String _scheduleRequestsKey = 'driver_schedule_requests';
@@ -47,9 +46,7 @@ class DriverTripsLocalDataSourceImpl
         if (json == null) return null;
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
-              .toList();
+          return list.map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }
@@ -58,9 +55,7 @@ class DriverTripsLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheScheduleTrips(
-    List<DriverTripModel> trips,
-  ) async {
+  Future<ApiResult<void>> cacheScheduleTrips(List<DriverTripModel> trips) async {
     return saveLocalDataList<DriverTripModel>(
       key: _scheduleTripsKey,
       data: trips,
@@ -80,9 +75,7 @@ class DriverTripsLocalDataSourceImpl
         if (json == null) return null;
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
-              .toList();
+          return list.map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }
@@ -91,9 +84,7 @@ class DriverTripsLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheScheduleRequests(
-    List<DriverTripModel> requests,
-  ) async {
+  Future<ApiResult<void>> cacheScheduleRequests(List<DriverTripModel> requests) async {
     return saveLocalDataList<DriverTripModel>(
       key: _scheduleRequestsKey,
       data: requests,

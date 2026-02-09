@@ -1,6 +1,6 @@
 // lib/features/profile/domain/repositories/profile_repository.dart
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/profile/domain/entities/profile.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/entities/profile.dart';
 
 /// Repository interface for profile operations.
 ///

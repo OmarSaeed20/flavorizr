@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/error/error_handler.dart';
+import 'package:fast_golden_taxi/core/error/error_handler.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
 /// Base class for all network exceptions

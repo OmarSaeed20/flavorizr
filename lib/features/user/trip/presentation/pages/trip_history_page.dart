@@ -1,8 +1,8 @@
 // lib/features/trip/presentation/pages/trip_history_page.dart
-import 'package:flavorizr/core/router/routes.dart';
-import 'package:flavorizr/features/user/trip/presentation/controllers/trip_history_controller.dart';
-import 'package:flavorizr/features/user/trip/presentation/providers/trip_providers.dart';
-import 'package:flavorizr/features/user/trip/presentation/widgets/trip_card.dart';
+import 'package:fast_golden_taxi/core/router/routes.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/controllers/trip_history_controller.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/providers/trip_providers.dart';
+import 'package:fast_golden_taxi/features/user/trip/presentation/widgets/trip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

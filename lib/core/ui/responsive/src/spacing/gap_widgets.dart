@@ -1,4 +1,4 @@
-import 'package:flavorizr/core/ui/responsive/src/spacing/spacing_constants.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/spacing/spacing_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -162,28 +162,22 @@ abstract class SliverGap {
   SliverGap._();
 
   /// No gap
-  static SliverToBoxAdapter get none =>
-      const SliverToBoxAdapter(child: SizedBox.shrink());
+  static SliverToBoxAdapter get none => const SliverToBoxAdapter(child: SizedBox.shrink());
 
   /// 4dp sliver gap
-  static SliverToBoxAdapter get xs =>
-      SliverToBoxAdapter(child: SizedBox(height: Spacing.xs));
+  static SliverToBoxAdapter get xs => SliverToBoxAdapter(child: SizedBox(height: Spacing.xs));
 
   /// 8dp sliver gap
-  static SliverToBoxAdapter get sm =>
-      SliverToBoxAdapter(child: SizedBox(height: Spacing.sm));
+  static SliverToBoxAdapter get sm => SliverToBoxAdapter(child: SizedBox(height: Spacing.sm));
 
   /// 16dp sliver gap
-  static SliverToBoxAdapter get md =>
-      SliverToBoxAdapter(child: SizedBox(height: Spacing.md));
+  static SliverToBoxAdapter get md => SliverToBoxAdapter(child: SizedBox(height: Spacing.md));
 
   /// 24dp sliver gap
-  static SliverToBoxAdapter get lg =>
-      SliverToBoxAdapter(child: SizedBox(height: Spacing.lg));
+  static SliverToBoxAdapter get lg => SliverToBoxAdapter(child: SizedBox(height: Spacing.lg));
 
   /// 32dp sliver gap
-  static SliverToBoxAdapter get xl =>
-      SliverToBoxAdapter(child: SizedBox(height: Spacing.xl));
+  static SliverToBoxAdapter get xl => SliverToBoxAdapter(child: SizedBox(height: Spacing.xl));
 
   /// Custom sliver gap with responsive scaling
   static SliverToBoxAdapter custom(double height) =>
@@ -231,64 +225,51 @@ abstract class Insets {
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// 4dp horizontal
-  static EdgeInsets get horizontalXs =>
-      EdgeInsets.symmetric(horizontal: Spacing.xs);
+  static EdgeInsets get horizontalXs => EdgeInsets.symmetric(horizontal: Spacing.xs);
 
   /// 8dp horizontal
-  static EdgeInsets get horizontalSm =>
-      EdgeInsets.symmetric(horizontal: Spacing.sm);
+  static EdgeInsets get horizontalSm => EdgeInsets.symmetric(horizontal: Spacing.sm);
 
   /// 12dp horizontal
-  static EdgeInsets get horizontalSmd =>
-      EdgeInsets.symmetric(horizontal: Spacing.smd);
+  static EdgeInsets get horizontalSmd => EdgeInsets.symmetric(horizontal: Spacing.smd);
 
   /// 16dp horizontal
-  static EdgeInsets get horizontalMd =>
-      EdgeInsets.symmetric(horizontal: Spacing.md);
+  static EdgeInsets get horizontalMd => EdgeInsets.symmetric(horizontal: Spacing.md);
 
   /// 24dp horizontal
-  static EdgeInsets get horizontalLg =>
-      EdgeInsets.symmetric(horizontal: Spacing.lg);
+  static EdgeInsets get horizontalLg => EdgeInsets.symmetric(horizontal: Spacing.lg);
 
   /// 32dp horizontal
-  static EdgeInsets get horizontalXl =>
-      EdgeInsets.symmetric(horizontal: Spacing.xl);
+  static EdgeInsets get horizontalXl => EdgeInsets.symmetric(horizontal: Spacing.xl);
 
   // ═══════════════════════════════════════════════════════════════════════════
   // VERTICAL ONLY
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// 4dp vertical
-  static EdgeInsets get verticalXs =>
-      EdgeInsets.symmetric(vertical: Spacing.xs);
+  static EdgeInsets get verticalXs => EdgeInsets.symmetric(vertical: Spacing.xs);
 
   /// 8dp vertical
-  static EdgeInsets get verticalSm =>
-      EdgeInsets.symmetric(vertical: Spacing.sm);
+  static EdgeInsets get verticalSm => EdgeInsets.symmetric(vertical: Spacing.sm);
 
   /// 12dp vertical
-  static EdgeInsets get verticalSmd =>
-      EdgeInsets.symmetric(vertical: Spacing.smd);
+  static EdgeInsets get verticalSmd => EdgeInsets.symmetric(vertical: Spacing.smd);
 
   /// 16dp vertical
-  static EdgeInsets get verticalMd =>
-      EdgeInsets.symmetric(vertical: Spacing.md);
+  static EdgeInsets get verticalMd => EdgeInsets.symmetric(vertical: Spacing.md);
 
   /// 24dp vertical
-  static EdgeInsets get verticalLg =>
-      EdgeInsets.symmetric(vertical: Spacing.lg);
+  static EdgeInsets get verticalLg => EdgeInsets.symmetric(vertical: Spacing.lg);
 
   /// 32dp vertical
-  static EdgeInsets get verticalXl =>
-      EdgeInsets.symmetric(vertical: Spacing.xl);
+  static EdgeInsets get verticalXl => EdgeInsets.symmetric(vertical: Spacing.xl);
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SEMANTIC PRESETS
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Screen content padding (16 horizontal)
-  static EdgeInsets get screen =>
-      EdgeInsets.symmetric(horizontal: Spacing.screenHorizontal);
+  static EdgeInsets get screen => EdgeInsets.symmetric(horizontal: Spacing.screenHorizontal);
 
   /// Screen content padding with top (16 horizontal, 16 top)
   static EdgeInsets get screenWithTop => EdgeInsets.only(
@@ -304,10 +285,8 @@ abstract class Insets {
   static EdgeInsets get card => EdgeInsets.all(Spacing.cardInternal);
 
   /// Button content padding (12 horizontal, 8 vertical)
-  static EdgeInsets get button => EdgeInsets.symmetric(
-    horizontal: Spacing.buttonContent,
-    vertical: Spacing.sm,
-  );
+  static EdgeInsets get button =>
+      EdgeInsets.symmetric(horizontal: Spacing.buttonContent, vertical: Spacing.sm);
 
   /// Input field padding (16 horizontal, 12 vertical)
   static EdgeInsets get input =>
@@ -321,12 +300,8 @@ abstract class Insets {
   static EdgeInsets get dialog => EdgeInsets.all(Spacing.dialogContent);
 
   /// Bottom sheet padding (16 horizontal, 24 top, 16 bottom)
-  static EdgeInsets get bottomSheet => EdgeInsets.only(
-    left: Spacing.md,
-    right: Spacing.md,
-    top: Spacing.lg,
-    bottom: Spacing.md,
-  );
+  static EdgeInsets get bottomSheet =>
+      EdgeInsets.only(left: Spacing.md, right: Spacing.md, top: Spacing.lg, bottom: Spacing.md);
 
   /// Custom padding with responsive scaling
   static EdgeInsets all(double value) => EdgeInsets.all(value.r);
@@ -336,15 +311,6 @@ abstract class Insets {
       EdgeInsets.symmetric(horizontal: horizontal.r, vertical: vertical.r);
 
   /// Custom only padding with responsive scaling
-  static EdgeInsets only({
-    double left = 0,
-    double top = 0,
-    double right = 0,
-    double bottom = 0,
-  }) => EdgeInsets.only(
-    left: left.r,
-    top: top.r,
-    right: right.r,
-    bottom: bottom.r,
-  );
+  static EdgeInsets only({double left = 0, double top = 0, double right = 0, double bottom = 0}) =>
+      EdgeInsets.only(left: left.r, top: top.r, right: right.r, bottom: bottom.r);
 }

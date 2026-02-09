@@ -1,10 +1,10 @@
 // lib/features/chat/data/datasources/chat_local_datasource.dart
 import 'dart:convert';
 
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/chat/domain/entities/conversation.dart';
-import 'package:flavorizr/features/user/chat/domain/entities/message.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/conversation.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/message.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for caching chat data.
@@ -28,10 +28,7 @@ abstract class ChatLocalDataSource {
   Future<ApiResult<List<Message>>> getCachedMessages(String conversationId);
 
   /// Caches messages for a conversation.
-  Future<ApiResult<void>> cacheMessages(
-    String conversationId,
-    List<Message> messages,
-  );
+  Future<ApiResult<void>> cacheMessages(String conversationId, List<Message> messages);
 
   /// Adds a message to the cache.
   Future<ApiResult<void>> addMessageToCache(Message message);
@@ -40,10 +37,7 @@ abstract class ChatLocalDataSource {
   Future<ApiResult<void>> updateCachedMessage(Message message);
 
   /// Removes a message from cache.
-  Future<ApiResult<void>> removeCachedMessage(
-    String conversationId,
-    String messageId,
-  );
+  Future<ApiResult<void>> removeCachedMessage(String conversationId, String messageId);
 
   /// Clears messages cache for a conversation.
   Future<ApiResult<void>> clearMessagesCache(String conversationId);
@@ -59,9 +53,7 @@ abstract class ChatLocalDataSource {
 }
 
 /// Implementation of [ChatLocalDataSource] using BaseLocalDataSource.
-class ChatLocalDataSourceImpl
-    with BaseLocalDataSource
-    implements ChatLocalDataSource {
+class ChatLocalDataSourceImpl with BaseLocalDataSource implements ChatLocalDataSource {
   ChatLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   static const String _conversationsKey = 'cached_conversations';
@@ -82,9 +74,7 @@ class ChatLocalDataSourceImpl
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map((e) => Conversation.fromMap(e as Map<String, dynamic>))
-              .toList();
+          return list.map((e) => Conversation.fromMap(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }
@@ -93,9 +83,7 @@ class ChatLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheConversations(
-    List<Conversation> conversations,
-  ) async {
+  Future<ApiResult<void>> cacheConversations(List<Conversation> conversations) async {
     return saveLocalDataList<Conversation>(
       key: _conversationsKey,
       data: conversations,
@@ -107,9 +95,7 @@ class ChatLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<Conversation>> updateCachedConversation(
-    Conversation conversation,
-  ) async {
+  Future<ApiResult<Conversation>> updateCachedConversation(Conversation conversation) async {
     return saveLocalData<Conversation>(
       key: _conversationsKey,
       data: conversation,
@@ -131,9 +117,7 @@ class ChatLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<String>> removeCachedConversation(
-    String conversationId,
-  ) async {
+  Future<ApiResult<String>> removeCachedConversation(String conversationId) async {
     return saveLocalData<String>(
       key: _conversationsKey,
       data: conversationId,
@@ -150,9 +134,7 @@ class ChatLocalDataSourceImpl
   // ==================== Messages ====================
 
   @override
-  Future<ApiResult<List<Message>>> getCachedMessages(
-    String conversationId,
-  ) async {
+  Future<ApiResult<List<Message>>> getCachedMessages(String conversationId) async {
     return getLocalDataList<Message>(
       key: '$_messagesKeyPrefix$conversationId',
       fetcher: () async {
@@ -161,9 +143,7 @@ class ChatLocalDataSourceImpl
 
         try {
           final list = jsonDecode(json) as List<dynamic>;
-          return list
-              .map((e) => Message.fromMap(e as Map<String, dynamic>))
-              .toList();
+          return list.map((e) => Message.fromMap(e as Map<String, dynamic>)).toList();
         } catch (_) {
           return null;
         }
@@ -172,10 +152,7 @@ class ChatLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheMessages(
-    String conversationId,
-    List<Message> messages,
-  ) async {
+  Future<ApiResult<void>> cacheMessages(String conversationId, List<Message> messages) async {
     return saveLocalDataList<Message>(
       key: '$_messagesKeyPrefix$conversationId',
       data: messages,
@@ -210,10 +187,7 @@ class ChatLocalDataSourceImpl
         }
 
         final json = jsonEncode(messages.map((m) => m.toMap()).toList());
-        await _prefs.setString(
-          '$_messagesKeyPrefix${message.conversationId}',
-          json,
-        );
+        await _prefs.setString('$_messagesKeyPrefix${message.conversationId}', json);
       },
     );
   }
@@ -231,20 +205,14 @@ class ChatLocalDataSourceImpl
         if (index >= 0) {
           messages[index] = message;
           final json = jsonEncode(messages.map((m) => m.toMap()).toList());
-          await _prefs.setString(
-            '$_messagesKeyPrefix${message.conversationId}',
-            json,
-          );
+          await _prefs.setString('$_messagesKeyPrefix${message.conversationId}', json);
         }
       },
     );
   }
 
   @override
-  Future<ApiResult<String>> removeCachedMessage(
-    String conversationId,
-    String messageId,
-  ) async {
+  Future<ApiResult<String>> removeCachedMessage(String conversationId, String messageId) async {
     return saveLocalData<String>(
       key: '$_messagesKeyPrefix$conversationId',
       data: messageId,
@@ -286,10 +254,7 @@ class ChatLocalDataSourceImpl
       key: _lastSyncKey,
       data: DateTime.now(),
       saver: (data) async {
-        await _prefs.setInt(
-          _lastSyncKey,
-          DateTime.now().millisecondsSinceEpoch,
-        );
+        await _prefs.setInt(_lastSyncKey, DateTime.now().millisecondsSinceEpoch);
       },
     );
   }

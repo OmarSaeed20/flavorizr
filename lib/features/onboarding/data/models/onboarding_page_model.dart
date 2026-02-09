@@ -1,5 +1,5 @@
 // lib/features/onboarding/data/models/onboarding_page_model.dart
-import 'package:flavorizr/features/onboarding/domain/entities/onboarding_page.dart';
+import 'package:fast_golden_taxi/features/onboarding/domain/entities/onboarding_page.dart';
 
 /// Model class for onboarding page data.
 ///

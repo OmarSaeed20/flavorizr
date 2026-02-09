@@ -1,15 +1,14 @@
 // lib/features/onboarding/data/repositories/onboarding_repository_impl.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/onboarding/data/datasources/onboarding_local_datasource.dart';
-import 'package:flavorizr/features/onboarding/domain/entities/onboarding_page.dart';
-import 'package:flavorizr/features/onboarding/domain/repositories/onboarding_repository.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/onboarding/data/datasources/onboarding_local_datasource.dart';
+import 'package:fast_golden_taxi/features/onboarding/domain/entities/onboarding_page.dart';
+import 'package:fast_golden_taxi/features/onboarding/domain/repositories/onboarding_repository.dart';
 
 /// Implementation of [OnboardingRepository].
 class OnboardingRepositoryImpl implements OnboardingRepository {
-  const OnboardingRepositoryImpl({
-    required OnboardingLocalDataSource localDataSource,
-  }) : _localDataSource = localDataSource;
+  const OnboardingRepositoryImpl({required OnboardingLocalDataSource localDataSource})
+    : _localDataSource = localDataSource;
 
   final OnboardingLocalDataSource _localDataSource;
 
@@ -32,9 +31,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
       return ApiResult.success(completed);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check onboarding status: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to check onboarding status: $e'),
       );
     }
   }

@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/user/home/domain/entities/available_trip.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/entities/available_trip.dart';
 
 class AvailableTripModel extends AvailableTrip {
   const AvailableTripModel({

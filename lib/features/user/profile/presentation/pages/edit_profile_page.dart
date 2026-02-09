@@ -1,10 +1,10 @@
 // lib/features/profile/presentation/pages/edit_profile_page.dart
 import 'dart:convert';
 
-import 'package:flavorizr/features/user/profile/presentation/controllers/edit_profile_controller.dart';
-import 'package:flavorizr/features/user/profile/presentation/providers/profile_providers.dart';
-import 'package:flavorizr/shared/presentation/widgets/buttons/app_button.dart';
-import 'package:flavorizr/shared/presentation/widgets/inputs/app_text_field.dart';
+import 'package:fast_golden_taxi/features/user/profile/presentation/controllers/edit_profile_controller.dart';
+import 'package:fast_golden_taxi/features/user/profile/presentation/providers/profile_providers.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/buttons/app_button.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/inputs/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -79,9 +79,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Discard Changes?'),
-        content: const Text(
-          'You have unsaved changes. Are you sure you want to discard them?',
-        ),
+        content: const Text('You have unsaved changes. Are you sure you want to discard them?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -130,12 +128,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     final theme = Theme.of(context);
 
     // Listen for errors
-    ref.listen<EditProfileState>(editProfileControllerProvider, (
-      previous,
-      next,
-    ) {
-      if (next.errorMessage != null &&
-          next.errorMessage != previous?.errorMessage) {
+    ref.listen<EditProfileState>(editProfileControllerProvider, (previous, next) {
+      if (next.errorMessage != null && next.errorMessage != previous?.errorMessage) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(next.errorMessage!),
@@ -170,9 +164,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
         body: state.isLoading
             ? const Center(child: CircularProgressIndicator())
             : _buildBody(context, state),
-        bottomNavigationBar: state.isLoading
-            ? null
-            : _buildBottomBar(context, state),
+        bottomNavigationBar: state.isLoading ? null : _buildBottomBar(context, state),
       ),
     );
   }
@@ -200,9 +192,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               textCapitalization: TextCapitalization.words,
               maxLength: 100,
               onChanged: (value) {
-                ref
-                    .read(editProfileControllerProvider.notifier)
-                    .updateName(value);
+                ref.read(editProfileControllerProvider.notifier).updateName(value);
               },
               onSubmitted: (_) => _nicknameFocusNode.requestFocus(),
               validator: (value) {
@@ -227,9 +217,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               textCapitalization: TextCapitalization.words,
               maxLength: 50,
               onChanged: (value) {
-                ref
-                    .read(editProfileControllerProvider.notifier)
-                    .updateNickname(value);
+                ref.read(editProfileControllerProvider.notifier).updateNickname(value);
               },
               onSubmitted: (_) => _emailFocusNode.requestFocus(),
             ),
@@ -246,16 +234,12 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               onChanged: (value) {
-                ref
-                    .read(editProfileControllerProvider.notifier)
-                    .updateEmail(value);
+                ref.read(editProfileControllerProvider.notifier).updateEmail(value);
               },
               onSubmitted: (_) => _birthDateFocusNode.requestFocus(),
               validator: (value) {
                 if (value != null && value.isNotEmpty) {
-                  final emailRegex = RegExp(
-                    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                  );
+                  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                   if (!emailRegex.hasMatch(value)) {
                     return 'Please enter a valid email address';
                   }
@@ -280,9 +264,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               keyboardType: TextInputType.datetime,
               textInputAction: TextInputAction.done,
               onChanged: (value) {
-                ref
-                    .read(editProfileControllerProvider.notifier)
-                    .updateBirthDate(value);
+                ref.read(editProfileControllerProvider.notifier).updateBirthDate(value);
               },
               onSubmitted: (_) => _handleSave(),
               onTap: () => _selectBirthDate(context),
@@ -304,10 +286,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     );
   }
 
-  Widget _buildProfilePhotoSection(
-    BuildContext context,
-    EditProfileState state,
-  ) {
+  Widget _buildProfilePhotoSection(BuildContext context, EditProfileState state) {
     final theme = Theme.of(context);
 
     return Column(
@@ -315,9 +294,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       children: [
         Text(
           'Profile Photo',
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
         Center(
@@ -345,11 +322,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         },
                       ),
                     )
-                  : Icon(
-                      Icons.person,
-                      size: 60,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
+                  : Icon(Icons.person, size: 60, color: theme.colorScheme.onSurfaceVariant),
             ),
           ),
         ),
@@ -371,33 +344,18 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Gender',
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        Text('Gender', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const SizedBox(height: 8),
         SegmentedButton<String>(
           segments: const [
-            ButtonSegment(
-              value: 'male',
-              label: Text('Male'),
-              icon: Icon(Icons.male),
-            ),
-            ButtonSegment(
-              value: 'female',
-              label: Text('Female'),
-              icon: Icon(Icons.female),
-            ),
+            ButtonSegment(value: 'male', label: Text('Male'), icon: Icon(Icons.male)),
+            ButtonSegment(value: 'female', label: Text('Female'), icon: Icon(Icons.female)),
           ],
           selected: {_selectedGender},
           onSelectionChanged: (Set<String> newSelection) {
             setState(() {
               _selectedGender = newSelection.first;
-              ref
-                  .read(editProfileControllerProvider.notifier)
-                  .updateGender(_selectedGender);
+              ref.read(editProfileControllerProvider.notifier).updateGender(_selectedGender);
             });
           },
         ),
@@ -430,9 +388,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       final formattedDate =
           '${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}';
       _birthDateController.text = formattedDate;
-      ref
-          .read(editProfileControllerProvider.notifier)
-          .updateBirthDate(formattedDate);
+      ref.read(editProfileControllerProvider.notifier).updateBirthDate(formattedDate);
     }
   }
 

@@ -1,6 +1,6 @@
-import 'package:flavorizr/features/driver/driver_reviews/presentation/providers/driver_reviews_providers.dart';
-import 'package:flavorizr/features/driver/driver_reviews/presentation/widgets/review_card.dart';
-import 'package:flavorizr/features/driver/driver_reviews/presentation/widgets/review_filter_chip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/presentation/providers/driver_reviews_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/presentation/widgets/review_card.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/presentation/widgets/review_filter_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

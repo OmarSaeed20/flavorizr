@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for verifying driver phone number.
@@ -35,13 +35,11 @@ class VerifyDriverPhoneParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static VerifyDriverPhoneParametersBuilder builder() =>
-      VerifyDriverPhoneParametersBuilder();
+  static VerifyDriverPhoneParametersBuilder builder() => VerifyDriverPhoneParametersBuilder();
 }
 
 /// Builder for VerifyDriverPhoneParameters
-class VerifyDriverPhoneParametersBuilder
-    extends ParametersBuilder<VerifyDriverPhoneParameters> {
+class VerifyDriverPhoneParametersBuilder extends ParametersBuilder<VerifyDriverPhoneParameters> {
   String? _phone;
   String? _code;
   String? _firebaseToken;

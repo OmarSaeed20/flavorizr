@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/ui/responsive/src/breakpoints.dart';
-import 'package:flavorizr/core/ui/responsive/src/device_info.dart';
-import 'package:flavorizr/core/ui/responsive/src/responsive_data.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/breakpoints.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/device_info.dart';
+import 'package:fast_golden_taxi/core/ui/responsive/src/responsive_data.dart';
 import 'package:flutter/material.dart';
 
 /// Responsive context that provides access to all responsive utilities
@@ -101,13 +101,7 @@ class ResponsiveContext {
   }
 
   /// Returns value based on window size class
-  T byWindowSize<T>({
-    required T compact,
-    T? medium,
-    T? expanded,
-    T? large,
-    T? extraLarge,
-  }) {
+  T byWindowSize<T>({required T compact, T? medium, T? expanded, T? large, T? extraLarge}) {
     return device.byWindowSize(
       compact: compact,
       medium: medium,
@@ -189,8 +183,7 @@ class ResponsiveContext {
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Screen padding (horizontal padding for content)
-  EdgeInsets get screenPadding =>
-      EdgeInsets.symmetric(horizontal: padding.screen);
+  EdgeInsets get screenPadding => EdgeInsets.symmetric(horizontal: padding.screen);
 
   /// Card padding
   EdgeInsets get cardPadding => EdgeInsets.all(padding.card);

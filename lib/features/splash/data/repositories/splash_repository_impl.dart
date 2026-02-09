@@ -1,8 +1,8 @@
 // lib/features/splash/data/repositories/splash_repository_impl.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/splash/data/datasources/splash_local_datasource.dart';
-import 'package:flavorizr/features/splash/domain/repositories/splash_repository.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/splash/data/datasources/splash_local_datasource.dart';
+import 'package:fast_golden_taxi/features/splash/domain/repositories/splash_repository.dart';
 
 /// Implementation of [SplashRepository].
 class SplashRepositoryImpl implements SplashRepository {
@@ -18,9 +18,7 @@ class SplashRepositoryImpl implements SplashRepository {
       return ApiResult.success(hasToken);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check authentication status: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to check authentication status: $e'),
       );
     }
   }
@@ -32,9 +30,7 @@ class SplashRepositoryImpl implements SplashRepository {
       return ApiResult.success(completed);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check onboarding status: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to check onboarding status: $e'),
       );
     }
   }
@@ -46,9 +42,7 @@ class SplashRepositoryImpl implements SplashRepository {
       return ApiResult.success(isFirst);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check first launch status: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to check first launch status: $e'),
       );
     }
   }
@@ -60,9 +54,7 @@ class SplashRepositoryImpl implements SplashRepository {
       return const ApiResult.success(null);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to mark first launch completed: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to mark first launch completed: $e'),
       );
     }
   }
@@ -87,9 +79,7 @@ class SplashRepositoryImpl implements SplashRepository {
       await Future<void>.delayed(const Duration(milliseconds: 500));
       return const ApiResult.success(null);
     } catch (e) {
-      return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to initialize app: $e'),
-      );
+      return ApiResult.exception(UnknownNetworkException(message: 'Failed to initialize app: $e'));
     }
   }
 }

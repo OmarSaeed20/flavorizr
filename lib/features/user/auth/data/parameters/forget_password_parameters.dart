@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Forget Password API parameters with builder pattern
 /// Used for requesting password reset code
@@ -15,8 +15,7 @@ class ForgetPasswordParameters extends Parameters {
   Map<String, dynamic> toJson() => {'phone': phone};
 
   /// Create a builder for this parameters type
-  ForgetPasswordParametersBuilder builder() =>
-      ForgetPasswordParametersBuilder();
+  ForgetPasswordParametersBuilder builder() => ForgetPasswordParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -30,13 +29,11 @@ class ForgetPasswordParameters extends Parameters {
   int get hashCode => phone.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() =>
-      'ForgetPasswordParameters(phone: $phone, cancelToken: $cancelToken)';
+  String toString() => 'ForgetPasswordParameters(phone: $phone, cancelToken: $cancelToken)';
 }
 
 /// Builder for ForgetPasswordParameters
-class ForgetPasswordParametersBuilder
-    extends ParametersBuilder<ForgetPasswordParameters> {
+class ForgetPasswordParametersBuilder extends ParametersBuilder<ForgetPasswordParameters> {
   String? _phone;
   CancelToken? _cancelToken;
 

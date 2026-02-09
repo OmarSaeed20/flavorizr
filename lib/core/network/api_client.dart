@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/logger/app_logger.dart';
-import 'package:flavorizr/core/network/interceptors/auth_interceptor.dart';
-import 'package:flavorizr/core/network/interceptors/logging_interceptor.dart';
+import 'package:fast_golden_taxi/config/app_config.dart';
+import 'package:fast_golden_taxi/core/logger/app_logger.dart';
+import 'package:fast_golden_taxi/core/network/interceptors/auth_interceptor.dart';
+import 'package:fast_golden_taxi/core/network/interceptors/logging_interceptor.dart';
 import 'package:flutter/foundation.dart';
 
 /// API Client for making HTTP requests using Dio
@@ -19,10 +20,7 @@ class ApiClient {
   static ApiClient? _instance;
 
   /// Base URL for API - configure based on environment
-  static const String baseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: 'https://api.example.com/v1',
-  );
+  static final String baseUrl = AppConfig.instance.apiBaseUrl;
 
   /// Singleton instance getter
   static ApiClient get instance {
@@ -48,10 +46,7 @@ class ApiClient {
 
   /// Setup interceptors
   void _setupInterceptors() {
-    _dio.interceptors.addAll([
-      AuthInterceptor(),
-      if (kDebugMode) LoggingInterceptor(),
-    ]);
+    _dio.interceptors.addAll([AuthInterceptor(), if (kDebugMode) LoggingInterceptor()]);
   }
 
   /// Update authorization token

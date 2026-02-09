@@ -1,5 +1,5 @@
-// import 'package:flavorizr/core/error/failures.dart';
-// import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+// import 'package:fast_golden_taxi/core/error/failures.dart';
+// import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 
 // /// Helper class to extract user-friendly messages from exceptions
 // class ExceptionMessage {

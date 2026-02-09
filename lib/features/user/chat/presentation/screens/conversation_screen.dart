@@ -1,18 +1,14 @@
 // lib/features/chat/presentation/screens/conversation_screen.dart
-import 'package:flavorizr/features/user/chat/domain/entities/message.dart';
-import 'package:flavorizr/features/user/chat/presentation/providers/chat_providers.dart';
-import 'package:flavorizr/features/user/chat/presentation/widgets/chat_input.dart';
-import 'package:flavorizr/features/user/chat/presentation/widgets/message_bubble.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/message.dart';
+import 'package:fast_golden_taxi/features/user/chat/presentation/providers/chat_providers.dart';
+import 'package:fast_golden_taxi/features/user/chat/presentation/widgets/chat_input.dart';
+import 'package:fast_golden_taxi/features/user/chat/presentation/widgets/message_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Screen displaying messages in a conversation.
 class ConversationScreen extends ConsumerStatefulWidget {
-  const ConversationScreen({
-    super.key,
-    required this.conversationId,
-    required this.title,
-  });
+  const ConversationScreen({super.key, required this.conversationId, required this.title});
   final String conversationId;
   final String title;
 
@@ -47,16 +43,13 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
 
   void _onScroll() {
     // Load more when scrolled near the top (older messages)
-    if (_scrollController.position.pixels <=
-        _scrollController.position.minScrollExtent + 200) {
+    if (_scrollController.position.pixels <= _scrollController.position.minScrollExtent + 200) {
       ref.read(messagesNotifierProvider(widget.conversationId)).loadMore();
     }
   }
 
   Future<void> _onRefresh() async {
-    await ref
-        .read(messagesNotifierProvider(widget.conversationId))
-        .loadMessages(refresh: true);
+    await ref.read(messagesNotifierProvider(widget.conversationId)).loadMessages(refresh: true);
   }
 
   void _onSendMessage() {
@@ -143,10 +136,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
           decoration: const InputDecoration(hintText: 'Enter new message'),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
               final newContent = controller.text.trim();
@@ -171,15 +161,10 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
         title: const Text('Delete Message'),
         content: const Text('Are you sure you want to delete this message?'),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           TextButton(
             onPressed: () {
-              ref
-                  .read(messagesNotifierProvider(widget.conversationId))
-                  .deleteMessage(message.id);
+              ref.read(messagesNotifierProvider(widget.conversationId)).deleteMessage(message.id);
               Navigator.pop(context);
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -200,9 +185,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
             spacing: 16,
             runSpacing: 16,
             alignment: WrapAlignment.center,
-            children: ['👍', '❤️', '😂', '😮', '😢', '😡', '👏', '🎉'].map((
-              emoji,
-            ) {
+            children: ['👍', '❤️', '😂', '😮', '😢', '😡', '👏', '🎉'].map((emoji) {
               return InkWell(
                 onTap: () {
                   ref
@@ -232,10 +215,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
           children: [
             Text(widget.title),
             if (typingUsers.isNotEmpty)
-              Text(
-                '${typingUsers.length} typing...',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+              Text('${typingUsers.length} typing...', style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
         actions: [
@@ -250,8 +230,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
       body: Column(
         children: [
           Expanded(child: _buildMessageList(state)),
-          if (_replyingTo != null)
-            _ReplyPreview(message: _replyingTo!, onCancel: _cancelReply),
+          if (_replyingTo != null) _ReplyPreview(message: _replyingTo!, onCancel: _cancelReply),
           ChatInput(
             controller: _textController,
             focusNode: _focusNode,
@@ -310,23 +289,15 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
         itemBuilder: (context, index) {
           if (state.isLoadingMore && index == state.messages.length) {
             return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
+              child: Padding(padding: EdgeInsets.all(16), child: CircularProgressIndicator()),
             );
           }
 
           final message = state.messages[index];
-          final isMe =
-              message.senderId ==
-              'current_user_id'; // TO-DO: Get actual user ID
+          final isMe = message.senderId == 'current_user_id'; // TO-DO: Get actual user ID
 
           // Check if we should show date separator
-          final showDateSeparator = _shouldShowDateSeparator(
-            state.messages,
-            index,
-          );
+          final showDateSeparator = _shouldShowDateSeparator(state.messages, index);
 
           return Column(
             children: [
@@ -352,8 +323,7 @@ class _ConversationScreenState extends ConsumerState<ConversationScreen> {
     if (index == messages.length - 1) return true; // Show for oldest message
 
     final current = messages[index];
-    final previous =
-        messages[index + 1]; // Previous in list (but actually newer)
+    final previous = messages[index + 1]; // Previous in list (but actually newer)
 
     return !_isSameDay(current.createdAt, previous.createdAt);
   }
@@ -386,27 +356,15 @@ class _MessageOptionsSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ListTile(
-            leading: const Icon(Icons.reply),
-            title: const Text('Reply'),
-            onTap: onReply,
-          ),
-          ListTile(
-            leading: const Icon(Icons.copy),
-            title: const Text('Copy'),
-            onTap: onCopy,
-          ),
+          ListTile(leading: const Icon(Icons.reply), title: const Text('Reply'), onTap: onReply),
+          ListTile(leading: const Icon(Icons.copy), title: const Text('Copy'), onTap: onCopy),
           ListTile(
             leading: const Icon(Icons.emoji_emotions_outlined),
             title: const Text('React'),
             onTap: onReact,
           ),
           if (onEdit != null)
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: const Text('Edit'),
-              onTap: onEdit,
-            ),
+            ListTile(leading: const Icon(Icons.edit), title: const Text('Edit'), onTap: onEdit),
           if (onDelete != null)
             ListTile(
               leading: const Icon(Icons.delete, color: Colors.red),
@@ -433,9 +391,7 @@ class _ReplyPreview extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        border: Border(
-          left: BorderSide(color: theme.colorScheme.primary, width: 4),
-        ),
+        border: Border(left: BorderSide(color: theme.colorScheme.primary, width: 4)),
       ),
       child: Row(
         children: [
@@ -510,15 +466,7 @@ class _DateSeparator extends StatelessWidget {
     } else if (difference.inDays == 1) {
       return 'Yesterday';
     } else if (difference.inDays < 7) {
-      const days = [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ];
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
       return days[date.weekday - 1];
     } else {
       return '${date.day}/${date.month}/${date.year}';

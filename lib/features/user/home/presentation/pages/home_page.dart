@@ -1,7 +1,7 @@
-import 'package:flavorizr/features/user/home/presentation/providers/home_providers.dart';
-import 'package:flavorizr/features/user/home/presentation/widgets/advertisement_banner.dart';
-import 'package:flavorizr/features/user/home/presentation/widgets/available_trip_card.dart';
-import 'package:flavorizr/features/user/home/presentation/widgets/banner_carousel.dart';
+import 'package:fast_golden_taxi/features/user/home/presentation/providers/home_providers.dart';
+import 'package:fast_golden_taxi/features/user/home/presentation/widgets/advertisement_banner.dart';
+import 'package:fast_golden_taxi/features/user/home/presentation/widgets/available_trip_card.dart';
+import 'package:fast_golden_taxi/features/user/home/presentation/widgets/banner_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -74,14 +74,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Banners Carousel
-                    if (homeState.banners.isNotEmpty)
-                      BannerCarousel(banners: homeState.banners),
+                    if (homeState.banners.isNotEmpty) BannerCarousel(banners: homeState.banners),
 
                     // Advertisements
                     if (homeState.advertisements.isNotEmpty)
-                      AdvertisementBanner(
-                        advertisements: homeState.advertisements,
-                      ),
+                      AdvertisementBanner(advertisements: homeState.advertisements),
 
                     // Featured Trips Section
                     Padding(
@@ -91,16 +88,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                         children: [
                           const Text(
                             'Featured Trips',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 16),
                           if (homeState.featuredTrips.isEmpty)
-                            const Center(
-                              child: Text('No featured trips available'),
-                            )
+                            const Center(child: Text('No featured trips available'))
                           else
                             ListView.builder(
                               shrinkWrap: true,

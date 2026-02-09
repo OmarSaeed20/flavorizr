@@ -1,8 +1,8 @@
-/* import 'package:flavorizr/core/network/api/models/api_trip.dart';
-import 'package:flavorizr/core/network/api/parameters/trip_parameters.dart';
-import 'package:flavorizr/core/network/api/repositories/trip_repository.dart';
-import 'package:flavorizr/core/network/api_response.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+/* import 'package:fast_golden_taxi/core/network/api/models/api_trip.dart';
+import 'package:fast_golden_taxi/core/network/api/parameters/trip_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api/repositories/trip_repository.dart';
+import 'package:fast_golden_taxi/core/network/api_response.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
 
 /// Trip Service
 /// Business logic layer for trip operations

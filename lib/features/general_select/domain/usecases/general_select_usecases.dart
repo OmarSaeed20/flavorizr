@@ -1,36 +1,32 @@
 // lib/features/general_select/domain/usecases/general_select_usecases.dart
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_about_us_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_cities_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_common_problems_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_countries_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_general_settings_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_policies_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_questions_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_select_options_parameters.dart';
-import 'package:flavorizr/features/general_select/data/parameters/get_vehicle_types_parameters.dart';
-import 'package:flavorizr/features/general_select/domain/entities/select_option.dart';
-import 'package:flavorizr/features/general_select/domain/repositories/general_select_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_about_us_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_cities_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_common_problems_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_countries_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_general_settings_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_policies_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_questions_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_select_options_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/data/parameters/get_vehicle_types_parameters.dart';
+import 'package:fast_golden_taxi/features/general_select/domain/entities/select_option.dart';
+import 'package:fast_golden_taxi/features/general_select/domain/repositories/general_select_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for getting select options.
-class GetSelectOptionsUseCase
-    implements UseCase<List<SelectOption>, GetSelectOptionsParameters> {
+class GetSelectOptionsUseCase implements UseCase<List<SelectOption>, GetSelectOptionsParameters> {
   GetSelectOptionsUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
 
   @override
-  Future<ApiResult<List<SelectOption>>> call(
-    GetSelectOptionsParameters params,
-  ) {
+  Future<ApiResult<List<SelectOption>>> call(GetSelectOptionsParameters params) {
     return _repository.getSelectOptions(params);
   }
 }
 
 /// Use case for getting vehicle types.
-class GetVehicleTypesUseCase
-    implements UseCase<List<SelectOption>, GetVehicleTypesParameters> {
+class GetVehicleTypesUseCase implements UseCase<List<SelectOption>, GetVehicleTypesParameters> {
   GetVehicleTypesUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
@@ -42,8 +38,7 @@ class GetVehicleTypesUseCase
 }
 
 /// Use case for getting cities.
-class GetCitiesUseCase
-    implements UseCase<List<SelectOption>, GetCitiesParameters> {
+class GetCitiesUseCase implements UseCase<List<SelectOption>, GetCitiesParameters> {
   GetCitiesUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
@@ -55,23 +50,19 @@ class GetCitiesUseCase
 }
 
 /// Use case for getting common problems.
-class GetCommonProblemsUseCase
-    implements UseCase<List<SelectOption>, GetCommonProblemsParameters> {
+class GetCommonProblemsUseCase implements UseCase<List<SelectOption>, GetCommonProblemsParameters> {
   GetCommonProblemsUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
 
   @override
-  Future<ApiResult<List<SelectOption>>> call(
-    GetCommonProblemsParameters params,
-  ) {
+  Future<ApiResult<List<SelectOption>>> call(GetCommonProblemsParameters params) {
     return _repository.getCommonProblems(params);
   }
 }
 
 /// Use case for getting countries.
-class GetCountriesUseCase
-    implements UseCase<List<SelectOption>, GetCountriesParameters> {
+class GetCountriesUseCase implements UseCase<List<SelectOption>, GetCountriesParameters> {
   GetCountriesUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
@@ -83,8 +74,7 @@ class GetCountriesUseCase
 }
 
 /// Use case for getting about us information.
-class GetAboutUsUseCase
-    implements UseCase<Map<String, dynamic>, GetAboutUsParameters> {
+class GetAboutUsUseCase implements UseCase<Map<String, dynamic>, GetAboutUsParameters> {
   GetAboutUsUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
@@ -96,23 +86,19 @@ class GetAboutUsUseCase
 }
 
 /// Use case for getting frequently asked questions.
-class GetQuestionsUseCase
-    implements UseCase<List<Map<String, dynamic>>, GetQuestionsParameters> {
+class GetQuestionsUseCase implements UseCase<List<Map<String, dynamic>>, GetQuestionsParameters> {
   GetQuestionsUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
 
   @override
-  Future<ApiResult<List<Map<String, dynamic>>>> call(
-    GetQuestionsParameters params,
-  ) {
+  Future<ApiResult<List<Map<String, dynamic>>>> call(GetQuestionsParameters params) {
     return _repository.getQuestions(params);
   }
 }
 
 /// Use case for getting app policies.
-class GetPoliciesUseCase
-    implements UseCase<Map<String, dynamic>, GetPoliciesParameters> {
+class GetPoliciesUseCase implements UseCase<Map<String, dynamic>, GetPoliciesParameters> {
   GetPoliciesUseCase(this._repository);
 
   final GeneralSelectRepository _repository;
@@ -131,9 +117,7 @@ class GetGeneralSettingsUseCase
   final GeneralSelectRepository _repository;
 
   @override
-  Future<ApiResult<Map<String, dynamic>>> call(
-    GetGeneralSettingsParameters params,
-  ) {
+  Future<ApiResult<Map<String, dynamic>>> call(GetGeneralSettingsParameters params) {
     return _repository.getGeneralSettings(params);
   }
 }

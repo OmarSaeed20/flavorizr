@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for uploading driver document.
@@ -31,13 +31,11 @@ class UploadDocumentParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UploadDocumentParametersBuilder builder() =>
-      UploadDocumentParametersBuilder();
+  static UploadDocumentParametersBuilder builder() => UploadDocumentParametersBuilder();
 }
 
 /// Builder for UploadDocumentParameters
-class UploadDocumentParametersBuilder
-    extends ParametersBuilder<UploadDocumentParameters> {
+class UploadDocumentParametersBuilder extends ParametersBuilder<UploadDocumentParameters> {
   String? _documentType;
   String? _documentImage;
   CancelToken? _cancelToken;

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/logger/app_logger.dart';
+import 'package:fast_golden_taxi/core/logger/app_logger.dart';
 
 /// Interceptor that logs all HTTP requests and responses
 class LoggingInterceptor extends Interceptor {

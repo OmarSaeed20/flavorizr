@@ -1,5 +1,5 @@
 // lib/features/chat/presentation/widgets/message_bubble.dart
-import 'package:flavorizr/features/user/chat/domain/entities/message.dart';
+import 'package:fast_golden_taxi/features/user/chat/domain/entities/message.dart';
 import 'package:flutter/material.dart';
 
 /// A bubble widget displaying a single message.
@@ -25,17 +25,13 @@ class MessageBubble extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Row(
-          mainAxisAlignment: isMe
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.start,
+          mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (!isMe) ...[_buildAvatar(theme), const SizedBox(width: 8)],
             Flexible(
               child: Column(
-                crossAxisAlignment: isMe
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
+                crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
                   if (!isMe && message.senderName != null)
                     Padding(
@@ -63,23 +59,15 @@ class MessageBubble extends StatelessWidget {
 
   Widget _buildAvatar(ThemeData theme) {
     if (message.senderAvatar != null) {
-      return CircleAvatar(
-        radius: 16,
-        backgroundImage: NetworkImage(message.senderAvatar!),
-      );
+      return CircleAvatar(radius: 16, backgroundImage: NetworkImage(message.senderAvatar!));
     }
 
     return CircleAvatar(
       radius: 16,
       backgroundColor: theme.colorScheme.primaryContainer,
       child: Text(
-        (message.senderName?.isNotEmpty ?? false)
-            ? message.senderName![0].toUpperCase()
-            : '?',
-        style: TextStyle(
-          fontSize: 12,
-          color: theme.colorScheme.onPrimaryContainer,
-        ),
+        (message.senderName?.isNotEmpty ?? false) ? message.senderName![0].toUpperCase() : '?',
+        style: TextStyle(fontSize: 12, color: theme.colorScheme.onPrimaryContainer),
       ),
     );
   }
@@ -93,9 +81,7 @@ class MessageBubble extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(8),
-        border: Border(
-          left: BorderSide(color: theme.colorScheme.primary, width: 2),
-        ),
+        border: Border(left: BorderSide(color: theme.colorScheme.primary, width: 2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,9 +110,7 @@ class MessageBubble extends StatelessWidget {
         ? theme.colorScheme.primary
         : theme.colorScheme.surfaceContainerHighest;
 
-    final textColor = isMe
-        ? theme.colorScheme.onPrimary
-        : theme.colorScheme.onSurface;
+    final textColor = isMe ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface;
 
     final borderRadius = BorderRadius.only(
       topLeft: const Radius.circular(16),
@@ -169,10 +153,7 @@ class MessageBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (message.content != null && message.content!.isNotEmpty)
-            Text(
-              message.content!,
-              style: TextStyle(color: textColor, fontSize: 15),
-            ),
+            Text(message.content!, style: TextStyle(color: textColor, fontSize: 15)),
           const SizedBox(height: 4),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -184,10 +165,7 @@ class MessageBubble extends StatelessWidget {
                   fontSize: 11,
                 ),
               ),
-              if (isMe) ...[
-                const SizedBox(width: 4),
-                _buildStatusIcon(theme, textColor),
-              ],
+              if (isMe) ...[const SizedBox(width: 4), _buildStatusIcon(theme, textColor)],
               if (message.isEdited) ...[
                 const SizedBox(width: 4),
                 Text(
@@ -247,15 +225,11 @@ class MessageBubble extends StatelessWidget {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(8),
-                color: isMe
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.surfaceContainerHighest,
+                color: isMe ? theme.colorScheme.primary : theme.colorScheme.surfaceContainerHighest,
                 child: Text(
                   message.content!,
                   style: TextStyle(
-                    color: isMe
-                        ? theme.colorScheme.onPrimary
-                        : theme.colorScheme.onSurface,
+                    color: isMe ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -283,18 +257,14 @@ class MessageBubble extends StatelessWidget {
               child: Image.network(
                 attachment.thumbnailUrl!,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
-                    const SizedBox(width: 200, height: 150),
+                errorBuilder: (_, __, ___) => const SizedBox(width: 200, height: 150),
               ),
             )
           else
             Container(width: 200, height: 150, color: Colors.black87),
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: const BoxDecoration(
-              color: Colors.black54,
-              shape: BoxShape.circle,
-            ),
+            decoration: const BoxDecoration(color: Colors.black54, shape: BoxShape.circle),
             child: const Icon(Icons.play_arrow, color: Colors.white, size: 32),
           ),
           if (attachment.duration != null)
@@ -353,14 +323,10 @@ class MessageBubble extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  message.attachments.isNotEmpty &&
-                          message.attachments.first.duration != null
+                  message.attachments.isNotEmpty && message.attachments.first.duration != null
                       ? _formatDuration(message.attachments.first.duration!)
                       : '0:00',
-                  style: TextStyle(
-                    color: textColor.withValues(alpha: 0.7),
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: textColor.withValues(alpha: 0.7), fontSize: 12),
                 ),
               ],
             ),
@@ -402,18 +368,12 @@ class MessageBubble extends StatelessWidget {
                   attachment.fileName ?? 'File',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
                 ),
                 if (attachment.fileSize != null)
                   Text(
                     attachment.formattedSize,
-                    style: TextStyle(
-                      color: textColor.withValues(alpha: 0.7),
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: textColor.withValues(alpha: 0.7), fontSize: 12),
                   ),
               ],
             ),
@@ -446,9 +406,7 @@ class MessageBubble extends StatelessWidget {
                 topRight: borderRadius.topRight,
               ),
             ),
-            child: const Center(
-              child: Icon(Icons.map, size: 48, color: Colors.grey),
-            ),
+            child: const Center(child: Icon(Icons.map, size: 48, color: Colors.grey)),
           ),
           Padding(
             padding: const EdgeInsets.all(12),
@@ -463,9 +421,7 @@ class MessageBubble extends StatelessWidget {
                       if (location.name != null)
                         Text(
                           location.name!,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
                         ),
                       if (location.address != null)
                         Text(
@@ -519,9 +475,7 @@ class MessageBubble extends StatelessWidget {
               decoration: BoxDecoration(
                 color: theme.colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: theme.colorScheme.outline.withValues(alpha: 0.3),
-                ),
+                border: Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.3)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/entities/driver_settings.dart';
-import 'package:flavorizr/features/driver/driver_settings/domain/repositories/driver_settings_repository.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/entities/driver_settings.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/domain/repositories/driver_settings_repository.dart';
 
 /// Use case for toggling availability status.
 /// Note: This functionality needs to be added to the repository interface

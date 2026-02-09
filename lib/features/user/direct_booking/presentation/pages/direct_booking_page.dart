@@ -1,8 +1,8 @@
-import 'package:flavorizr/features/user/direct_booking/presentation/controllers/direct_booking_controller.dart';
-import 'package:flavorizr/features/user/direct_booking/presentation/providers/direct_booking_providers.dart';
-import 'package:flavorizr/features/user/direct_booking/presentation/widgets/booking_status_card.dart';
-import 'package:flavorizr/features/user/direct_booking/presentation/widgets/driver_info_card.dart';
-import 'package:flavorizr/features/user/direct_booking/presentation/widgets/vehicle_type_card.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/presentation/controllers/direct_booking_controller.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/presentation/providers/direct_booking_providers.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/presentation/widgets/booking_status_card.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/presentation/widgets/driver_info_card.dart';
+import 'package:fast_golden_taxi/features/user/direct_booking/presentation/widgets/vehicle_type_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -78,9 +78,7 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
               decoration: InputDecoration(
                 hintText: 'Enter pickup location',
                 prefixIcon: const Icon(Icons.location_on),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
               ),
             ),
             const SizedBox(height: 16),
@@ -93,9 +91,7 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
               decoration: InputDecoration(
                 hintText: 'Enter dropoff location',
                 prefixIcon: const Icon(Icons.flag),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
               ),
             ),
           ],
@@ -126,8 +122,7 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
                     final vehicleType = state.vehicleTypes[index];
                     return VehicleTypeCard(
                       vehicleType: vehicleType,
-                      isSelected:
-                          state.selectedVehicleType?.id == vehicleType.id,
+                      isSelected: state.selectedVehicleType?.id == vehicleType.id,
                       onTap: () {
                         ref
                             .read(directBookingControllerProvider.notifier)
@@ -144,10 +139,7 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Nearby Drivers',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        const Text('Nearby Drivers', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         if (state.isLoadingDrivers)
           const Center(child: CircularProgressIndicator())

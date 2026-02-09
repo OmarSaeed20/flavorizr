@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/network/api_client.dart';
-import 'package:flavorizr/core/network/base/datasource/base_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_home/data/endpoints/driver_home_endpoints.dart';
-import 'package:flavorizr/features/driver/driver_home/data/models/driver_home_data_model.dart';
+import 'package:fast_golden_taxi/core/network/api_client.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/data/endpoints/driver_home_endpoints.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/data/models/driver_home_data_model.dart';
 
 /// Remote data source for driver home data.
 ///
@@ -31,8 +31,7 @@ class DriverHomeRemoteDataSourceImpl
   Future<ApiResult<DriverHomeDataModel>> getDriverHomeData() async {
     return get<DriverHomeDataModel>(
       path: DriverHomeEndpoints.homeData,
-      decoder: (data) =>
-          DriverHomeDataModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) => DriverHomeDataModel.fromJson(data as Map<String, dynamic>),
     );
   }
 }

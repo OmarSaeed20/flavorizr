@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_settings/data/models/driver_settings_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_settings/data/models/driver_settings_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for driver settings operations.
@@ -68,8 +68,7 @@ class DriverSettingsLocalDataSourceImpl
     return saveLocalData<DriverSettingsModel>(
       key: _keySettings,
       data: settings,
-      saver: (data) async =>
-          _preferences.setString(_keySettings, data.toJson().toString()),
+      saver: (data) async => _preferences.setString(_keySettings, data.toJson().toString()),
     );
   }
 

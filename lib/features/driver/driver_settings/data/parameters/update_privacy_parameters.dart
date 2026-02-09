@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for updating driver privacy settings.
@@ -39,13 +39,11 @@ class UpdatePrivacyParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdatePrivacyParametersBuilder builder() =>
-      UpdatePrivacyParametersBuilder();
+  static UpdatePrivacyParametersBuilder builder() => UpdatePrivacyParametersBuilder();
 }
 
 /// Builder for UpdatePrivacyParameters
-class UpdatePrivacyParametersBuilder
-    extends ParametersBuilder<UpdatePrivacyParameters> {
+class UpdatePrivacyParametersBuilder extends ParametersBuilder<UpdatePrivacyParameters> {
   bool? _showPhone;
   bool? _showLocation;
   bool? _allowRatings;

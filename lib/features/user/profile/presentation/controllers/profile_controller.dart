@@ -1,8 +1,8 @@
 // lib/features/profile/presentation/controllers/profile_controller.dart
-import 'package:flavorizr/features/user/profile/domain/entities/profile.dart';
-import 'package:flavorizr/features/user/profile/domain/usecases/profile_usecases.dart';
-import 'package:flavorizr/features/user/profile/presentation/providers/profile_providers.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/entities/profile.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/usecases/profile_usecases.dart';
+import 'package:fast_golden_taxi/features/user/profile/presentation/providers/profile_providers.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for profile viewing.

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting general app settings.
@@ -9,8 +9,7 @@ import 'package:meta/meta.dart';
 class GetGeneralSettingsParameters extends Parameters {
   final CancelToken? _cancelToken;
 
-  const GetGeneralSettingsParameters._({CancelToken? cancelToken})
-    : _cancelToken = cancelToken;
+  const GetGeneralSettingsParameters._({CancelToken? cancelToken}) : _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -22,20 +21,16 @@ class GetGeneralSettingsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetGeneralSettingsParametersBuilder builder() =>
-      GetGeneralSettingsParametersBuilder();
+  static GetGeneralSettingsParametersBuilder builder() => GetGeneralSettingsParametersBuilder();
 }
 
 /// Builder for GetGeneralSettingsParameters
-class GetGeneralSettingsParametersBuilder
-    extends ParametersBuilder<GetGeneralSettingsParameters> {
+class GetGeneralSettingsParametersBuilder extends ParametersBuilder<GetGeneralSettingsParameters> {
   CancelToken? _cancelToken;
 
   /// Set the cancel token for request cancellation
   @override
-  GetGeneralSettingsParametersBuilder withCancelToken(
-    CancelToken? cancelToken,
-  ) {
+  GetGeneralSettingsParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }

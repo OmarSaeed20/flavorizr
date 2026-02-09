@@ -1,10 +1,10 @@
-import 'package:flavorizr/config/flavors.dart';
-import 'package:flavorizr/core/localization/locale_controller.dart';
-import 'package:flavorizr/core/logger/logger_ui_components.dart';
-import 'package:flavorizr/core/router/app_router.dart';
-import 'package:flavorizr/core/theme/app_theme.dart';
-import 'package:flavorizr/core/theme/theme_controller.dart';
-import 'package:flavorizr/l10n/app_localizations.dart';
+import 'package:fast_golden_taxi/config/flavors.dart';
+import 'package:fast_golden_taxi/core/localization/locale_controller.dart';
+import 'package:fast_golden_taxi/core/logger/logger_ui_components.dart';
+import 'package:fast_golden_taxi/core/router/app_router.dart';
+import 'package:fast_golden_taxi/core/theme/app_theme.dart';
+import 'package:fast_golden_taxi/core/theme/theme_controller.dart';
+import 'package:fast_golden_taxi/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

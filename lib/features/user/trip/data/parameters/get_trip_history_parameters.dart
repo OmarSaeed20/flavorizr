@@ -1,16 +1,12 @@
 // lib/features/trip/data/parameters/get_trip_history_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting trip history.
 @immutable
 class GetTripHistoryParameters extends Parameters {
-  const GetTripHistoryParameters._({
-    this.page = 1,
-    this.perPage = 10,
-    this.cancelToken,
-  });
+  const GetTripHistoryParameters._({this.page = 1, this.perPage = 10, this.cancelToken});
 
   @override
   Map<String, dynamic> toJson() => {'page': page, 'per_page': perPage};
@@ -21,13 +17,11 @@ class GetTripHistoryParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static GetTripHistoryParametersBuilder builder() =>
-      GetTripHistoryParametersBuilder();
+  static GetTripHistoryParametersBuilder builder() => GetTripHistoryParametersBuilder();
 }
 
 /// Builder for GetTripHistoryParameters.
-class GetTripHistoryParametersBuilder
-    extends ParametersBuilder<GetTripHistoryParameters> {
+class GetTripHistoryParametersBuilder extends ParametersBuilder<GetTripHistoryParameters> {
   int _page = 1;
   int _perPage = 10;
   CancelToken? _cancelToken;
@@ -50,10 +44,6 @@ class GetTripHistoryParametersBuilder
 
   @override
   GetTripHistoryParameters build() {
-    return GetTripHistoryParameters._(
-      page: _page,
-      perPage: _perPage,
-      cancelToken: _cancelToken,
-    );
+    return GetTripHistoryParameters._(page: _page, perPage: _perPage, cancelToken: _cancelToken);
   }
 }

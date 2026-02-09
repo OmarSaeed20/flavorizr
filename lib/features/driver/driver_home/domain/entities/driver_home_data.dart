@@ -1,6 +1,6 @@
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_earnings.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_stats.dart';
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_trip.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_earnings.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_stats.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_trip.dart';
 
 /// Driver home data entity that aggregates all information needed for the driver home screen
 class DriverHomeData {

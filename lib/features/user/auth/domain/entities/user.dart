@@ -1,5 +1,5 @@
 // lib/features/auth/domain/entities/user.dart
-import 'package:flavorizr/features/user/auth/data/models/user_model.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart';
 
 /// Represents an authenticated user in the domain layer.
 ///
@@ -36,9 +36,7 @@ class User {
       phoneVerified: map['phoneVerified'] as bool? ?? false,
       isActive: map['isActive'] as bool? ?? true,
       createdAt: DateTime.parse(map['createdAt'] as String),
-      lastLoginAt: map['lastLoginAt'] != null
-          ? DateTime.parse(map['lastLoginAt'] as String)
-          : null,
+      lastLoginAt: map['lastLoginAt'] != null ? DateTime.parse(map['lastLoginAt'] as String) : null,
       roles: List<String>.from(map['roles'] as List? ?? ['user']),
       metadata: Map<String, dynamic>.from(map['metadata'] as Map? ?? {}),
     );

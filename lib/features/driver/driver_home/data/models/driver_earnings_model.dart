@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_earnings.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_earnings.dart';
 
 /// Model for driver earnings
 class DriverEarningsModel extends DriverEarnings {
@@ -26,9 +26,7 @@ class DriverEarningsModel extends DriverEarnings {
       monthlyTrips: json['monthlyTrips'] ?? 0,
       totalTrips: json['totalTrips'] ?? 0,
       averageRating: (json['averageRating'] ?? 0.0).toDouble(),
-      lastUpdated: DateTime.parse(
-        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
-      ),
+      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
     );
   }
 

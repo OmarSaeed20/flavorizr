@@ -1,10 +1,10 @@
 // lib/features/auth/presentation/controllers/login_controller.dart
-import 'package:flavorizr/features/user/auth/domain/entities/auth_result.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/biometric_auth_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/login_usecase.dart';
-import 'package:flavorizr/features/user/auth/domain/usecases/social_auth_usecase.dart';
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/biometric_auth_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/login_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/social_auth_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the login form.
@@ -39,8 +39,7 @@ class LoginState {
   final bool showPassword;
   final bool rememberMe;
 
-  bool get isAnyLoading =>
-      isLoading || isGoogleLoading || isAppleLoading || isBiometricLoading;
+  bool get isAnyLoading => isLoading || isGoogleLoading || isAppleLoading || isBiometricLoading;
 
   LoginState copyWith({
     String? phone,
@@ -69,9 +68,7 @@ class LoginState {
       isBiometricLoading: isBiometricLoading ?? this.isBiometricLoading,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
       phoneError: clearFieldErrors ? null : phoneError ?? this.phoneError,
-      passwordError: clearFieldErrors
-          ? null
-          : passwordError ?? this.passwordError,
+      passwordError: clearFieldErrors ? null : passwordError ?? this.passwordError,
       isSuccess: isSuccess ?? this.isSuccess,
       showPassword: showPassword ?? this.showPassword,
       rememberMe: rememberMe ?? this.rememberMe,
@@ -97,29 +94,17 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
 
   /// Updates the phone field.
   void setPhone(String phone) {
-    state = state.copyWith(
-      phone: phone,
-      clearError: true,
-      clearFieldErrors: true,
-    );
+    state = state.copyWith(phone: phone, clearError: true, clearFieldErrors: true);
   }
 
   /// Updates the phone ISO code field.
   void setPhoneIsoCode(String phoneIsoCode) {
-    state = state.copyWith(
-      phoneIsoCode: phoneIsoCode,
-      clearError: true,
-      clearFieldErrors: true,
-    );
+    state = state.copyWith(phoneIsoCode: phoneIsoCode, clearError: true, clearFieldErrors: true);
   }
 
   /// Updates the password field.
   void setPassword(String password) {
-    state = state.copyWith(
-      password: password,
-      clearError: true,
-      clearFieldErrors: true,
-    );
+    state = state.copyWith(password: password, clearError: true, clearFieldErrors: true);
   }
 
   /// Toggles password visibility.
@@ -157,10 +142,7 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
     }
 
     if (phoneError != null || passwordError != null) {
-      state = state.copyWith(
-        phoneError: phoneError,
-        passwordError: passwordError,
-      );
+      state = state.copyWith(phoneError: phoneError, passwordError: passwordError);
       return false;
     }
 
@@ -191,20 +173,14 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
       );
 
       if (result.error != null) {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return null;
       }
 
       state = state.copyWith(isLoading: false, isSuccess: true);
       return result.data;
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'An unexpected error occurred',
-      );
+      state = state.copyWith(isLoading: false, errorMessage: 'An unexpected error occurred');
       return null;
     }
   }
@@ -219,20 +195,14 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
       final result = await _googleSignInUseCase(const NoParams());
 
       if (result.error != null) {
-        state = state.copyWith(
-          isGoogleLoading: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isGoogleLoading: false, errorMessage: result.error!.message);
         return null;
       }
 
       state = state.copyWith(isGoogleLoading: false, isSuccess: true);
       return result.data;
     } catch (e) {
-      state = state.copyWith(
-        isGoogleLoading: false,
-        errorMessage: 'Failed to sign in with Google',
-      );
+      state = state.copyWith(isGoogleLoading: false, errorMessage: 'Failed to sign in with Google');
       return null;
     }
   }
@@ -247,20 +217,14 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
       final result = await _appleSignInUseCase(const NoParams());
 
       if (result.error != null) {
-        state = state.copyWith(
-          isAppleLoading: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isAppleLoading: false, errorMessage: result.error!.message);
         return null;
       }
 
       state = state.copyWith(isAppleLoading: false, isSuccess: true);
       return result.data;
     } catch (e) {
-      state = state.copyWith(
-        isAppleLoading: false,
-        errorMessage: 'Failed to sign in with Apple',
-      );
+      state = state.copyWith(isAppleLoading: false, errorMessage: 'Failed to sign in with Apple');
       return null;
     }
   }
@@ -275,10 +239,7 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
       final result = await _biometricSignInUseCase(const NoParams());
 
       if (result.error != null) {
-        state = state.copyWith(
-          isBiometricLoading: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isBiometricLoading: false, errorMessage: result.error!.message);
         return null;
       }
 
@@ -300,7 +261,6 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
 }
 
 /// Provider for the login controller.
-final loginControllerProvider =
-    NotifierProvider.autoDispose<LoginController, LoginState>(
-      LoginController.new,
-    );
+final loginControllerProvider = NotifierProvider.autoDispose<LoginController, LoginState>(
+  LoginController.new,
+);

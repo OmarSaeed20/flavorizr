@@ -1,6 +1,6 @@
-import 'package:flavorizr/features/user/home/domain/entities/advertisement.dart';
-import 'package:flavorizr/features/user/home/domain/entities/available_trip.dart';
-import 'package:flavorizr/features/user/home/domain/entities/banner.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/entities/advertisement.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/entities/available_trip.dart';
+import 'package:fast_golden_taxi/features/user/home/domain/entities/banner.dart';
 
 class HomeData {
   final List<Banner> banners;

@@ -1,6 +1,6 @@
 // lib/features/trip/data/parameters/book_now_order_parameters.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/trip/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/trip/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for booking a trip now.
@@ -16,13 +16,11 @@ class BookNowOrderParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static BookNowOrderParametersBuilder builder() =>
-      BookNowOrderParametersBuilder();
+  static BookNowOrderParametersBuilder builder() => BookNowOrderParametersBuilder();
 }
 
 /// Builder for BookNowOrderParameters.
-class BookNowOrderParametersBuilder
-    extends ParametersBuilder<BookNowOrderParameters> {
+class BookNowOrderParametersBuilder extends ParametersBuilder<BookNowOrderParameters> {
   int? _orderId;
   CancelToken? _cancelToken;
 
@@ -39,9 +37,6 @@ class BookNowOrderParametersBuilder
 
   @override
   BookNowOrderParameters build() {
-    return BookNowOrderParameters._(
-      orderId: _orderId!,
-      cancelToken: _cancelToken,
-    );
+    return BookNowOrderParameters._(orderId: _orderId!, cancelToken: _cancelToken);
   }
 }

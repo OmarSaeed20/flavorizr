@@ -1,6 +1,6 @@
 // import 'package:dio/dio.dart';
-// import 'package:flavorizr/core/error/failures.dart';
-// import 'package:flavorizr/core/network/exception/network_exceptions.dart';
+// import 'package:fast_golden_taxi/core/error/failures.dart';
+// import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 
 // /// Handles DioExceptions and converts them to appropriate failures
 // class DioExceptionHandler {

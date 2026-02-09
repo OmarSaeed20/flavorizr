@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_trips/domain/entities/trip_route.dart';
+import 'package:fast_golden_taxi/features/driver/driver_trips/domain/entities/trip_route.dart';
 
 /// Model for trip route
 class TripRouteModel extends TripRoute {
@@ -25,9 +25,7 @@ class TripRouteModel extends TripRoute {
       distance: (json['distance'] ?? 0).toDouble(),
       duration: (json['duration'] ?? 0).toDouble(),
       waypoints:
-          (json['waypoints'] as List<dynamic>?)
-              ?.map((e) => RoutePointModel.fromJson(e))
-              .toList() ??
+          (json['waypoints'] as List<dynamic>?)?.map((e) => RoutePointModel.fromJson(e)).toList() ??
           [],
     );
   }
@@ -42,9 +40,7 @@ class TripRouteModel extends TripRoute {
       'dropoffLongitude': dropoffLongitude,
       'distance': distance,
       'duration': duration,
-      'waypoints': waypoints
-          ?.map((e) => (e as RoutePointModel).toJson())
-          .toList(),
+      'waypoints': waypoints?.map((e) => (e as RoutePointModel).toJson()).toList(),
     };
   }
 }
@@ -68,11 +64,6 @@ class RoutePointModel extends RoutePoint {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'location': location,
-      'latitude': latitude,
-      'longitude': longitude,
-      'order': order,
-    };
+    return {'location': location, 'latitude': latitude, 'longitude': longitude, 'order': order};
   }
 }

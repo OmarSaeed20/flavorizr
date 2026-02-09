@@ -1,5 +1,5 @@
 // lib/features/trip/data/models/trip_order_model.dart
-import 'package:flavorizr/features/user/trip/domain/entities/trip_order.dart';
+import 'package:fast_golden_taxi/features/user/trip/domain/entities/trip_order.dart';
 
 /// Data model for TripOrder, used for JSON serialization.
 ///
@@ -32,11 +32,8 @@ class TripOrderModel {
       tripId: json['trip_id'] as String? ?? json['tripId'] as String,
       userId: json['user_id'] as String? ?? json['userId'] as String,
       status: OrderStatus.fromString(json['status'] as String? ?? 'pending'),
-      paymentStatus: PaymentStatus.fromString(
-        json['payment_status'] as String? ?? 'pending',
-      ),
-      paymentMethod:
-          json['payment_method'] as String? ?? json['paymentMethod'] as String?,
+      paymentStatus: PaymentStatus.fromString(json['payment_status'] as String? ?? 'pending'),
+      paymentMethod: json['payment_method'] as String? ?? json['paymentMethod'] as String?,
       totalAmount: (json['total_amount'] as num?)?.toDouble(),
       currency: json['currency'] as String? ?? 'USD',
       discountAmount: (json['discount_amount'] as num?)?.toDouble(),

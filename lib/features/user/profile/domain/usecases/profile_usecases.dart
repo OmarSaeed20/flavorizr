@@ -1,9 +1,9 @@
 // lib/features/profile/domain/usecases/profile_usecases.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/profile/domain/entities/profile.dart';
-import 'package:flavorizr/features/user/profile/domain/repositories/profile_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/entities/profile.dart';
+import 'package:fast_golden_taxi/features/user/profile/domain/repositories/profile_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for getting the current user's profile.
 class GetProfileUseCase implements UseCase<Profile, NoParams> {
@@ -36,9 +36,7 @@ class UpdateProfileInfoUseCase implements UseCase<Profile, ProfileUpdateData> {
   Future<ApiResult<Profile>> call(ProfileUpdateData data) async {
     // Validate update data
     if (data.isEmpty) {
-      return const ApiResult.exception(
-        ValidationException(message: 'No data to update'),
-      );
+      return const ApiResult.exception(ValidationException(message: 'No data to update'));
     }
 
     // Validate name length
@@ -61,9 +59,7 @@ class UpdateProfileInfoUseCase implements UseCase<Profile, ProfileUpdateData> {
     // Validate gender
     if (data.gender != null && !['male', 'female'].contains(data.gender)) {
       return const ApiResult.exception(
-        ValidationException(
-          message: 'Gender must be either "male" or "female"',
-        ),
+        ValidationException(message: 'Gender must be either "male" or "female"'),
       );
     }
 
@@ -72,9 +68,7 @@ class UpdateProfileInfoUseCase implements UseCase<Profile, ProfileUpdateData> {
       final dateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
       if (!dateRegex.hasMatch(data.birthDate!)) {
         return const ApiResult.exception(
-          ValidationException(
-            message: 'Birth date must be in YYYY-MM-DD format',
-          ),
+          ValidationException(message: 'Birth date must be in YYYY-MM-DD format'),
         );
       }
     }
@@ -92,9 +86,7 @@ class GetDriverReviewsUseCase implements UseCase<List<DriverReview>, String> {
   Future<ApiResult<List<DriverReview>>> call(String driverId) {
     if (driverId.isEmpty) {
       return Future.value(
-        const ApiResult.exception(
-          ValidationException(message: 'Driver ID is required'),
-        ),
+        const ApiResult.exception(ValidationException(message: 'Driver ID is required')),
       );
     }
     return _repository.getDriverReviews(driverId);

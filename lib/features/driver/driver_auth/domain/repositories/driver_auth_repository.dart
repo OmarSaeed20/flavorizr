@@ -1,5 +1,5 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver_credentials.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/domain/entities/driver_credentials.dart';
 
 /// Repository interface for driver authentication operations.
 ///
@@ -7,10 +7,7 @@ import 'package:flavorizr/features/driver/driver_auth/domain/entities/driver_cre
 abstract class DriverAuthRepository {
   /// Logs in a driver with phone and password.
   /// Endpoint: POST /driver/auth/login
-  Future<ApiResult<DriverCredentials>> login({
-    required String phone,
-    required String password,
-  });
+  Future<ApiResult<DriverCredentials>> login({required String phone, required String password});
 
   /// Registers a new driver.
   /// Endpoint: POST /driver/auth/register

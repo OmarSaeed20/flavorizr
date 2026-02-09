@@ -1,6 +1,6 @@
-import 'package:flavorizr/core/network/base/datasource/base_local_data_source.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/driver/driver_reviews/data/models/driver_review_model.dart';
+import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/driver/driver_reviews/data/models/driver_review_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for driver reviews operations.
@@ -41,9 +41,7 @@ class DriverReviewLocalDataSourceImpl
           (_preferences.getString(_reviewsKey)) != null ? {} : {},
         );
         final list = data['reviews'] as List? ?? data['data'] as List? ?? [];
-        return list
-            .map((e) => DriverReviewModel.fromJson(e as Map<String, dynamic>))
-            .toList();
+        return list.map((e) => DriverReviewModel.fromJson(e as Map<String, dynamic>)).toList();
       },
     );
   }

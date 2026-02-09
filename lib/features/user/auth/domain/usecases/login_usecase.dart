@@ -1,10 +1,10 @@
 // lib/features/auth/domain/usecases/login_usecase.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/auth_result.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for phone/password login.
 ///
@@ -89,11 +89,7 @@ class LoginUseCase implements UseCase<AuthResult, LoginParams> {
 /// Parameters for the login use case.
 class LoginParams {
   /// Creates login parameters.
-  const LoginParams({
-    required this.phone,
-    required this.phoneIsoCode,
-    required this.password,
-  });
+  const LoginParams({required this.phone, required this.phoneIsoCode, required this.password});
 
   /// User's phone number.
   final String phone;

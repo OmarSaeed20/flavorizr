@@ -1,6 +1,6 @@
 // lib/features/auth/presentation/controllers/reset_password_controller.dart
-import 'package:flavorizr/features/user/auth/domain/usecases/password_reset_usecase.dart';
-import 'package:flavorizr/features/user/auth/presentation/providers/auth_providers.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/usecases/password_reset_usecase.dart';
+import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for the reset password form.
@@ -52,9 +52,7 @@ class ResetPasswordState {
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
-      passwordError: clearFieldErrors
-          ? null
-          : passwordError ?? this.passwordError,
+      passwordError: clearFieldErrors ? null : passwordError ?? this.passwordError,
       confirmPasswordError: clearFieldErrors
           ? null
           : confirmPasswordError ?? this.confirmPasswordError,
@@ -97,11 +95,7 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
 
   /// Updates the confirm password field.
   void setConfirmPassword(String password) {
-    state = state.copyWith(
-      confirmPassword: password,
-      clearError: true,
-      clearFieldErrors: true,
-    );
+    state = state.copyWith(confirmPassword: password, clearError: true, clearFieldErrors: true);
   }
 
   /// Toggles new password visibility.
@@ -149,9 +143,7 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
 
     // Validate token
     if (state.token.isEmpty) {
-      state = state.copyWith(
-        errorMessage: 'Invalid reset link. Please request a new one.',
-      );
+      state = state.copyWith(errorMessage: 'Invalid reset link. Please request a new one.');
       return false;
     }
 
@@ -205,10 +197,7 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
       );
 
       if (result.error != null) {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return false;
       }
 

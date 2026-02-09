@@ -1,4 +1,4 @@
-import 'package:flavorizr/features/driver/driver_home/domain/entities/driver_earnings.dart';
+import 'package:fast_golden_taxi/features/driver/driver_home/domain/entities/driver_earnings.dart';
 import 'package:flutter/material.dart';
 
 /// Widget displaying driver earnings
@@ -19,15 +19,9 @@ class DriverEarningsCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Earnings',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                const Text('Earnings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.amber.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(20),
@@ -38,10 +32,7 @@ class DriverEarningsCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         earnings.averageRating.toStringAsFixed(1),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.amber,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
                       ),
                     ],
                   ),
@@ -130,10 +121,7 @@ class _EarningsRow extends StatelessWidget {
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Text(
-                '$trips trips',
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
-              ),
+              child: Text('$trips trips', style: const TextStyle(fontSize: 12, color: Colors.grey)),
             ),
           ],
         ),

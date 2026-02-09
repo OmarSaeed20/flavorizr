@@ -1,10 +1,10 @@
 // lib/features/auth/domain/usecases/register_usecase.dart
-import 'package:flavorizr/core/network/exception/network_exceptions.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart' show ApiResult;
-import 'package:flavorizr/features/user/auth/data/parameters/register_parameters.dart';
-import 'package:flavorizr/features/user/auth/domain/entities/auth_result.dart';
-import 'package:flavorizr/features/user/auth/domain/repositories/auth_repository.dart';
-import 'package:flavorizr/shared/domain/usecases/usecase.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart' show ApiResult;
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/register_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
+import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for user registration.
 ///
@@ -69,18 +69,14 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
     }
 
     // Validate gender
-    if (params.gender.toLowerCase() != 'male' &&
-        params.gender.toLowerCase() != 'female') {
+    if (params.gender.toLowerCase() != 'male' && params.gender.toLowerCase() != 'female') {
       errors['gender'] = ['Gender must be either "male" or "female"'];
     }
 
     // Return validation failure if there are errors
     if (errors.isNotEmpty) {
       return ApiResult.exception(
-        ValidationException(
-          message: 'Please fix the errors below',
-          errors: errors,
-        ),
+        ValidationException(message: 'Please fix the errors below', errors: errors),
       );
     }
 

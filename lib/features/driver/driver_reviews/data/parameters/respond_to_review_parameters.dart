@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for responding to a review.
@@ -29,13 +29,11 @@ class RespondToReviewParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static RespondToReviewParametersBuilder builder() =>
-      RespondToReviewParametersBuilder();
+  static RespondToReviewParametersBuilder builder() => RespondToReviewParametersBuilder();
 }
 
 /// Builder for RespondToReviewParameters
-class RespondToReviewParametersBuilder
-    extends ParametersBuilder<RespondToReviewParameters> {
+class RespondToReviewParametersBuilder extends ParametersBuilder<RespondToReviewParameters> {
   String? _reviewId;
   String? _response;
   CancelToken? _cancelToken;

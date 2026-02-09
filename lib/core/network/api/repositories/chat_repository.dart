@@ -1,7 +1,7 @@
-import 'package:flavorizr/core/network/api/models/api_chat.dart';
-import 'package:flavorizr/core/network/api/parameters/chat_parameters.dart';
-import 'package:flavorizr/core/network/api_response.dart';
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/api/models/api_chat.dart';
+import 'package:fast_golden_taxi/core/network/api/parameters/chat_parameters.dart';
+import 'package:fast_golden_taxi/core/network/api_response.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
 
 /// Chat Repository Interface
 /// Defines the contract for chat data operations
@@ -14,7 +14,5 @@ abstract class ChatRepository {
 
   /// Save a message
   /// Returns NetworkResult with ApiChatMessage on success
-  Future<ApiResult<ApiResponse<ApiChatMessage>>> saveMessage(
-    SaveMessageParameters parameters,
-  );
+  Future<ApiResult<ApiResponse<ApiChatMessage>>> saveMessage(SaveMessageParameters parameters);
 }

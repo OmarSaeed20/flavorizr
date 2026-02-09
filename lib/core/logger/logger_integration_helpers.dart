@@ -1,6 +1,6 @@
 // lib/core/logger/logger_interceptors.dart
 import 'package:dio/dio.dart';
-import 'package:flavorizr/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +13,7 @@ class LoggerInterceptor extends Interceptor {
     AppLogger.instance.logNetworkRequest(
       options.method,
       options.uri.toString(),
-      headers: options.headers.map(
-        (key, value) => MapEntry(key, value.toString()),
-      ),
+      headers: options.headers.map((key, value) => MapEntry(key, value.toString())),
       body: options.data,
     );
     super.onRequest(options, handler);
@@ -30,9 +28,7 @@ class LoggerInterceptor extends Interceptor {
       response.requestOptions.method,
       response.requestOptions.uri.toString(),
       response.statusCode ?? 0,
-      headers: response.headers.map.map(
-        (key, value) => MapEntry(key, value.join(', ')),
-      ),
+      headers: response.headers.map.map((key, value) => MapEntry(key, value.join(', '))),
       body: response.data,
       duration: duration,
     );
@@ -80,10 +76,7 @@ class LoggerNavigatorObserver extends NavigatorObserver {
     if (route.settings.name != null) {
       AppLogger.instance.logUserAction(
         'Navigate back from ${route.settings.name}',
-        context: {
-          'from': route.settings.name,
-          'to': previousRoute?.settings.name,
-        },
+        context: {'from': route.settings.name, 'to': previousRoute?.settings.name},
       );
     }
   }
@@ -97,10 +90,7 @@ mixin PerformanceLoggerMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     super.initState();
     _buildStopwatch = Stopwatch();
-    AppLogger.instance.logDebug(
-      'Widget $T initialized',
-      category: LogCategory.ui,
-    );
+    AppLogger.instance.logDebug('Widget $T initialized', category: LogCategory.ui);
   }
 
   @override

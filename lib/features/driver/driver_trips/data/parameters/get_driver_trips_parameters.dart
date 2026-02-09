@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting driver trips
@@ -47,13 +47,11 @@ class GetDriverTripsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetDriverTripsParametersBuilder builder() =>
-      GetDriverTripsParametersBuilder();
+  static GetDriverTripsParametersBuilder builder() => GetDriverTripsParametersBuilder();
 }
 
 /// Builder for GetDriverTripsParameters
-class GetDriverTripsParametersBuilder
-    extends ParametersBuilder<GetDriverTripsParameters> {
+class GetDriverTripsParametersBuilder extends ParametersBuilder<GetDriverTripsParameters> {
   int _page = 1;
   int _limit = 10;
   String? _status;

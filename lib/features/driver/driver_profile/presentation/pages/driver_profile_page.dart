@@ -1,7 +1,7 @@
-import 'package:flavorizr/features/driver/driver_profile/presentation/providers/driver_profile_providers.dart';
-import 'package:flavorizr/features/driver/driver_profile/presentation/widgets/driver_documents_list.dart';
-import 'package:flavorizr/features/driver/driver_profile/presentation/widgets/driver_profile_header.dart';
-import 'package:flavorizr/features/driver/driver_profile/presentation/widgets/driver_vehicle_card.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/providers/driver_profile_providers.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/widgets/driver_documents_list.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/widgets/driver_profile_header.dart';
+import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/widgets/driver_vehicle_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -55,10 +55,7 @@ class _DriverProfilePageState extends ConsumerState<DriverProfilePage> {
                   const SizedBox(height: 16),
                   Text(state.error!, textAlign: TextAlign.center),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _loadData,
-                    child: const Text('Retry'),
-                  ),
+                  ElevatedButton(onPressed: _loadData, child: const Text('Retry')),
                 ],
               ),
             )
@@ -69,11 +66,9 @@ class _DriverProfilePageState extends ConsumerState<DriverProfilePage> {
               child: ListView(
                 padding: const EdgeInsets.all(16.0),
                 children: [
-                  if (state.profile != null)
-                    DriverProfileHeader(profile: state.profile!),
+                  if (state.profile != null) DriverProfileHeader(profile: state.profile!),
                   const SizedBox(height: 16),
-                  if (state.vehicle != null)
-                    DriverVehicleCard(vehicle: state.vehicle!),
+                  if (state.vehicle != null) DriverVehicleCard(vehicle: state.vehicle!),
                   const SizedBox(height: 16),
                   DriverDocumentsList(
                     documents: state.documents,

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flavorizr/features/user/auth/data/parameters/base_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 import 'package:meta/meta.dart';
 
 /// Parameters for getting driver reviews
@@ -48,11 +48,7 @@ class GetDriverReviewsParams extends Parameters {
 
   @override
   Map<String, dynamic> toQueryParameters() {
-    final params = <String, dynamic>{
-      'driverId': _driverId,
-      'page': _page,
-      'limit': _limit,
-    };
+    final params = <String, dynamic>{'driverId': _driverId, 'page': _page, 'limit': _limit};
 
     if (_minRating != null) {
       params['minRating'] = _minRating;
@@ -84,13 +80,11 @@ class GetDriverReviewsParams extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetDriverReviewsParamsBuilder builder() =>
-      GetDriverReviewsParamsBuilder();
+  static GetDriverReviewsParamsBuilder builder() => GetDriverReviewsParamsBuilder();
 }
 
 /// Builder for GetDriverReviewsParams
-class GetDriverReviewsParamsBuilder
-    extends ParametersBuilder<GetDriverReviewsParams> {
+class GetDriverReviewsParamsBuilder extends ParametersBuilder<GetDriverReviewsParams> {
   String? _driverId;
   int? _page;
   int? _limit;

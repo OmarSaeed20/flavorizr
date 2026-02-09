@@ -1,12 +1,12 @@
-import 'package:flavorizr/core/network/resluts/dio_reslut.dart';
-import 'package:flavorizr/features/user/schedule_trip/data/parameters/create_scheduled_trip_parameters.dart';
-import 'package:flavorizr/features/user/schedule_trip/data/parameters/get_scheduled_trips_parameters.dart';
-import 'package:flavorizr/features/user/schedule_trip/domain/entities/scheduled_trip.dart';
-import 'package:flavorizr/features/user/schedule_trip/domain/usecases/cancel_scheduled_trip_usecase.dart';
-import 'package:flavorizr/features/user/schedule_trip/domain/usecases/create_scheduled_trip_usecase.dart';
-import 'package:flavorizr/features/user/schedule_trip/domain/usecases/get_scheduled_trip_by_id_usecase.dart';
-import 'package:flavorizr/features/user/schedule_trip/domain/usecases/get_scheduled_trips_usecase.dart';
-import 'package:flavorizr/features/user/schedule_trip/domain/usecases/update_scheduled_trip_usecase.dart';
+import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/data/parameters/create_scheduled_trip_parameters.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/data/parameters/get_scheduled_trips_parameters.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/entities/scheduled_trip.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/usecases/cancel_scheduled_trip_usecase.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/usecases/create_scheduled_trip_usecase.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/usecases/get_scheduled_trip_by_id_usecase.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/usecases/get_scheduled_trips_usecase.dart';
+import 'package:fast_golden_taxi/features/user/schedule_trip/domain/usecases/update_scheduled_trip_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// State for schedule trip operations.
@@ -95,9 +95,7 @@ class ScheduleTripController extends StateNotifier<ScheduleTripState> {
       success: (data, _) {
         final newTrips = data;
         state = state.copyWith(
-          scheduledTrips: page == 1
-              ? newTrips
-              : [...state.scheduledTrips, ...newTrips],
+          scheduledTrips: page == 1 ? newTrips : [...state.scheduledTrips, ...newTrips],
           isLoadingTrips: false,
           currentPage: page,
           hasMore: newTrips.length >= limit,
@@ -230,14 +228,10 @@ class ScheduleTripController extends StateNotifier<ScheduleTripState> {
 
     result.when(
       success: (data, _) {
-        final updatedTrips = state.scheduledTrips
-            .where((trip) => trip.id != tripId)
-            .toList();
+        final updatedTrips = state.scheduledTrips.where((trip) => trip.id != tripId).toList();
         state = state.copyWith(
           scheduledTrips: updatedTrips,
-          currentTrip: state.currentTrip?.id == tripId
-              ? null
-              : state.currentTrip,
+          currentTrip: state.currentTrip?.id == tripId ? null : state.currentTrip,
           isCancellingTrip: false,
         );
       },
