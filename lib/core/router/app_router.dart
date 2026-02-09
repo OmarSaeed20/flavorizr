@@ -6,6 +6,16 @@ import 'package:flavorizr/core/router/route_guards.dart';
 import 'package:flavorizr/core/router/router_observer.dart';
 import 'package:flavorizr/core/router/routes.dart';
 import 'package:flavorizr/core/router/widgets/widgets.dart';
+// Driver feature pages
+import 'package:flavorizr/features/driver/driver_auth/presentation/pages/driver_login_page.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/pages/driver_register_page.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/pages/driver_reset_password_page.dart';
+import 'package:flavorizr/features/driver/driver_auth/presentation/pages/driver_verify_phone_page.dart';
+import 'package:flavorizr/features/driver/driver_home/presentation/pages/driver_home_page.dart';
+import 'package:flavorizr/features/driver/driver_profile/presentation/pages/driver_profile_page.dart';
+import 'package:flavorizr/features/driver/driver_reviews/presentation/pages/driver_reviews_page.dart';
+import 'package:flavorizr/features/driver/driver_settings/presentation/pages/driver_settings_page.dart';
+import 'package:flavorizr/features/driver/driver_trips/presentation/pages/driver_trips_page.dart';
 import 'package:flavorizr/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:flavorizr/features/splash/presentation/pages/splash_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/forgot_password_page.dart';
@@ -13,22 +23,28 @@ import 'package:flavorizr/features/user/auth/presentation/pages/login_page.dart'
 import 'package:flavorizr/features/user/auth/presentation/pages/register_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/reset_password_page.dart';
 import 'package:flavorizr/features/user/auth/presentation/pages/verify_email_page.dart';
+import 'package:flavorizr/features/user/chat/presentation/screens/chat_list_screen.dart';
+import 'package:flavorizr/features/user/chat/presentation/screens/conversation_screen.dart';
+import 'package:flavorizr/features/user/direct_booking/presentation/pages/direct_booking_page.dart';
+// Consumer / User feature pages
+import 'package:flavorizr/features/user/home/presentation/pages/home_page.dart';
+import 'package:flavorizr/features/user/notification/presentation/pages/notification_page.dart';
 import 'package:flavorizr/features/user/profile/presentation/pages/edit_profile_page.dart';
 import 'package:flavorizr/features/user/profile/presentation/pages/profile_page.dart';
 import 'package:flavorizr/features/user/profile/presentation/pages/profile_settings_page.dart';
+import 'package:flavorizr/features/user/schedule_trip/presentation/pages/schedule_trip_page.dart';
 import 'package:flavorizr/features/user/settings/presentation/pages/appearance_settings_page.dart';
 import 'package:flavorizr/features/user/settings/presentation/pages/language_settings_page.dart';
 import 'package:flavorizr/features/user/settings/presentation/pages/notification_settings_page.dart';
 import 'package:flavorizr/features/user/settings/presentation/pages/settings_page.dart';
+import 'package:flavorizr/features/user/trip/presentation/pages/trip_detail_page.dart';
+import 'package:flavorizr/features/user/trip/presentation/pages/trip_history_page.dart';
+import 'package:flavorizr/features/user/trip/presentation/pages/trip_orders_page.dart';
+import 'package:flavorizr/features/user/trip/presentation/pages/trip_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-// Import driver pages (when available)
-// import 'package:flavorizr/features/driver/driver_auth/presentation/pages/driver_login_page.dart';
-// import 'package:flavorizr/features/driver/driver_home/presentation/pages/driver_home_page.dart';
-// ... etc
 
 // ==================== Providers ====================
 
@@ -227,6 +243,17 @@ class AppRouter {
       name: Routes.notFoundName,
       builder: (context, state) => const NotFoundScreen(),
     ),
+    // Legacy trip routes
+    GoRoute(
+      path: Routes.trip,
+      name: Routes.tripName,
+      builder: (context, state) => const TripPage(),
+    ),
+    GoRoute(
+      path: Routes.tripOrders,
+      name: Routes.tripOrdersName,
+      builder: (context, state) => const TripOrdersPage(),
+    ),
   ];
 
   // ==================== Auth Routes ====================
@@ -290,8 +317,7 @@ class AppRouter {
         GoRoute(
           path: Routes.consumerHome,
           name: Routes.consumerHomeName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Consumer Home', message: 'Map view and ride booking'),
+          builder: (context, state) => const HomePage(),
         ),
         GoRoute(
           path: Routes.locationSearch,
@@ -314,6 +340,11 @@ class AppRouter {
               const PlaceholderScreen(title: 'Confirm Ride', message: 'Confirm booking details'),
         ),
         GoRoute(
+          path: Routes.directBooking,
+          name: Routes.directBookingName,
+          builder: (context, state) => const DirectBookingPage(),
+        ),
+        GoRoute(
           path: Routes.driverTracking,
           name: Routes.driverTrackingName,
           builder: (context, state) =>
@@ -330,22 +361,20 @@ class AppRouter {
         GoRoute(
           path: Routes.tripHistory,
           name: Routes.tripHistoryName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Trip History', message: 'Your past trips'),
+          builder: (context, state) => const TripHistoryPage(),
         ),
         GoRoute(
           path: Routes.tripDetail,
           name: Routes.tripDetailName,
           builder: (context, state) {
-            final tripId = state.pathParameters['id'] ?? '';
-            return PlaceholderScreen(title: 'Trip Detail', message: 'Details for trip: $tripId');
+            final tripId = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+            return TripDetailPage(tripId: tripId);
           },
         ),
         GoRoute(
           path: Routes.scheduleTrip,
           name: Routes.scheduleTripName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Schedule Trip', message: 'Schedule a future ride'),
+          builder: (context, state) => const ScheduleTripPage(),
         ),
         GoRoute(
           path: Routes.scheduledTrips,
@@ -489,14 +518,21 @@ class AppRouter {
         GoRoute(
           path: Routes.notifications,
           name: Routes.notificationsName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Notifications', message: 'Your notifications'),
+          builder: (context, state) => const NotificationPage(),
         ),
         GoRoute(
           path: Routes.chatList,
           name: Routes.chatListName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Messages', message: 'Your conversations'),
+          builder: (context, state) => const ChatListScreen(),
+        ),
+        GoRoute(
+          path: Routes.chatWithDriver,
+          name: Routes.chatWithDriverName,
+          builder: (context, state) {
+            final driverId = state.pathParameters['driverId'] ?? '';
+            final title = state.uri.queryParameters['title'] ?? 'Chat';
+            return ConversationScreen(conversationId: driverId, title: title);
+          },
         ),
       ],
     ),
@@ -509,24 +545,25 @@ class AppRouter {
     GoRoute(
       path: Routes.driverLogin,
       name: Routes.driverLoginName,
-      builder: (context, state) =>
-          const PlaceholderScreen(title: 'Driver Login', message: 'Driver login page'),
-      // Replace with: const DriverLoginPage(),
+      builder: (context, state) => const DriverLoginPage(),
     ),
     GoRoute(
       path: Routes.driverRegister,
       name: Routes.driverRegisterName,
-      builder: (context, state) => const PlaceholderScreen(
-        title: 'Driver Registration',
-        message: 'Driver registration page',
-      ),
-      // Replace with: const DriverRegisterPage(),
+      builder: (context, state) => const DriverRegisterPage(),
     ),
     GoRoute(
       path: Routes.driverResetPassword,
       name: Routes.driverResetPasswordName,
-      builder: (context, state) =>
-          const PlaceholderScreen(title: 'Reset Password', message: 'Driver password reset'),
+      builder: (context, state) => const DriverResetPasswordPage(),
+    ),
+    GoRoute(
+      path: Routes.driverVerifyPhone,
+      name: Routes.driverVerifyPhoneName,
+      builder: (context, state) {
+        final phone = state.uri.queryParameters['phone'] ?? state.extra as String? ?? '';
+        return DriverVerifyPhonePage(phone: phone);
+      },
     ),
 
     // Driver Shell Routes
@@ -539,9 +576,7 @@ class AppRouter {
         GoRoute(
           path: Routes.driverHome,
           name: Routes.driverHomeName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Driver Home', message: 'Driver dashboard'),
-          // Replace with: const DriverHomePage(),
+          builder: (context, state) => const DriverHomePage(),
         ),
         GoRoute(
           path: Routes.driverEarnings,
@@ -566,8 +601,7 @@ class AppRouter {
         GoRoute(
           path: Routes.driverTrips,
           name: Routes.driverTripsName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'My Trips', message: 'Your trip history'),
+          builder: (context, state) => const DriverTripsPage(),
         ),
         GoRoute(
           path: Routes.tripRequest,
@@ -582,8 +616,7 @@ class AppRouter {
         GoRoute(
           path: Routes.driverProfile,
           name: Routes.driverProfileName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Driver Profile', message: 'Your profile'),
+          builder: (context, state) => const DriverProfilePage(),
         ),
         GoRoute(
           path: Routes.driverVerification,
@@ -616,8 +649,11 @@ class AppRouter {
         GoRoute(
           path: Routes.driverReviews,
           name: Routes.driverReviewsName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Reviews', message: 'Your ratings and reviews'),
+          builder: (context, state) {
+            // TODO: Pass actual driverId from auth state
+            final driverId = state.uri.queryParameters['driverId'] ?? '';
+            return DriverReviewsPage(driverId: driverId);
+          },
         ),
         GoRoute(
           path: Routes.scheduleManagement,
@@ -636,8 +672,7 @@ class AppRouter {
         GoRoute(
           path: Routes.driverSettings,
           name: Routes.driverSettingsName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Settings', message: 'Driver settings'),
+          builder: (context, state) => const DriverSettingsPage(),
         ),
         GoRoute(
           path: Routes.driverNotifications,

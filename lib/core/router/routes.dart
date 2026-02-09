@@ -80,6 +80,10 @@ abstract class Routes {
   static const String rideConfirmation = '/consumer/ride-confirmation';
   static const String rideConfirmationName = 'rideConfirmation';
 
+  /// Direct booking
+  static const String directBooking = '/consumer/direct-booking';
+  static const String directBookingName = 'directBooking';
+
   /// Driver tracking
   static const String driverTracking = '/consumer/tracking';
   static const String driverTrackingName = 'driverTracking';
