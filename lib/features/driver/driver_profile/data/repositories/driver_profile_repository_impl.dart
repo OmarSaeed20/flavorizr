@@ -144,13 +144,16 @@ class DriverProfileRepositoryImpl extends BaseRepository
     String? vehicleLicenseImage,
   }) async {
     final builder = UpdateVehicleParameters.builder();
-    if (vehicleTypeId != null)
+    if (vehicleTypeId != null) {
       builder.withVehicleTypeId(int.parse(vehicleTypeId));
-    if (vehiclePlateNumber != null)
+    }
+    if (vehiclePlateNumber != null) {
       builder.withVehiclePlateNumber(vehiclePlateNumber);
+    }
     if (vehicleImage != null) builder.withVehicleImage(vehicleImage);
-    if (vehicleLicenseImage != null)
+    if (vehicleLicenseImage != null) {
       builder.withVehicleLicenseImage(vehicleLicenseImage);
+    }
     final parameters = builder.build();
 
     final result = await executeRemoteRequest(

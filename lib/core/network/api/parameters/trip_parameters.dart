@@ -612,8 +612,9 @@ class EditPrivateTripParameters extends Parameters {
     if (_pickupLatitude != null) json['pickup_latitude'] = _pickupLatitude;
     if (_pickupLongitude != null) json['pickup_longitude'] = _pickupLongitude;
     if (_dropoffLatitude != null) json['dropoff_latitude'] = _dropoffLatitude;
-    if (_dropoffLongitude != null)
+    if (_dropoffLongitude != null) {
       json['dropoff_longitude'] = _dropoffLongitude;
+    }
     if (_vehicleTypeId != null) json['vehicle_type_id'] = _vehicleTypeId;
     if (_scheduledDate != null) json['scheduled_date'] = _scheduledDate;
     if (_scheduledTime != null) json['scheduled_time'] = _scheduledTime;

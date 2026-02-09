@@ -245,8 +245,9 @@ class LocalizationService {
     required BuildContext context,
     required Widget child,
   }) {
-    if (!isRTL(context))
+    if (!isRTL(context)) {
       return Transform(transform: Matrix4.identity(), child: child);
+    }
 
     return Transform(
       alignment: Alignment.center,
