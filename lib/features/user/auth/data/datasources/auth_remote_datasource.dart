@@ -32,7 +32,9 @@ abstract class AuthRemoteDataSource {
   Future<ApiResult<void>> logout(LogoutParameters parameters);
 
   /// Sends verification code to user's phone.
-  Future<ApiResult<void>> sendVerificationCode(SendVerificationCodeParameters parameters);
+  Future<ApiResult<void>> sendVerificationCode(
+    SendVerificationCodeParameters parameters,
+  );
 
   /// Verifies user phone number with verification code.
   Future<ApiResult<AuthResult>> verifyPhone(VerifyPhoneParameters parameters);
@@ -54,7 +56,9 @@ abstract class AuthRemoteDataSource {
 }
 
 /// Implementation of [AuthRemoteDataSource] using BaseRemoteDataSource.
-class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl
+    with BaseRemoteDataSource
+    implements AuthRemoteDataSource {
   const AuthRemoteDataSourceImpl(this._apiClient);
   final ApiClient _apiClient;
 
@@ -94,7 +98,9 @@ class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDa
   }
 
   @override
-  Future<ApiResult<void>> sendVerificationCode(SendVerificationCodeParameters parameters) async {
+  Future<ApiResult<void>> sendVerificationCode(
+    SendVerificationCodeParameters parameters,
+  ) async {
     return post<void>(
       path: AuthEndpoints.sendVerificationCode,
       data: parameters.toJson(),
@@ -103,7 +109,9 @@ class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDa
   }
 
   @override
-  Future<ApiResult<AuthResult>> verifyPhone(VerifyPhoneParameters parameters) async {
+  Future<ApiResult<AuthResult>> verifyPhone(
+    VerifyPhoneParameters parameters,
+  ) async {
     return post<AuthResult>(
       path: AuthEndpoints.verifyPhone,
       data: parameters.toJson(),
@@ -113,7 +121,9 @@ class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDa
   }
 
   @override
-  Future<ApiResult<void>> resetPassword(ResetPasswordParameters parameters) async {
+  Future<ApiResult<void>> resetPassword(
+    ResetPasswordParameters parameters,
+  ) async {
     return post<void>(
       path: AuthEndpoints.resetPassword,
       data: parameters.toJson(),
@@ -122,7 +132,9 @@ class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDa
   }
 
   @override
-  Future<ApiResult<void>> forgetPassword(ForgetPasswordParameters parameters) async {
+  Future<ApiResult<void>> forgetPassword(
+    ForgetPasswordParameters parameters,
+  ) async {
     return post<void>(
       path: AuthEndpoints.forgetPassword,
       data: parameters.toJson(),
@@ -136,7 +148,9 @@ class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDa
       path: AuthEndpoints.profile,
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
-        return UserModel.fromJson(jsonData['user'] as Map<String, dynamic>? ?? jsonData);
+        return UserModel.fromJson(
+          jsonData['user'] as Map<String, dynamic>? ?? jsonData,
+        );
       },
     );
   }
@@ -148,7 +162,9 @@ class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDa
 
   /// Refresh authentication tokens
   @override
-  Future<ApiResult<AuthTokens>> refreshToken(RefreshTokenParameters parameters) async {
+  Future<ApiResult<AuthTokens>> refreshToken(
+    RefreshTokenParameters parameters,
+  ) async {
     return post<AuthTokens>(
       path: AuthEndpoints.refreshToken,
       data: parameters.toJson(),
@@ -171,9 +187,11 @@ class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDa
     final refreshExpiresIn = data['refresh_expires_in'] as int?;
 
     // Handle both 'token' and 'access_token' field names
-    final accessToken = (data['access_token'] as String?) ?? (data['token'] as String?);
+    final accessToken =
+        (data['access_token'] as String?) ?? (data['token'] as String?);
     // Handle both 'refreshToken' and 'refresh_token' field names
-    final refreshToken = (data['refresh_token'] as String?) ?? (data['refreshToken'] as String?);
+    final refreshToken =
+        (data['refresh_token'] as String?) ?? (data['refreshToken'] as String?);
 
     return AuthTokens(
       accessToken: accessToken ?? '',

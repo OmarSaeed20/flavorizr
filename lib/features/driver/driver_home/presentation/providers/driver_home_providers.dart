@@ -8,13 +8,17 @@ import 'package:fast_golden_taxi/features/driver/driver_home/presentation/contro
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverHomeRemoteDataSource
-final driverHomeRemoteDataSourceProvider = Provider<DriverHomeRemoteDataSource>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return DriverHomeRemoteDataSourceImpl(apiClient);
-});
+final driverHomeRemoteDataSourceProvider = Provider<DriverHomeRemoteDataSource>(
+  (ref) {
+    final apiClient = ref.watch(apiClientProvider);
+    return DriverHomeRemoteDataSourceImpl(apiClient);
+  },
+);
 
 /// Provider for DriverHomeLocalDataSource
-final driverHomeLocalDataSourceProvider = Provider<DriverHomeLocalDataSource>((ref) {
+final driverHomeLocalDataSourceProvider = Provider<DriverHomeLocalDataSource>((
+  ref,
+) {
   final sharedPreferences = ref.watch(sharedPreferencesProvider);
   return DriverHomeLocalDataSourceImpl(sharedPreferences);
 });
@@ -38,8 +42,9 @@ final getDriverHomeDataProvider = Provider<GetDriverHomeData>((ref) {
 });
 
 /// Provider for DriverHomeController
-final driverHomeControllerProvider = StateNotifierProvider<DriverHomeController, DriverHomeState>((
-  ref,
-) {
-  return DriverHomeController(getDriverHomeData: ref.watch(getDriverHomeDataProvider));
-});
+final driverHomeControllerProvider =
+    StateNotifierProvider<DriverHomeController, DriverHomeState>((ref) {
+      return DriverHomeController(
+        getDriverHomeData: ref.watch(getDriverHomeDataProvider),
+      );
+    });

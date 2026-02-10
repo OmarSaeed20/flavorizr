@@ -68,7 +68,8 @@ class DriverSettingsLocalDataSourceImpl
     return saveLocalData<DriverSettingsModel>(
       key: _keySettings,
       data: settings,
-      saver: (data) async => _preferences.setString(_keySettings, data.toJson().toString()),
+      saver: (data) async =>
+          _preferences.setString(_keySettings, data.toJson().toString()),
     );
   }
 

@@ -31,14 +31,17 @@ class CompanyAuthRemoteDataSource with BaseRemoteDataSource {
   ///
   /// Authenticates company with phone and password.
   /// Returns AuthResult with tokens and user data.
-  Future<ApiResult<ApiAuthResponse>> login(CompanyLoginParameters parameters) async {
+  Future<ApiResult<ApiAuthResponse>> login(
+    CompanyLoginParameters parameters,
+  ) async {
     return safeApiCall(
       () => dio.post(
         CompanyAuthEndpoints.login,
         data: parameters.toJson(),
         cancelToken: parameters.cancelToken,
       ),
-      fromJson: (data) => ApiAuthResponse.fromJson(data as Map<String, dynamic>),
+      fromJson: (data) =>
+          ApiAuthResponse.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -46,14 +49,17 @@ class CompanyAuthRemoteDataSource with BaseRemoteDataSource {
   ///
   /// Registers new company account.
   /// Returns AuthResult with tokens and user data.
-  Future<ApiResult<ApiAuthResponse>> register(CompanyRegisterParameters parameters) async {
+  Future<ApiResult<ApiAuthResponse>> register(
+    CompanyRegisterParameters parameters,
+  ) async {
     return safeApiCall(
       () => dio.post(
         CompanyAuthEndpoints.register,
         data: parameters.toJson(),
         cancelToken: parameters.cancelToken,
       ),
-      fromJson: (data) => ApiAuthResponse.fromJson(data as Map<String, dynamic>),
+      fromJson: (data) =>
+          ApiAuthResponse.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -88,21 +94,26 @@ class CompanyAuthRemoteDataSource with BaseRemoteDataSource {
   /// Verify phone
   ///
   /// Verifies company phone number with confirmation code.
-  Future<ApiResult<ApiAuthResponse>> verifyPhone(CompanyVerifyPhoneParameters parameters) async {
+  Future<ApiResult<ApiAuthResponse>> verifyPhone(
+    CompanyVerifyPhoneParameters parameters,
+  ) async {
     return safeApiCall(
       () => dio.post(
         CompanyAuthEndpoints.verifyPhone,
         data: parameters.toJson(),
         cancelToken: parameters.cancelToken,
       ),
-      fromJson: (data) => ApiAuthResponse.fromJson(data as Map<String, dynamic>),
+      fromJson: (data) =>
+          ApiAuthResponse.fromJson(data as Map<String, dynamic>),
     );
   }
 
   /// Forget password
   ///
   /// Initiates password reset for company account.
-  Future<ApiResult<void>> forgetPassword(CompanyForgetPasswordParameters parameters) async {
+  Future<ApiResult<void>> forgetPassword(
+    CompanyForgetPasswordParameters parameters,
+  ) async {
     return safeApiCall(
       () => dio.post(
         CompanyAuthEndpoints.forgetPassword,
@@ -115,7 +126,9 @@ class CompanyAuthRemoteDataSource with BaseRemoteDataSource {
   /// Reset password
   ///
   /// Resets company password with verification code.
-  Future<ApiResult<void>> resetPassword(CompanyResetPasswordParameters parameters) async {
+  Future<ApiResult<void>> resetPassword(
+    CompanyResetPasswordParameters parameters,
+  ) async {
     return safeApiCall(
       () => dio.post(
         CompanyAuthEndpoints.resetPassword,

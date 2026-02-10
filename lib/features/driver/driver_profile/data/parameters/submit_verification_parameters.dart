@@ -32,8 +32,10 @@ class SubmitVerificationParameters extends Parameters {
     return {
       if (_nationalId != null) 'national_id': _nationalId,
       if (_nationalIdImage != null) 'national_id_image': _nationalIdImage,
-      if (_drivingLicenseImage != null) 'driving_license_image': _drivingLicenseImage,
-      if (_vehicleLicenseImage != null) 'vehicle_license_image': _vehicleLicenseImage,
+      if (_drivingLicenseImage != null)
+        'driving_license_image': _drivingLicenseImage,
+      if (_vehicleLicenseImage != null)
+        'vehicle_license_image': _vehicleLicenseImage,
       if (_vehicleImage != null) 'vehicle_image': _vehicleImage,
     };
   }
@@ -47,11 +49,13 @@ class SubmitVerificationParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static SubmitVerificationParametersBuilder builder() => SubmitVerificationParametersBuilder();
+  static SubmitVerificationParametersBuilder builder() =>
+      SubmitVerificationParametersBuilder();
 }
 
 /// Builder for SubmitVerificationParameters
-class SubmitVerificationParametersBuilder extends ParametersBuilder<SubmitVerificationParameters> {
+class SubmitVerificationParametersBuilder
+    extends ParametersBuilder<SubmitVerificationParameters> {
   String? _nationalId;
   String? _nationalIdImage;
   String? _drivingLicenseImage;
@@ -66,19 +70,25 @@ class SubmitVerificationParametersBuilder extends ParametersBuilder<SubmitVerifi
   }
 
   /// Set the national ID image
-  SubmitVerificationParametersBuilder withNationalIdImage(String nationalIdImage) {
+  SubmitVerificationParametersBuilder withNationalIdImage(
+    String nationalIdImage,
+  ) {
     _nationalIdImage = nationalIdImage;
     return this;
   }
 
   /// Set the driving license image
-  SubmitVerificationParametersBuilder withDrivingLicenseImage(String drivingLicenseImage) {
+  SubmitVerificationParametersBuilder withDrivingLicenseImage(
+    String drivingLicenseImage,
+  ) {
     _drivingLicenseImage = drivingLicenseImage;
     return this;
   }
 
   /// Set the vehicle license image
-  SubmitVerificationParametersBuilder withVehicleLicenseImage(String vehicleLicenseImage) {
+  SubmitVerificationParametersBuilder withVehicleLicenseImage(
+    String vehicleLicenseImage,
+  ) {
     _vehicleLicenseImage = vehicleLicenseImage;
     return this;
   }
@@ -91,7 +101,9 @@ class SubmitVerificationParametersBuilder extends ParametersBuilder<SubmitVerifi
 
   /// Set the cancel token for request cancellation
   @override
-  SubmitVerificationParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SubmitVerificationParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

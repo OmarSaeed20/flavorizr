@@ -15,10 +15,13 @@ class ConsumerLogoutParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {if (deviceToken != null) 'device_token': deviceToken};
+  Map<String, dynamic> toJson() => {
+    if (deviceToken != null) 'device_token': deviceToken,
+  };
 
   /// Create a builder for this parameters type
-  ConsumerLogoutParametersBuilder builder() => ConsumerLogoutParametersBuilder();
+  ConsumerLogoutParametersBuilder builder() =>
+      ConsumerLogoutParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -37,7 +40,8 @@ class ConsumerLogoutParameters extends Parameters {
 }
 
 /// Builder for ConsumerLogoutParameters
-class ConsumerLogoutParametersBuilder extends ParametersBuilder<ConsumerLogoutParameters> {
+class ConsumerLogoutParametersBuilder
+    extends ParametersBuilder<ConsumerLogoutParameters> {
   String? _deviceToken;
   CancelToken? _cancelToken;
 
@@ -54,13 +58,18 @@ class ConsumerLogoutParametersBuilder extends ParametersBuilder<ConsumerLogoutPa
   }
 
   @override
-  ParametersBuilder<ConsumerLogoutParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ConsumerLogoutParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
 
   @override
   ConsumerLogoutParameters build() {
-    return ConsumerLogoutParameters(deviceToken: _deviceToken, cancelToken: _cancelToken);
+    return ConsumerLogoutParameters(
+      deviceToken: _deviceToken,
+      cancelToken: _cancelToken,
+    );
   }
 }

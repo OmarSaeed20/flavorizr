@@ -13,15 +13,21 @@ class CompanyForgetPasswordUseCase {
 
   CompanyForgetPasswordUseCase(this._repository);
 
-  Future<ApiResult<void>> execute(CompanyForgetPasswordParameters parameters) async {
+  Future<ApiResult<void>> execute(
+    CompanyForgetPasswordParameters parameters,
+  ) async {
     // Validate phone number
     if (parameters.phone.isEmpty) {
-      return ApiResult.failure(const ValidationException(message: 'Phone number is required'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Phone number is required'),
+      );
     }
 
     // Validate phone ISO code
     if (parameters.phoneIsoCode.isEmpty) {
-      return ApiResult.failure(const ValidationException(message: 'Phone ISO code is required'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Phone ISO code is required'),
+      );
     }
 
     // Call repository

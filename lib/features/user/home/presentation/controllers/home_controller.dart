@@ -63,7 +63,10 @@ class HomeController extends StateNotifier<HomeState> {
         state = state.copyWith(featuredTrips: data, isLoadingTrips: false);
       },
       exception: (error) {
-        state = state.copyWith(isLoadingTrips: false, errorMessage: error.message);
+        state = state.copyWith(
+          isLoadingTrips: false,
+          errorMessage: error.message,
+        );
       },
     );
   }

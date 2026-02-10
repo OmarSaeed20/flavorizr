@@ -68,7 +68,9 @@ class NetworkServiceExample {
     }).then(
       (value) => value != null
           ? ApiResult.success(value)
-          : ApiResult.exception(const UnknownNetworkException(message: 'Unknown error occurred')),
+          : ApiResult.exception(
+              const UnknownNetworkException(message: 'Unknown error occurred'),
+            ),
     );
   }
 

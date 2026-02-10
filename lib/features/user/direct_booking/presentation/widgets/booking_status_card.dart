@@ -29,7 +29,11 @@ class BookingStatusCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(_getStatusIcon(), color: _getStatusColor(), size: 32),
+                      Icon(
+                        _getStatusIcon(),
+                        color: _getStatusColor(),
+                        size: 32,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
@@ -37,7 +41,10 @@ class BookingStatusCard extends StatelessWidget {
                           children: [
                             Text(
                               'Booking Status',
-                              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
                             ),
                             const SizedBox(height: 4),
                             Text(
@@ -56,14 +63,20 @@ class BookingStatusCard extends StatelessWidget {
                   const Divider(height: 32),
                   _buildInfoRow('Booking ID', booking.bookingId),
                   const SizedBox(height: 12),
-                  _buildInfoRow('Estimated Arrival', booking.estimatedArrivalTime),
+                  _buildInfoRow(
+                    'Estimated Arrival',
+                    booking.estimatedArrivalTime,
+                  ),
                   const SizedBox(height: 12),
                   _buildInfoRow('Estimated Fare', booking.estimatedFare),
                   if (booking.driverName != null) ...[
                     const Divider(height: 32),
                     const Text(
                       'Driver Information',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -84,13 +97,19 @@ class BookingStatusCard extends StatelessWidget {
                             children: [
                               Text(
                                 booking.driverName!,
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               if (booking.driverPhone != null) ...[
                                 const SizedBox(height: 4),
                                 Text(
                                   booking.driverPhone!,
-                                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey[600],
+                                  ),
                                 ),
                               ],
                             ],
@@ -98,7 +117,8 @@ class BookingStatusCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (booking.vehicleModel != null || booking.vehicleNumber != null) ...[
+                    if (booking.vehicleModel != null ||
+                        booking.vehicleNumber != null) ...[
                       const SizedBox(height: 16),
                       Row(
                         children: [
@@ -107,7 +127,10 @@ class BookingStatusCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               '${booking.vehicleModel ?? ''}${booking.vehicleNumber != null ? ' (${booking.vehicleNumber})' : ''}',
-                              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey[600],
+                              ),
                             ),
                           ),
                         ],
@@ -151,10 +174,16 @@ class BookingStatusCard extends StatelessWidget {
       children: [
         SizedBox(
           width: 120,
-          child: Text(label, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+          child: Text(
+            label,
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          ),
         ),
         Expanded(
-          child: Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+          child: Text(
+            value,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
         ),
       ],
     );

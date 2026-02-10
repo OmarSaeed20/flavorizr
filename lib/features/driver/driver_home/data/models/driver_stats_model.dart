@@ -24,7 +24,9 @@ class DriverStatsModel extends DriverStats {
       totalReviews: json['totalReviews'] ?? 0,
       acceptanceRate: (json['acceptanceRate'] ?? 0.0).toDouble(),
       totalHoursOnline: json['totalHoursOnline'] ?? 0,
-      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+      lastUpdated: DateTime.parse(
+        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 

@@ -11,16 +11,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Returns ApiResult with success or error data.
 abstract class GeneralSelectLocalDataSource {
   /// Gets cached select options by type.
-  Future<ApiResult<List<SelectOptionModel>>> getCachedSelectOptions(String type);
+  Future<ApiResult<List<SelectOptionModel>>> getCachedSelectOptions(
+    String type,
+  );
 
   /// Saves select options to cache by type.
-  Future<ApiResult<void>> cacheSelectOptions(String type, List<SelectOptionModel> options);
+  Future<ApiResult<void>> cacheSelectOptions(
+    String type,
+    List<SelectOptionModel> options,
+  );
 
   /// Gets cached vehicle types.
   Future<ApiResult<List<SelectOptionModel>>> getCachedVehicleTypes();
 
   /// Saves vehicle types to cache.
-  Future<ApiResult<void>> cacheVehicleTypes(List<SelectOptionModel> vehicleTypes);
+  Future<ApiResult<void>> cacheVehicleTypes(
+    List<SelectOptionModel> vehicleTypes,
+  );
 
   /// Gets cached cities.
   Future<ApiResult<List<SelectOptionModel>>> getCachedCities();
@@ -105,7 +112,9 @@ class GeneralSelectLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<List<SelectOptionModel>>> getCachedSelectOptions(String type) async {
+  Future<ApiResult<List<SelectOptionModel>>> getCachedSelectOptions(
+    String type,
+  ) async {
     return getLocalDataList<SelectOptionModel>(
       key: _getCacheKey(type),
       fetcher: () async {
@@ -117,13 +126,18 @@ class GeneralSelectLocalDataSourceImpl
         if (jsonString == null) return null;
 
         final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
-        return jsonList.map((e) => SelectOptionModel.fromJson(e as Map<String, dynamic>)).toList();
+        return jsonList
+            .map((e) => SelectOptionModel.fromJson(e as Map<String, dynamic>))
+            .toList();
       },
     );
   }
 
   @override
-  Future<ApiResult<void>> cacheSelectOptions(String type, List<SelectOptionModel> options) async {
+  Future<ApiResult<void>> cacheSelectOptions(
+    String type,
+    List<SelectOptionModel> options,
+  ) async {
     return saveLocalDataList(
       key: _getCacheKey(type),
       data: options,
@@ -131,7 +145,10 @@ class GeneralSelectLocalDataSourceImpl
         final prefs = await SharedPreferences.getInstance();
         final jsonString = data.map((e) => e.toJson()).toString();
         await prefs.setString(_getCacheKey(type), jsonString);
-        await prefs.setInt(_getTimestampKey(type), DateTime.now().millisecondsSinceEpoch);
+        await prefs.setInt(
+          _getTimestampKey(type),
+          DateTime.now().millisecondsSinceEpoch,
+        );
       },
     );
   }
@@ -142,7 +159,9 @@ class GeneralSelectLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheVehicleTypes(List<SelectOptionModel> vehicleTypes) {
+  Future<ApiResult<void>> cacheVehicleTypes(
+    List<SelectOptionModel> vehicleTypes,
+  ) {
     return cacheSelectOptions('vehicle_types', vehicleTypes);
   }
 
@@ -162,7 +181,9 @@ class GeneralSelectLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheCommonProblems(List<SelectOptionModel> problems) {
+  Future<ApiResult<void>> cacheCommonProblems(
+    List<SelectOptionModel> problems,
+  ) {
     return cacheSelectOptions('common_problems', problems);
   }
 
@@ -201,7 +222,10 @@ class GeneralSelectLocalDataSourceImpl
         final prefs = await SharedPreferences.getInstance();
         final jsonString = json.encode(data);
         await prefs.setString(_getCacheKey('about_us'), jsonString);
-        await prefs.setInt(_getTimestampKey('about_us'), DateTime.now().millisecondsSinceEpoch);
+        await prefs.setInt(
+          _getTimestampKey('about_us'),
+          DateTime.now().millisecondsSinceEpoch,
+        );
       },
     );
   }
@@ -224,7 +248,9 @@ class GeneralSelectLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheQuestions(List<Map<String, dynamic>> questions) async {
+  Future<ApiResult<void>> cacheQuestions(
+    List<Map<String, dynamic>> questions,
+  ) async {
     return saveLocalDataList(
       key: _getCacheKey('questions'),
       data: questions,
@@ -232,7 +258,10 @@ class GeneralSelectLocalDataSourceImpl
         final prefs = await SharedPreferences.getInstance();
         final jsonString = json.encode(data);
         await prefs.setString(_getCacheKey('questions'), jsonString);
-        await prefs.setInt(_getTimestampKey('questions'), DateTime.now().millisecondsSinceEpoch);
+        await prefs.setInt(
+          _getTimestampKey('questions'),
+          DateTime.now().millisecondsSinceEpoch,
+        );
       },
     );
   }
@@ -262,7 +291,10 @@ class GeneralSelectLocalDataSourceImpl
         final prefs = await SharedPreferences.getInstance();
         final jsonString = json.encode(data);
         await prefs.setString(_getCacheKey('policies'), jsonString);
-        await prefs.setInt(_getTimestampKey('policies'), DateTime.now().millisecondsSinceEpoch);
+        await prefs.setInt(
+          _getTimestampKey('policies'),
+          DateTime.now().millisecondsSinceEpoch,
+        );
       },
     );
   }
@@ -284,7 +316,9 @@ class GeneralSelectLocalDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> cacheGeneralSettings(Map<String, dynamic> settings) async {
+  Future<ApiResult<void>> cacheGeneralSettings(
+    Map<String, dynamic> settings,
+  ) async {
     return saveLocalData<Map<String, dynamic>>(
       key: _getCacheKey('general_settings'),
       data: settings,
@@ -305,7 +339,10 @@ class GeneralSelectLocalDataSourceImpl
     return clearAllLocalData(
       clearer: () async {
         final prefs = await SharedPreferences.getInstance();
-        final keys = prefs.getKeys().where((key) => key.startsWith(_cacheKeyPrefix)).toList();
+        final keys = prefs
+            .getKeys()
+            .where((key) => key.startsWith(_cacheKeyPrefix))
+            .toList();
         for (final key in keys) {
           await prefs.remove(key);
         }

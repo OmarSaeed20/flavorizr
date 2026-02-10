@@ -18,7 +18,10 @@ class CompanyTermsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Terms of Service', style: AppTextStyles.of(context).headlineMedium),
+            Text(
+              'Terms of Service',
+              style: AppTextStyles.of(context).headlineMedium,
+            ),
             const SizedBox(height: 8),
             Text(
               'Last Updated: January 2024',
@@ -126,9 +129,10 @@ class CompanyTermsPage extends StatelessWidget {
   Widget _buildSection(BuildContext context, String title) {
     return Text(
       title,
-      style: AppTextStyles.of(
-        context,
-      ).titleLarge.copyWith(color: AppColors.of(context).primary, fontWeight: FontWeight.bold),
+      style: AppTextStyles.of(context).titleLarge.copyWith(
+        color: AppColors.of(context).primary,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 

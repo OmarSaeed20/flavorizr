@@ -18,7 +18,9 @@ abstract class DriverHomeLocalDataSource {
 }
 
 /// Implementation of [DriverHomeLocalDataSource] using BaseLocalDataSource.
-class DriverHomeLocalDataSourceImpl with BaseLocalDataSource implements DriverHomeLocalDataSource {
+class DriverHomeLocalDataSourceImpl
+    with BaseLocalDataSource
+    implements DriverHomeLocalDataSource {
   const DriverHomeLocalDataSourceImpl(this._preferences);
   final SharedPreferences _preferences;
 

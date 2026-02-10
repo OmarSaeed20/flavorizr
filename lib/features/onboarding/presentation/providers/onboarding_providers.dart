@@ -11,7 +11,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // ==================== Data Sources ====================
 
 /// Provider for OnboardingLocalDataSource.
-final onboardingLocalDataSourceProvider = Provider<OnboardingLocalDataSource>((ref) {
+final onboardingLocalDataSourceProvider = Provider<OnboardingLocalDataSource>((
+  ref,
+) {
   final prefs = ref.watch(sharedPreferencesProvider);
   return OnboardingLocalDataSourceImpl(prefs: prefs);
 });
@@ -27,19 +29,26 @@ final onboardingRepositoryProvider = Provider<OnboardingRepository>((ref) {
 // ==================== Use Cases ====================
 
 /// Provider for GetOnboardingPagesUseCase.
-final getOnboardingPagesUseCaseProvider = Provider<GetOnboardingPagesUseCase>((ref) {
+final getOnboardingPagesUseCaseProvider = Provider<GetOnboardingPagesUseCase>((
+  ref,
+) {
   return GetOnboardingPagesUseCase(ref.watch(onboardingRepositoryProvider));
 });
 
 /// Provider for CompleteOnboardingUseCase.
-final completeOnboardingUseCaseProvider = Provider<CompleteOnboardingUseCase>((ref) {
+final completeOnboardingUseCaseProvider = Provider<CompleteOnboardingUseCase>((
+  ref,
+) {
   return CompleteOnboardingUseCase(ref.watch(onboardingRepositoryProvider));
 });
 
 /// Provider for IsOnboardingCompletedUseCase.
-final isOnboardingCompletedUseCaseProvider = Provider<IsOnboardingCompletedUseCase>((ref) {
-  return IsOnboardingCompletedUseCase(ref.watch(onboardingRepositoryProvider));
-});
+final isOnboardingCompletedUseCaseProvider =
+    Provider<IsOnboardingCompletedUseCase>((ref) {
+      return IsOnboardingCompletedUseCase(
+        ref.watch(onboardingRepositoryProvider),
+      );
+    });
 
 // ==================== State Providers ====================
 

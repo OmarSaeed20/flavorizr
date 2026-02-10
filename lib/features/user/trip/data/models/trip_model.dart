@@ -35,11 +35,16 @@ class TripModel {
       id: json['id'] as String,
       userId: json['user_id'] as String? ?? json['userId'] as String?,
       captainId: json['captain_id'] as String? ?? json['captainId'] as String?,
-      tripTypeId: json['trip_type_id'] as String? ?? json['tripTypeId'] as String,
+      tripTypeId:
+          json['trip_type_id'] as String? ?? json['tripTypeId'] as String,
       tripType: json['trip_type'] as String? ?? json['tripType'] as String?,
       status: TripStatus.fromString(json['status'] as String? ?? 'pending'),
-      origin: TripLocationModel.fromJson(json['origin'] as Map<String, dynamic>),
-      destination: TripLocationModel.fromJson(json['destination'] as Map<String, dynamic>),
+      origin: TripLocationModel.fromJson(
+        json['origin'] as Map<String, dynamic>,
+      ),
+      destination: TripLocationModel.fromJson(
+        json['destination'] as Map<String, dynamic>,
+      ),
       scheduledAt: json['scheduled_at'] != null
           ? DateTime.parse(json['scheduled_at'] as String)
           : json['scheduledAt'] != null
@@ -69,7 +74,10 @@ class TripModel {
       duration: json['duration'] as int?,
       price: (json['price'] as num?)?.toDouble(),
       currency: json['currency'] as String? ?? 'USD',
-      passengerCount: json['passenger_count'] as int? ?? json['passengerCount'] as int? ?? 1,
+      passengerCount:
+          json['passenger_count'] as int? ??
+          json['passengerCount'] as int? ??
+          1,
       notes: json['notes'] as String?,
       metadata: Map<String, dynamic>.from(json['metadata'] as Map? ?? {}),
     );

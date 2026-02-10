@@ -1,6 +1,4 @@
 // lib/features/company/company_auth/presentation/controllers/company_auth_controller.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/parameters/company_forget_password_parameters.dart';
@@ -17,6 +15,8 @@ import 'package:fast_golden_taxi/features/company/company_auth/domain/usecases/c
 import 'package:fast_golden_taxi/features/company/company_auth/domain/usecases/company_reset_password_usecase.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/domain/usecases/company_send_verification_code_usecase.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/domain/usecases/company_verify_phone_usecase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'company_auth_controller.freezed.dart';
 
@@ -41,7 +41,8 @@ class CompanyAuthState with _$CompanyAuthState {
 
   const factory CompanyAuthState.phoneVerified() = _PhoneVerified;
 
-  const factory CompanyAuthState.passwordResetRequested() = _PasswordResetRequested;
+  const factory CompanyAuthState.passwordResetRequested() =
+      _PasswordResetRequested;
 
   const factory CompanyAuthState.passwordReset() = _PasswordReset;
 }
@@ -125,7 +126,9 @@ class CompanyAuthController extends StateNotifier<CompanyAuthState> {
   }
 
   /// Send verification code
-  Future<void> sendVerificationCode(CompanySendVerificationCodeParameters parameters) async {
+  Future<void> sendVerificationCode(
+    CompanySendVerificationCodeParameters parameters,
+  ) async {
     state = const CompanyAuthState.loading();
 
     final result = await _sendVerificationCodeUseCase.execute(parameters);
@@ -157,7 +160,9 @@ class CompanyAuthController extends StateNotifier<CompanyAuthState> {
   }
 
   /// Forget password
-  Future<void> forgetPassword(CompanyForgetPasswordParameters parameters) async {
+  Future<void> forgetPassword(
+    CompanyForgetPasswordParameters parameters,
+  ) async {
     state = const CompanyAuthState.loading();
 
     final result = await _forgetPasswordUseCase.execute(parameters);

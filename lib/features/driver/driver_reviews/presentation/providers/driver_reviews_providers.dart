@@ -8,16 +8,18 @@ import 'package:fast_golden_taxi/features/driver/driver_reviews/presentation/con
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for driver review remote data source
-final driverReviewRemoteDataSourceProvider = Provider<DriverReviewRemoteDataSource>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return DriverReviewRemoteDataSourceImpl(apiClient);
-});
+final driverReviewRemoteDataSourceProvider =
+    Provider<DriverReviewRemoteDataSource>((ref) {
+      final apiClient = ref.watch(apiClientProvider);
+      return DriverReviewRemoteDataSourceImpl(apiClient);
+    });
 
 /// Provider for driver review local data source
-final driverReviewLocalDataSourceProvider = Provider<DriverReviewLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return DriverReviewLocalDataSourceImpl(sharedPreferences);
-});
+final driverReviewLocalDataSourceProvider =
+    Provider<DriverReviewLocalDataSource>((ref) {
+      final sharedPreferences = ref.watch(sharedPreferencesProvider);
+      return DriverReviewLocalDataSourceImpl(sharedPreferences);
+    });
 
 /// Provider for driver review repository
 final driverReviewRepositoryProvider = Provider<DriverReviewRepository>((ref) {
@@ -40,5 +42,7 @@ final getDriverReviewsProvider = Provider<GetDriverReviews>((ref) {
 /// Provider for driver reviews controller
 final driverReviewsControllerProvider =
     StateNotifierProvider<DriverReviewsController, DriverReviewsState>((ref) {
-      return DriverReviewsController(getDriverReviews: ref.watch(getDriverReviewsProvider));
+      return DriverReviewsController(
+        getDriverReviews: ref.watch(getDriverReviewsProvider),
+      );
     });

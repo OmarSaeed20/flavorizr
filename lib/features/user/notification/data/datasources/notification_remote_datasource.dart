@@ -62,7 +62,9 @@ class NotificationRemoteDataSourceImpl
 
   @override
   Future<ApiResult<void>> markAsRead(int notificationId) async {
-    return post<void>(path: NotificationEndpoints.markAsRead(notificationId.toString()));
+    return post<void>(
+      path: NotificationEndpoints.markAsRead(notificationId.toString()),
+    );
   }
 
   @override

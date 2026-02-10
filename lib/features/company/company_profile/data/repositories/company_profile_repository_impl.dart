@@ -13,8 +13,9 @@ import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart'
 class CompanyProfileRepositoryImpl implements CompanyProfileRepository {
   final CompanyProfileRemoteDataSource _remoteDataSource;
 
-  CompanyProfileRepositoryImpl({required CompanyProfileRemoteDataSource remoteDataSource})
-    : _remoteDataSource = remoteDataSource;
+  CompanyProfileRepositoryImpl({
+    required CompanyProfileRemoteDataSource remoteDataSource,
+  }) : _remoteDataSource = remoteDataSource;
 
   @override
   Future<ApiResult<UserModel>> getProfile() async {
@@ -27,7 +28,9 @@ class CompanyProfileRepositoryImpl implements CompanyProfileRepository {
   }
 
   @override
-  Future<ApiResult<UserModel>> updateProfileInfo(UpdateCompanyProfileParameters parameters) async {
+  Future<ApiResult<UserModel>> updateProfileInfo(
+    UpdateCompanyProfileParameters parameters,
+  ) async {
     return _remoteDataSource.updateProfileInfo(parameters);
   }
 

@@ -9,7 +9,8 @@ import 'package:fast_golden_taxi/features/consumer/consumer_auth/domain/reposito
 ///
 /// Handles the business logic for logging out a consumer.
 /// Delegates to repository which clears tokens and user data.
-class ConsumerLogoutUseCase extends BaseUseCase<void, ConsumerLogoutParameters> {
+class ConsumerLogoutUseCase
+    extends BaseUseCase<void, ConsumerLogoutParameters> {
   const ConsumerLogoutUseCase(this._repository);
 
   final ConsumerAuthRepository _repository;

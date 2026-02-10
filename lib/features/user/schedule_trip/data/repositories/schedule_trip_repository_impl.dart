@@ -8,7 +8,8 @@ import 'package:fast_golden_taxi/features/user/schedule_trip/domain/entities/sch
 import 'package:fast_golden_taxi/features/user/schedule_trip/domain/repositories/schedule_trip_repository.dart';
 
 /// Implementation of [ScheduleTripRepository].
-class ScheduleTripRepositoryImpl extends BaseRepository implements ScheduleTripRepository {
+class ScheduleTripRepositoryImpl extends BaseRepository
+    implements ScheduleTripRepository {
   final ScheduleTripRemoteDataSource _remoteDataSource;
 
   ScheduleTripRepositoryImpl({
@@ -22,7 +23,9 @@ class ScheduleTripRepositoryImpl extends BaseRepository implements ScheduleTripR
   NetworkInfo get networkInfo => _networkInfo;
 
   @override
-  Future<ApiResult<ScheduledTrip>> createScheduledTrip(CreateScheduledTripParameters params) async {
+  Future<ApiResult<ScheduledTrip>> createScheduledTrip(
+    CreateScheduledTripParameters params,
+  ) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.createScheduledTrip(params),
     );
@@ -40,7 +43,8 @@ class ScheduleTripRepositoryImpl extends BaseRepository implements ScheduleTripR
       request: () => _remoteDataSource.getScheduledTrips(params),
     );
     return result.map(
-      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) =>
+          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }

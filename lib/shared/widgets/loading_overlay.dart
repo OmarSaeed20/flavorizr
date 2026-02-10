@@ -31,11 +31,16 @@ class LoadingOverlay extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(context.colorScheme.primary),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                context.colorScheme.primary,
+              ),
             ),
             if (message != null) ...[
               const SizedBox(height: 16),
-              Text(message!, style: const TextStyle(color: Colors.white, fontSize: 16)),
+              Text(
+                message!,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
             ],
           ],
         ),
@@ -60,7 +65,9 @@ class SmallLoadingIndicator extends StatelessWidget {
       height: size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        valueColor: AlwaysStoppedAnimation<Color>(color ?? context.colorScheme.primary),
+        valueColor: AlwaysStoppedAnimation<Color>(
+          color ?? context.colorScheme.primary,
+        ),
       ),
     );
   }
@@ -96,7 +103,10 @@ class ButtonLoadingState extends StatelessWidget {
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
-        if (loadingText != null) ...[const SizedBox(width: 8), Text(loadingText!)],
+        if (loadingText != null) ...[
+          const SizedBox(width: 8),
+          Text(loadingText!),
+        ],
       ],
     );
   }

@@ -9,15 +9,21 @@ class GetScheduleRequestsParameters extends Parameters {
   final String? _status;
   final CancelToken? _cancelToken;
 
-  const GetScheduleRequestsParameters._({String? date, String? status, CancelToken? cancelToken})
-    : _date = date,
-      _status = status,
-      _cancelToken = cancelToken;
+  const GetScheduleRequestsParameters._({
+    String? date,
+    String? status,
+    CancelToken? cancelToken,
+  }) : _date = date,
+       _status = status,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
   Map<String, dynamic> toJson() {
-    return {if (_date != null) 'date': _date, if (_status != null) 'status': _status};
+    return {
+      if (_date != null) 'date': _date,
+      if (_status != null) 'status': _status,
+    };
   }
 
   String? get date => _date;
@@ -26,7 +32,8 @@ class GetScheduleRequestsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetScheduleRequestsParametersBuilder builder() => GetScheduleRequestsParametersBuilder();
+  static GetScheduleRequestsParametersBuilder builder() =>
+      GetScheduleRequestsParametersBuilder();
 }
 
 /// Builder for GetScheduleRequestsParameters
@@ -50,7 +57,9 @@ class GetScheduleRequestsParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  GetScheduleRequestsParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  GetScheduleRequestsParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -58,6 +67,10 @@ class GetScheduleRequestsParametersBuilder
   /// Build the GetScheduleRequestsParameters
   @override
   GetScheduleRequestsParameters build() {
-    return GetScheduleRequestsParameters._(date: _date, status: _status, cancelToken: _cancelToken);
+    return GetScheduleRequestsParameters._(
+      date: _date,
+      status: _status,
+      cancelToken: _cancelToken,
+    );
   }
 }

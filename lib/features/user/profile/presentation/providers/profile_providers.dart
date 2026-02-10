@@ -1,6 +1,5 @@
 // lib/features/profile/presentation/providers/profile_providers.dart
 import 'package:fast_golden_taxi/core/di/providers.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:fast_golden_taxi/features/user/profile/data/datasources/profile_local_datasource.dart';
 import 'package:fast_golden_taxi/features/user/profile/data/datasources/profile_remote_datasource.dart';
 import 'package:fast_golden_taxi/features/user/profile/data/repositories/profile_repository_impl.dart';
@@ -15,7 +14,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // ==================== Data Sources ====================
 
 /// Provider for ProfileRemoteDataSource.
-final profileRemoteDataSourceProvider = Provider<ProfileRemoteDataSource>((ref) {
+final profileRemoteDataSourceProvider = Provider<ProfileRemoteDataSource>((
+  ref,
+) {
   final apiClient = ref.watch(apiClientProvider);
   return ProfileRemoteDataSourceImpl(apiClient);
 });
@@ -48,17 +49,23 @@ final getProfileUseCaseProvider = Provider<GetProfileUseCase>((ref) {
 });
 
 /// Provider for GetProfileDetailUseCase.
-final getProfileDetailUseCaseProvider = Provider<GetProfileDetailUseCase>((ref) {
+final getProfileDetailUseCaseProvider = Provider<GetProfileDetailUseCase>((
+  ref,
+) {
   return GetProfileDetailUseCase(ref.watch(profileRepositoryProvider));
 });
 
 /// Provider for UpdateProfileInfoUseCase.
-final updateProfileInfoUseCaseProvider = Provider<UpdateProfileInfoUseCase>((ref) {
+final updateProfileInfoUseCaseProvider = Provider<UpdateProfileInfoUseCase>((
+  ref,
+) {
   return UpdateProfileInfoUseCase(ref.watch(profileRepositoryProvider));
 });
 
 /// Provider for GetDriverReviewsUseCase.
-final getDriverReviewsUseCaseProvider = Provider<GetDriverReviewsUseCase>((ref) {
+final getDriverReviewsUseCaseProvider = Provider<GetDriverReviewsUseCase>((
+  ref,
+) {
   return GetDriverReviewsUseCase(ref.watch(profileRepositoryProvider));
 });
 
@@ -81,9 +88,10 @@ final currentProfileDetailProvider = FutureProvider<Profile?>((ref) async {
 // ==================== Controllers ====================
 
 /// Provider for ProfileController.
-final profileControllerProvider = NotifierProvider.autoDispose<ProfileController, ProfileState>(
-  ProfileController.new,
-);
+final profileControllerProvider =
+    NotifierProvider.autoDispose<ProfileController, ProfileState>(
+      ProfileController.new,
+    );
 
 /// Provider for EditProfileController.
 final editProfileControllerProvider =

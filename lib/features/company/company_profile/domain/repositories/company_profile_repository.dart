@@ -16,10 +16,14 @@ abstract class CompanyProfileRepository {
   Future<ApiResult<UserModel>> getProfileDetail();
 
   /// Update company profile info
-  Future<ApiResult<UserModel>> updateProfileInfo(UpdateCompanyProfileParameters parameters);
+  Future<ApiResult<UserModel>> updateProfileInfo(
+    UpdateCompanyProfileParameters parameters,
+  );
 
   /// Update company profile image
-  Future<ApiResult<UserModel>> updateProfileImage(UpdateCompanyProfileImageParameters parameters);
+  Future<ApiResult<UserModel>> updateProfileImage(
+    UpdateCompanyProfileImageParameters parameters,
+  );
 
   /// Delete company profile image
   Future<ApiResult<UserModel>> deleteProfileImage();

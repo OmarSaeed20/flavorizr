@@ -20,12 +20,16 @@ class HomeDataModel extends HomeData {
           [],
       advertisements:
           (json['advertisements'] as List<dynamic>?)
-              ?.map((e) => AdvertisementModel.fromJson(e as Map<String, dynamic>))
+              ?.map(
+                (e) => AdvertisementModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           [],
       featuredTrips:
           (json['featured_trips'] as List<dynamic>?)
-              ?.map((e) => AvailableTripModel.fromJson(e as Map<String, dynamic>))
+              ?.map(
+                (e) => AvailableTripModel.fromJson(e as Map<String, dynamic>),
+              )
               .toList() ??
           [],
       notificationCount: json['notification_count'] as int? ?? 0,
@@ -35,8 +39,12 @@ class HomeDataModel extends HomeData {
   Map<String, dynamic> toJson() {
     return {
       'banners': banners.map((e) => (e as BannerModel).toJson()).toList(),
-      'advertisements': advertisements.map((e) => (e as AdvertisementModel).toJson()).toList(),
-      'featured_trips': featuredTrips.map((e) => (e as AvailableTripModel).toJson()).toList(),
+      'advertisements': advertisements
+          .map((e) => (e as AdvertisementModel).toJson())
+          .toList(),
+      'featured_trips': featuredTrips
+          .map((e) => (e as AvailableTripModel).toJson())
+          .toList(),
       'notification_count': notificationCount,
     };
   }

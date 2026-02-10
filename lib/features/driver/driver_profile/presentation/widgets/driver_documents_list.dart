@@ -36,7 +36,10 @@ class DriverDocumentsList extends StatelessWidget {
                   onPressed: isLoading
                       ? null
                       : () {
-                          Navigator.pushNamed(context, '/driver/documents/upload');
+                          Navigator.pushNamed(
+                            context,
+                            '/driver/documents/upload',
+                          );
                         },
                 ),
               ],
@@ -46,7 +49,10 @@ class DriverDocumentsList extends StatelessWidget {
               const Center(
                 child: Padding(
                   padding: EdgeInsets.all(32.0),
-                  child: Text('No documents uploaded yet', style: TextStyle(color: Colors.grey)),
+                  child: Text(
+                    'No documents uploaded yet',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
               )
             else
@@ -84,7 +90,10 @@ class DriverDocumentsList extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: statusColor.withOpacity(0.1),
-        child: Icon(_getDocumentIcon(document.documentType), color: statusColor),
+        child: Icon(
+          _getDocumentIcon(document.documentType),
+          color: statusColor,
+        ),
       ),
       title: Text(document.documentType),
       subtitle: Text(document.documentNumber),
@@ -99,7 +108,11 @@ class DriverDocumentsList extends StatelessWidget {
             ),
             child: Text(
               statusText,
-              style: TextStyle(color: statusColor, fontSize: 12, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: statusColor,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           if (document.rejectionReason != null) ...[
@@ -111,7 +124,10 @@ class DriverDocumentsList extends StatelessWidget {
               },
             ),
           ],
-          IconButton(icon: const Icon(Icons.delete), onPressed: () => onDelete(document.id)),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => onDelete(document.id),
+          ),
         ],
       ),
     );

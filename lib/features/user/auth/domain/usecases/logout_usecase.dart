@@ -26,7 +26,11 @@ class LogoutUseCase implements UseCase<void, LogoutParams> {
 
 /// Parameters for the logout use case.
 class LogoutParams {
-  const LogoutParams({required this.deviceType, this.deviceToken, this.deviceId});
+  const LogoutParams({
+    required this.deviceType,
+    this.deviceToken,
+    this.deviceId,
+  });
 
   final String deviceType;
   final String? deviceToken;

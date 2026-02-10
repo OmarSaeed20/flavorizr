@@ -209,34 +209,37 @@ class AppTypography {
   // ═════════════════════════════════════════════════════════════════════════
 
   /// Tiny caption – meta info, timestamps.
-  static TextStyle caption({Color? color, double scaleFactor = 1.0}) => TextStyle(
-    fontSize: 10 * scaleFactor,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0.4,
-    height: 1.2,
-    fontFamily: bodyFontFamily,
-    color: color,
-  );
+  static TextStyle caption({Color? color, double scaleFactor = 1.0}) =>
+      TextStyle(
+        fontSize: 10 * scaleFactor,
+        fontWeight: FontWeight.w400,
+        letterSpacing: 0.4,
+        height: 1.2,
+        fontFamily: bodyFontFamily,
+        color: color,
+      );
 
   /// ALL-CAPS overline – section labels.
-  static TextStyle overline({Color? color, double scaleFactor = 1.0}) => TextStyle(
-    fontSize: 10 * scaleFactor,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 1.5,
-    height: 1.2,
-    fontFamily: displayFontFamily,
-    color: color,
-  );
+  static TextStyle overline({Color? color, double scaleFactor = 1.0}) =>
+      TextStyle(
+        fontSize: 10 * scaleFactor,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 1.5,
+        height: 1.2,
+        fontFamily: displayFontFamily,
+        color: color,
+      );
 
   /// Button text – used when a widget can't inherit from [labelLarge].
-  static TextStyle button({Color? color, double scaleFactor = 1.0}) => TextStyle(
-    fontSize: 14 * scaleFactor,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 1.25,
-    height: 1.43,
-    fontFamily: displayFontFamily,
-    color: color,
-  );
+  static TextStyle button({Color? color, double scaleFactor = 1.0}) =>
+      TextStyle(
+        fontSize: 14 * scaleFactor,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 1.25,
+        height: 1.43,
+        fontFamily: displayFontFamily,
+        color: color,
+      );
 
   /// Monospaced – OTP fields, code snippets.
   static TextStyle code({Color? color, double scaleFactor = 1.0}) => TextStyle(
@@ -283,12 +286,13 @@ class AppTypography {
   );
 
   /// Chat timestamp text style.
-  static TextStyle chatTimestamp({Color? color, double scaleFactor = 1.0}) => TextStyle(
-    fontSize: 10 * scaleFactor,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0.4,
-    height: 1.2,
-    fontFamily: chatFontFamily,
-    color: color,
-  );
+  static TextStyle chatTimestamp({Color? color, double scaleFactor = 1.0}) =>
+      TextStyle(
+        fontSize: 10 * scaleFactor,
+        fontWeight: FontWeight.w400,
+        letterSpacing: 0.4,
+        height: 1.2,
+        fontFamily: chatFontFamily,
+        color: color,
+      );
 }

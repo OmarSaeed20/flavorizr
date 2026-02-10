@@ -1,7 +1,4 @@
 // lib/features/company/company_auth/presentation/pages/company_login_page.dart
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/parameters/company_login_parameters.dart';
@@ -9,6 +6,9 @@ import 'package:fast_golden_taxi/features/company/company_auth/presentation/cont
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/providers/company_auth_providers.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/widgets/company_phone_input_widget.dart';
 import 'package:fast_golden_taxi/shared/widgets/loading_overlay.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Company Login Page
 ///
@@ -56,21 +56,30 @@ class _CompanyLoginPageState extends ConsumerState<CompanyLoginPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(companyAuthControllerProvider);
 
-    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (previous, next) {
+    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (
+      previous,
+      next,
+    ) {
       next.maybeWhen(
         authenticated: () {
           context.go('/company/home');
         },
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.message), backgroundColor: AppColors.of(context).error),
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: AppColors.of(context).error,
+            ),
           );
         },
         orElse: () {},
       );
     });
 
-    final isLoading = authState.maybeWhen(loading: () => true, orElse: () => false);
+    final isLoading = authState.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
 
     return Scaffold(
       body: Stack(
@@ -93,7 +102,11 @@ class _CompanyLoginPageState extends ConsumerState<CompanyLoginPage> {
                           color: AppColors.of(context).primary,
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: const Icon(Icons.business, size: 60, color: Colors.white),
+                        child: const Icon(
+                          Icons.business,
+                          size: 60,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -106,9 +119,9 @@ class _CompanyLoginPageState extends ConsumerState<CompanyLoginPage> {
                     const SizedBox(height: 8),
                     Text(
                       'Welcome back! Login to manage your fleet',
-                      style: AppTextStyles.of(
-                        context,
-                      ).bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+                      style: AppTextStyles.of(context).bodyMedium.copyWith(
+                        color: AppColors.of(context).textSecondary,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 48),
@@ -178,11 +191,16 @@ class _CompanyLoginPageState extends ConsumerState<CompanyLoginPage> {
                       onPressed: _handleLogin,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: const Text(
                         'Login',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

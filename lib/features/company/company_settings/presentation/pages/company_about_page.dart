@@ -1,7 +1,7 @@
 // lib/features/company/company_settings/presentation/pages/company_about_page.dart
-import 'package:flutter/material.dart';
 import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
+import 'package:flutter/material.dart';
 
 /// Company About Us Page
 ///
@@ -27,20 +27,29 @@ class CompanyAboutPage extends StatelessWidget {
                   color: AppColors.of(context).primary,
                   borderRadius: BorderRadius.circular(24),
                 ),
-                child: const Icon(Icons.local_taxi, size: 80, color: Colors.white),
+                child: const Icon(
+                  Icons.local_taxi,
+                  size: 80,
+                  color: Colors.white,
+                ),
               ),
             ),
             const SizedBox(height: 24),
             // App Name
-            Center(child: Text('Fast Golden Taxi', style: AppTextStyles.of(context).headlineLarge)),
+            Center(
+              child: Text(
+                'Fast Golden Taxi',
+                style: AppTextStyles.of(context).headlineLarge,
+              ),
+            ),
             const SizedBox(height: 8),
             // Version
             Center(
               child: Text(
                 'Version 1.0.0',
-                style: AppTextStyles.of(
-                  context,
-                ).bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+                style: AppTextStyles.of(context).bodyMedium.copyWith(
+                  color: AppColors.of(context).textSecondary,
+                ),
               ),
             ),
             const SizedBox(height: 32),
@@ -65,13 +74,15 @@ class CompanyAboutPage extends StatelessWidget {
               context,
               icon: Icons.security,
               title: 'Safe Rides',
-              description: 'All drivers are verified and vehicles are regularly inspected.',
+              description:
+                  'All drivers are verified and vehicles are regularly inspected.',
             ),
             _buildFeatureItem(
               context,
               icon: Icons.speed,
               title: 'Fast Service',
-              description: 'Quick pickup times and efficient route optimization.',
+              description:
+                  'Quick pickup times and efficient route optimization.',
             ),
             _buildFeatureItem(
               context,
@@ -83,7 +94,8 @@ class CompanyAboutPage extends StatelessWidget {
               context,
               icon: Icons.support_agent,
               title: '24/7 Support',
-              description: 'Round-the-clock customer support for all your needs.',
+              description:
+                  'Round-the-clock customer support for all your needs.',
             ),
             const SizedBox(height: 24),
             _buildSection(context, 'Contact Us'),
@@ -126,9 +138,9 @@ class CompanyAboutPage extends StatelessWidget {
             Center(
               child: Text(
                 '© 2024 Fast Golden Taxi. All rights reserved.',
-                style: AppTextStyles.of(
-                  context,
-                ).bodySmall.copyWith(color: AppColors.of(context).textSecondary),
+                style: AppTextStyles.of(context).bodySmall.copyWith(
+                  color: AppColors.of(context).textSecondary,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -141,9 +153,10 @@ class CompanyAboutPage extends StatelessWidget {
   Widget _buildSection(BuildContext context, String title) {
     return Text(
       title,
-      style: AppTextStyles.of(
-        context,
-      ).titleLarge.copyWith(color: AppColors.of(context).primary, fontWeight: FontWeight.bold),
+      style: AppTextStyles.of(context).titleLarge.copyWith(
+        color: AppColors.of(context).primary,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 
@@ -175,9 +188,9 @@ class CompanyAboutPage extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   description,
-                  style: AppTextStyles.of(
-                    context,
-                  ).bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+                  style: AppTextStyles.of(context).bodyMedium.copyWith(
+                    color: AppColors.of(context).textSecondary,
+                  ),
                 ),
               ],
             ),
@@ -201,9 +214,13 @@ class CompanyAboutPage extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             '$label: ',
-            style: AppTextStyles.of(context).bodyMedium.copyWith(fontWeight: FontWeight.bold),
+            style: AppTextStyles.of(
+              context,
+            ).bodyMedium.copyWith(fontWeight: FontWeight.bold),
           ),
-          Expanded(child: Text(value, style: AppTextStyles.of(context).bodyMedium)),
+          Expanded(
+            child: Text(value, style: AppTextStyles.of(context).bodyMedium),
+          ),
         ],
       ),
     );

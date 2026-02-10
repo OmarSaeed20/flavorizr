@@ -3,7 +3,8 @@ import 'package:fast_golden_taxi/features/user/home/domain/entities/advertisemen
 import 'package:fast_golden_taxi/features/user/home/domain/repositories/home_repository.dart';
 import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
-class GetAdvertisementsUseCase implements UseCase<List<Advertisement>, NoParams> {
+class GetAdvertisementsUseCase
+    implements UseCase<List<Advertisement>, NoParams> {
   GetAdvertisementsUseCase(this._repository);
 
   final HomeRepository _repository;

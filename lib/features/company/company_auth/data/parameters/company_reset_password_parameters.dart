@@ -35,7 +35,8 @@ class CompanyResetPasswordParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
-  CompanyResetPasswordParametersBuilder builder() => CompanyResetPasswordParametersBuilder();
+  CompanyResetPasswordParametersBuilder builder() =>
+      CompanyResetPasswordParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -86,7 +87,9 @@ class CompanyResetPasswordParametersBuilder
   }
 
   /// Set the confirmation code
-  CompanyResetPasswordParametersBuilder confirmationCode(String confirmationCode) {
+  CompanyResetPasswordParametersBuilder confirmationCode(
+    String confirmationCode,
+  ) {
     _confirmationCode = confirmationCode;
     return this;
   }
@@ -98,7 +101,9 @@ class CompanyResetPasswordParametersBuilder
   }
 
   /// Set the password confirmation
-  CompanyResetPasswordParametersBuilder passwordConfirmation(String passwordConfirmation) {
+  CompanyResetPasswordParametersBuilder passwordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
@@ -110,7 +115,9 @@ class CompanyResetPasswordParametersBuilder
   }
 
   @override
-  ParametersBuilder<CompanyResetPasswordParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<CompanyResetPasswordParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

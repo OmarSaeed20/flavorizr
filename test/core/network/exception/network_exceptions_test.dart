@@ -11,7 +11,10 @@ void main() {
   group('NetworkException', () {
     test('NoInternetException should be instantiated correctly', () {
       const exception = NoInternetException();
-      expect(exception.message, 'No internet connection. Please check your network.');
+      expect(
+        exception.message,
+        'No internet connection. Please check your network.',
+      );
       expect(exception.statusCode, isNull);
     });
 
@@ -114,7 +117,9 @@ void main() {
         type: DioExceptionType.connectionTimeout,
         requestOptions: RequestOptions(path: '/test'),
       );
-      final exception = NetworkExceptionFactory.mapExceptionToFailure(dioException);
+      final exception = NetworkExceptionFactory.mapExceptionToFailure(
+        dioException,
+      );
       expect(exception, isA<TimeoutException>());
     });
 
@@ -123,13 +128,17 @@ void main() {
         type: DioExceptionType.connectionError,
         requestOptions: RequestOptions(path: '/test'),
       );
-      final exception = NetworkExceptionFactory.mapExceptionToFailure(dioException);
+      final exception = NetworkExceptionFactory.mapExceptionToFailure(
+        dioException,
+      );
       expect(exception, isA<NoInternetException>());
     });
 
     test('should map SocketException to NoInternetException', () {
       const socketException = SocketException('No internet');
-      final exception = NetworkExceptionFactory.mapExceptionToFailure(socketException);
+      final exception = NetworkExceptionFactory.mapExceptionToFailure(
+        socketException,
+      );
       expect(exception, isA<NoInternetException>());
     });
 
@@ -143,7 +152,9 @@ void main() {
         ),
         requestOptions: RequestOptions(path: '/test'),
       );
-      final exception = NetworkExceptionFactory.mapExceptionToFailure(dioException);
+      final exception = NetworkExceptionFactory.mapExceptionToFailure(
+        dioException,
+      );
       expect(exception, isA<BadRequestException>());
     });
 
@@ -162,7 +173,9 @@ void main() {
         ),
         requestOptions: RequestOptions(path: '/test'),
       );
-      final exception = NetworkExceptionFactory.mapExceptionToFailure(dioException);
+      final exception = NetworkExceptionFactory.mapExceptionToFailure(
+        dioException,
+      );
       expect(exception, isA<ValidationException>());
       expect((exception as ValidationException).errors, {
         'email': ['Invalid format'],
@@ -179,12 +192,16 @@ void main() {
         ),
         requestOptions: RequestOptions(path: '/test'),
       );
-      final exception = NetworkExceptionFactory.mapExceptionToFailure(dioException);
+      final exception = NetworkExceptionFactory.mapExceptionToFailure(
+        dioException,
+      );
       expect(exception, isA<ServerException>());
     });
 
     test('should map unknown exception to UnknownNetworkException', () {
-      final exception = NetworkExceptionFactory.mapExceptionToFailure(Exception('Unknown'));
+      final exception = NetworkExceptionFactory.mapExceptionToFailure(
+        Exception('Unknown'),
+      );
       expect(exception, isA<UnknownNetworkException>());
     });
   });

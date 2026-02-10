@@ -16,7 +16,10 @@ class DriverStatsCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Statistics', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text(
+              'Statistics',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 16),
             Row(
               children: [
@@ -108,7 +111,12 @@ class _StatItem extends StatelessWidget {
   final IconData icon;
   final Color? color;
 
-  const _StatItem({required this.label, required this.value, required this.icon, this.color});
+  const _StatItem({
+    required this.label,
+    required this.value,
+    required this.icon,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +124,10 @@ class _StatItem extends StatelessWidget {
       children: [
         Icon(icon, size: 32, color: color ?? Theme.of(context).primaryColor),
         const SizedBox(height: 8),
-        Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 4),
         Text(
           label,

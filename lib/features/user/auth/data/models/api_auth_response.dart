@@ -22,5 +22,6 @@ abstract class ApiAuthResponse with _$ApiAuthResponse {
   const ApiAuthResponse._();
 
   /// Create ApiAuthResponse from JSON
-  factory ApiAuthResponse.fromJson(Map<String, dynamic> json) => _$ApiAuthResponseFromJson(json);
+  factory ApiAuthResponse.fromJson(Map<String, dynamic> json) =>
+      _$ApiAuthResponseFromJson(json);
 }

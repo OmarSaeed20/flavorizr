@@ -7,7 +7,10 @@ import 'package:fast_golden_taxi/features/driver/driver_auth/domain/entities/dri
 abstract class DriverAuthRepository {
   /// Logs in a driver with phone and password.
   /// Endpoint: POST /driver/auth/login
-  Future<ApiResult<DriverCredentials>> login({required String phone, required String password});
+  Future<ApiResult<DriverCredentials>> login({
+    required String phone,
+    required String password,
+  });
 
   /// Registers a new driver.
   /// Endpoint: POST /driver/auth/register

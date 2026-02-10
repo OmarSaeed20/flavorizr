@@ -42,9 +42,12 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   // Stream controllers for real-time events
   final _newMessagesController = StreamController<Message>.broadcast();
   final _messageUpdatesController = StreamController<Message>.broadcast();
-  final _typingIndicatorsController = StreamController<TypingIndicator>.broadcast();
-  final _presenceUpdatesController = StreamController<PresenceStatus>.broadcast();
-  final _conversationUpdatesController = StreamController<Conversation>.broadcast();
+  final _typingIndicatorsController =
+      StreamController<TypingIndicator>.broadcast();
+  final _presenceUpdatesController =
+      StreamController<PresenceStatus>.broadcast();
+  final _conversationUpdatesController =
+      StreamController<Conversation>.broadcast();
 
   // Typing indicator management
   Timer? _typingTimer;
@@ -104,7 +107,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
     final conversations = await _localDataSource.getCachedConversations();
     final conversationData = conversations.data;
     if (conversationData != null) {
-      final index = conversationData.indexWhere((c) => c.id == message.conversationId);
+      final index = conversationData.indexWhere(
+        (c) => c.id == message.conversationId,
+      );
       if (index >= 0) {
         final updated = conversationData[index].copyWith(
           lastMessage: message,
@@ -130,7 +135,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         final cached = await _localDataSource.getCachedConversations();
         if (cached.data != null && (cached.data?.isNotEmpty ?? false)) {
           // Return cached data and fetch fresh data in background
-          _fetchAndCacheConversations(limit: limit, includeArchived: includeArchived);
+          _fetchAndCacheConversations(
+            limit: limit,
+            includeArchived: includeArchived,
+          );
           return ApiResult.success(
             PaginatedResult(
               items: cached.data!.take(limit).toList(),
@@ -163,7 +171,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to load conversations', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to load conversations',
+          exception: e,
+        ),
       );
     }
   }
@@ -174,8 +185,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       final result = await executeRemoteRequest(
-        request: () =>
-            _remoteDataSource.getConversations(limit: limit, includeArchived: includeArchived),
+        request: () => _remoteDataSource.getConversations(
+          limit: limit,
+          includeArchived: includeArchived,
+        ),
       );
       if (result.isSuccess) {
         _localDataSource.cacheConversations(result.data!.items);
@@ -204,16 +217,23 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to load conversation', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to load conversation',
+          exception: e,
+        ),
       );
     }
   }
 
   @override
-  Future<ApiResult<Conversation>> createDirectConversation({required String otherUserId}) async {
+  Future<ApiResult<Conversation>> createDirectConversation({
+    required String otherUserId,
+  }) async {
     try {
       final result = await executeRemoteRequest(
-        request: () => _remoteDataSource.createDirectConversation(otherUserId: otherUserId),
+        request: () => _remoteDataSource.createDirectConversation(
+          otherUserId: otherUserId,
+        ),
       );
       if (result.isSuccess) {
         _localDataSource.updateCachedConversation(result.data!);
@@ -228,7 +248,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to create conversation', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to create conversation',
+          exception: e,
+        ),
       );
     }
   }
@@ -262,7 +285,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to create group', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to create group',
+          exception: e,
+        ),
       );
     }
   }
@@ -296,7 +322,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to update conversation', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to update conversation',
+          exception: e,
+        ),
       );
     }
   }
@@ -308,8 +337,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       final result = await executeRemoteRequest(
-        request: () =>
-            _remoteDataSource.addParticipants(conversationId: conversationId, userIds: userIds),
+        request: () => _remoteDataSource.addParticipants(
+          conversationId: conversationId,
+          userIds: userIds,
+        ),
       );
       if (result.isSuccess) {
         _localDataSource.updateCachedConversation(result.data!);
@@ -324,7 +355,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to add participants', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to add participants',
+          exception: e,
+        ),
       );
     }
   }
@@ -336,8 +370,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       await executeRemoteRequest(
-        request: () =>
-            _remoteDataSource.removeParticipant(conversationId: conversationId, userId: userId),
+        request: () => _remoteDataSource.removeParticipant(
+          conversationId: conversationId,
+          userId: userId,
+        ),
       );
       return const ApiResult.success(null);
     } on NetworkException catch (e) {
@@ -349,7 +385,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to remove participant', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to remove participant',
+          exception: e,
+        ),
       );
     }
   }
@@ -371,7 +410,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to leave conversation', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to leave conversation',
+          exception: e,
+        ),
       );
     }
   }
@@ -394,7 +436,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to delete conversation', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to delete conversation',
+          exception: e,
+        ),
       );
     }
   }
@@ -423,7 +468,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to update mute settings', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to update mute settings',
+          exception: e,
+        ),
       );
     }
   }
@@ -435,7 +483,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       await executeRemoteRequest(
-        request: () => _remoteDataSource.pinConversation(conversationId: conversationId, pin: pin),
+        request: () => _remoteDataSource.pinConversation(
+          conversationId: conversationId,
+          pin: pin,
+        ),
       );
       return const ApiResult.success(null);
     } on NetworkException catch (e) {
@@ -447,7 +498,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to update pin settings', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to update pin settings',
+          exception: e,
+        ),
       );
     }
   }
@@ -459,8 +513,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       await executeRemoteRequest(
-        request: () =>
-            _remoteDataSource.archiveConversation(conversationId: conversationId, archive: archive),
+        request: () => _remoteDataSource.archiveConversation(
+          conversationId: conversationId,
+          archive: archive,
+        ),
       );
       return const ApiResult.success(null);
     } on NetworkException catch (e) {
@@ -472,7 +528,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         stackTrace: s.toString(),
       );
       return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to update archive settings', exception: e),
+        UnknownNetworkException(
+          message: 'Failed to update archive settings',
+          exception: e,
+        ),
       );
     }
   }
@@ -524,14 +583,22 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
-  Future<void> _fetchAndCacheMessages(String conversationId, {required int limit}) async {
+  Future<void> _fetchAndCacheMessages(
+    String conversationId, {
+    required int limit,
+  }) async {
     try {
       final result = await executeRemoteRequest(
-        request: () => _remoteDataSource.getMessages(conversationId: conversationId, limit: limit),
+        request: () => _remoteDataSource.getMessages(
+          conversationId: conversationId,
+          limit: limit,
+        ),
       );
       if (result.isSuccess) {
         _localDataSource.cacheMessages(conversationId, result.data!.items);
@@ -556,7 +623,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -590,7 +659,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -628,7 +699,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -656,7 +729,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -667,7 +742,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       final result = await executeRemoteRequest(
-        request: () => _remoteDataSource.editMessage(messageId: messageId, content: content),
+        request: () => _remoteDataSource.editMessage(
+          messageId: messageId,
+          content: content,
+        ),
       );
       if (result.isSuccess) {
         _localDataSource.updateCachedMessage(result.data!);
@@ -681,7 +759,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -692,8 +772,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       await executeRemoteRequest(
-        request: () =>
-            _remoteDataSource.deleteMessage(messageId: messageId, forEveryone: forEveryone),
+        request: () => _remoteDataSource.deleteMessage(
+          messageId: messageId,
+          forEveryone: forEveryone,
+        ),
       );
       return const ApiResult.success(null);
     } on NetworkException catch (e) {
@@ -704,7 +786,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -729,15 +813,23 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
   @override
-  Future<ApiResult<void>> addReaction({required String messageId, required String reaction}) async {
+  Future<ApiResult<void>> addReaction({
+    required String messageId,
+    required String reaction,
+  }) async {
     try {
       await executeRemoteRequest(
-        request: () => _remoteDataSource.addReaction(messageId: messageId, reaction: reaction),
+        request: () => _remoteDataSource.addReaction(
+          messageId: messageId,
+          reaction: reaction,
+        ),
       );
       return const ApiResult.success(null);
     } on NetworkException catch (e) {
@@ -748,7 +840,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -759,7 +853,10 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       await executeRemoteRequest(
-        request: () => _remoteDataSource.removeReaction(messageId: messageId, reaction: reaction),
+        request: () => _remoteDataSource.removeReaction(
+          messageId: messageId,
+          reaction: reaction,
+        ),
       );
       return const ApiResult.success(null);
     } on NetworkException catch (e) {
@@ -770,15 +867,21 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
   @override
-  Future<ApiResult<void>> pinMessage({required String messageId, required bool pin}) async {
+  Future<ApiResult<void>> pinMessage({
+    required String messageId,
+    required bool pin,
+  }) async {
     try {
       await executeRemoteRequest(
-        request: () => _remoteDataSource.pinMessage(messageId: messageId, pin: pin),
+        request: () =>
+            _remoteDataSource.pinMessage(messageId: messageId, pin: pin),
       );
       return const ApiResult.success(null);
     } on NetworkException catch (e) {
@@ -789,12 +892,16 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
   @override
-  Future<ApiResult<List<Message>>> getPinnedMessages(String conversationId) async {
+  Future<ApiResult<List<Message>>> getPinnedMessages(
+    String conversationId,
+  ) async {
     try {
       final result = await executeRemoteRequest(
         request: () => _remoteDataSource.getPinnedMessages(conversationId),
@@ -808,7 +915,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -836,7 +945,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
     _typingTimer = null;
 
     if (_currentTypingConversation == conversationId) {
-      _webSocketManager.send('typing.stop', {'conversation_id': conversationId});
+      _webSocketManager.send('typing.stop', {
+        'conversation_id': conversationId,
+      });
       _currentTypingConversation = null;
     }
   }
@@ -856,13 +967,16 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   Stream<Message> get messageUpdates => _messageUpdatesController.stream;
 
   @override
-  Stream<TypingIndicator> get typingIndicators => _typingIndicatorsController.stream;
+  Stream<TypingIndicator> get typingIndicators =>
+      _typingIndicatorsController.stream;
 
   @override
-  Stream<PresenceStatus> get presenceUpdates => _presenceUpdatesController.stream;
+  Stream<PresenceStatus> get presenceUpdates =>
+      _presenceUpdatesController.stream;
 
   @override
-  Stream<Conversation> get conversationUpdates => _conversationUpdatesController.stream;
+  Stream<Conversation> get conversationUpdates =>
+      _conversationUpdatesController.stream;
 
   // ==================== Search ====================
 
@@ -891,7 +1005,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -903,8 +1019,11 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
   }) async {
     try {
       final result = await executeRemoteRequest(
-        request: () =>
-            _remoteDataSource.searchAllMessages(query: query, cursor: cursor, limit: limit),
+        request: () => _remoteDataSource.searchAllMessages(
+          query: query,
+          cursor: cursor,
+          limit: limit,
+        ),
       );
       return result;
     } on NetworkException catch (e) {
@@ -915,7 +1034,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -944,7 +1065,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 
@@ -974,7 +1097,9 @@ class ChatRepositoryImpl extends BaseRepository implements ChatRepository {
         data: {'error': e.toString()},
         stackTrace: s.toString(),
       );
-      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, s));
+      return ApiResult.exception(
+        NetworkExceptionFactory.mapExceptionToFailure(e, s),
+      );
     }
   }
 

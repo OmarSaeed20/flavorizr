@@ -29,11 +29,13 @@ class RespondToReviewParams extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static RespondToReviewParamsBuilder builder() => RespondToReviewParamsBuilder();
+  static RespondToReviewParamsBuilder builder() =>
+      RespondToReviewParamsBuilder();
 }
 
 /// Builder for RespondToReviewParams
-class RespondToReviewParamsBuilder extends ParametersBuilder<RespondToReviewParams> {
+class RespondToReviewParamsBuilder
+    extends ParametersBuilder<RespondToReviewParams> {
   String? _reviewId;
   String? _response;
   CancelToken? _cancelToken;

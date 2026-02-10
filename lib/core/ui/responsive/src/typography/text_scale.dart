@@ -33,10 +33,12 @@ class TextScale {
   bool get isSmallText => device.textScaleFactor < 0.9;
 
   /// Get line height multiplier based on device
-  double get lineHeightMultiplier => device.byDevice(mobile: 1.4, tablet: 1.5, desktop: 1.5);
+  double get lineHeightMultiplier =>
+      device.byDevice(mobile: 1.4, tablet: 1.5, desktop: 1.5);
 
   /// Get letter spacing adjustment based on device
-  double get letterSpacingAdjustment => device.byDevice(mobile: 0, tablet: 0.15, desktop: 0.25);
+  double get letterSpacingAdjustment =>
+      device.byDevice(mobile: 0, tablet: 0.15, desktop: 0.25);
 }
 
 /// Extension on TextStyle for responsive adjustments
@@ -74,7 +76,11 @@ extension ResponsiveTextStyleExtension on TextStyle {
     double? desktop,
   }) {
     final device = DeviceInfo.fromContext(context);
-    final size = device.byDevice(mobile: mobile, tablet: tablet, desktop: desktop);
+    final size = device.byDevice(
+      mobile: mobile,
+      tablet: tablet,
+      desktop: desktop,
+    );
     return copyWith(fontSize: size);
   }
 }

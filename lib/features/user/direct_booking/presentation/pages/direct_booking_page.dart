@@ -78,7 +78,9 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
               decoration: InputDecoration(
                 hintText: 'Enter pickup location',
                 prefixIcon: const Icon(Icons.location_on),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -91,7 +93,9 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
               decoration: InputDecoration(
                 hintText: 'Enter dropoff location',
                 prefixIcon: const Icon(Icons.flag),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
               ),
             ),
           ],
@@ -122,7 +126,8 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
                     final vehicleType = state.vehicleTypes[index];
                     return VehicleTypeCard(
                       vehicleType: vehicleType,
-                      isSelected: state.selectedVehicleType?.id == vehicleType.id,
+                      isSelected:
+                          state.selectedVehicleType?.id == vehicleType.id,
                       onTap: () {
                         ref
                             .read(directBookingControllerProvider.notifier)
@@ -139,7 +144,10 @@ class _DirectBookingPageState extends ConsumerState<DirectBookingPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Nearby Drivers', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Text(
+          'Nearby Drivers',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 12),
         if (state.isLoadingDrivers)
           const Center(child: CircularProgressIndicator())

@@ -66,8 +66,12 @@ class AdaptiveButton extends StatelessWidget {
       return ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isDestructive ? Theme.of(context).colorScheme.error : null,
-          foregroundColor: isDestructive ? Theme.of(context).colorScheme.onError : null,
+          backgroundColor: isDestructive
+              ? Theme.of(context).colorScheme.error
+              : null,
+          foregroundColor: isDestructive
+              ? Theme.of(context).colorScheme.onError
+              : null,
         ),
         child: _buildChild(isIOS: false),
       );
@@ -76,7 +80,9 @@ class AdaptiveButton extends StatelessWidget {
     if (isDestructive) {
       return TextButton(
         onPressed: onPressed,
-        style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
+        style: TextButton.styleFrom(
+          foregroundColor: Theme.of(context).colorScheme.error,
+        ),
         child: _buildChild(isIOS: false),
       );
     }
@@ -248,7 +254,10 @@ class AdaptiveDialog {
           obscureText: obscureText,
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(cancelText)),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(cancelText),
+          ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(controller.text),
             child: Text(confirmText),
@@ -308,7 +317,9 @@ class AdaptiveLoadingIndicator extends StatelessWidget {
       height: size,
       child: CircularProgressIndicator(
         strokeWidth: 2,
-        valueColor: color != null ? AlwaysStoppedAnimation<Color>(color!) : null,
+        valueColor: color != null
+            ? AlwaysStoppedAnimation<Color>(color!)
+            : null,
       ),
     );
   }
@@ -325,15 +336,28 @@ class AdaptiveSwitch extends StatelessWidget {
   /// Active color.
   final Color? activeColor;
 
-  const AdaptiveSwitch({super.key, required this.value, this.onChanged, this.activeColor});
+  const AdaptiveSwitch({
+    super.key,
+    required this.value,
+    this.onChanged,
+    this.activeColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     if (PlatformService.usesCupertinoDesign) {
-      return CupertinoSwitch(value: value, onChanged: onChanged, activeTrackColor: activeColor);
+      return CupertinoSwitch(
+        value: value,
+        onChanged: onChanged,
+        activeTrackColor: activeColor,
+      );
     }
 
-    return Switch(value: value, onChanged: onChanged, activeThumbColor: activeColor);
+    return Switch(
+      value: value,
+      onChanged: onChanged,
+      activeThumbColor: activeColor,
+    );
   }
 }
 
@@ -434,12 +458,21 @@ class AdaptiveCheckbox extends StatelessWidget {
   /// Active color.
   final Color? activeColor;
 
-  const AdaptiveCheckbox({super.key, required this.value, this.onChanged, this.activeColor});
+  const AdaptiveCheckbox({
+    super.key,
+    required this.value,
+    this.onChanged,
+    this.activeColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     if (PlatformService.usesCupertinoDesign) {
-      return CupertinoCheckbox(value: value, onChanged: onChanged, activeColor: activeColor);
+      return CupertinoCheckbox(
+        value: value,
+        onChanged: onChanged,
+        activeColor: activeColor,
+      );
     }
 
     return Checkbox(
@@ -729,7 +762,9 @@ class AdaptiveListTile extends StatelessWidget {
         subtitle: subtitle,
         trailing: trailing,
         onTap: onTap,
-        backgroundColor: selected ? CupertinoColors.systemGrey6.resolveFrom(context) : null,
+        backgroundColor: selected
+            ? CupertinoColors.systemGrey6.resolveFrom(context)
+            : null,
       );
     }
 
@@ -878,10 +913,16 @@ class AdaptiveTextField extends StatelessWidget {
         controller: controller,
         placeholder: hintText,
         prefix: prefixIcon != null
-            ? Padding(padding: const EdgeInsets.only(left: 8), child: prefixIcon)
+            ? Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: prefixIcon,
+              )
             : null,
         suffix: suffixIcon != null
-            ? Padding(padding: const EdgeInsets.only(right: 8), child: suffixIcon)
+            ? Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: suffixIcon,
+              )
             : null,
         obscureText: obscureText,
         enabled: enabled,
@@ -931,13 +972,20 @@ class AdaptiveCard extends StatelessWidget {
   /// Margin.
   final EdgeInsetsGeometry? margin;
 
-  const AdaptiveCard({super.key, required this.child, this.onTap, this.elevation, this.margin});
+  const AdaptiveCard({
+    super.key,
+    required this.child,
+    this.onTap,
+    this.elevation,
+    this.margin,
+  });
 
   @override
   Widget build(BuildContext context) {
     if (PlatformService.usesCupertinoDesign) {
       return Container(
-        margin: margin ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin:
+            margin ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: CupertinoColors.systemBackground.resolveFrom(context),
           borderRadius: BorderRadius.circular(12),
@@ -950,7 +998,11 @@ class AdaptiveCard extends StatelessWidget {
           ],
         ),
         child: onTap != null
-            ? CupertinoButton(onPressed: onTap, padding: EdgeInsets.zero, child: child)
+            ? CupertinoButton(
+                onPressed: onTap,
+                padding: EdgeInsets.zero,
+                child: child,
+              )
             : child,
       );
     }
@@ -988,9 +1040,9 @@ class AdaptiveSnackbar {
       return;
     }
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message), duration: duration, action: action));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), duration: duration, action: action),
+    );
   }
 }
 
@@ -1002,7 +1054,11 @@ class AdaptiveRefreshIndicator extends StatelessWidget {
   /// Callback when refreshed.
   final Future<void> Function() onRefresh;
 
-  const AdaptiveRefreshIndicator({super.key, required this.child, required this.onRefresh});
+  const AdaptiveRefreshIndicator({
+    super.key,
+    required this.child,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {

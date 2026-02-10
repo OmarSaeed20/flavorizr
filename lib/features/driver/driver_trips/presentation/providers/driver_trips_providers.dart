@@ -15,16 +15,19 @@ import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/contr
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverTripsRemoteDataSource
-final driverTripsRemoteDataSourceProvider = Provider<DriverTripsRemoteDataSource>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return DriverTripsRemoteDataSourceImpl(apiClient);
-});
+final driverTripsRemoteDataSourceProvider =
+    Provider<DriverTripsRemoteDataSource>((ref) {
+      final apiClient = ref.watch(apiClientProvider);
+      return DriverTripsRemoteDataSourceImpl(apiClient);
+    });
 
 /// Provider for DriverTripsLocalDataSource
-final driverTripsLocalDataSourceProvider = Provider<DriverTripsLocalDataSource>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return DriverTripsLocalDataSourceImpl(prefs: prefs);
-});
+final driverTripsLocalDataSourceProvider = Provider<DriverTripsLocalDataSource>(
+  (ref) {
+    final prefs = ref.watch(sharedPreferencesProvider);
+    return DriverTripsLocalDataSourceImpl(prefs: prefs);
+  },
+);
 
 /// Provider for DriverTripsRepository
 final driverTripsRepositoryProvider = Provider<DriverTripsRepository>((ref) {

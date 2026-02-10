@@ -44,7 +44,8 @@ class ApiResult<T> with _$ApiResult<T> {
   T? get dataOrNull => maybeWhen(success: (data) => data, orElse: () => null);
 
   /// Returns the error if failure, or null if success.
-  NetworkException? get errorOrNull => maybeWhen(exception: (error) => error, orElse: () => null);
+  NetworkException? get errorOrNull =>
+      maybeWhen(exception: (error) => error, orElse: () => null);
 
   /// Returns the error if failure (alias for errorOrNull).
   NetworkException? get failure => errorOrNull;
@@ -56,7 +57,10 @@ class ApiResult<T> with _$ApiResult<T> {
   ///
   /// If this is a failure, the failure is propagated unchanged.
   ApiResult<R> map<R>(R Function(T data) mapper) {
-    return when(success: (data) => ApiResult.success(mapper(data)), exception: ApiResult.exception);
+    return when(
+      success: (data) => ApiResult.success(mapper(data)),
+      exception: ApiResult.exception,
+    );
   }
 
   /// Maps the success data asynchronously to a new type.
@@ -69,7 +73,9 @@ class ApiResult<T> with _$ApiResult<T> {
           final result = await mapper(data);
           return ApiResult.success(result);
         } catch (e, stack) {
-          return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e, stack));
+          return ApiResult.exception(
+            NetworkExceptionFactory.mapExceptionToFailure(e, stack),
+          );
         }
       },
       exception: (error) async => ApiResult.exception(error),

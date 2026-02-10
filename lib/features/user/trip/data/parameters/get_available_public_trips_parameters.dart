@@ -43,7 +43,9 @@ class GetAvailablePublicTripsParametersBuilder
   }
 
   @override
-  GetAvailablePublicTripsParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  GetAvailablePublicTripsParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

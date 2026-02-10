@@ -1,5 +1,4 @@
 import 'package:fast_golden_taxi/core/di/providers.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/data/datasources/direct_booking_remote_datasource.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/data/repositories/direct_booking_repository_impl.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/domain/repositories/direct_booking_repository.dart';
@@ -11,15 +10,21 @@ import 'package:fast_golden_taxi/features/user/direct_booking/presentation/contr
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DirectBookingRemoteDataSource.
-final directBookingRemoteDataSourceProvider = Provider<DirectBookingRemoteDataSource>((ref) {
-  return DirectBookingRemoteDataSourceImpl(ref.watch(apiClientProvider));
-});
+final directBookingRemoteDataSourceProvider =
+    Provider<DirectBookingRemoteDataSource>((ref) {
+      return DirectBookingRemoteDataSourceImpl(ref.watch(apiClientProvider));
+    });
 
 /// Provider for DirectBookingRepository.
-final directBookingRepositoryProvider = Provider<DirectBookingRepository>((ref) {
+final directBookingRepositoryProvider = Provider<DirectBookingRepository>((
+  ref,
+) {
   final remoteDataSource = ref.watch(directBookingRemoteDataSourceProvider);
   final networkInfo = ref.watch(networkInfoProvider);
-  return DirectBookingRepositoryImpl(remoteDataSource: remoteDataSource, networkInfo: networkInfo);
+  return DirectBookingRepositoryImpl(
+    remoteDataSource: remoteDataSource,
+    networkInfo: networkInfo,
+  );
 });
 
 /// Provider for GetVehicleTypesUseCase.
@@ -28,7 +33,9 @@ final getVehicleTypesUseCaseProvider = Provider<GetVehicleTypesUseCase>((ref) {
 });
 
 /// Provider for GetNearbyDriversUseCase.
-final getNearbyDriversUseCaseProvider = Provider<GetNearbyDriversUseCase>((ref) {
+final getNearbyDriversUseCaseProvider = Provider<GetNearbyDriversUseCase>((
+  ref,
+) {
   return GetNearbyDriversUseCase(ref.watch(directBookingRepositoryProvider));
 });
 

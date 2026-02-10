@@ -13,36 +13,51 @@ class CompanyResetPasswordUseCase {
 
   CompanyResetPasswordUseCase(this._repository);
 
-  Future<ApiResult<void>> execute(CompanyResetPasswordParameters parameters) async {
+  Future<ApiResult<void>> execute(
+    CompanyResetPasswordParameters parameters,
+  ) async {
     // Validate phone number
     if (parameters.phone.isEmpty) {
-      return ApiResult.failure(const ValidationException(message: 'Phone number is required'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Phone number is required'),
+      );
     }
 
     // Validate phone ISO code
     if (parameters.phoneIsoCode.isEmpty) {
-      return ApiResult.failure(const ValidationException(message: 'Phone ISO code is required'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Phone ISO code is required'),
+      );
     }
 
     // Validate confirmation code
     if (parameters.confirmationCode.isEmpty) {
-      return ApiResult.failure(const ValidationException(message: 'Confirmation code is required'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Confirmation code is required'),
+      );
     }
 
     // Validate confirmation code length (typically 4-6 digits)
-    if (parameters.confirmationCode.length < 4 || parameters.confirmationCode.length > 6) {
-      return ApiResult.failure(const ValidationException(message: 'Invalid confirmation code'));
+    if (parameters.confirmationCode.length < 4 ||
+        parameters.confirmationCode.length > 6) {
+      return ApiResult.failure(
+        const ValidationException(message: 'Invalid confirmation code'),
+      );
     }
 
     // Validate password
     if (parameters.password.isEmpty) {
-      return ApiResult.failure(const ValidationException(message: 'Password is required'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Password is required'),
+      );
     }
 
     // Validate password length
     if (parameters.password.length < 6) {
       return ApiResult.failure(
-        const ValidationException(message: 'Password must be at least 6 characters'),
+        const ValidationException(
+          message: 'Password must be at least 6 characters',
+        ),
       );
     }
 
@@ -55,7 +70,9 @@ class CompanyResetPasswordUseCase {
 
     // Validate passwords match
     if (parameters.password != parameters.passwordConfirmation) {
-      return ApiResult.failure(const ValidationException(message: 'Passwords do not match'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Passwords do not match'),
+      );
     }
 
     // Call repository

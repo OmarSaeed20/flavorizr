@@ -63,7 +63,8 @@ class ConsumerRegisterParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
-  ConsumerRegisterParametersBuilder builder() => ConsumerRegisterParametersBuilder();
+  ConsumerRegisterParametersBuilder builder() =>
+      ConsumerRegisterParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -110,7 +111,8 @@ class ConsumerRegisterParameters extends Parameters {
 }
 
 /// Builder for ConsumerRegisterParameters
-class ConsumerRegisterParametersBuilder extends ParametersBuilder<ConsumerRegisterParameters> {
+class ConsumerRegisterParametersBuilder
+    extends ParametersBuilder<ConsumerRegisterParameters> {
   String? _companyType;
   String? _name;
   String? _nickname;
@@ -164,7 +166,9 @@ class ConsumerRegisterParametersBuilder extends ParametersBuilder<ConsumerRegist
   }
 
   /// Set the password confirmation
-  ConsumerRegisterParametersBuilder passwordConfirmation(String passwordConfirmation) {
+  ConsumerRegisterParametersBuilder passwordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
@@ -218,7 +222,9 @@ class ConsumerRegisterParametersBuilder extends ParametersBuilder<ConsumerRegist
   }
 
   @override
-  ParametersBuilder<ConsumerRegisterParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ConsumerRegisterParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

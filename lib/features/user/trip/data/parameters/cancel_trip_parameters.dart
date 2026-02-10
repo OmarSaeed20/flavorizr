@@ -6,7 +6,11 @@ import 'package:meta/meta.dart';
 /// Parameters for cancelling a trip.
 @immutable
 class CancelTripParameters extends Parameters {
-  const CancelTripParameters._({required this.orderId, required this.userId, this.cancelToken});
+  const CancelTripParameters._({
+    required this.orderId,
+    required this.userId,
+    this.cancelToken,
+  });
 
   @override
   Map<String, dynamic> toJson() => {'order_id': orderId, 'user_id': userId};
@@ -21,7 +25,8 @@ class CancelTripParameters extends Parameters {
 }
 
 /// Builder for CancelTripParameters.
-class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters> {
+class CancelTripParametersBuilder
+    extends ParametersBuilder<CancelTripParameters> {
   String? _orderId;
   String? _userId;
   CancelToken? _cancelToken;
@@ -44,6 +49,10 @@ class CancelTripParametersBuilder extends ParametersBuilder<CancelTripParameters
 
   @override
   CancelTripParameters build() {
-    return CancelTripParameters._(orderId: _orderId!, userId: _userId!, cancelToken: _cancelToken);
+    return CancelTripParameters._(
+      orderId: _orderId!,
+      userId: _userId!,
+      cancelToken: _cancelToken,
+    );
   }
 }

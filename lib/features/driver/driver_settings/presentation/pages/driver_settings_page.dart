@@ -40,7 +40,10 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                   const SizedBox(height: 16),
                   Text(state.error!, textAlign: TextAlign.center),
                   const SizedBox(height: 16),
-                  ElevatedButton(onPressed: _loadSettings, child: const Text('Retry')),
+                  ElevatedButton(
+                    onPressed: _loadSettings,
+                    child: const Text('Retry'),
+                  ),
                 ],
               ),
             )
@@ -58,7 +61,10 @@ class _DriverSettingsPageState extends ConsumerState<DriverSettingsPage> {
                       children: [
                         const Text(
                           'Status',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 16),
                         OnlineStatusSwitch(

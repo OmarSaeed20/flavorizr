@@ -29,7 +29,8 @@ class CompanyVerifyPhoneParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
-  CompanyVerifyPhoneParametersBuilder builder() => CompanyVerifyPhoneParametersBuilder();
+  CompanyVerifyPhoneParametersBuilder builder() =>
+      CompanyVerifyPhoneParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -43,7 +44,10 @@ class CompanyVerifyPhoneParameters extends Parameters {
 
   @override
   int get hashCode =>
-      phone.hashCode ^ phoneIsoCode.hashCode ^ confirmationCode.hashCode ^ cancelToken.hashCode;
+      phone.hashCode ^
+      phoneIsoCode.hashCode ^
+      confirmationCode.hashCode ^
+      cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -51,7 +55,8 @@ class CompanyVerifyPhoneParameters extends Parameters {
 }
 
 /// Builder for CompanyVerifyPhoneParameters
-class CompanyVerifyPhoneParametersBuilder extends ParametersBuilder<CompanyVerifyPhoneParameters> {
+class CompanyVerifyPhoneParametersBuilder
+    extends ParametersBuilder<CompanyVerifyPhoneParameters> {
   String? _phone;
   String? _phoneIsoCode;
   String? _confirmationCode;
@@ -70,7 +75,9 @@ class CompanyVerifyPhoneParametersBuilder extends ParametersBuilder<CompanyVerif
   }
 
   /// Set the confirmation code
-  CompanyVerifyPhoneParametersBuilder confirmationCode(String confirmationCode) {
+  CompanyVerifyPhoneParametersBuilder confirmationCode(
+    String confirmationCode,
+  ) {
     _confirmationCode = confirmationCode;
     return this;
   }
@@ -82,7 +89,9 @@ class CompanyVerifyPhoneParametersBuilder extends ParametersBuilder<CompanyVerif
   }
 
   @override
-  ParametersBuilder<CompanyVerifyPhoneParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<CompanyVerifyPhoneParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

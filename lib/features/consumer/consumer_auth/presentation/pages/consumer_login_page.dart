@@ -1,6 +1,5 @@
 // lib/features/consumer/consumer_auth/presentation/pages/consumer_login_page.dart
 import 'package:fast_golden_taxi/core/router/routes.dart';
-import 'package:fast_golden_taxi/core/theme/app_theme.dart';
 import 'package:fast_golden_taxi/features/consumer/consumer_auth/presentation/controllers/consumer_auth_controller.dart';
 import 'package:fast_golden_taxi/features/consumer/consumer_auth/presentation/widgets/consumer_phone_input_widget.dart';
 import 'package:fast_golden_taxi/l10n/app_localizations.dart';
@@ -93,11 +92,17 @@ class _ConsumerLoginPageState extends ConsumerState<ConsumerLoginPage> {
               children: [
                 SizedBox(height: 60.h),
                 // Logo or app name
-                Icon(Icons.local_taxi_rounded, size: 80.sp, color: theme.colorScheme.primary),
+                Icon(
+                  Icons.local_taxi_rounded,
+                  size: 80.sp,
+                  color: theme.colorScheme.primary,
+                ),
                 SizedBox(height: 24.h),
                 Text(
                   l10n.welcomeBack,
-                  style: theme.textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
+                  style: theme.textTheme.headlineLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 8.h),
@@ -155,7 +160,9 @@ class _ConsumerLoginPageState extends ConsumerState<ConsumerLoginPage> {
                 // Login button
                 FilledButton(
                   onPressed: _isLoading ? null : _handleLogin,
-                  style: FilledButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16.h)),
+                  style: FilledButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                  ),
                   child: _isLoading
                       ? const SizedBox(
                           height: 20,
@@ -176,7 +183,10 @@ class _ConsumerLoginPageState extends ConsumerState<ConsumerLoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(l10n.dontHaveAccount, style: theme.textTheme.bodyMedium),
+                    Text(
+                      l10n.dontHaveAccount,
+                      style: theme.textTheme.bodyMedium,
+                    ),
                     TextButton(
                       onPressed: () {
                         context.push(Routes.register);
@@ -196,11 +206,17 @@ class _ConsumerLoginPageState extends ConsumerState<ConsumerLoginPage> {
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.error_outline, color: theme.colorScheme.error),
+                        Icon(
+                          Icons.error_outline,
+                          color: theme.colorScheme.error,
+                        ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: Text(
-                            authState.maybeWhen(error: (message, _) => message, orElse: () => ''),
+                            authState.maybeWhen(
+                              error: (message, _) => message,
+                              orElse: () => '',
+                            ),
                             style: TextStyle(color: theme.colorScheme.error),
                           ),
                         ),

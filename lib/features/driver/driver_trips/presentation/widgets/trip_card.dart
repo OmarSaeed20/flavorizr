@@ -38,11 +38,17 @@ class TripCard extends StatelessWidget {
                       children: [
                         Text(
                           trip.passengerName,
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                         Text(
                           _formatDate(trip.createdAt),
-                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ],
                     ),
@@ -69,11 +75,17 @@ class TripCard extends StatelessWidget {
                     label: '${trip.route.distance.toStringAsFixed(1)} km',
                   ),
                   const SizedBox(width: 16),
-                  _TripDetail(icon: Icons.access_time, label: '${trip.route.duration.toInt()} min'),
+                  _TripDetail(
+                    icon: Icons.access_time,
+                    label: '${trip.route.duration.toInt()} min',
+                  ),
                   const SizedBox(width: 16),
                   _TripDetail(icon: Icons.payment, label: trip.paymentMethod),
                   const SizedBox(width: 16),
-                  _TripDetail(icon: Icons.directions_car, label: trip.vehicleType),
+                  _TripDetail(
+                    icon: Icons.directions_car,
+                    label: trip.vehicleType,
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -105,7 +117,10 @@ class TripCard extends StatelessWidget {
                       children: [
                         Text(
                           'Actual Fare',
-                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
                         ),
                         Text(
                           '\$${trip.actualFare.toStringAsFixed(2)}',
@@ -203,7 +218,11 @@ class _StatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 12),
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+        ),
       ),
     );
   }
@@ -231,10 +250,15 @@ class _RouteInfo extends StatelessWidget {
             Container(
               width: 12,
               height: 12,
-              decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                color: Colors.green,
+                shape: BoxShape.circle,
+              ),
             ),
             const SizedBox(width: 8),
-            Expanded(child: Text(pickupLocation, style: const TextStyle(fontSize: 14))),
+            Expanded(
+              child: Text(pickupLocation, style: const TextStyle(fontSize: 14)),
+            ),
           ],
         ),
         Padding(
@@ -249,10 +273,18 @@ class _RouteInfo extends StatelessWidget {
             Container(
               width: 12,
               height: 12,
-              decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
             ),
             const SizedBox(width: 8),
-            Expanded(child: Text(dropoffLocation, style: const TextStyle(fontSize: 14))),
+            Expanded(
+              child: Text(
+                dropoffLocation,
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
           ],
         ),
       ],

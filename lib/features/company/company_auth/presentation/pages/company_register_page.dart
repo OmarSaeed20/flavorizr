@@ -1,7 +1,4 @@
 // lib/features/company/company_auth/presentation/pages/company_register_page.dart
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/parameters/company_register_parameters.dart';
@@ -9,6 +6,9 @@ import 'package:fast_golden_taxi/features/company/company_auth/presentation/cont
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/providers/company_auth_providers.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/widgets/company_phone_input_widget.dart';
 import 'package:fast_golden_taxi/shared/widgets/loading_overlay.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Company Register Page
 ///
@@ -18,7 +18,8 @@ class CompanyRegisterPage extends ConsumerStatefulWidget {
   const CompanyRegisterPage({super.key});
 
   @override
-  ConsumerState<CompanyRegisterPage> createState() => _CompanyRegisterPageState();
+  ConsumerState<CompanyRegisterPage> createState() =>
+      _CompanyRegisterPageState();
 }
 
 class _CompanyRegisterPageState extends ConsumerState<CompanyRegisterPage> {
@@ -80,7 +81,9 @@ class _CompanyRegisterPageState extends ConsumerState<CompanyRegisterPage> {
     final parameters = CompanyRegisterParameters(
       companyType: 'company',
       name: _nameController.text.trim(),
-      nickname: _nicknameController.text.trim().isEmpty ? null : _nicknameController.text.trim(),
+      nickname: _nicknameController.text.trim().isEmpty
+          ? null
+          : _nicknameController.text.trim(),
       phone: _phoneController.text.trim(),
       phoneIso2Code: _phoneIsoCodeController.text.trim(),
       password: _passwordController.text,
@@ -98,21 +101,30 @@ class _CompanyRegisterPageState extends ConsumerState<CompanyRegisterPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(companyAuthControllerProvider);
 
-    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (previous, next) {
+    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (
+      previous,
+      next,
+    ) {
       next.maybeWhen(
         authenticated: () {
           context.go('/company/home');
         },
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.message), backgroundColor: AppColors.of(context).error),
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: AppColors.of(context).error,
+            ),
           );
         },
         orElse: () {},
       );
     });
 
-    final isLoading = authState.maybeWhen(loading: () => true, orElse: () => false);
+    final isLoading = authState.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
 
     return Scaffold(
       body: Stack(
@@ -135,9 +147,9 @@ class _CompanyRegisterPageState extends ConsumerState<CompanyRegisterPage> {
                     const SizedBox(height: 8),
                     Text(
                       'Create your company account to manage your fleet',
-                      style: AppTextStyles.of(
-                        context,
-                      ).bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+                      style: AppTextStyles.of(context).bodyMedium.copyWith(
+                        color: AppColors.of(context).textSecondary,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),
@@ -305,11 +317,16 @@ class _CompanyRegisterPageState extends ConsumerState<CompanyRegisterPage> {
                       onPressed: _handleRegister,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: const Text(
                         'Register',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

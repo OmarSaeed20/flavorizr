@@ -11,16 +11,20 @@ import 'package:fast_golden_taxi/features/driver/driver_settings/presentation/co
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverSettingsRemoteDataSource.
-final driverSettingsRemoteDataSourceProvider = Provider<DriverSettingsRemoteDataSource>((ref) {
-  return DriverSettingsRemoteDataSourceImpl(ref.watch(apiClientProvider));
-});
-final driverSettingsLocalDataSourceProvider = Provider<DriverSettingsLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return DriverSettingsLocalDataSourceImpl(sharedPreferences);
-});
+final driverSettingsRemoteDataSourceProvider =
+    Provider<DriverSettingsRemoteDataSource>((ref) {
+      return DriverSettingsRemoteDataSourceImpl(ref.watch(apiClientProvider));
+    });
+final driverSettingsLocalDataSourceProvider =
+    Provider<DriverSettingsLocalDataSource>((ref) {
+      final sharedPreferences = ref.watch(sharedPreferencesProvider);
+      return DriverSettingsLocalDataSourceImpl(sharedPreferences);
+    });
 
 /// Provider for DriverSettingsRepository.
-final driverSettingsRepositoryProvider = Provider<DriverSettingsRepository>((ref) {
+final driverSettingsRepositoryProvider = Provider<DriverSettingsRepository>((
+  ref,
+) {
   final networkInfo = ref.watch(networkInfoProvider);
   final remoteDataSource = ref.watch(driverSettingsRemoteDataSourceProvider);
   final localDataSource = ref.watch(driverSettingsLocalDataSourceProvider);
@@ -32,24 +36,34 @@ final driverSettingsRepositoryProvider = Provider<DriverSettingsRepository>((ref
 });
 
 /// Provider for GetDriverSettingsUseCase.
-final getDriverSettingsUseCaseProvider = Provider<GetDriverSettingsUseCase>((ref) {
+final getDriverSettingsUseCaseProvider = Provider<GetDriverSettingsUseCase>((
+  ref,
+) {
   return GetDriverSettingsUseCase(ref.watch(driverSettingsRepositoryProvider));
 });
 
 /// Provider for UpdateDriverSettingsUseCase.
-final updateDriverSettingsUseCaseProvider = Provider<UpdateDriverSettingsUseCase>((ref) {
-  return UpdateDriverSettingsUseCase(ref.watch(driverSettingsRepositoryProvider));
-});
+final updateDriverSettingsUseCaseProvider =
+    Provider<UpdateDriverSettingsUseCase>((ref) {
+      return UpdateDriverSettingsUseCase(
+        ref.watch(driverSettingsRepositoryProvider),
+      );
+    });
 
 /// Provider for ToggleOnlineStatusUseCase.
-final toggleOnlineStatusUseCaseProvider = Provider<ToggleOnlineStatusUseCase>((ref) {
+final toggleOnlineStatusUseCaseProvider = Provider<ToggleOnlineStatusUseCase>((
+  ref,
+) {
   return ToggleOnlineStatusUseCase(ref.watch(driverSettingsRepositoryProvider));
 });
 
 /// Provider for ToggleAvailabilityStatusUseCase.
-final toggleAvailabilityStatusUseCaseProvider = Provider<ToggleAvailabilityStatusUseCase>((ref) {
-  return ToggleAvailabilityStatusUseCase(ref.watch(driverSettingsRepositoryProvider));
-});
+final toggleAvailabilityStatusUseCaseProvider =
+    Provider<ToggleAvailabilityStatusUseCase>((ref) {
+      return ToggleAvailabilityStatusUseCase(
+        ref.watch(driverSettingsRepositoryProvider),
+      );
+    });
 
 /// Provider for DriverSettingsController.
 final driverSettingsControllerProvider =

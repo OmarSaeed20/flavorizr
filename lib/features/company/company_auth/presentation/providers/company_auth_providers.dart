@@ -18,20 +18,23 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // ==================== Data Layer Providers ====================
 
 /// Company Auth Remote Data Source Provider
-final companyAuthRemoteDataSourceProvider = Provider<CompanyAuthRemoteDataSource>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return CompanyAuthRemoteDataSource(dio: apiClient.dio);
-});
+final companyAuthRemoteDataSourceProvider =
+    Provider<CompanyAuthRemoteDataSource>((ref) {
+      final apiClient = ref.watch(apiClientProvider);
+      return CompanyAuthRemoteDataSource(dio: apiClient.dio);
+    });
 
 /// Company Auth Local Data Source Provider
-final companyAuthLocalDataSourceProvider = Provider<CompanyAuthLocalDataSource>((ref) {
-  const secureStorage = FlutterSecureStorage();
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return CompanyAuthLocalDataSource(
-    secureStorage: secureStorage,
-    sharedPreferences: sharedPreferences,
-  );
-});
+final companyAuthLocalDataSourceProvider = Provider<CompanyAuthLocalDataSource>(
+  (ref) {
+    const secureStorage = FlutterSecureStorage();
+    final sharedPreferences = ref.watch(sharedPreferencesProvider);
+    return CompanyAuthLocalDataSource(
+      secureStorage: secureStorage,
+      sharedPreferences: sharedPreferences,
+    );
+  },
+);
 
 /// Company Auth Repository Provider
 final companyAuthRepositoryProvider = Provider<CompanyAuthRepository>((ref) {
@@ -64,30 +67,33 @@ final companyLogoutUseCaseProvider = Provider<CompanyLogoutUseCase>((ref) {
 });
 
 /// Company Send Verification Code Use Case Provider
-final companySendVerificationCodeUseCaseProvider = Provider<CompanySendVerificationCodeUseCase>((
-  ref,
-) {
-  final repository = ref.watch(companyAuthRepositoryProvider);
-  return CompanySendVerificationCodeUseCase(repository);
-});
+final companySendVerificationCodeUseCaseProvider =
+    Provider<CompanySendVerificationCodeUseCase>((ref) {
+      final repository = ref.watch(companyAuthRepositoryProvider);
+      return CompanySendVerificationCodeUseCase(repository);
+    });
 
 /// Company Verify Phone Use Case Provider
-final companyVerifyPhoneUseCaseProvider = Provider<CompanyVerifyPhoneUseCase>((ref) {
+final companyVerifyPhoneUseCaseProvider = Provider<CompanyVerifyPhoneUseCase>((
+  ref,
+) {
   final repository = ref.watch(companyAuthRepositoryProvider);
   return CompanyVerifyPhoneUseCase(repository);
 });
 
 /// Company Forget Password Use Case Provider
-final companyForgetPasswordUseCaseProvider = Provider<CompanyForgetPasswordUseCase>((ref) {
-  final repository = ref.watch(companyAuthRepositoryProvider);
-  return CompanyForgetPasswordUseCase(repository);
-});
+final companyForgetPasswordUseCaseProvider =
+    Provider<CompanyForgetPasswordUseCase>((ref) {
+      final repository = ref.watch(companyAuthRepositoryProvider);
+      return CompanyForgetPasswordUseCase(repository);
+    });
 
 /// Company Reset Password Use Case Provider
-final companyResetPasswordUseCaseProvider = Provider<CompanyResetPasswordUseCase>((ref) {
-  final repository = ref.watch(companyAuthRepositoryProvider);
-  return CompanyResetPasswordUseCase(repository);
-});
+final companyResetPasswordUseCaseProvider =
+    Provider<CompanyResetPasswordUseCase>((ref) {
+      final repository = ref.watch(companyAuthRepositoryProvider);
+      return CompanyResetPasswordUseCase(repository);
+    });
 
 // ==================== Presentation Layer Providers ====================
 
@@ -98,7 +104,9 @@ final companyAuthControllerProvider =
         loginUseCase: ref.watch(companyLoginUseCaseProvider),
         registerUseCase: ref.watch(companyRegisterUseCaseProvider),
         logoutUseCase: ref.watch(companyLogoutUseCaseProvider),
-        sendVerificationCodeUseCase: ref.watch(companySendVerificationCodeUseCaseProvider),
+        sendVerificationCodeUseCase: ref.watch(
+          companySendVerificationCodeUseCaseProvider,
+        ),
         verifyPhoneUseCase: ref.watch(companyVerifyPhoneUseCaseProvider),
         forgetPasswordUseCase: ref.watch(companyForgetPasswordUseCaseProvider),
         resetPasswordUseCase: ref.watch(companyResetPasswordUseCaseProvider),

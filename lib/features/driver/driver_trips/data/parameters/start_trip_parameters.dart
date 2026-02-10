@@ -8,9 +8,11 @@ class StartTripParameters extends Parameters {
   final String _tripId;
   final CancelToken? _cancelToken;
 
-  const StartTripParameters._({required String tripId, CancelToken? cancelToken})
-    : _tripId = tripId,
-      _cancelToken = cancelToken;
+  const StartTripParameters._({
+    required String tripId,
+    CancelToken? cancelToken,
+  }) : _tripId = tripId,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -27,7 +29,8 @@ class StartTripParameters extends Parameters {
 }
 
 /// Builder for StartTripParameters
-class StartTripParametersBuilder extends ParametersBuilder<StartTripParameters> {
+class StartTripParametersBuilder
+    extends ParametersBuilder<StartTripParameters> {
   String? _tripId;
   CancelToken? _cancelToken;
 

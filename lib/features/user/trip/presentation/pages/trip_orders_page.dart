@@ -47,7 +47,9 @@ class _TripOrdersPageState extends ConsumerState<TripOrdersPage> {
               setState(() {
                 _selectedStatus = status == 'all' ? null : status;
               });
-              ref.read(tripOrderControllerProvider.notifier).loadOrders(status: _selectedStatus);
+              ref
+                  .read(tripOrderControllerProvider.notifier)
+                  .loadOrders(status: _selectedStatus);
             },
             itemBuilder: (context) => [
               const PopupMenuItem(value: 'all', child: Text('All Orders')),
@@ -73,15 +75,22 @@ class _TripOrdersPageState extends ConsumerState<TripOrdersPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.receipt_long, size: 64, color: Theme.of(context).colorScheme.outline),
+            Icon(
+              Icons.receipt_long,
+              size: 64,
+              color: Theme.of(context).colorScheme.outline,
+            ),
             const SizedBox(height: 16),
-            Text('No orders yet', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'No orders yet',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             Text(
               'Your trip orders will appear here',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.outline),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.outline,
+              ),
             ),
           ],
         ),
@@ -91,7 +100,8 @@ class _TripOrdersPageState extends ConsumerState<TripOrdersPage> {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification &&
-            notification.metrics.pixels >= notification.metrics.maxScrollExtent - 200) {
+            notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent - 200) {
           ref.read(tripOrderControllerProvider.notifier).loadMore();
         }
         return false;

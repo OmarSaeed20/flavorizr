@@ -16,11 +16,13 @@ class GetTripDetailParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static GetTripDetailParametersBuilder builder() => GetTripDetailParametersBuilder();
+  static GetTripDetailParametersBuilder builder() =>
+      GetTripDetailParametersBuilder();
 }
 
 /// Builder for GetTripDetailParameters.
-class GetTripDetailParametersBuilder extends ParametersBuilder<GetTripDetailParameters> {
+class GetTripDetailParametersBuilder
+    extends ParametersBuilder<GetTripDetailParameters> {
   int? _tripId;
   CancelToken? _cancelToken;
 
@@ -37,6 +39,9 @@ class GetTripDetailParametersBuilder extends ParametersBuilder<GetTripDetailPara
 
   @override
   GetTripDetailParameters build() {
-    return GetTripDetailParameters._(tripId: _tripId!, cancelToken: _cancelToken);
+    return GetTripDetailParameters._(
+      tripId: _tripId!,
+      cancelToken: _cancelToken,
+    );
   }
 }

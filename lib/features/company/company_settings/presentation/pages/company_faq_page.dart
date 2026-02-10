@@ -1,6 +1,4 @@
 // lib/features/company/company_settings/presentation/pages/company_faq_page.dart
-import 'package:fast_golden_taxi/core/theme/app_colors.dart';
-import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
 import 'package:fast_golden_taxi/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 

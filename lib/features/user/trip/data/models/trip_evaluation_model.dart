@@ -28,7 +28,9 @@ class TripEvaluationModel {
       rating: (json['rating'] as num).toInt(),
       comment: json['comment'] as String?,
       categories: json['categories'] != null
-          ? EvaluationCategoriesModel.fromJson(json['categories'] as Map<String, dynamic>)
+          ? EvaluationCategoriesModel.fromJson(
+              json['categories'] as Map<String, dynamic>,
+            )
           : null,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)

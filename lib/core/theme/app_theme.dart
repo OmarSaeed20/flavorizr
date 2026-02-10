@@ -42,18 +42,28 @@ class AppTheme {
   ///
   /// If [dynamicScheme] is non-null **and** the user opted in via
   /// [ThemeSettings.useDynamicColor], it replaces the Figma palette.
-  static ThemeData light({required ThemeSettings settings, ColorScheme? dynamicScheme}) {
+  static ThemeData light({
+    required ThemeSettings settings,
+    ColorScheme? dynamicScheme,
+  }) {
     final colorScheme = (settings.useDynamicColor && dynamicScheme != null)
         ? dynamicScheme
         : kLightColorScheme;
 
-    return _buildTheme(colorScheme: colorScheme, settings: settings, isDark: false);
+    return _buildTheme(
+      colorScheme: colorScheme,
+      settings: settings,
+      isDark: false,
+    );
   }
 
   /// Creates a **dark** [ThemeData].
   ///
   /// Supports OLED true-black mode via [ThemeSettings.useOledBlack].
-  static ThemeData dark({required ThemeSettings settings, ColorScheme? dynamicScheme}) {
+  static ThemeData dark({
+    required ThemeSettings settings,
+    ColorScheme? dynamicScheme,
+  }) {
     final ColorScheme colorScheme;
 
     if (settings.useDynamicColor && dynamicScheme != null) {
@@ -64,7 +74,11 @@ class AppTheme {
       colorScheme = kDarkColorScheme;
     }
 
-    return _buildTheme(colorScheme: colorScheme, settings: settings, isDark: true);
+    return _buildTheme(
+      colorScheme: colorScheme,
+      settings: settings,
+      isDark: true,
+    );
   }
 
   /// Returns a [SystemUiOverlayStyle] matching the current theme.
@@ -78,7 +92,9 @@ class AppTheme {
     statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
     statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
     systemNavigationBarColor: navigationBarColor ?? theme.colorScheme.surface,
-    systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+    systemNavigationBarIconBrightness: isDark
+        ? Brightness.light
+        : Brightness.dark,
     systemNavigationBarDividerColor: Colors.transparent,
   );
 
@@ -146,7 +162,9 @@ class AppTheme {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: isDark ? const BorderSide(color: kDarkPrimaryVariant) : BorderSide.none,
+            side: isDark
+                ? const BorderSide(color: kDarkPrimaryVariant)
+                : BorderSide.none,
           ),
           textStyle: const TextStyle(
             fontFamily: AppTypography.displayFontFamily,
@@ -164,7 +182,9 @@ class AppTheme {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: isDark ? const BorderSide(color: kDarkPrimaryVariant) : BorderSide.none,
+            side: isDark
+                ? const BorderSide(color: kDarkPrimaryVariant)
+                : BorderSide.none,
           ),
           textStyle: const TextStyle(
             fontFamily: AppTypography.displayFontFamily,
@@ -180,8 +200,12 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: colorScheme.primary,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          side: BorderSide(color: isDark ? kDarkSurfaceVariant : colorScheme.outline),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          side: BorderSide(
+            color: isDark ? kDarkSurfaceVariant : colorScheme.outline,
+          ),
           textStyle: const TextStyle(
             fontFamily: AppTypography.displayFontFamily,
             fontSize: 14,
@@ -195,7 +219,9 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: colorScheme.primary,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           textStyle: const TextStyle(
             fontFamily: AppTypography.displayFontFamily,
             fontSize: 14,
@@ -209,14 +235,21 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: isDark ? kDarkSurface : kGray100,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: isDark ? kDarkSurfaceVariant : kGray200),
+          borderSide: BorderSide(
+            color: isDark ? kDarkSurfaceVariant : kGray200,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: isDark ? kDarkSurfaceVariant : kGray200),
+          borderSide: BorderSide(
+            color: isDark ? kDarkSurfaceVariant : kGray200,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -248,7 +281,9 @@ class AppTheme {
         elevation: isDark ? 0 : 1,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: isDark ? const BorderSide(color: kDarkSurfaceVariant) : BorderSide.none,
+          side: isDark
+              ? const BorderSide(color: kDarkSurfaceVariant)
+              : BorderSide.none,
         ),
         color: isDark ? kDarkSurface : colorScheme.surface,
         surfaceTintColor: Colors.transparent,
@@ -345,7 +380,9 @@ class AppTheme {
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
-          return IconThemeData(color: isSelected ? colorScheme.primary : colorScheme.onSurface);
+          return IconThemeData(
+            color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+          );
         }),
       ),
 
@@ -377,7 +414,9 @@ class AppTheme {
       // ── Expansion Tile ──────────────────────────────────────────────────
       expansionTileTheme: ExpansionTileThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        collapsedShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
 
       // ── TabBar ──────────────────────────────────────────────────────────
@@ -500,7 +539,9 @@ class AppTheme {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           ),
           side: isDark
-              ? WidgetStateProperty.all(const BorderSide(color: kDarkSegmentBorder))
+              ? WidgetStateProperty.all(
+                  const BorderSide(color: kDarkSegmentBorder),
+                )
               : null,
           backgroundColor: isDark
               ? WidgetStateProperty.resolveWith((states) {
@@ -536,13 +577,19 @@ class AppTheme {
       extensions: [
         AppThemeExtension(
           success: SemanticColors.success,
-          successContainer: isDark ? SemanticColors.successDark : SemanticColors.successLight,
+          successContainer: isDark
+              ? SemanticColors.successDark
+              : SemanticColors.successLight,
           onSuccess: kWhite,
           warning: SemanticColors.warning,
-          warningContainer: isDark ? SemanticColors.warningDark : SemanticColors.warningLight,
+          warningContainer: isDark
+              ? SemanticColors.warningDark
+              : SemanticColors.warningLight,
           onWarning: kGray900,
           info: SemanticColors.info,
-          infoContainer: isDark ? SemanticColors.infoDark : SemanticColors.infoLight,
+          infoContainer: isDark
+              ? SemanticColors.infoDark
+              : SemanticColors.infoLight,
           onInfo: kWhite,
           shimmerBase: isDark ? kShimmerBaseDark : kShimmerBase,
           shimmerHighlight: isDark ? kShimmerHighlightDark : kShimmerHighlight,
@@ -677,16 +724,28 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
     if (other is! AppThemeExtension) return this;
     return AppThemeExtension(
       success: Color.lerp(success, other.success, t)!,
-      successContainer: Color.lerp(successContainer, other.successContainer, t)!,
+      successContainer: Color.lerp(
+        successContainer,
+        other.successContainer,
+        t,
+      )!,
       onSuccess: Color.lerp(onSuccess, other.onSuccess, t)!,
       warning: Color.lerp(warning, other.warning, t)!,
-      warningContainer: Color.lerp(warningContainer, other.warningContainer, t)!,
+      warningContainer: Color.lerp(
+        warningContainer,
+        other.warningContainer,
+        t,
+      )!,
       onWarning: Color.lerp(onWarning, other.onWarning, t)!,
       info: Color.lerp(info, other.info, t)!,
       infoContainer: Color.lerp(infoContainer, other.infoContainer, t)!,
       onInfo: Color.lerp(onInfo, other.onInfo, t)!,
       shimmerBase: Color.lerp(shimmerBase, other.shimmerBase, t)!,
-      shimmerHighlight: Color.lerp(shimmerHighlight, other.shimmerHighlight, t)!,
+      shimmerHighlight: Color.lerp(
+        shimmerHighlight,
+        other.shimmerHighlight,
+        t,
+      )!,
       overlay: Color.lerp(overlay, other.overlay, t)!,
       badge: Color.lerp(badge, other.badge, t)!,
       chatBubbleSent: Color.lerp(chatBubbleSent, other.chatBubbleSent, t)!,

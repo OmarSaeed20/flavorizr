@@ -60,7 +60,11 @@ class DriverAuthController extends StateNotifier<DriverAuthState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(credentials: data, isAuthenticated: true, isLoading: false);
+        state = state.copyWith(
+          credentials: data,
+          isAuthenticated: true,
+          isLoading: false,
+        );
       },
       exception: (error) {
         state = state.copyWith(isLoading: false, error: error.message);
@@ -128,7 +132,11 @@ class DriverAuthController extends StateNotifier<DriverAuthState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(credentials: data, isAuthenticated: true, isLoading: false);
+        state = state.copyWith(
+          credentials: data,
+          isAuthenticated: true,
+          isLoading: false,
+        );
       },
       exception: (error) {
         state = state.copyWith(isLoading: false, error: error.message);
@@ -152,7 +160,11 @@ class DriverAuthController extends StateNotifier<DriverAuthState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(credentials: data, isAuthenticated: true, isLoading: false);
+        state = state.copyWith(
+          credentials: data,
+          isAuthenticated: true,
+          isLoading: false,
+        );
       },
       exception: (error) {
         state = state.copyWith(isLoading: false, error: error.message);

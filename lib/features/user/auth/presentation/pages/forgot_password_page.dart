@@ -33,7 +33,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
 
   Future<void> _handleSendResetEmail() async {
     if (_formKey.currentState?.validate() ?? false) {
-      await ref.read(forgotPasswordControllerProvider.notifier).sendResetEmail();
+      await ref
+          .read(forgotPasswordControllerProvider.notifier)
+          .sendResetEmail();
     }
   }
 
@@ -71,14 +73,20 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             color: theme.colorScheme.primaryContainer,
             shape: BoxShape.circle,
           ),
-          child: Icon(Icons.mark_email_read_outlined, size: 48, color: theme.colorScheme.primary),
+          child: Icon(
+            Icons.mark_email_read_outlined,
+            size: 48,
+            color: theme.colorScheme.primary,
+          ),
         ),
         const SizedBox(height: 24),
 
         // Title
         Text(
           'Check your email',
-          style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 12),
@@ -87,7 +95,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         Text(
           "We've sent password reset instructions to your email address. "
           'Please check your inbox and follow the link to reset your password.',
-          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
@@ -95,7 +105,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         // Phone display
         Text(
           _phoneController.text,
-          style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 32),
@@ -113,7 +125,10 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Didn't receive the email? ", style: theme.textTheme.bodyMedium),
+            Text(
+              "Didn't receive the email? ",
+              style: theme.textTheme.bodyMedium,
+            ),
             TextButton(
               onPressed: () {
                 ref.read(forgotPasswordControllerProvider.notifier).reset();
@@ -134,13 +149,19 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Icon
-          Icon(Icons.lock_reset_outlined, size: 64, color: theme.colorScheme.primary),
+          Icon(
+            Icons.lock_reset_outlined,
+            size: 64,
+            color: theme.colorScheme.primary,
+          ),
           const SizedBox(height: 24),
 
           // Title
           Text(
             'Forgot Password?',
-            style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 12),
@@ -148,7 +169,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           // Description
           Text(
             "Enter your email address and we'll send you instructions to reset your password.",
-            style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
@@ -163,7 +186,11 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.error_outline, color: theme.colorScheme.error, size: 20),
+                  Icon(
+                    Icons.error_outline,
+                    color: theme.colorScheme.error,
+                    size: 20,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -190,8 +217,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             autofocus: true,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.phone,
-            onChanged: (value) =>
-                ref.read(forgotPasswordControllerProvider.notifier).setPhone(value),
+            onChanged: (value) => ref
+                .read(forgotPasswordControllerProvider.notifier)
+                .setPhone(value),
             onSubmitted: (_) => _handleSendResetEmail(),
           ),
           const SizedBox(height: 24),
@@ -211,7 +239,10 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Remember your password? ', style: theme.textTheme.bodyMedium),
+              Text(
+                'Remember your password? ',
+                style: theme.textTheme.bodyMedium,
+              ),
               TextButton(
                 onPressed: state.isLoading ? null : () => context.pop(),
                 child: const Text('Sign In'),

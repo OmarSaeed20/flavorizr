@@ -18,7 +18,8 @@ import 'package:fast_golden_taxi/features/driver/driver_profile/domain/repositor
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Provides offline capability with local caching.
-class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfileRepository {
+class DriverProfileRepositoryImpl extends BaseRepository
+    implements DriverProfileRepository {
   final DriverProfileRemoteDataSource _remoteDataSource;
   final DriverProfileLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
@@ -178,7 +179,8 @@ class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfil
     );
 
     return result.when(
-      success: (data, _) => ApiResult.success(data.map((e) => e.toEntity()).toList()),
+      success: (data, _) =>
+          ApiResult.success(data.map((e) => e.toEntity()).toList()),
       exception: ApiResult.exception,
     );
   }
@@ -241,8 +243,10 @@ class DriverProfileRepositoryImpl extends BaseRepository implements DriverProfil
     final data = {
       if (nationalId != null) 'national_id': nationalId,
       if (nationalIdImage != null) 'national_id_image': nationalIdImage,
-      if (drivingLicenseImage != null) 'driving_license_image': drivingLicenseImage,
-      if (vehicleLicenseImage != null) 'vehicle_license_image': vehicleLicenseImage,
+      if (drivingLicenseImage != null)
+        'driving_license_image': drivingLicenseImage,
+      if (vehicleLicenseImage != null)
+        'vehicle_license_image': vehicleLicenseImage,
       if (vehicleImage != null) 'vehicle_image': vehicleImage,
     };
 

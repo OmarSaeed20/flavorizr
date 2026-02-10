@@ -11,6 +11,8 @@ class ToggleOnlineStatusUseCase {
 
   Future<ApiResult<DriverSettings>> call(bool isOnline) {
     // Implement when toggleOnlineStatus is added to repository
-    throw UnimplementedError('toggleOnlineStatus not yet implemented in repository');
+    throw UnimplementedError(
+      'toggleOnlineStatus not yet implemented in repository',
+    );
   }
 }

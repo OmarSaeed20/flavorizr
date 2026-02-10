@@ -57,7 +57,8 @@ class UpdateDriverProfileParameters extends Parameters {
       if (_address != null) 'address': _address,
       if (_city != null) 'city': _city,
       if (_country != null) 'country': _country,
-      if (_dateOfBirth != null) 'date_of_birth': _dateOfBirth!.toIso8601String(),
+      if (_dateOfBirth != null)
+        'date_of_birth': _dateOfBirth!.toIso8601String(),
       if (_gender != null) 'gender': _gender,
     };
   }
@@ -77,7 +78,8 @@ class UpdateDriverProfileParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateDriverProfileParametersBuilder builder() => UpdateDriverProfileParametersBuilder();
+  static UpdateDriverProfileParametersBuilder builder() =>
+      UpdateDriverProfileParametersBuilder();
 }
 
 /// Builder for UpdateDriverProfileParameters
@@ -164,7 +166,9 @@ class UpdateDriverProfileParametersBuilder
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateDriverProfileParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UpdateDriverProfileParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

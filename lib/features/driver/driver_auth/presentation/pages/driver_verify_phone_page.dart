@@ -9,7 +9,8 @@ class DriverVerifyPhonePage extends ConsumerStatefulWidget {
   const DriverVerifyPhonePage({super.key, required this.phone});
 
   @override
-  ConsumerState<DriverVerifyPhonePage> createState() => _DriverVerifyPhonePageState();
+  ConsumerState<DriverVerifyPhonePage> createState() =>
+      _DriverVerifyPhonePageState();
 }
 
 class _DriverVerifyPhonePageState extends ConsumerState<DriverVerifyPhonePage> {
@@ -102,7 +103,9 @@ class _DriverVerifyPhonePageState extends ConsumerState<DriverVerifyPhonePage> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: state.isLoading ? const CircularProgressIndicator() : const Text('Verify'),
+                  child: state.isLoading
+                      ? const CircularProgressIndicator()
+                      : const Text('Verify'),
                 ),
                 const SizedBox(height: 16),
                 TextButton(

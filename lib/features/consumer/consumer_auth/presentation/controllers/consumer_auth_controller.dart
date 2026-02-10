@@ -25,23 +25,31 @@ class ConsumerAuthState with _$ConsumerAuthState {
 
   const factory ConsumerAuthState.loading() = _Loading;
 
-  const factory ConsumerAuthState.authenticated({required UserModel user}) = _Authenticated;
+  const factory ConsumerAuthState.authenticated({required UserModel user}) =
+      _Authenticated;
 
   const factory ConsumerAuthState.unauthenticated() = _Unauthenticated;
 
-  const factory ConsumerAuthState.error({required String message, Failure? failure}) = _Error;
+  const factory ConsumerAuthState.error({
+    required String message,
+    Failure? failure,
+  }) = _Error;
 
-  const factory ConsumerAuthState.verificationCodeSent() = _VerificationCodeSent;
+  const factory ConsumerAuthState.verificationCodeSent() =
+      _VerificationCodeSent;
 
-  const factory ConsumerAuthState.passwordResetRequested() = _PasswordResetRequested;
+  const factory ConsumerAuthState.passwordResetRequested() =
+      _PasswordResetRequested;
 
   const factory ConsumerAuthState.passwordReset() = _PasswordReset;
 
   bool get isLoading => maybeWhen(loading: () => true, orElse: () => false);
 
-  bool get isAuthenticated => maybeWhen(authenticated: (_) => true, orElse: () => false);
+  bool get isAuthenticated =>
+      maybeWhen(authenticated: (_) => true, orElse: () => false);
 
-  bool get isUnauthenticated => maybeWhen(unauthenticated: () => true, orElse: () => false);
+  bool get isUnauthenticated =>
+      maybeWhen(unauthenticated: () => true, orElse: () => false);
 
   bool get isError => maybeWhen(error: (_, __) => true, orElse: () => false);
 }
@@ -83,10 +91,15 @@ class ConsumerAuthController extends _$ConsumerAuthController {
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (authResult) {
-        state = ConsumerAuthState.authenticated(user: authResult.user.toModel());
+        state = ConsumerAuthState.authenticated(
+          user: authResult.user.toModel(),
+        );
       },
     );
   }
@@ -130,16 +143,24 @@ class ConsumerAuthController extends _$ConsumerAuthController {
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (authResult) {
-        state = ConsumerAuthState.authenticated(user: authResult.user.toModel());
+        state = ConsumerAuthState.authenticated(
+          user: authResult.user.toModel(),
+        );
       },
     );
   }
 
   /// Send verification code to consumer's phone.
-  Future<void> sendVerificationCode({required String phone, required String phoneIsoCode}) async {
+  Future<void> sendVerificationCode({
+    required String phone,
+    required String phoneIsoCode,
+  }) async {
     state = const ConsumerAuthState.loading();
 
     final parameters = ConsumerSendVerificationCodeParameters(
@@ -147,11 +168,16 @@ class ConsumerAuthController extends _$ConsumerAuthController {
       phoneIsoCode: phoneIsoCode,
     );
 
-    final result = await ref.read(consumerSendVerificationCodeUseCaseProvider)(parameters);
+    final result = await ref.read(consumerSendVerificationCodeUseCaseProvider)(
+      parameters,
+    );
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (_) {
         state = const ConsumerAuthState.verificationCodeSent();
@@ -173,29 +199,47 @@ class ConsumerAuthController extends _$ConsumerAuthController {
       code: code,
     );
 
-    final result = await ref.read(consumerVerifyPhoneUseCaseProvider)(parameters);
+    final result = await ref.read(consumerVerifyPhoneUseCaseProvider)(
+      parameters,
+    );
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (authResult) {
-        state = ConsumerAuthState.authenticated(user: authResult.user.toModel());
+        state = ConsumerAuthState.authenticated(
+          user: authResult.user.toModel(),
+        );
       },
     );
   }
 
   /// Request password reset code.
-  Future<void> forgetPassword({required String phone, required String phoneIsoCode}) async {
+  Future<void> forgetPassword({
+    required String phone,
+    required String phoneIsoCode,
+  }) async {
     state = const ConsumerAuthState.loading();
 
-    final parameters = ConsumerForgetPasswordParameters(phone: phone, phoneIsoCode: phoneIsoCode);
+    final parameters = ConsumerForgetPasswordParameters(
+      phone: phone,
+      phoneIsoCode: phoneIsoCode,
+    );
 
-    final result = await ref.read(consumerForgetPasswordUseCaseProvider)(parameters);
+    final result = await ref.read(consumerForgetPasswordUseCaseProvider)(
+      parameters,
+    );
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (_) {
         state = const ConsumerAuthState.passwordResetRequested();
@@ -221,11 +265,16 @@ class ConsumerAuthController extends _$ConsumerAuthController {
       passwordConfirmation: passwordConfirmation,
     );
 
-    final result = await ref.read(consumerResetPasswordUseCaseProvider)(parameters);
+    final result = await ref.read(consumerResetPasswordUseCaseProvider)(
+      parameters,
+    );
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (_) {
         state = const ConsumerAuthState.passwordReset();
@@ -256,11 +305,16 @@ class ConsumerAuthController extends _$ConsumerAuthController {
   Future<void> getCurrentUser() async {
     state = const ConsumerAuthState.loading();
 
-    final result = await ref.read(consumerGetCurrentUserUseCaseProvider)(const NoParams());
+    final result = await ref.read(consumerGetCurrentUserUseCaseProvider)(
+      const NoParams(),
+    );
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (user) {
         state = ConsumerAuthState.authenticated(user: user);
@@ -269,13 +323,19 @@ class ConsumerAuthController extends _$ConsumerAuthController {
   }
 
   /// Save biometric credentials.
-  Future<void> saveBiometricCredentials({required String phone, required String password}) async {
+  Future<void> saveBiometricCredentials({
+    required String phone,
+    required String password,
+  }) async {
     final useCase = ref.read(consumerBiometricAuthUseCaseProvider);
     final result = await useCase.saveCredentials(phone, password);
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (_) {
         // Credentials saved successfully
@@ -289,7 +349,10 @@ class ConsumerAuthController extends _$ConsumerAuthController {
     final result = await useCase.getCredentials();
 
     return result.fold((failure) {
-      state = ConsumerAuthState.error(message: failure.message, failure: failure);
+      state = ConsumerAuthState.error(
+        message: failure.message,
+        failure: failure,
+      );
       return null;
     }, (credentials) => credentials);
   }
@@ -301,7 +364,10 @@ class ConsumerAuthController extends _$ConsumerAuthController {
 
     result.fold(
       (failure) {
-        state = ConsumerAuthState.error(message: failure.message, failure: failure);
+        state = ConsumerAuthState.error(
+          message: failure.message,
+          failure: failure,
+        );
       },
       (_) {
         // Credentials cleared successfully

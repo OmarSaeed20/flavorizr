@@ -16,16 +16,22 @@ class UpdateCompanyProfileImageUseCase {
 
   UpdateCompanyProfileImageUseCase(this._repository);
 
-  Future<ApiResult<UserModel>> execute(UpdateCompanyProfileImageParameters parameters) async {
+  Future<ApiResult<UserModel>> execute(
+    UpdateCompanyProfileImageParameters parameters,
+  ) async {
     // Validate image path
     if (parameters.imagePath.isEmpty) {
-      return ApiResult.failure(const ValidationException(message: 'Image path is required'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Image path is required'),
+      );
     }
 
     // Validate file exists
     final file = File(parameters.imagePath);
     if (!await file.exists()) {
-      return ApiResult.failure(const ValidationException(message: 'Image file does not exist'));
+      return ApiResult.failure(
+        const ValidationException(message: 'Image file does not exist'),
+      );
     }
 
     // Validate file size (max 5MB)
@@ -40,7 +46,9 @@ class UpdateCompanyProfileImageUseCase {
     final fileExtension = parameters.imagePath.split('.').last.toLowerCase();
     if (!['jpg', 'jpeg', 'png', 'gif'].contains(fileExtension)) {
       return ApiResult.failure(
-        const ValidationException(message: 'Invalid image format. Use JPG, PNG, or GIF'),
+        const ValidationException(
+          message: 'Invalid image format. Use JPG, PNG, or GIF',
+        ),
       );
     }
 

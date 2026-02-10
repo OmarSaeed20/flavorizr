@@ -20,7 +20,10 @@ class CompanySendVerificationCodeParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {'phone': phone, 'phone_iso_code': phoneIsoCode};
+  Map<String, dynamic> toJson() => {
+    'phone': phone,
+    'phone_iso_code': phoneIsoCode,
+  };
 
   /// Create a builder for this parameters type
   CompanySendVerificationCodeParametersBuilder builder() =>
@@ -36,7 +39,8 @@ class CompanySendVerificationCodeParameters extends Parameters {
   }
 
   @override
-  int get hashCode => phone.hashCode ^ phoneIsoCode.hashCode ^ cancelToken.hashCode;
+  int get hashCode =>
+      phone.hashCode ^ phoneIsoCode.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -57,13 +61,17 @@ class CompanySendVerificationCodeParametersBuilder
   }
 
   /// Set the phone ISO code (e.g., 'EG', 'US')
-  CompanySendVerificationCodeParametersBuilder phoneIsoCode(String phoneIsoCode) {
+  CompanySendVerificationCodeParametersBuilder phoneIsoCode(
+    String phoneIsoCode,
+  ) {
     _phoneIsoCode = phoneIsoCode;
     return this;
   }
 
   /// Set the cancel token for request cancellation
-  CompanySendVerificationCodeParametersBuilder cancelToken(CancelToken cancelToken) {
+  CompanySendVerificationCodeParametersBuilder cancelToken(
+    CancelToken cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

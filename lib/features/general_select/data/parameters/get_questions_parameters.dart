@@ -29,11 +29,13 @@ class GetQuestionsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetQuestionsParametersBuilder builder() => GetQuestionsParametersBuilder();
+  static GetQuestionsParametersBuilder builder() =>
+      GetQuestionsParametersBuilder();
 }
 
 /// Builder for GetQuestionsParameters
-class GetQuestionsParametersBuilder extends ParametersBuilder<GetQuestionsParameters> {
+class GetQuestionsParametersBuilder
+    extends ParametersBuilder<GetQuestionsParameters> {
   String? _category;
   CancelToken? _cancelToken;
 
@@ -53,6 +55,9 @@ class GetQuestionsParametersBuilder extends ParametersBuilder<GetQuestionsParame
   /// Build the GetQuestionsParameters
   @override
   GetQuestionsParameters build() {
-    return GetQuestionsParameters._(category: _category, cancelToken: _cancelToken);
+    return GetQuestionsParameters._(
+      category: _category,
+      cancelToken: _cancelToken,
+    );
   }
 }

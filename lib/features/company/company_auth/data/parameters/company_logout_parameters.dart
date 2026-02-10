@@ -33,7 +33,8 @@ class CompanyLogoutParameters extends Parameters {
 }
 
 /// Builder for CompanyLogoutParameters
-class CompanyLogoutParametersBuilder extends ParametersBuilder<CompanyLogoutParameters> {
+class CompanyLogoutParametersBuilder
+    extends ParametersBuilder<CompanyLogoutParameters> {
   CancelToken? _cancelToken;
 
   /// Set the cancel token for request cancellation
@@ -43,7 +44,9 @@ class CompanyLogoutParametersBuilder extends ParametersBuilder<CompanyLogoutPara
   }
 
   @override
-  ParametersBuilder<CompanyLogoutParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<CompanyLogoutParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

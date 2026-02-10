@@ -57,11 +57,13 @@ class StorePublicTripParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static StorePublicTripParametersBuilder builder() => StorePublicTripParametersBuilder();
+  static StorePublicTripParametersBuilder builder() =>
+      StorePublicTripParametersBuilder();
 }
 
 /// Builder for StorePublicTripParameters.
-class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTripParameters> {
+class StorePublicTripParametersBuilder
+    extends ParametersBuilder<StorePublicTripParameters> {
   String? _pickUpLongitude;
   String? _pickUpLatitude;
   String? _destinationLongitude;
@@ -77,13 +79,19 @@ class StorePublicTripParametersBuilder extends ParametersBuilder<StorePublicTrip
   int? _vehicleTypeId;
   CancelToken? _cancelToken;
 
-  StorePublicTripParametersBuilder withPickUpLocation(String longitude, String latitude) {
+  StorePublicTripParametersBuilder withPickUpLocation(
+    String longitude,
+    String latitude,
+  ) {
     _pickUpLongitude = longitude;
     _pickUpLatitude = latitude;
     return this;
   }
 
-  StorePublicTripParametersBuilder withDestinationLocation(String longitude, String latitude) {
+  StorePublicTripParametersBuilder withDestinationLocation(
+    String longitude,
+    String latitude,
+  ) {
     _destinationLongitude = longitude;
     _destinationLatitude = latitude;
     return this;

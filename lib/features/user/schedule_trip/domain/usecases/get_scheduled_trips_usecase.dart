@@ -9,7 +9,9 @@ class GetScheduledTripsUseCase {
 
   GetScheduledTripsUseCase(this._repository);
 
-  Future<ApiResult<List<ScheduledTrip>>> call(GetScheduledTripsParameters params) {
+  Future<ApiResult<List<ScheduledTrip>>> call(
+    GetScheduledTripsParameters params,
+  ) {
     return _repository.getScheduledTrips(params);
   }
 }

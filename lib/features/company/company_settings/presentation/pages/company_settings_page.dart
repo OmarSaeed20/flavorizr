@@ -144,9 +144,10 @@ class CompanySettingsPage extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Text(
         title,
-        style: AppTextStyles.of(
-          context,
-        ).titleMedium.copyWith(color: AppColors.of(context).primary, fontWeight: FontWeight.bold),
+        style: AppTextStyles.of(context).titleMedium.copyWith(
+          color: AppColors.of(context).primary,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

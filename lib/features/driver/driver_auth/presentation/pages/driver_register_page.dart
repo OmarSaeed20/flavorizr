@@ -96,11 +96,20 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
                   enabled: !state.isLoading,
                 ),
                 const SizedBox(height: 16),
-                DriverEmailInput(controller: _emailController, enabled: !state.isLoading),
+                DriverEmailInput(
+                  controller: _emailController,
+                  enabled: !state.isLoading,
+                ),
                 const SizedBox(height: 16),
-                DriverPhoneInput(controller: _phoneController, enabled: !state.isLoading),
+                DriverPhoneInput(
+                  controller: _phoneController,
+                  enabled: !state.isLoading,
+                ),
                 const SizedBox(height: 16),
-                DriverPasswordInput(controller: _passwordController, enabled: !state.isLoading),
+                DriverPasswordInput(
+                  controller: _passwordController,
+                  enabled: !state.isLoading,
+                ),
                 const SizedBox(height: 24),
                 if (state.error != null)
                   Padding(

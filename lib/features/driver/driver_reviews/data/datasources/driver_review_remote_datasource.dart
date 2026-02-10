@@ -12,7 +12,9 @@ import 'package:fast_golden_taxi/features/driver/driver_reviews/data/parameters/
 /// Returns ApiResult with success or error data.
 abstract class DriverReviewRemoteDataSource {
   /// Gets reviews for a specific driver.
-  Future<ApiResult<List<DriverReviewModel>>> getReviews(GetDriverReviewsParameters parameters);
+  Future<ApiResult<List<DriverReviewModel>>> getReviews(
+    GetDriverReviewsParameters parameters,
+  );
 }
 
 /// Implementation of [DriverReviewRemoteDataSource] using BaseRemoteDataSource.
@@ -37,9 +39,12 @@ class DriverReviewRemoteDataSourceImpl
       queryParameters: parameters.toJson(),
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
-        final items = (jsonData['reviews'] as List? ?? jsonData['data'] as List? ?? [])
-            .map((e) => DriverReviewModel.fromJson(e as Map<String, dynamic>))
-            .toList();
+        final items =
+            (jsonData['reviews'] as List? ?? jsonData['data'] as List? ?? [])
+                .map(
+                  (e) => DriverReviewModel.fromJson(e as Map<String, dynamic>),
+                )
+                .toList();
         return items;
       },
     );

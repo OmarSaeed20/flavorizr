@@ -11,7 +11,8 @@ import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/repositor
 /// Implementation of DriverReviewRepository.
 ///
 /// Provides offline capability with caching.
-class DriverReviewRepositoryImpl extends BaseRepository implements DriverReviewRepository {
+class DriverReviewRepositoryImpl extends BaseRepository
+    implements DriverReviewRepository {
   final DriverReviewRemoteDataSource _remoteDataSource;
   final DriverReviewLocalDataSource _localDataSource;
 
@@ -58,7 +59,8 @@ class DriverReviewRepositoryImpl extends BaseRepository implements DriverReviewR
     );
 
     return result.when(
-      success: (data, _) => ApiResult.success(data.map((e) => e.toEntity()).toList()),
+      success: (data, _) =>
+          ApiResult.success(data.map((e) => e.toEntity()).toList()),
       exception: ApiResult.exception,
     );
   }

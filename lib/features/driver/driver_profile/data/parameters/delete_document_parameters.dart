@@ -8,9 +8,11 @@ class DeleteDocumentParameters extends Parameters {
   final String _documentId;
   final CancelToken? _cancelToken;
 
-  const DeleteDocumentParameters._({required String documentId, CancelToken? cancelToken})
-    : _documentId = documentId,
-      _cancelToken = cancelToken;
+  const DeleteDocumentParameters._({
+    required String documentId,
+    CancelToken? cancelToken,
+  }) : _documentId = documentId,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -23,11 +25,13 @@ class DeleteDocumentParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static DeleteDocumentParametersBuilder builder() => DeleteDocumentParametersBuilder();
+  static DeleteDocumentParametersBuilder builder() =>
+      DeleteDocumentParametersBuilder();
 }
 
 /// Builder for DeleteDocumentParameters
-class DeleteDocumentParametersBuilder extends ParametersBuilder<DeleteDocumentParameters> {
+class DeleteDocumentParametersBuilder
+    extends ParametersBuilder<DeleteDocumentParameters> {
   String? _documentId;
   CancelToken? _cancelToken;
 
@@ -50,6 +54,9 @@ class DeleteDocumentParametersBuilder extends ParametersBuilder<DeleteDocumentPa
     if (_documentId == null) {
       throw ArgumentError('Document ID is required');
     }
-    return DeleteDocumentParameters._(documentId: _documentId!, cancelToken: _cancelToken);
+    return DeleteDocumentParameters._(
+      documentId: _documentId!,
+      cancelToken: _cancelToken,
+    );
   }
 }

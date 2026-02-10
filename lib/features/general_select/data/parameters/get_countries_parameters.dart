@@ -29,11 +29,13 @@ class GetCountriesParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetCountriesParametersBuilder builder() => GetCountriesParametersBuilder();
+  static GetCountriesParametersBuilder builder() =>
+      GetCountriesParametersBuilder();
 }
 
 /// Builder for GetCountriesParameters
-class GetCountriesParametersBuilder extends ParametersBuilder<GetCountriesParameters> {
+class GetCountriesParametersBuilder
+    extends ParametersBuilder<GetCountriesParameters> {
   String? _search;
   CancelToken? _cancelToken;
 

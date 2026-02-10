@@ -1,7 +1,7 @@
 // lib/core/network/interceptor/network_interceptor.dart
 import 'package:dio/dio.dart';
-import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
+import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 
 /// Network interceptor for handling request/response lifecycle events.
 ///
@@ -73,7 +73,10 @@ class NetworkInterceptor extends Interceptor {
     );
 
     // Convert DioException to our NetworkException
-    final networkException = NetworkExceptionFactory.mapExceptionToFailure(err, err.stackTrace);
+    final networkException = NetworkExceptionFactory.mapExceptionToFailure(
+      err,
+      err.stackTrace,
+    );
 
     // Pass our NetworkException instead of DioException
     handler.reject(

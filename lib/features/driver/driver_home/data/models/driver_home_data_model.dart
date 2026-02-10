@@ -27,7 +27,9 @@ class DriverHomeDataModel extends DriverHomeData {
       isOnline: json['isOnline'] ?? false,
       isAvailable: json['isAvailable'] ?? false,
       currentLocation: json['currentLocation'],
-      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+      lastUpdated: DateTime.parse(
+        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 
@@ -35,7 +37,9 @@ class DriverHomeDataModel extends DriverHomeData {
     return {
       'stats': (stats as DriverStatsModel).toJson(),
       'earnings': (earnings as DriverEarningsModel).toJson(),
-      'recentTrips': recentTrips.map((e) => (e as DriverTripModel).toJson()).toList(),
+      'recentTrips': recentTrips
+          .map((e) => (e as DriverTripModel).toJson())
+          .toList(),
       'isOnline': isOnline,
       'isAvailable': isAvailable,
       'currentLocation': currentLocation,

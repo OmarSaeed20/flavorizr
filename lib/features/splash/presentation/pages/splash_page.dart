@@ -20,7 +20,8 @@ class SplashPage extends ConsumerStatefulWidget {
   ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProviderStateMixin {
+class _SplashPageState extends ConsumerState<SplashPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
@@ -99,7 +100,10 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [theme.colorScheme.primary, theme.colorScheme.primaryContainer],
+            colors: [
+              theme.colorScheme.primary,
+              theme.colorScheme.primaryContainer,
+            ],
           ),
         ),
         child: SafeArea(
@@ -156,7 +160,11 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
           ),
         ],
       ),
-      child: Icon(Icons.flash_on_rounded, size: 64, color: theme.colorScheme.primary),
+      child: Icon(
+        Icons.flash_on_rounded,
+        size: 64,
+        color: theme.colorScheme.primary,
+      ),
     );
   }
 
@@ -207,13 +215,19 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
   Widget _buildError(ThemeData theme, String error) {
     return Column(
       children: [
-        Icon(Icons.error_outline_rounded, size: 48, color: theme.colorScheme.error),
+        Icon(
+          Icons.error_outline_rounded,
+          size: 48,
+          color: theme.colorScheme.error,
+        ),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Text(
             error,
-            style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onPrimary),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onPrimary,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

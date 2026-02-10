@@ -9,7 +9,10 @@ class UpdateScheduledTripUseCase {
 
   UpdateScheduledTripUseCase(this._repository);
 
-  Future<ApiResult<ScheduledTrip>> call(String tripId, CreateScheduledTripParameters params) {
+  Future<ApiResult<ScheduledTrip>> call(
+    String tripId,
+    CreateScheduledTripParameters params,
+  ) {
     return _repository.updateScheduledTrip(tripId, params);
   }
 }

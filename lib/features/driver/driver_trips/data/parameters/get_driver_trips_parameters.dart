@@ -47,11 +47,13 @@ class GetDriverTripsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetDriverTripsParametersBuilder builder() => GetDriverTripsParametersBuilder();
+  static GetDriverTripsParametersBuilder builder() =>
+      GetDriverTripsParametersBuilder();
 }
 
 /// Builder for GetDriverTripsParameters
-class GetDriverTripsParametersBuilder extends ParametersBuilder<GetDriverTripsParameters> {
+class GetDriverTripsParametersBuilder
+    extends ParametersBuilder<GetDriverTripsParameters> {
   int _page = 1;
   int _limit = 10;
   String? _status;

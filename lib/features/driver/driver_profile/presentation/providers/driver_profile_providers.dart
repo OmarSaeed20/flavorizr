@@ -14,18 +14,22 @@ import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/con
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverProfileRemoteDataSource.
-final driverProfileRemoteDataSourceProvider = Provider<DriverProfileRemoteDataSource>((ref) {
-  return DriverProfileRemoteDataSourceImpl(ref.watch(apiClientProvider));
-});
+final driverProfileRemoteDataSourceProvider =
+    Provider<DriverProfileRemoteDataSource>((ref) {
+      return DriverProfileRemoteDataSourceImpl(ref.watch(apiClientProvider));
+    });
 
 /// Provider for DriverProfileLocalDataSource.
-final driverProfileLocalDataSourceProvider = Provider<DriverProfileLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return DriverProfileLocalDataSourceImpl(prefs: sharedPreferences);
-});
+final driverProfileLocalDataSourceProvider =
+    Provider<DriverProfileLocalDataSource>((ref) {
+      final sharedPreferences = ref.watch(sharedPreferencesProvider);
+      return DriverProfileLocalDataSourceImpl(prefs: sharedPreferences);
+    });
 
 /// Provider for DriverProfileRepository.
-final driverProfileRepositoryProvider = Provider<DriverProfileRepository>((ref) {
+final driverProfileRepositoryProvider = Provider<DriverProfileRepository>((
+  ref,
+) {
   return DriverProfileRepositoryImpl(
     remoteDataSource: ref.watch(driverProfileRemoteDataSourceProvider),
     localDataSource: ref.watch(driverProfileLocalDataSourceProvider),
@@ -34,39 +38,59 @@ final driverProfileRepositoryProvider = Provider<DriverProfileRepository>((ref) 
 });
 
 /// Provider for GetDriverProfileUseCase.
-final getDriverProfileUseCaseProvider = Provider<GetDriverProfileUseCase>((ref) {
+final getDriverProfileUseCaseProvider = Provider<GetDriverProfileUseCase>((
+  ref,
+) {
   return GetDriverProfileUseCase(ref.watch(driverProfileRepositoryProvider));
 });
 
 /// Provider for UpdateDriverProfileUseCase.
-final updateDriverProfileUseCaseProvider = Provider<UpdateDriverProfileUseCase>((ref) {
-  return UpdateDriverProfileUseCase(ref.watch(driverProfileRepositoryProvider));
-});
+final updateDriverProfileUseCaseProvider = Provider<UpdateDriverProfileUseCase>(
+  (ref) {
+    return UpdateDriverProfileUseCase(
+      ref.watch(driverProfileRepositoryProvider),
+    );
+  },
+);
 
 /// Provider for GetDriverVehicleUseCase.
-final getDriverVehicleUseCaseProvider = Provider<GetDriverVehicleUseCase>((ref) {
+final getDriverVehicleUseCaseProvider = Provider<GetDriverVehicleUseCase>((
+  ref,
+) {
   return GetDriverVehicleUseCase(ref.watch(driverProfileRepositoryProvider));
 });
 
 /// Provider for UpdateDriverVehicleUseCase.
-final updateDriverVehicleUseCaseProvider = Provider<UpdateDriverVehicleUseCase>((ref) {
-  return UpdateDriverVehicleUseCase(ref.watch(driverProfileRepositoryProvider));
-});
+final updateDriverVehicleUseCaseProvider = Provider<UpdateDriverVehicleUseCase>(
+  (ref) {
+    return UpdateDriverVehicleUseCase(
+      ref.watch(driverProfileRepositoryProvider),
+    );
+  },
+);
 
 /// Provider for UploadDriverDocumentUseCase.
-final uploadDriverDocumentUseCaseProvider = Provider<UploadDriverDocumentUseCase>((ref) {
-  return UploadDriverDocumentUseCase(ref.watch(driverProfileRepositoryProvider));
-});
+final uploadDriverDocumentUseCaseProvider =
+    Provider<UploadDriverDocumentUseCase>((ref) {
+      return UploadDriverDocumentUseCase(
+        ref.watch(driverProfileRepositoryProvider),
+      );
+    });
 
 /// Provider for GetDriverDocumentsUseCase.
-final getDriverDocumentsUseCaseProvider = Provider<GetDriverDocumentsUseCase>((ref) {
+final getDriverDocumentsUseCaseProvider = Provider<GetDriverDocumentsUseCase>((
+  ref,
+) {
   return GetDriverDocumentsUseCase(ref.watch(driverProfileRepositoryProvider));
 });
 
 /// Provider for DeleteDriverDocumentUseCase.
-final deleteDriverDocumentUseCaseProvider = Provider<DeleteDriverDocumentUseCase>((ref) {
-  return DeleteDriverDocumentUseCase(ref.watch(driverProfileRepositoryProvider));
-});
+final deleteDriverDocumentUseCaseProvider =
+    Provider<DeleteDriverDocumentUseCase>((ref) {
+      return DeleteDriverDocumentUseCase(
+        ref.watch(driverProfileRepositoryProvider),
+      );
+    });
 
 /// Provider for DriverProfileController.
 final driverProfileControllerProvider =

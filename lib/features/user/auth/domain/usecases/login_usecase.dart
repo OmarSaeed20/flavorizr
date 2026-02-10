@@ -89,7 +89,11 @@ class LoginUseCase implements UseCase<AuthResult, LoginParams> {
 /// Parameters for the login use case.
 class LoginParams {
   /// Creates login parameters.
-  const LoginParams({required this.phone, required this.phoneIsoCode, required this.password});
+  const LoginParams({
+    required this.phone,
+    required this.phoneIsoCode,
+    required this.password,
+  });
 
   /// User's phone number.
   final String phone;

@@ -35,7 +35,8 @@ class ConsumerResetPasswordParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
-  ConsumerResetPasswordParametersBuilder builder() => ConsumerResetPasswordParametersBuilder();
+  ConsumerResetPasswordParametersBuilder builder() =>
+      ConsumerResetPasswordParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -98,7 +99,9 @@ class ConsumerResetPasswordParametersBuilder
   }
 
   /// Set the password confirmation
-  ConsumerResetPasswordParametersBuilder passwordConfirmation(String passwordConfirmation) {
+  ConsumerResetPasswordParametersBuilder passwordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
@@ -110,7 +113,9 @@ class ConsumerResetPasswordParametersBuilder
   }
 
   @override
-  ParametersBuilder<ConsumerResetPasswordParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ConsumerResetPasswordParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

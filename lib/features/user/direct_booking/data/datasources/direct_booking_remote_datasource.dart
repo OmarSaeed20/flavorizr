@@ -15,10 +15,14 @@ import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/ge
 /// Returns ApiResult with success or error data.
 abstract class DirectBookingRemoteDataSource {
   /// Creates a new booking.
-  Future<ApiResult<BookingResponseModel>> createBooking(CreateBookingParameters parameters);
+  Future<ApiResult<BookingResponseModel>> createBooking(
+    CreateBookingParameters parameters,
+  );
 
   /// Gets nearby drivers based on location.
-  Future<ApiResult<List<DriverModel>>> getNearbyDrivers(GetNearbyDriversParameters parameters);
+  Future<ApiResult<List<DriverModel>>> getNearbyDrivers(
+    GetNearbyDriversParameters parameters,
+  );
 
   /// Gets available vehicle types.
   Future<ApiResult<List<VehicleTypeModel>>> getVehicleTypes();
@@ -41,11 +45,14 @@ class DirectBookingRemoteDataSourceImpl
   String get baseUrl => _apiClient.dio.options.baseUrl;
 
   @override
-  Future<ApiResult<BookingResponseModel>> createBooking(CreateBookingParameters parameters) async {
+  Future<ApiResult<BookingResponseModel>> createBooking(
+    CreateBookingParameters parameters,
+  ) async {
     return post<BookingResponseModel>(
       path: DirectBookingEndpoints.createBooking,
       data: parameters.toJson(),
-      decoder: (data) => BookingResponseModel.fromJson(data as Map<String, dynamic>),
+      decoder: (data) =>
+          BookingResponseModel.fromJson(data as Map<String, dynamic>),
     );
   }
 
@@ -74,6 +81,9 @@ class DirectBookingRemoteDataSourceImpl
 
   @override
   Future<ApiResult<void>> cancelBooking(String bookingId) async {
-    return post<void>(path: DirectBookingEndpoints.cancelBooking(bookingId), decoder: (data) {});
+    return post<void>(
+      path: DirectBookingEndpoints.cancelBooking(bookingId),
+      decoder: (data) {},
+    );
   }
 }

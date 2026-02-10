@@ -75,7 +75,8 @@ class CompanyLoginParameters extends Parameters {
 }
 
 /// Builder for CompanyLoginParameters
-class CompanyLoginParametersBuilder extends ParametersBuilder<CompanyLoginParameters> {
+class CompanyLoginParametersBuilder
+    extends ParametersBuilder<CompanyLoginParameters> {
   String? _phone;
   String? _phoneIsoCode;
   String? _password;
@@ -134,7 +135,9 @@ class CompanyLoginParametersBuilder extends ParametersBuilder<CompanyLoginParame
   }
 
   @override
-  ParametersBuilder<CompanyLoginParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<CompanyLoginParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

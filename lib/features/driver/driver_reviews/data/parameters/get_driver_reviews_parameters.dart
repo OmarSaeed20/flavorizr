@@ -57,11 +57,13 @@ class GetDriverReviewsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetDriverReviewsParametersBuilder builder() => GetDriverReviewsParametersBuilder();
+  static GetDriverReviewsParametersBuilder builder() =>
+      GetDriverReviewsParametersBuilder();
 }
 
 /// Builder for GetDriverReviewsParameters
-class GetDriverReviewsParametersBuilder extends ParametersBuilder<GetDriverReviewsParameters> {
+class GetDriverReviewsParametersBuilder
+    extends ParametersBuilder<GetDriverReviewsParameters> {
   String? _driverId;
   String? _tripId;
   int? _rating;

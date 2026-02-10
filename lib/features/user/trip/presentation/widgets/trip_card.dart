@@ -29,10 +29,15 @@ class TripCard extends StatelessWidget {
                 children: [
                   Text(
                     'Trip #${trip.id.substring(0, 8)}',
-                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -72,7 +77,11 @@ class TripCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.calendar_today, size: 16, color: theme.colorScheme.outline),
+                      Icon(
+                        Icons.calendar_today,
+                        size: 16,
+                        color: theme.colorScheme.outline,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         _formatDate(trip.createdAt),
@@ -99,7 +108,12 @@ class TripCard extends StatelessWidget {
     );
   }
 
-  Widget _buildRouteRow(BuildContext context, IconData icon, String address, Color color) {
+  Widget _buildRouteRow(
+    BuildContext context,
+    IconData icon,
+    String address,
+    Color color,
+  ) {
     final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -29,11 +29,13 @@ class GetPoliciesParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetPoliciesParametersBuilder builder() => GetPoliciesParametersBuilder();
+  static GetPoliciesParametersBuilder builder() =>
+      GetPoliciesParametersBuilder();
 }
 
 /// Builder for GetPoliciesParameters
-class GetPoliciesParametersBuilder extends ParametersBuilder<GetPoliciesParameters> {
+class GetPoliciesParametersBuilder
+    extends ParametersBuilder<GetPoliciesParameters> {
   String? _type;
   CancelToken? _cancelToken;
 

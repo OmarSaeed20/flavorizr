@@ -9,7 +9,10 @@ class DriverLoginUseCase {
   DriverLoginUseCase(this._repository);
 
   /// Executes the driver login use case.
-  Future<ApiResult<DriverCredentials>> call({required String phone, required String password}) {
+  Future<ApiResult<DriverCredentials>> call({
+    required String phone,
+    required String password,
+  }) {
     return _repository.login(phone: phone, password: password);
   }
 }

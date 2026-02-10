@@ -87,17 +87,42 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
               runSpacing: 16,
               alignment: WrapAlignment.center,
               children: [
-                _buildActionButton('Increment Counter', Icons.add, Colors.green, _incrementCounter),
-                _buildActionButton('Test Network', Icons.cloud, Colors.blue, _testNetworkCall),
-                _buildActionButton('Generate Error', Icons.error, Colors.red, _generateError),
+                _buildActionButton(
+                  'Increment Counter',
+                  Icons.add,
+                  Colors.green,
+                  _incrementCounter,
+                ),
+                _buildActionButton(
+                  'Test Network',
+                  Icons.cloud,
+                  Colors.blue,
+                  _testNetworkCall,
+                ),
+                _buildActionButton(
+                  'Generate Error',
+                  Icons.error,
+                  Colors.red,
+                  _generateError,
+                ),
                 _buildActionButton(
                   'Performance Test',
                   Icons.speed,
                   Colors.orange,
                   _performanceTest,
                 ),
-                _buildActionButton('Security Event', Icons.security, Colors.purple, _securityEvent),
-                _buildActionButton('Bulk Logs', Icons.storage, Colors.teal, _generateBulkLogs),
+                _buildActionButton(
+                  'Security Event',
+                  Icons.security,
+                  Colors.purple,
+                  _securityEvent,
+                ),
+                _buildActionButton(
+                  'Bulk Logs',
+                  Icons.storage,
+                  Colors.teal,
+                  _generateBulkLogs,
+                ),
               ],
             ),
 
@@ -121,8 +146,14 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
                     ),
                     const SizedBox(height: 8),
                     _buildInfoRow('Session ID', AppLogger.instance.sessionId),
-                    _buildInfoRow('User ID', AppLogger.instance.userId ?? 'Not set'),
-                    _buildInfoRow('Build Mode', kReleaseMode ? 'Release' : 'Debug'),
+                    _buildInfoRow(
+                      'User ID',
+                      AppLogger.instance.userId ?? 'Not set',
+                    ),
+                    _buildInfoRow(
+                      'Build Mode',
+                      kReleaseMode ? 'Release' : 'Debug',
+                    ),
                   ],
                 ),
               ),
@@ -133,7 +164,10 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           AppLogger.instance.logUserAction('FAB pressed - Quick log view');
-          showDialog(context: context, builder: (context) => const QuickLogDialog());
+          showDialog(
+            context: context,
+            builder: (context) => const QuickLogDialog(),
+          );
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.bug_report),
@@ -141,7 +175,12 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
     );
   }
 
-  Widget _buildActionButton(String label, IconData icon, Color color, VoidCallback onPressed) {
+  Widget _buildActionButton(
+    String label,
+    IconData icon,
+    Color color,
+    VoidCallback onPressed,
+  ) {
     return ElevatedButton.icon(
       onPressed: onPressed,
       icon: Icon(icon, size: 20),
@@ -165,13 +204,19 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
             width: 80,
             child: Text(
               '$label:',
-              style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.w500),
+              style: TextStyle(
+                color: Colors.grey[400],
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(color: Colors.white, fontFamily: 'monospace'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontFamily: 'monospace',
+              ),
             ),
           ),
         ],
@@ -191,12 +236,17 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
   Future<void> _testNetworkCall() async {
     await logMethod('testNetworkCall', () async {
       try {
-        final response = await _dio.get('https://jsonplaceholder.typicode.com/posts/1');
+        final response = await _dio.get(
+          'https://jsonplaceholder.typicode.com/posts/1',
+        );
 
         // Log successful business operation
         await AppLogger.instance.logInfo(
           'Post data retrieved successfully',
-          data: {'postId': response.data['id'], 'title': response.data['title']},
+          data: {
+            'postId': response.data['id'],
+            'title': response.data['title'],
+          },
         );
 
         _showSnackBar('Network call successful!', Colors.green);
@@ -262,7 +312,8 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
     ];
 
     final event = events[DateTime.now().millisecond % events.length];
-    final isIncident = DateTime.now().millisecond % 3 == 0; // 33% chance of incident
+    final isIncident =
+        DateTime.now().millisecond % 3 == 0; // 33% chance of incident
 
     AppLogger.instance.logSecurityEvent(
       event,
@@ -287,11 +338,12 @@ class _HomeScreenState extends State<HomeScreen> with PerformanceLoggerMixin {
         final level = LogLevel.values[i % LogLevel.values.length];
         final category = LogCategory.values[i % LogCategory.values.length];
 
-        await AppLogger.instance.logV(level, 'Bulk log message #${i + 1}', category, {
-          'index': i + 1,
-          'timestamp': DateTime.now().toIso8601String(),
-          'randomValue': DateTime.now().microsecond,
-        });
+        await AppLogger.instance
+            .logV(level, 'Bulk log message #${i + 1}', category, {
+              'index': i + 1,
+              'timestamp': DateTime.now().toIso8601String(),
+              'randomValue': DateTime.now().microsecond,
+            });
         // Add small delay to spread timestamps
         await Future.delayed(const Duration(milliseconds: 10));
       }
@@ -357,7 +409,11 @@ class _QuickLogDialogState extends State<QuickLogDialog> {
               children: [
                 const Text(
                   'Recent Logs',
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
@@ -371,7 +427,10 @@ class _QuickLogDialogState extends State<QuickLogDialog> {
                   ? const Center(child: CircularProgressIndicator())
                   : _recentLogs.isEmpty
                   ? const Center(
-                      child: Text('No recent logs', style: TextStyle(color: Colors.grey)),
+                      child: Text(
+                        'No recent logs',
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     )
                   : ListView.builder(
                       itemCount: _recentLogs.length,
@@ -545,15 +604,24 @@ class _LoggerDebugPanelState extends State<LoggerDebugPanel> {
                           padding: const EdgeInsets.all(8),
                           decoration: const BoxDecoration(
                             color: Colors.blue,
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(8),
+                            ),
                           ),
                           child: const Row(
                             children: [
-                              Icon(Icons.bug_report, color: Colors.white, size: 16),
+                              Icon(
+                                Icons.bug_report,
+                                color: Colors.white,
+                                size: 16,
+                              ),
                               SizedBox(width: 8),
                               Text(
                                 'Debug Logs',
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
@@ -567,12 +635,18 @@ class _LoggerDebugPanelState extends State<LoggerDebugPanel> {
                                 padding: const EdgeInsets.all(4),
                                 decoration: const BoxDecoration(
                                   border: Border(
-                                    bottom: BorderSide(color: Colors.grey, width: 0.5),
+                                    bottom: BorderSide(
+                                      color: Colors.grey,
+                                      width: 0.5,
+                                    ),
                                   ),
                                 ),
                                 child: Text(
                                   '${log.level.name}: ${log.message}',
-                                  style: const TextStyle(color: Colors.white, fontSize: 10),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                  ),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -631,12 +705,17 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
   void _applyFilters() {
     setState(() {
       _filteredLogs = _filteredLogs.where((log) {
-        final matchesLevel = _selectedLevel == null || log.level == _selectedLevel;
-        final matchesCategory = _selectedCategory == null || log.category == _selectedCategory;
+        final matchesLevel =
+            _selectedLevel == null || log.level == _selectedLevel;
+        final matchesCategory =
+            _selectedCategory == null || log.category == _selectedCategory;
         final matchesSearch =
             _searchQuery.isEmpty ||
             log.message.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-            (log.data?.toString().toLowerCase().contains(_searchQuery.toLowerCase()) ?? false);
+            (log.data?.toString().toLowerCase().contains(
+                  _searchQuery.toLowerCase(),
+                ) ??
+                false);
 
         return matchesLevel && matchesCategory && matchesSearch;
       }).toList();
@@ -653,12 +732,15 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadLogs),
           IconButton(icon: const Icon(Icons.download), onPressed: _exportLogs),
-          IconButton(icon: const Icon(Icons.delete), onPressed: _showClearConfirmation),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: _showClearConfirmation,
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () => Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (_) => const LoggerSettingsScreen())),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const LoggerSettingsScreen()),
+            ),
           ),
         ],
       ),
@@ -667,14 +749,18 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
         children: [
           _buildFilterSection(),
           Expanded(
-            child: _isLoading ? const Center(child: CircularProgressIndicator()) : _buildLogList(),
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _buildLogList(),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(
-          context,
-        ).push(MaterialPageRoute(builder: (_) => TalkerScreen(talker: AppLogger.instance.talker))),
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => TalkerScreen(talker: AppLogger.instance.talker),
+          ),
+        ),
         backgroundColor: Colors.blue,
         child: const Icon(Icons.bug_report),
       ),
@@ -754,7 +840,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
     );
   }
 
-  Widget _buildFilterChip(String label, {bool isSelected = true, VoidCallback? onTap}) {
+  Widget _buildFilterChip(
+    String label, {
+    bool isSelected = true,
+    VoidCallback? onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -765,7 +855,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
         ),
         child: Text(
           label,
-          style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
@@ -774,7 +868,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
   Widget _buildLogList() {
     if (_filteredLogs.isEmpty) {
       return const Center(
-        child: Text('No logs found', style: TextStyle(color: Colors.grey, fontSize: 16)),
+        child: Text(
+          'No logs found',
+          style: TextStyle(color: Colors.grey, fontSize: 16),
+        ),
       );
     }
 
@@ -800,7 +897,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
         leading: _buildLevelIcon(log.level),
         title: Text(
           log.message,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
@@ -869,7 +969,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
       ),
       child: Text(
         category.name.toUpperCase(),
-        style: TextStyle(color: colors[category], fontSize: 10, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          color: colors[category],
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -878,7 +982,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.grey[900], borderRadius: BorderRadius.circular(8)),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -892,7 +999,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             const SizedBox(height: 16),
             const Text(
               'Data:',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
             ),
             const SizedBox(height: 8),
             Container(
@@ -904,7 +1015,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
               ),
               child: Text(
                 _formatJson(log.data!),
-                style: const TextStyle(color: Colors.green, fontFamily: 'monospace', fontSize: 12),
+                style: const TextStyle(
+                  color: Colors.green,
+                  fontFamily: 'monospace',
+                  fontSize: 12,
+                ),
               ),
             ),
           ],
@@ -914,7 +1029,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             const SizedBox(height: 16),
             const Text(
               'Stack Trace:',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
             ),
             const SizedBox(height: 8),
             Container(
@@ -926,7 +1045,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
               ),
               child: Text(
                 log.stackTrace!,
-                style: const TextStyle(color: Colors.red, fontFamily: 'monospace', fontSize: 12),
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontFamily: 'monospace',
+                  fontSize: 12,
+                ),
               ),
             ),
           ],
@@ -966,13 +1089,21 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             width: 60,
             child: Text(
               '$label:',
-              style: TextStyle(color: Colors.grey[400], fontSize: 12, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                color: Colors.grey[400],
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value ?? '',
-              style: const TextStyle(color: Colors.white, fontSize: 12, fontFamily: 'monospace'),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontFamily: 'monospace',
+              ),
             ),
           ),
         ],
@@ -994,7 +1125,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[800],
-        title: const Text('Select Log Level', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Select Log Level',
+          style: TextStyle(color: Colors.white),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1009,7 +1143,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             ...LogLevel.values.map(
               (level) => ListTile(
                 leading: _buildLevelIcon(level),
-                title: Text(level.name, style: const TextStyle(color: Colors.white)),
+                title: Text(
+                  level.name,
+                  style: const TextStyle(color: Colors.white),
+                ),
                 onTap: () {
                   setState(() => _selectedLevel = level);
                   _loadLogs();
@@ -1028,7 +1165,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[800],
-        title: const Text('Select Category', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Select Category',
+          style: TextStyle(color: Colors.white),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1043,7 +1183,10 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             ...LogCategory.values.map(
               (category) => ListTile(
                 leading: _buildCategoryChip(category),
-                title: Text(category.name, style: const TextStyle(color: Colors.white)),
+                title: Text(
+                  category.name,
+                  style: const TextStyle(color: Colors.white),
+                ),
                 onTap: () {
                   setState(() => _selectedCategory = category);
                   _loadLogs();
@@ -1077,7 +1220,8 @@ ${log.stackTrace != null ? 'Stack Trace: ${log.stackTrace}' : ''}
 
   void _shareLog(LogEntry log) {
     // ignore: unused_local_variable
-    final text = 'Log Entry: ${log.message}\nTime: ${log.timestamp}\nLevel: ${log.level.name}';
+    final text =
+        'Log Entry: ${log.message}\nTime: ${log.timestamp}\nLevel: ${log.level.name}';
     // Share.share(text); // Requires share_plus package
   }
 
@@ -1092,9 +1236,9 @@ ${log.stackTrace != null ? 'Stack Trace: ${log.stackTrace}' : ''}
       // Save to file or share
       // This would typically involve file_picker or share_plus packages
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Logs exported successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Logs exported successfully')),
+        );
       }
     } catch (e) {
       _showError('Failed to export logs: $e');
@@ -1112,7 +1256,10 @@ ${log.stackTrace != null ? 'Stack Trace: ${log.stackTrace}' : ''}
           style: TextStyle(color: Colors.grey),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -1120,9 +1267,9 @@ ${log.stackTrace != null ? 'Stack Trace: ${log.stackTrace}' : ''}
               await _loadLogs();
 
               if (context.mounted) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('Logs cleared successfully')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Logs cleared successfully')),
+                );
               }
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -1134,9 +1281,9 @@ ${log.stackTrace != null ? 'Stack Trace: ${log.stackTrace}' : ''}
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message), backgroundColor: Colors.red));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
   }
 }
 
@@ -1222,7 +1369,8 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
               'Only log messages at this level or higher',
               _minLogLevel.name,
               LogLevel.values.map((e) => e.name).toList(),
-              (value) => setState(() => _minLogLevel = LogLevel.values.byName(value)),
+              (value) =>
+                  setState(() => _minLogLevel = LogLevel.values.byName(value)),
             ),
           ]),
 
@@ -1265,7 +1413,11 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
           padding: const EdgeInsets.only(left: 16, bottom: 8, top: 24),
           child: Text(
             title,
-            style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              color: Colors.blue,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         Card(
@@ -1276,7 +1428,12 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
     );
   }
 
-  Widget _buildSwitchTile(String title, String subtitle, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchTile(
+    String title,
+    String subtitle,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return SwitchListTile(
       title: Text(title, style: const TextStyle(color: Colors.white)),
       subtitle: Text(subtitle, style: TextStyle(color: Colors.grey[400])),
@@ -1301,7 +1458,9 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
         dropdownColor: Colors.grey[800],
         style: const TextStyle(color: Colors.white),
         items: options
-            .map((option) => DropdownMenuItem(value: option, child: Text(option)))
+            .map(
+              (option) => DropdownMenuItem(value: option, child: Text(option)),
+            )
             .toList(),
         onChanged: (newValue) => onChanged(newValue!),
       ),
@@ -1355,7 +1514,10 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
     return LogCategory.values.map((category) {
       final isEnabled = _enabledCategories.contains(category);
       return CheckboxListTile(
-        title: Text(category.name.toUpperCase(), style: const TextStyle(color: Colors.white)),
+        title: Text(
+          category.name.toUpperCase(),
+          style: const TextStyle(color: Colors.white),
+        ),
         value: isEnabled,
         onChanged: (value) {
           if (value != null) {
@@ -1420,8 +1582,14 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
   void _testLogging() {
     AppLogger.instance.logDebug('Test debug message', data: {'test': true});
     AppLogger.instance.logInfo('Test info message', category: LogCategory.ui);
-    AppLogger.instance.logWarning('Test warning message', category: LogCategory.performance);
-    AppLogger.instance.logError('Test error message', category: LogCategory.network);
+    AppLogger.instance.logWarning(
+      'Test warning message',
+      category: LogCategory.performance,
+    );
+    AppLogger.instance.logError(
+      'Test error message',
+      category: LogCategory.network,
+    );
 
     ScaffoldMessenger.of(
       context,
@@ -1433,13 +1601,19 @@ class _LoggerSettingsScreenState extends State<LoggerSettingsScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[800],
-        title: const Text('Reset Settings', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Reset Settings',
+          style: TextStyle(color: Colors.white),
+        ),
         content: const Text(
           'Reset all settings to default values?',
           style: TextStyle(color: Colors.grey),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);

@@ -9,7 +9,8 @@ import 'package:meta/meta.dart';
 class GetVehicleTypesParameters extends Parameters {
   final CancelToken? _cancelToken;
 
-  const GetVehicleTypesParameters._({CancelToken? cancelToken}) : _cancelToken = cancelToken;
+  const GetVehicleTypesParameters._({CancelToken? cancelToken})
+    : _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -21,11 +22,13 @@ class GetVehicleTypesParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetVehicleTypesParametersBuilder builder() => GetVehicleTypesParametersBuilder();
+  static GetVehicleTypesParametersBuilder builder() =>
+      GetVehicleTypesParametersBuilder();
 }
 
 /// Builder for GetVehicleTypesParameters
-class GetVehicleTypesParametersBuilder extends ParametersBuilder<GetVehicleTypesParameters> {
+class GetVehicleTypesParametersBuilder
+    extends ParametersBuilder<GetVehicleTypesParameters> {
   CancelToken? _cancelToken;
 
   /// Set the cancel token for request cancellation

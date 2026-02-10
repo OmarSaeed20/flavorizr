@@ -452,7 +452,8 @@ abstract class Routes {
   static const String companyDriverDetailName = 'companyDriverDetail';
 
   /// Company driver performance
-  static const String companyDriverPerformance = '/company/drivers/:id/performance';
+  static const String companyDriverPerformance =
+      '/company/drivers/:id/performance';
   static const String companyDriverPerformanceName = 'companyDriverPerformance';
 
   /// Company driver documents
@@ -553,13 +554,16 @@ abstract class Routes {
   static String tripDetailById(String tripId) => '/consumer/trips/$tripId';
 
   /// Creates a driver trip request route
-  static String driverTripRequest(String tripId) => '/driver/trip-request/$tripId';
+  static String driverTripRequest(String tripId) =>
+      '/driver/trip-request/$tripId';
 
   /// Creates a company driver detail route
-  static String companyDriverById(String driverId) => '/company/drivers/$driverId';
+  static String companyDriverById(String driverId) =>
+      '/company/drivers/$driverId';
 
   /// Creates a vehicle detail route
-  static String vehicleById(String vehicleId) => '/company/fleet/vehicles/$vehicleId';
+  static String vehicleById(String vehicleId) =>
+      '/company/fleet/vehicles/$vehicleId';
 
   /// Parses a route to extract parameters
   static Map<String, String> parseRoute(String route) {
@@ -595,7 +599,8 @@ abstract class Routes {
   }
 
   /// Checks if route is for consumer
-  static bool isConsumerRoute(String route) => route.startsWith('/consumer/') || route == home;
+  static bool isConsumerRoute(String route) =>
+      route.startsWith('/consumer/') || route == home;
 
   /// Checks if route is for driver
   static bool isDriverRoute(String route) => route.startsWith('/driver/');
@@ -689,8 +694,9 @@ extension StringExtension on String {
     if (isEmpty) return this;
     return split(' ')
         .map(
-          (word) =>
-              word.isEmpty ? word : '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}',
+          (word) => word.isEmpty
+              ? word
+              : '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}',
         )
         .join(' ');
   }

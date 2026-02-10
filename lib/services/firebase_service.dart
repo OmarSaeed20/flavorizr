@@ -7,7 +7,8 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 class FirebaseService {
   FirebaseService._internal();
   static FirebaseService? _instance;
-  static FirebaseService get instance => _instance ??= FirebaseService._internal();
+  static FirebaseService get instance =>
+      _instance ??= FirebaseService._internal();
 
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -22,7 +23,10 @@ class FirebaseService {
       // Log analytics event
       await _analytics.logEvent(
         name: 'firebase_test',
-        parameters: {'flavor': FirebaseConfig.flavorName, 'project_id': FirebaseConfig.projectId},
+        parameters: {
+          'flavor': FirebaseConfig.flavorName,
+          'project_id': FirebaseConfig.projectId,
+        },
       );
 
       return true;

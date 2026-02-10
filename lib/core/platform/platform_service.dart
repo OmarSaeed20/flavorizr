@@ -217,9 +217,13 @@ class PlatformService {
   /// Returns the platform-specific dialog theme.
   static DialogTheme get dialogTheme {
     if (isIOS) {
-      return DialogTheme(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)));
+      return DialogTheme(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      );
     }
-    return DialogTheme(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)));
+    return DialogTheme(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+    );
   }
 
   /// Returns the platform-specific bottom sheet theme.
@@ -227,14 +231,18 @@ class PlatformService {
     if (isIOS) {
       return BottomSheetThemeData(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(bottomSheetBorderRadius)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(bottomSheetBorderRadius),
+          ),
         ),
         backgroundColor: Colors.white,
       );
     }
     return BottomSheetThemeData(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(bottomSheetBorderRadius)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(bottomSheetBorderRadius),
+        ),
       ),
     );
   }
@@ -268,7 +276,9 @@ class PlatformService {
   /// Returns the platform-specific card theme.
   static CardTheme get cardTheme {
     return CardTheme(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(cardBorderRadius)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(cardBorderRadius),
+      ),
       elevation: isIOS ? 0 : 1,
     );
   }
@@ -277,13 +287,17 @@ class PlatformService {
   static InputDecorationTheme get inputDecorationTheme {
     if (isIOS) {
       return InputDecorationTheme(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(inputBorderRadius)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(inputBorderRadius),
+        ),
         filled: true,
         fillColor: Colors.grey[100],
       );
     }
     return InputDecorationTheme(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(inputBorderRadius)),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(inputBorderRadius),
+      ),
       filled: false,
     );
   }
@@ -312,7 +326,9 @@ class PlatformService {
       return ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonBorderRadius)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(buttonBorderRadius),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
       );
@@ -320,7 +336,9 @@ class PlatformService {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonBorderRadius)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonBorderRadius),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       ),
     );
@@ -331,7 +349,9 @@ class PlatformService {
     if (isIOS) {
       return OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonBorderRadius)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(buttonBorderRadius),
+          ),
           side: BorderSide(color: Colors.blue.withValues(alpha: 0.5)),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
@@ -339,7 +359,9 @@ class PlatformService {
     }
     return OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(buttonBorderRadius)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonBorderRadius),
+        ),
         side: BorderSide(color: Colors.blue.withValues(alpha: 0.5)),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       ),
@@ -388,7 +410,9 @@ class PlatformService {
       );
     }
     return const CheckboxThemeData(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2))),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(2)),
+      ),
     );
   }
 
@@ -433,15 +457,25 @@ class PlatformService {
   /// Returns the platform-specific progress indicator theme.
   static ProgressIndicatorThemeData get progressIndicatorTheme {
     if (isIOS) {
-      return const ProgressIndicatorThemeData(linearTrackColor: Colors.grey, color: Colors.blue);
+      return const ProgressIndicatorThemeData(
+        linearTrackColor: Colors.grey,
+        color: Colors.blue,
+      );
     }
-    return const ProgressIndicatorThemeData(linearTrackColor: Colors.grey, color: Colors.blue);
+    return const ProgressIndicatorThemeData(
+      linearTrackColor: Colors.grey,
+      color: Colors.blue,
+    );
   }
 
   /// Returns the platform-specific divider theme.
   static DividerThemeData get dividerTheme {
     if (isIOS) {
-      return DividerThemeData(color: Colors.grey[300], thickness: 0.5, space: 1);
+      return DividerThemeData(
+        color: Colors.grey[300],
+        thickness: 0.5,
+        space: 1,
+      );
     }
     return DividerThemeData(color: Colors.grey[400], thickness: 1, space: 16);
   }
@@ -498,7 +532,10 @@ class PlatformService {
       return const BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
         elevation: 0,
-        selectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
+        selectedLabelStyle: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
         unselectedLabelStyle: TextStyle(fontSize: 10),
       );
     }
@@ -530,13 +567,19 @@ class PlatformService {
   static TooltipThemeData get tooltipTheme {
     if (isIOS) {
       return TooltipThemeData(
-        decoration: BoxDecoration(color: Colors.grey[800], borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          borderRadius: BorderRadius.circular(8),
+        ),
         textStyle: const TextStyle(color: Colors.white, fontSize: 12),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       );
     }
     return TooltipThemeData(
-      decoration: BoxDecoration(color: Colors.grey[900], borderRadius: BorderRadius.circular(4)),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(4),
+      ),
       textStyle: const TextStyle(color: Colors.white, fontSize: 14),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     );
@@ -591,13 +634,19 @@ class PlatformService {
     if (isIOS) {
       return const NavigationRailThemeData(
         minWidth: 56,
-        selectedLabelTextStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        selectedLabelTextStyle: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
         unselectedLabelTextStyle: TextStyle(fontSize: 12),
       );
     }
     return const NavigationRailThemeData(
       minWidth: 80,
-      selectedLabelTextStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+      selectedLabelTextStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
       unselectedLabelTextStyle: TextStyle(fontSize: 12),
     );
   }
@@ -659,7 +708,9 @@ class PlatformService {
               error: Color(0xFFFF453A),
             );
     }
-    return brightness == Brightness.light ? const ColorScheme.light() : const ColorScheme.dark();
+    return brightness == Brightness.light
+        ? const ColorScheme.light()
+        : const ColorScheme.dark();
   }
 }
 

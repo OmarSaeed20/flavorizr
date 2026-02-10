@@ -85,7 +85,9 @@ class TripOrderController extends AutoDisposeNotifier<TripOrderState> {
   }) async {
     state = state.copyWith(isLoading: true, clearError: true);
 
-    final builder = GetMyOrdersParameters.builder().withPage(page).withPerPage(perPage);
+    final builder = GetMyOrdersParameters.builder()
+        .withPage(page)
+        .withPerPage(perPage);
 
     if (status != null) {
       builder.withStatus(status);
@@ -131,7 +133,11 @@ class TripOrderController extends AutoDisposeNotifier<TripOrderState> {
 
     return result.when(
       success: (order, i) {
-        state = state.copyWith(currentOrder: order, isBooking: false, isSuccess: true);
+        state = state.copyWith(
+          currentOrder: order,
+          isBooking: false,
+          isSuccess: true,
+        );
         return order;
       },
       exception: (error) {
@@ -167,7 +173,10 @@ class TripOrderController extends AutoDisposeNotifier<TripOrderState> {
         return evaluation;
       },
       exception: (error) {
-        state = state.copyWith(isEvaluating: false, errorMessage: error.message);
+        state = state.copyWith(
+          isEvaluating: false,
+          errorMessage: error.message,
+        );
         return null;
       },
     );

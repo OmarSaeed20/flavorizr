@@ -53,7 +53,8 @@ class DirectBookingState {
           ? null
           : (currentBooking ?? this.currentBooking),
       selectedVehicleType: selectedVehicleType ?? this.selectedVehicleType,
-      isLoadingVehicleTypes: isLoadingVehicleTypes ?? this.isLoadingVehicleTypes,
+      isLoadingVehicleTypes:
+          isLoadingVehicleTypes ?? this.isLoadingVehicleTypes,
       isLoadingDrivers: isLoadingDrivers ?? this.isLoadingDrivers,
       isCreatingBooking: isCreatingBooking ?? this.isCreatingBooking,
       isCancellingBooking: isCancellingBooking ?? this.isCancellingBooking,
@@ -84,10 +85,16 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
 
     result.when(
       success: (data, _) {
-        state = state.copyWith(vehicleTypes: data, isLoadingVehicleTypes: false);
+        state = state.copyWith(
+          vehicleTypes: data,
+          isLoadingVehicleTypes: false,
+        );
       },
       exception: (error) {
-        state = state.copyWith(isLoadingVehicleTypes: false, error: error.message);
+        state = state.copyWith(
+          isLoadingVehicleTypes: false,
+          error: error.message,
+        );
       },
     );
   }
@@ -171,7 +178,10 @@ class DirectBookingController extends StateNotifier<DirectBookingState> {
         state = state.copyWith(isCancellingBooking: false);
       },
       exception: (error) {
-        state = state.copyWith(isCancellingBooking: false, error: error.message);
+        state = state.copyWith(
+          isCancellingBooking: false,
+          error: error.message,
+        );
       },
     );
   }

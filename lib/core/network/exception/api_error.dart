@@ -64,7 +64,10 @@ abstract class ApiError {
   ///
   /// [message] - Human-readable error message.
   /// [data] - Additional error data.
-  static ForbiddenException forbidden({String message = 'Access forbidden.', dynamic data}) {
+  static ForbiddenException forbidden({
+    String message = 'Access forbidden.',
+    dynamic data,
+  }) {
     return ForbiddenException(message: message, data: data);
   }
 
@@ -74,7 +77,10 @@ abstract class ApiError {
   ///
   /// [message] - Human-readable error message.
   /// [data] - Additional error data.
-  static NotFoundException notFound({String message = 'Resource not found.', dynamic data}) {
+  static NotFoundException notFound({
+    String message = 'Resource not found.',
+    dynamic data,
+  }) {
     return NotFoundException(message: message, data: data);
   }
 
@@ -103,7 +109,11 @@ abstract class ApiError {
     int? statusCode,
     dynamic data,
   }) {
-    return ServerException(message: message, statusCode: statusCode, data: data);
+    return ServerException(
+      message: message,
+      statusCode: statusCode,
+      data: data,
+    );
   }
 
   /// Creates a network error for connectivity issues.
@@ -122,7 +132,9 @@ abstract class ApiError {
   /// Used when a network request exceeds the allowed time limit.
   ///
   /// [message] - Human-readable error message.
-  static TimeoutException timeout({String message = 'Request timed out. Please try again.'}) {
+  static TimeoutException timeout({
+    String message = 'Request timed out. Please try again.',
+  }) {
     return const TimeoutException();
   }
 
@@ -138,7 +150,11 @@ abstract class ApiError {
     Duration? retryAfter,
     dynamic data,
   }) {
-    return RateLimitException(message: message, retryAfter: retryAfter, data: data);
+    return RateLimitException(
+      message: message,
+      retryAfter: retryAfter,
+      data: data,
+    );
   }
 
   /// Creates an unknown error for unexpected issues.

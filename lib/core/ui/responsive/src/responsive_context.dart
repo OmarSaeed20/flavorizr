@@ -101,7 +101,13 @@ class ResponsiveContext {
   }
 
   /// Returns value based on window size class
-  T byWindowSize<T>({required T compact, T? medium, T? expanded, T? large, T? extraLarge}) {
+  T byWindowSize<T>({
+    required T compact,
+    T? medium,
+    T? expanded,
+    T? large,
+    T? extraLarge,
+  }) {
     return device.byWindowSize(
       compact: compact,
       medium: medium,
@@ -183,7 +189,8 @@ class ResponsiveContext {
   // ═══════════════════════════════════════════════════════════════════════════
 
   /// Screen padding (horizontal padding for content)
-  EdgeInsets get screenPadding => EdgeInsets.symmetric(horizontal: padding.screen);
+  EdgeInsets get screenPadding =>
+      EdgeInsets.symmetric(horizontal: padding.screen);
 
   /// Card padding
   EdgeInsets get cardPadding => EdgeInsets.all(padding.card);

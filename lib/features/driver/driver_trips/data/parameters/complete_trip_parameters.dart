@@ -8,9 +8,11 @@ class CompleteTripParameters extends Parameters {
   final String _tripId;
   final CancelToken? _cancelToken;
 
-  const CompleteTripParameters._({required String tripId, CancelToken? cancelToken})
-    : _tripId = tripId,
-      _cancelToken = cancelToken;
+  const CompleteTripParameters._({
+    required String tripId,
+    CancelToken? cancelToken,
+  }) : _tripId = tripId,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -23,11 +25,13 @@ class CompleteTripParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static CompleteTripParametersBuilder builder() => CompleteTripParametersBuilder();
+  static CompleteTripParametersBuilder builder() =>
+      CompleteTripParametersBuilder();
 }
 
 /// Builder for CompleteTripParameters
-class CompleteTripParametersBuilder extends ParametersBuilder<CompleteTripParameters> {
+class CompleteTripParametersBuilder
+    extends ParametersBuilder<CompleteTripParameters> {
   String? _tripId;
   CancelToken? _cancelToken;
 
@@ -50,6 +54,9 @@ class CompleteTripParametersBuilder extends ParametersBuilder<CompleteTripParame
     if (_tripId == null) {
       throw ArgumentError('Trip ID is required');
     }
-    return CompleteTripParameters._(tripId: _tripId!, cancelToken: _cancelToken);
+    return CompleteTripParameters._(
+      tripId: _tripId!,
+      cancelToken: _cancelToken,
+    );
   }
 }

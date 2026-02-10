@@ -57,7 +57,8 @@ class _TripPageState extends ConsumerState<TripPage> {
         child: Column(
           children: [
             // Current trip section
-            if (state.currentTrip != null) _buildCurrentTrip(context, state.currentTrip!),
+            if (state.currentTrip != null)
+              _buildCurrentTrip(context, state.currentTrip!),
 
             // Trip types section
             Expanded(child: _buildTripTypes(context, state)),
@@ -81,13 +82,16 @@ class _TripPageState extends ConsumerState<TripPage> {
         children: [
           Row(
             children: [
-              Icon(Icons.directions_car, color: Theme.of(context).colorScheme.primary),
+              Icon(
+                Icons.directions_car,
+                color: Theme.of(context).colorScheme.primary,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Current Trip',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.primary),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ],
           ),
@@ -152,7 +156,10 @@ class _TripPageState extends ConsumerState<TripPage> {
               color: Theme.of(context).colorScheme.outline,
             ),
             const SizedBox(height: 16),
-            Text('No trip types available', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'No trip types available',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ],
         ),
       );
@@ -197,7 +204,10 @@ class _TripPageState extends ConsumerState<TripPage> {
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
@@ -218,7 +228,10 @@ class _TripPageState extends ConsumerState<TripPage> {
         title: const Text('Cancel Trip'),
         content: const Text('Are you sure you want to cancel this trip?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('No')),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('No'),
+          ),
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -226,7 +239,9 @@ class _TripPageState extends ConsumerState<TripPage> {
               if (trip?.userId == null) {
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Unable to cancel trip: User ID not found')),
+                    const SnackBar(
+                      content: Text('Unable to cancel trip: User ID not found'),
+                    ),
                   );
                 }
                 return;
@@ -235,12 +250,14 @@ class _TripPageState extends ConsumerState<TripPage> {
                   .read(tripControllerProvider.notifier)
                   .cancelTrip(orderId: tripId, userId: trip!.userId!);
               if (success && mounted) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(const SnackBar(content: Text('Trip cancelled successfully')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Trip cancelled successfully')),
+                );
               }
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
             child: const Text('Yes, Cancel'),
           ),
         ],

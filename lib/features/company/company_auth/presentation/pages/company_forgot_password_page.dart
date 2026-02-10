@@ -1,7 +1,4 @@
 // lib/features/company/company_auth/presentation/pages/company_forgot_password_page.dart
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/parameters/company_forget_password_parameters.dart';
@@ -9,6 +6,9 @@ import 'package:fast_golden_taxi/features/company/company_auth/presentation/cont
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/providers/company_auth_providers.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/widgets/company_phone_input_widget.dart';
 import 'package:fast_golden_taxi/shared/widgets/loading_overlay.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Company Forgot Password Page
 ///
@@ -18,10 +18,12 @@ class CompanyForgotPasswordPage extends ConsumerStatefulWidget {
   const CompanyForgotPasswordPage({super.key});
 
   @override
-  ConsumerState<CompanyForgotPasswordPage> createState() => _CompanyForgotPasswordPageState();
+  ConsumerState<CompanyForgotPasswordPage> createState() =>
+      _CompanyForgotPasswordPageState();
 }
 
-class _CompanyForgotPasswordPageState extends ConsumerState<CompanyForgotPasswordPage> {
+class _CompanyForgotPasswordPageState
+    extends ConsumerState<CompanyForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _phoneIsoCodeController = TextEditingController(text: 'EG');
@@ -43,14 +45,19 @@ class _CompanyForgotPasswordPageState extends ConsumerState<CompanyForgotPasswor
       phoneIsoCode: _phoneIsoCodeController.text.trim(),
     );
 
-    await ref.read(companyAuthControllerProvider.notifier).forgetPassword(parameters);
+    await ref
+        .read(companyAuthControllerProvider.notifier)
+        .forgetPassword(parameters);
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(companyAuthControllerProvider);
 
-    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (previous, next) {
+    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (
+      previous,
+      next,
+    ) {
       next.maybeWhen(
         passwordResetRequested: () {
           context.push(
@@ -63,14 +70,20 @@ class _CompanyForgotPasswordPageState extends ConsumerState<CompanyForgotPasswor
         },
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.message), backgroundColor: AppColors.of(context).error),
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: AppColors.of(context).error,
+            ),
           );
         },
         orElse: () {},
       );
     });
 
-    final isLoading = authState.maybeWhen(loading: () => true, orElse: () => false);
+    final isLoading = authState.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text('Forgot Password')),
@@ -111,9 +124,9 @@ class _CompanyForgotPasswordPageState extends ConsumerState<CompanyForgotPasswor
                     const SizedBox(height: 8),
                     Text(
                       'Enter your phone number to receive a verification code',
-                      style: AppTextStyles.of(
-                        context,
-                      ).bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+                      style: AppTextStyles.of(context).bodyMedium.copyWith(
+                        color: AppColors.of(context).textSecondary,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 48),
@@ -128,11 +141,16 @@ class _CompanyForgotPasswordPageState extends ConsumerState<CompanyForgotPasswor
                       onPressed: _handleSendCode,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: const Text(
                         'Send Verification Code',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

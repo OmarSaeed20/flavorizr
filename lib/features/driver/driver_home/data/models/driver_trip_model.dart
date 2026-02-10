@@ -29,7 +29,9 @@ class DriverTripModel extends DriverTrip {
       distance: (json['distance'] ?? 0).toDouble(),
       fare: (json['fare'] ?? 0).toDouble(),
       status: json['status'] ?? 'completed',
-      startTime: DateTime.parse(json['startTime'] ?? DateTime.now().toIso8601String()),
+      startTime: DateTime.parse(
+        json['startTime'] ?? DateTime.now().toIso8601String(),
+      ),
       endTime: json['endTime'] != null ? DateTime.parse(json['endTime']) : null,
       rating: json['rating']?.toDouble(),
       ratingComment: json['ratingComment'],

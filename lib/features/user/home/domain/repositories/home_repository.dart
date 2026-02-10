@@ -9,6 +9,8 @@ abstract class HomeRepository {
   Future<ApiResult<HomeData>> getHomeData();
   Future<ApiResult<List<Banner>>> getBanners();
   Future<ApiResult<List<Advertisement>>> getAdvertisements();
-  Future<ApiResult<List<AvailableTrip>>> getAvailableTrips(GetAvailableTripsParameters params);
+  Future<ApiResult<List<AvailableTrip>>> getAvailableTrips(
+    GetAvailableTripsParameters params,
+  );
   Future<ApiResult<int>> getNotificationCount();
 }

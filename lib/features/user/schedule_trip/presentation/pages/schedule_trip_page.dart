@@ -32,13 +32,16 @@ class _ScheduleTripPageState extends ConsumerState<ScheduleTripPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent * 0.8) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
       ref.read(scheduleTripControllerProvider.notifier).loadMoreTrips();
     }
   }
 
   void _onRefresh() {
-    ref.read(scheduleTripControllerProvider.notifier).getScheduledTrips(refresh: true);
+    ref
+        .read(scheduleTripControllerProvider.notifier)
+        .getScheduledTrips(refresh: true);
   }
 
   @override
@@ -72,7 +75,10 @@ class _ScheduleTripPageState extends ConsumerState<ScheduleTripPage> {
                     const SizedBox(height: 16),
                     Text(state.error!, textAlign: TextAlign.center),
                     const SizedBox(height: 16),
-                    ElevatedButton(onPressed: _loadTrips, child: const Text('Retry')),
+                    ElevatedButton(
+                      onPressed: _loadTrips,
+                      child: const Text('Retry'),
+                    ),
                   ],
                 ),
               )
@@ -83,7 +89,10 @@ class _ScheduleTripPageState extends ConsumerState<ScheduleTripPage> {
                   children: [
                     Icon(Icons.event, size: 48, color: Colors.grey[400]),
                     const SizedBox(height: 16),
-                    Text('No scheduled trips', style: TextStyle(color: Colors.grey[600])),
+                    Text(
+                      'No scheduled trips',
+                      style: TextStyle(color: Colors.grey[600]),
+                    ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       onPressed: () {
@@ -98,7 +107,8 @@ class _ScheduleTripPageState extends ConsumerState<ScheduleTripPage> {
             : ListView.builder(
                 controller: _scrollController,
                 padding: const EdgeInsets.all(16.0),
-                itemCount: state.scheduledTrips.length + (state.hasMore ? 1 : 0),
+                itemCount:
+                    state.scheduledTrips.length + (state.hasMore ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index < state.scheduledTrips.length) {
                     final trip = state.scheduledTrips[index];

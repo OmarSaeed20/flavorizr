@@ -1,5 +1,4 @@
 // lib/features/company/company_profile/presentation/pages/company_profile_page.dart
-import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/providers/company_auth_providers.dart';
@@ -35,11 +34,17 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
     final profileState = ref.watch(companyProfileControllerProvider);
     final authState = ref.watch(companyAuthControllerProvider);
 
-    ref.listen<CompanyProfileState>(companyProfileControllerProvider, (previous, next) {
+    ref.listen<CompanyProfileState>(companyProfileControllerProvider, (
+      previous,
+      next,
+    ) {
       next.maybeWhen(
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.message), backgroundColor: AppColors.of(context).error),
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: AppColors.of(context).error,
+            ),
           );
         },
         orElse: () {},
@@ -86,8 +91,12 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
                 // Profile Image
                 CircleAvatar(
                   radius: 60,
-                  backgroundImage: user.image != null ? NetworkImage(user.image!) : null,
-                  child: user.image == null ? const Icon(Icons.business, size: 60) : null,
+                  backgroundImage: user.image != null
+                      ? NetworkImage(user.image!)
+                      : null,
+                  child: user.image == null
+                      ? const Icon(Icons.business, size: 60)
+                      : null,
                 ),
                 const SizedBox(height: 16),
                 // Company Name
@@ -101,9 +110,9 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
                 if (user.nickname != null && user.nickname!.isNotEmpty)
                   Text(
                     user.nickname!,
-                    style: AppTextStyles.of(
-                      context,
-                    ).bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+                    style: AppTextStyles.of(context).bodyMedium.copyWith(
+                      color: AppColors.of(context).textSecondary,
+                    ),
                     textAlign: TextAlign.center,
                   ),
               ],
@@ -117,11 +126,18 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Company Information', style: AppTextStyles.of(context).titleLarge),
+                  Text(
+                    'Company Information',
+                    style: AppTextStyles.of(context).titleLarge,
+                  ),
                   const SizedBox(height: 16),
                   _buildDetailRow(Icons.phone, 'Phone', user.phone ?? 'N/A'),
                   _buildDetailRow(Icons.email, 'Email', user.email ?? 'N/A'),
-                  _buildDetailRow(Icons.location_on, 'Address', user.address ?? 'N/A'),
+                  _buildDetailRow(
+                    Icons.location_on,
+                    'Address',
+                    user.address ?? 'N/A',
+                  ),
                   if (user.bio != null && user.bio!.isNotEmpty)
                     _buildDetailRow(Icons.info, 'Bio', user.bio!),
                 ],
@@ -136,11 +152,22 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Account Details', style: AppTextStyles.of(context).titleLarge),
+                  Text(
+                    'Account Details',
+                    style: AppTextStyles.of(context).titleLarge,
+                  ),
                   const SizedBox(height: 16),
                   _buildDetailRow(Icons.person, 'Gender', user.gender ?? 'N/A'),
-                  _buildDetailRow(Icons.calendar_today, 'Birthdate', user.birthdate ?? 'N/A'),
-                  _buildDetailRow(Icons.public, 'Country', user.country?.name ?? 'N/A'),
+                  _buildDetailRow(
+                    Icons.calendar_today,
+                    'Birthdate',
+                    user.birthdate ?? 'N/A',
+                  ),
+                  _buildDetailRow(
+                    Icons.public,
+                    'Country',
+                    user.country?.name ?? 'N/A',
+                  ),
                   _buildDetailRow(
                     Icons.location_city,
                     'Governorate',
@@ -162,7 +189,9 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
                 backgroundColor: AppColors.of(context).error,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
           ),
@@ -184,9 +213,9 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
               children: [
                 Text(
                   label,
-                  style: AppTextStyles.of(
-                    context,
-                  ).bodySmall.copyWith(color: AppColors.of(context).textSecondary),
+                  style: AppTextStyles.of(context).bodySmall.copyWith(
+                    color: AppColors.of(context).textSecondary,
+                  ),
                 ),
                 Text(value, style: AppTextStyles.of(context).bodyMedium),
               ],
@@ -202,9 +231,16 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 64, color: AppColors.of(context).error),
+          Icon(
+            Icons.error_outline,
+            size: 64,
+            color: AppColors.of(context).error,
+          ),
           const SizedBox(height: 16),
-          Text('Failed to load profile', style: AppTextStyles.of(context).titleLarge),
+          Text(
+            'Failed to load profile',
+            style: AppTextStyles.of(context).titleLarge,
+          ),
           const SizedBox(height: 8),
           Text(
             error.message,
@@ -242,7 +278,9 @@ class _CompanyProfilePageState extends ConsumerState<CompanyProfilePage> {
               // TODO: Implement logout
               context.go('/auth/role-selection');
             },
-            style: TextButton.styleFrom(foregroundColor: AppColors.of(context).error),
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.of(context).error,
+            ),
             child: const Text('Logout'),
           ),
         ],

@@ -46,7 +46,10 @@ class ApiClient {
 
   /// Setup interceptors
   void _setupInterceptors() {
-    _dio.interceptors.addAll([AuthInterceptor(), if (kDebugMode) LoggingInterceptor()]);
+    _dio.interceptors.addAll([
+      AuthInterceptor(),
+      if (kDebugMode) LoggingInterceptor(),
+    ]);
   }
 
   /// Update authorization token

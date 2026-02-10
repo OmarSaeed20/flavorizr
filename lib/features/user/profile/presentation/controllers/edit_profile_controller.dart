@@ -73,7 +73,9 @@ class EditProfileState {
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
       nameError: clearFieldErrors ? null : nameError ?? this.nameError,
       emailError: clearFieldErrors ? null : emailError ?? this.emailError,
-      birthDateError: clearFieldErrors ? null : birthDateError ?? this.birthDateError,
+      birthDateError: clearFieldErrors
+          ? null
+          : birthDateError ?? this.birthDateError,
       isSuccess: isSuccess ?? this.isSuccess,
       hasChanges: hasChanges ?? this.hasChanges,
     );
@@ -101,7 +103,10 @@ class EditProfileController extends AutoDisposeNotifier<EditProfileState> {
     final result = await _getProfile(const NoParams());
 
     if (result.error != null) {
-      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: result.error!.message,
+      );
       return;
     }
 
@@ -199,7 +204,11 @@ class EditProfileController extends AutoDisposeNotifier<EditProfileState> {
 
     if (state.isSaving) return;
 
-    state = state.copyWith(isSaving: true, clearError: true, clearFieldErrors: true);
+    state = state.copyWith(
+      isSaving: true,
+      clearError: true,
+      clearFieldErrors: true,
+    );
 
     final updateData = ProfileUpdateData(
       name: state.name.trim().isEmpty ? null : state.name.trim(),
@@ -213,7 +222,10 @@ class EditProfileController extends AutoDisposeNotifier<EditProfileState> {
     final result = await _updateProfileInfo(updateData);
 
     if (result.error != null) {
-      state = state.copyWith(isSaving: false, errorMessage: result.error!.message);
+      state = state.copyWith(
+        isSaving: false,
+        errorMessage: result.error!.message,
+      );
       return;
     }
 

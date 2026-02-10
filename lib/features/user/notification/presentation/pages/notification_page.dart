@@ -32,7 +32,8 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
       ref.read(notificationControllerProvider.notifier).loadNotifications();
     }
   }
@@ -48,14 +49,17 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
           if (notificationState.unreadCount > 0)
             TextButton.icon(
               onPressed: () {
-                ref.read(notificationControllerProvider.notifier).markAllAsRead();
+                ref
+                    .read(notificationControllerProvider.notifier)
+                    .markAllAsRead();
               },
               icon: const Icon(Icons.mark_email_read),
               label: const Text('Mark all read'),
             ),
         ],
       ),
-      body: notificationState.isLoading && notificationState.notifications.isEmpty
+      body:
+          notificationState.isLoading && notificationState.notifications.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : notificationState.hasError
           ? Center(
@@ -66,7 +70,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      ref.read(notificationControllerProvider.notifier).refresh();
+                      ref
+                          .read(notificationControllerProvider.notifier)
+                          .refresh();
                     },
                     child: const Text('Retry'),
                   ),
@@ -75,7 +81,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
             )
           : RefreshIndicator(
               onRefresh: () async {
-                await ref.read(notificationControllerProvider.notifier).refresh();
+                await ref
+                    .read(notificationControllerProvider.notifier)
+                    .refresh();
               },
               child: notificationState.notifications.isEmpty
                   ? const Center(child: Text('No notifications'))
@@ -87,7 +95,8 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                           (notificationState.hasMore ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (index < notificationState.notifications.length) {
-                          final notification = notificationState.notifications[index];
+                          final notification =
+                              notificationState.notifications[index];
                           return NotificationItem(
                             notification: notification,
                             onTap: () {

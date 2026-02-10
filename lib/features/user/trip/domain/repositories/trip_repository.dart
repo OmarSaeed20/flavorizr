@@ -66,7 +66,9 @@ abstract class TripRepository {
   /// - [NotFoundException] - Trip not found
   /// - [UnauthorizedException] - Not authorized to view this trip
   /// - [NoInternetException] - No internet connection
-  TripEither<Trip> getCaptainTripDetail(GetCaptainTripDetailParameters parameters);
+  TripEither<Trip> getCaptainTripDetail(
+    GetCaptainTripDetailParameters parameters,
+  );
 
   /// Get user's trip history.
   ///
@@ -84,7 +86,9 @@ abstract class TripRepository {
   /// Possible failures:
   /// - [NoInternetException] - No internet connection
   /// - [ServerException] - Server error
-  TripEither<List<Trip>> getAvailablePublicTrips(GetAvailablePublicTripsParameters parameters);
+  TripEither<List<Trip>> getAvailablePublicTrips(
+    GetAvailablePublicTripsParameters parameters,
+  );
 
   // ==================== Trip Creation ====================
 
@@ -164,7 +168,9 @@ abstract class TripRepository {
   /// - [UnauthorizedException] - Not authorized to evaluate this trip
   /// - [ConflictException] - Trip already evaluated
   /// - [NoInternetException] - No internet connection
-  TripEither<TripEvaluation> tripEvaluation(TripEvaluationParameters parameters);
+  TripEither<TripEvaluation> tripEvaluation(
+    TripEvaluationParameters parameters,
+  );
 
   // ==================== Orders ====================
 

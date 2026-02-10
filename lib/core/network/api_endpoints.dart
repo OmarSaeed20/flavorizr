@@ -164,7 +164,8 @@ abstract class ApiEndpoints {
   static const String companyVerifyPhone = '/company/auth/verify-phone';
 
   /// Send verification code to company phone.
-  static const String companySendVerificationCode = '/company/auth/send-verification-code';
+  static const String companySendVerificationCode =
+      '/company/auth/send-verification-code';
 
   /// Company forgot password.
   static const String companyForgotPassword = '/company/auth/forgot-password';
@@ -187,10 +188,12 @@ abstract class ApiEndpoints {
   static const String updateCompanyProfileInfo = '/company/profile/update-info';
 
   /// Update company profile image.
-  static const String updateCompanyProfileImage = '/company/profile/update-image';
+  static const String updateCompanyProfileImage =
+      '/company/profile/update-image';
 
   /// Delete company profile image.
-  static const String deleteCompanyProfileImage = '/company/profile/delete-image';
+  static const String deleteCompanyProfileImage =
+      '/company/profile/delete-image';
 
   // ==================== Company Settings Endpoints ====================
 

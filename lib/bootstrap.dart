@@ -60,17 +60,23 @@ Future<void> bootstrap(Flavor flavor) async {
 
       // 7. Initialize logger
       await AppLogger.instance.initialize(
-        config: flavor.isProduction ? const AppLoggerConfig.prodction() : const AppLoggerConfig(),
+        config: flavor.isProduction
+            ? const AppLoggerConfig.prodction()
+            : const AppLoggerConfig(),
       );
 
       // 8. Initialize error handling
-      ErrorHandler.initialize(enableCrashReporting: flavor.enableCrashReporting);
+      ErrorHandler.initialize(
+        enableCrashReporting: flavor.enableCrashReporting,
+      );
 
       // 9. Initialize notification service
-      final notificationInitialized = await NotificationService.instance.initialize();
+      final notificationInitialized = await NotificationService.instance
+          .initialize();
       if (notificationInitialized) {
         // Set foreground notification presentation options for iOS
-        await NotificationService.instance.setForegroundNotificationPresentationOptions();
+        await NotificationService.instance
+            .setForegroundNotificationPresentationOptions();
 
         await AppLogger.instance.logInfo(
           'Notification service initialized',
@@ -107,7 +113,9 @@ Future<void> bootstrap(Flavor flavor) async {
       final sharedPreferences = await SharedPreferences.getInstance();
       const secureStorage = FlutterSecureStorage(
         aOptions: AndroidOptions(encryptedSharedPreferences: true),
-        iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
+        iOptions: IOSOptions(
+          accessibility: KeychainAccessibility.first_unlock_this_device,
+        ),
       );
 
       // 14. Initialize router with authentication guards
@@ -162,14 +170,18 @@ Future<void> bootstrap(Flavor flavor) async {
 class _DevHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) =>
-      super.createHttpClient(context)..badCertificateCallback = (cert, host, port) => true;
+      super.createHttpClient(context)
+        ..badCertificateCallback = (cert, host, port) => true;
 }
 
 /// Helper class for router authentication and authorization guards.
 ///
 /// Encapsulates all router guard logic to keep bootstrap code clean.
 class _RouterGuards {
-  const _RouterGuards({required this.secureStorage, required this.sharedPreferences});
+  const _RouterGuards({
+    required this.secureStorage,
+    required this.sharedPreferences,
+  });
 
   final FlutterSecureStorage secureStorage;
   final SharedPreferences sharedPreferences;
@@ -189,7 +201,9 @@ class _RouterGuards {
   Future<bool> checkAuthentication() async {
     try {
       final accessToken = await secureStorage.read(key: _accessTokenKey);
-      final accessTokenExpiry = await secureStorage.read(key: _accessTokenExpiryKey);
+      final accessTokenExpiry = await secureStorage.read(
+        key: _accessTokenExpiryKey,
+      );
 
       if (accessToken == null || accessTokenExpiry == null) {
         return false;
@@ -224,7 +238,9 @@ class _RouterGuards {
     try {
       final userJson = sharedPreferences.getString(_userDataKey);
       if (userJson == null) {
-        await AppLogger.instance.logDebug('No user data found, defaulting to consumer role');
+        await AppLogger.instance.logDebug(
+          'No user data found, defaulting to consumer role',
+        );
         return 'consumer';
       }
 
@@ -234,7 +250,10 @@ class _RouterGuards {
       // Determine primary role with priority
       final role = _determinePrimaryRole(roles);
 
-      await AppLogger.instance.logDebug('User role determined: $role', data: {'roles': roles});
+      await AppLogger.instance.logDebug(
+        'User role determined: $role',
+        data: {'roles': roles},
+      );
       return role;
     } catch (e) {
       await AppLogger.instance.logWarning(

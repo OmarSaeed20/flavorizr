@@ -16,7 +16,8 @@ class SendVerificationCodeParameters extends Parameters {
   Map<String, dynamic> toJson() => {'phone': phone};
 
   /// Create a builder for this parameters type
-  SendVerificationCodeParametersBuilder builder() => SendVerificationCodeParametersBuilder();
+  SendVerificationCodeParametersBuilder builder() =>
+      SendVerificationCodeParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -30,7 +31,8 @@ class SendVerificationCodeParameters extends Parameters {
   int get hashCode => phone.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() => 'SendVerificationCodeParameters(phone: $phone, cancelToken: $cancelToken)';
+  String toString() =>
+      'SendVerificationCodeParameters(phone: $phone, cancelToken: $cancelToken)';
 }
 
 /// Builder for SendVerificationCodeParameters
@@ -49,7 +51,9 @@ class SendVerificationCodeParametersBuilder
 
   /// Set cancel token
   @override
-  SendVerificationCodeParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SendVerificationCodeParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -60,6 +64,9 @@ class SendVerificationCodeParametersBuilder
     if (_phone == null || _phone!.isEmpty) {
       throw ArgumentError('Phone is required');
     }
-    return SendVerificationCodeParameters(phone: _phone!, cancelToken: _cancelToken);
+    return SendVerificationCodeParameters(
+      phone: _phone!,
+      cancelToken: _cancelToken,
+    );
   }
 }

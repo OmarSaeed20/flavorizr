@@ -15,19 +15,27 @@ abstract class DriverSettingsRepository {
 
   /// Update driver settings.
   /// Endpoint: POST /driver/settings/update
-  Future<ApiResult<DriverSettings>> updateSettings(UpdateDriverSettingsParameters parameters);
+  Future<ApiResult<DriverSettings>> updateSettings(
+    UpdateDriverSettingsParameters parameters,
+  );
 
   /// Update driver notification preferences.
   /// Endpoint: POST /driver/settings/notifications
-  Future<ApiResult<DriverSettings>> updateNotifications(UpdateNotificationParameters parameters);
+  Future<ApiResult<DriverSettings>> updateNotifications(
+    UpdateNotificationParameters parameters,
+  );
 
   /// Update driver language preference.
   /// Endpoint: POST /driver/settings/language
-  Future<ApiResult<DriverSettings>> updateLanguage(UpdateLanguageParameters parameters);
+  Future<ApiResult<DriverSettings>> updateLanguage(
+    UpdateLanguageParameters parameters,
+  );
 
   /// Update driver privacy settings.
   /// Endpoint: POST /driver/settings/privacy
-  Future<ApiResult<DriverSettings>> updatePrivacy(UpdatePrivacyParameters parameters);
+  Future<ApiResult<DriverSettings>> updatePrivacy(
+    UpdatePrivacyParameters parameters,
+  );
 
   /// Delete driver account.
   /// Endpoint: DELETE /driver/settings/account

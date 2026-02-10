@@ -44,7 +44,9 @@ class CompanyProfileRemoteDataSource with BaseRemoteDataSource {
   /// Update company profile info
   ///
   /// Updates company profile information.
-  Future<ApiResult<UserModel>> updateProfileInfo(UpdateCompanyProfileParameters parameters) async {
+  Future<ApiResult<UserModel>> updateProfileInfo(
+    UpdateCompanyProfileParameters parameters,
+  ) async {
     return safeApiCall(
       () => dio.post(
         CompanyProfileEndpoints.updateProfileInfo,

@@ -1,7 +1,5 @@
 // lib/shared/widgets/form_validation.dart
-import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_theme.dart';
-import 'package:fast_golden_taxi/core/theme/color_schemes.dart';
 import 'package:flutter/material.dart';
 
 /// Form Field Validator
@@ -55,7 +53,9 @@ class FormFieldValidator {
   /// Validates required field
   static String? required(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return fieldName != null ? '$fieldName is required' : 'This field is required';
+      return fieldName != null
+          ? '$fieldName is required'
+          : 'This field is required';
     }
     return null;
   }
@@ -63,7 +63,9 @@ class FormFieldValidator {
   /// Validates minimum length
   static String? minLength(String? value, int length, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return fieldName != null ? '$fieldName is required' : 'This field is required';
+      return fieldName != null
+          ? '$fieldName is required'
+          : 'This field is required';
     }
     if (value.length < length) {
       return fieldName != null
@@ -86,11 +88,15 @@ class FormFieldValidator {
   /// Validates numeric value
   static String? numeric(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return fieldName != null ? '$fieldName is required' : 'This field is required';
+      return fieldName != null
+          ? '$fieldName is required'
+          : 'This field is required';
     }
     final numericRegex = RegExp(r'^[0-9]+$');
     if (!numericRegex.hasMatch(value)) {
-      return fieldName != null ? '$fieldName must be a number' : 'Must be a number';
+      return fieldName != null
+          ? '$fieldName must be a number'
+          : 'Must be a number';
     }
     return null;
   }

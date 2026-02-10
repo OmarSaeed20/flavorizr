@@ -7,7 +7,12 @@ class ReviewStatsCard extends StatelessWidget {
   final bool isLoading;
   final String? error;
 
-  const ReviewStatsCard({super.key, this.stats, this.isLoading = false, this.error});
+  const ReviewStatsCard({
+    super.key,
+    this.stats,
+    this.isLoading = false,
+    this.error,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +64,9 @@ class ReviewStatsCard extends StatelessWidget {
                 ...List.generate(
                   5,
                   (index) => Icon(
-                    index < stats!.averageRating.round() ? Icons.star : Icons.star_border,
+                    index < stats!.averageRating.round()
+                        ? Icons.star
+                        : Icons.star_border,
                     size: 24,
                     color: Colors.amber,
                   ),
@@ -67,7 +74,9 @@ class ReviewStatsCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   '(${stats!.totalReviews} reviews)',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
                 ),
               ],
             ),
@@ -93,11 +102,16 @@ class ReviewStatsCard extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: percentage / 100,
                         backgroundColor: Colors.grey[300],
-                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.amber),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Colors.amber,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Text('($count)', style: Theme.of(context).textTheme.bodySmall),
+                    Text(
+                      '($count)',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ],
                 ),
               );
@@ -152,7 +166,13 @@ class ReviewStatsCard extends StatelessWidget {
     }
   }
 
-  Widget _buildStatItem(BuildContext context, String label, int count, IconData icon, Color color) {
+  Widget _buildStatItem(
+    BuildContext context,
+    String label,
+    int count,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -165,9 +185,10 @@ class ReviewStatsCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             count.toString(),
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: color),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
           Text(label, style: Theme.of(context).textTheme.bodySmall),
         ],

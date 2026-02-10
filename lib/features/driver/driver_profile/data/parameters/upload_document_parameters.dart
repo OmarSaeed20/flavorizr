@@ -31,11 +31,13 @@ class UploadDocumentParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UploadDocumentParametersBuilder builder() => UploadDocumentParametersBuilder();
+  static UploadDocumentParametersBuilder builder() =>
+      UploadDocumentParametersBuilder();
 }
 
 /// Builder for UploadDocumentParameters
-class UploadDocumentParametersBuilder extends ParametersBuilder<UploadDocumentParameters> {
+class UploadDocumentParametersBuilder
+    extends ParametersBuilder<UploadDocumentParameters> {
   String? _documentType;
   String? _documentImage;
   CancelToken? _cancelToken;

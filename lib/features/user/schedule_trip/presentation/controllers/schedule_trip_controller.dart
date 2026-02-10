@@ -95,7 +95,9 @@ class ScheduleTripController extends StateNotifier<ScheduleTripState> {
       success: (data, _) {
         final newTrips = data;
         state = state.copyWith(
-          scheduledTrips: page == 1 ? newTrips : [...state.scheduledTrips, ...newTrips],
+          scheduledTrips: page == 1
+              ? newTrips
+              : [...state.scheduledTrips, ...newTrips],
           isLoadingTrips: false,
           currentPage: page,
           hasMore: newTrips.length >= limit,
@@ -228,10 +230,14 @@ class ScheduleTripController extends StateNotifier<ScheduleTripState> {
 
     result.when(
       success: (data, _) {
-        final updatedTrips = state.scheduledTrips.where((trip) => trip.id != tripId).toList();
+        final updatedTrips = state.scheduledTrips
+            .where((trip) => trip.id != tripId)
+            .toList();
         state = state.copyWith(
           scheduledTrips: updatedTrips,
-          currentTrip: state.currentTrip?.id == tripId ? null : state.currentTrip,
+          currentTrip: state.currentTrip?.id == tripId
+              ? null
+              : state.currentTrip,
           isCancellingTrip: false,
         );
       },

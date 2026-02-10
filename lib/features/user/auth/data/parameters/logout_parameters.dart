@@ -40,7 +40,10 @@ class LogoutParameters extends Parameters {
 
   @override
   int get hashCode =>
-      deviceType.hashCode ^ deviceToken.hashCode ^ deviceId.hashCode ^ cancelToken.hashCode;
+      deviceType.hashCode ^
+      deviceToken.hashCode ^
+      deviceId.hashCode ^
+      cancelToken.hashCode;
 
   @override
   String toString() =>

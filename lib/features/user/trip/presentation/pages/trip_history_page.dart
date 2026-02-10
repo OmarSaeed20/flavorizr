@@ -74,15 +74,22 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.history, size: 64, color: Theme.of(context).colorScheme.outline),
+            Icon(
+              Icons.history,
+              size: 64,
+              color: Theme.of(context).colorScheme.outline,
+            ),
             const SizedBox(height: 16),
-            Text('No trip history', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'No trip history',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             Text(
               'Your completed trips will appear here',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.outline),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.outline,
+              ),
             ),
           ],
         ),
@@ -92,7 +99,8 @@ class _TripHistoryPageState extends ConsumerState<TripHistoryPage> {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         if (notification is ScrollEndNotification &&
-            notification.metrics.pixels >= notification.metrics.maxScrollExtent - 200) {
+            notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent - 200) {
           ref.read(tripHistoryControllerProvider.notifier).loadMore();
         }
         return false;

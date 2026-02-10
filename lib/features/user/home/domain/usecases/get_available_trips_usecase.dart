@@ -11,7 +11,9 @@ class GetAvailableTripsUseCase
   final HomeRepository _repository;
 
   @override
-  Future<ApiResult<List<AvailableTrip>>> call(GetAvailableTripsParameters params) {
+  Future<ApiResult<List<AvailableTrip>>> call(
+    GetAvailableTripsParameters params,
+  ) {
     return _repository.getAvailableTrips(params);
   }
 }

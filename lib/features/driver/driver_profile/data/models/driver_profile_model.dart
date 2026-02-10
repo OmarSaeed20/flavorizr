@@ -60,7 +60,9 @@ class DriverProfileModel extends DriverProfile {
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
           : DateTime.now(),
-      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at'] as String) : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'] as String)
+          : null,
     );
   }
 
@@ -79,11 +81,14 @@ class DriverProfileModel extends DriverProfile {
       'gender': gender,
       if (nationalId != null) 'national_id': nationalId,
       if (nationalIdImage != null) 'national_id_image': nationalIdImage,
-      if (drivingLicenseImage != null) 'driving_license_image': drivingLicenseImage,
-      if (vehicleLicenseImage != null) 'vehicle_license_image': vehicleLicenseImage,
+      if (drivingLicenseImage != null)
+        'driving_license_image': drivingLicenseImage,
+      if (vehicleLicenseImage != null)
+        'vehicle_license_image': vehicleLicenseImage,
       if (vehicleImage != null) 'vehicle_image': vehicleImage,
       if (vehicleTypeId != null) 'vehicle_type_id': vehicleTypeId,
-      if (vehiclePlateNumber != null) 'vehicle_plate_number': vehiclePlateNumber,
+      if (vehiclePlateNumber != null)
+        'vehicle_plate_number': vehiclePlateNumber,
       'is_verified': isVerified,
       'is_active': isActive,
       'rating': rating,

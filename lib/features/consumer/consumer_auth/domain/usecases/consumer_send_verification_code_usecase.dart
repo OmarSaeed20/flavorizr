@@ -16,7 +16,9 @@ class ConsumerSendVerificationCodeUseCase
   final ConsumerAuthRepository _repository;
 
   @override
-  Future<Either<Failure, void>> call(ConsumerSendVerificationCodeParameters params) async {
+  Future<Either<Failure, void>> call(
+    ConsumerSendVerificationCodeParameters params,
+  ) async {
     // Validate phone number
     if (params.phone.isEmpty) {
       return const Left(ValidationFailure(message: 'Phone number is required'));
@@ -24,7 +26,9 @@ class ConsumerSendVerificationCodeUseCase
 
     // Validate phone ISO code
     if (params.phoneIsoCode.isEmpty) {
-      return const Left(ValidationFailure(message: 'Phone ISO code is required'));
+      return const Left(
+        ValidationFailure(message: 'Phone ISO code is required'),
+      );
     }
 
     // Call repository

@@ -64,11 +64,13 @@ class WebSocketConfig {
   }) {
     return WebSocketConfig(
       url: url ?? this.url,
-      initialReconnectDelay: initialReconnectDelay ?? this.initialReconnectDelay,
+      initialReconnectDelay:
+          initialReconnectDelay ?? this.initialReconnectDelay,
       maxReconnectDelay: maxReconnectDelay ?? this.maxReconnectDelay,
       maxReconnectAttempts: maxReconnectAttempts ?? this.maxReconnectAttempts,
       pingIntervalSeconds: pingIntervalSeconds ?? this.pingIntervalSeconds,
-      connectionTimeoutSeconds: connectionTimeoutSeconds ?? this.connectionTimeoutSeconds,
+      connectionTimeoutSeconds:
+          connectionTimeoutSeconds ?? this.connectionTimeoutSeconds,
     );
   }
 }
@@ -177,7 +179,8 @@ class WebSocketClient {
 
   /// Whether the client is attempting to connect or reconnect.
   bool get isConnecting =>
-      _state == WebSocketState.connecting || _state == WebSocketState.reconnecting;
+      _state == WebSocketState.connecting ||
+      _state == WebSocketState.reconnecting;
 
   /// Current number of reconnection attempts.
   int get reconnectAttempts => _reconnectAttempts;
@@ -190,7 +193,8 @@ class WebSocketClient {
   /// [authToken] - JWT token for authentication.
   /// Returns a Future that completes when connected or throws on failure.
   Future<void> connect({required String authToken}) async {
-    if (_state == WebSocketState.connected || _state == WebSocketState.connecting) {
+    if (_state == WebSocketState.connected ||
+        _state == WebSocketState.connecting) {
       AppLogger.instance.logDebug('WebSocket already connected or connecting');
       return;
     }
@@ -206,19 +210,28 @@ class WebSocketClient {
     _setState(WebSocketState.connecting);
 
     try {
-      final uri = Uri.parse(
-        _config.url,
-      ).replace(queryParameters: {'token': _authToken, 'client': 'flutter', 'version': '1.0.0'});
+      final uri = Uri.parse(_config.url).replace(
+        queryParameters: {
+          'token': _authToken,
+          'client': 'flutter',
+          'version': '1.0.0',
+        },
+      );
 
       AppLogger.instance.logDebug('WebSocket connecting to: ${uri.host}');
 
       // Set connection timeout
       final completer = Completer<void>();
-      _connectionTimer = Timer(Duration(seconds: _config.connectionTimeoutSeconds), () {
-        if (!completer.isCompleted) {
-          completer.completeError(TimeoutException('WebSocket connection timeout'));
-        }
-      });
+      _connectionTimer = Timer(
+        Duration(seconds: _config.connectionTimeoutSeconds),
+        () {
+          if (!completer.isCompleted) {
+            completer.completeError(
+              TimeoutException('WebSocket connection timeout'),
+            );
+          }
+        },
+      );
 
       _channel = WebSocketChannel.connect(uri);
 
@@ -246,7 +259,10 @@ class WebSocketClient {
 
       AppLogger.instance.logInfo('WebSocket connected successfully');
     } on TimeoutException catch (e) {
-      AppLogger.instance.logError('WebSocket connection timeout', data: {'error': e.toString()});
+      AppLogger.instance.logError(
+        'WebSocket connection timeout',
+        data: {'error': e.toString()},
+      );
       _errorController.add(e);
       _scheduleReconnect();
     } catch (e, s) {
@@ -281,7 +297,8 @@ class WebSocketClient {
 
       // Handle error responses from server
       if (json['type'] == 'error') {
-        final errorMessage = json['message'] as String? ?? 'Unknown server error';
+        final errorMessage =
+            json['message'] as String? ?? 'Unknown server error';
         AppLogger.instance.logWarning('WebSocket server error: $errorMessage');
         _errorController.add(Exception(errorMessage));
         return;
@@ -300,7 +317,10 @@ class WebSocketClient {
   }
 
   void _onError(Object error) {
-    AppLogger.instance.logError('WebSocket error', data: {'error': error.toString()});
+    AppLogger.instance.logError(
+      'WebSocket error',
+      data: {'error': error.toString()},
+    );
     _errorController.add(error);
 
     if (!_isManualClose) {
@@ -343,26 +363,34 @@ class WebSocketClient {
   }
 
   int _calculateReconnectDelay() {
-    final exponentialDelay = _config.initialReconnectDelay * (1 << _reconnectAttempts);
+    final exponentialDelay =
+        _config.initialReconnectDelay * (1 << _reconnectAttempts);
     final cappedDelay = exponentialDelay.clamp(
       _config.initialReconnectDelay,
       _config.maxReconnectDelay,
     );
 
     // Add jitter (±20%)
-    final jitter = (cappedDelay * 0.2 * (DateTime.now().millisecond / 500 - 1)).round();
+    final jitter = (cappedDelay * 0.2 * (DateTime.now().millisecond / 500 - 1))
+        .round();
 
     return cappedDelay + jitter;
   }
 
   void _startPingTimer() {
     _pingTimer?.cancel();
-    _pingTimer = Timer.periodic(Duration(seconds: _config.pingIntervalSeconds), (_) => _sendPing());
+    _pingTimer = Timer.periodic(
+      Duration(seconds: _config.pingIntervalSeconds),
+      (_) => _sendPing(),
+    );
   }
 
   void _sendPing() {
     if (isConnected) {
-      send(type: 'ping', data: {'timestamp': DateTime.now().millisecondsSinceEpoch});
+      send(
+        type: 'ping',
+        data: {'timestamp': DateTime.now().millisecondsSinceEpoch},
+      );
     }
   }
 
@@ -373,7 +401,9 @@ class WebSocketClient {
     }
 
     if (_messageQueue.isNotEmpty) {
-      AppLogger.instance.logDebug('${_messageQueue.length} messages still queued');
+      AppLogger.instance.logDebug(
+        '${_messageQueue.length} messages still queued',
+      );
     }
   }
 
@@ -409,7 +439,9 @@ class WebSocketClient {
       _sendRaw(message);
     } else if (queueIfDisconnected) {
       _messageQueue.add(message);
-      AppLogger.instance.logDebug('Message queued (connection not ready): $type');
+      AppLogger.instance.logDebug(
+        'Message queued (connection not ready): $type',
+      );
     } else {
       AppLogger.instance.logWarning('Message dropped (not connected): $type');
     }
@@ -436,7 +468,9 @@ class WebSocketClient {
   /// Useful when the app comes back to foreground or network is restored.
   Future<void> reconnect() async {
     if (_authToken == null) {
-      throw StateError('Cannot reconnect without auth token. Call connect() first.');
+      throw StateError(
+        'Cannot reconnect without auth token. Call connect() first.',
+      );
     }
 
     _isManualClose = false;

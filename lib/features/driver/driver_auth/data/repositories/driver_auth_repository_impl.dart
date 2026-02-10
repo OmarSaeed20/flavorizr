@@ -14,7 +14,8 @@ import 'package:fast_golden_taxi/features/driver/driver_auth/domain/repositories
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Based on the FAST App API documentation.
-class DriverAuthRepositoryImpl extends BaseRepository implements DriverAuthRepository {
+class DriverAuthRepositoryImpl extends BaseRepository
+    implements DriverAuthRepository {
   final DriverAuthRemoteDataSource _remoteDataSource;
   final DriverAuthLocalDataSource _localDataSource;
 
@@ -41,7 +42,9 @@ class DriverAuthRepositoryImpl extends BaseRepository implements DriverAuthRepos
         .withPassword(password)
         .build();
 
-    final result = await executeRemoteRequest(request: () => _remoteDataSource.login(parameters));
+    final result = await executeRemoteRequest(
+      request: () => _remoteDataSource.login(parameters),
+    );
 
     return result.when(
       success: (data, _) async {
@@ -137,7 +140,9 @@ class DriverAuthRepositoryImpl extends BaseRepository implements DriverAuthRepos
 
   @override
   Future<ApiResult<void>> forgetPassword({required String phone}) async {
-    return executeRemoteRequest(request: () => _remoteDataSource.forgetPassword(phone: phone));
+    return executeRemoteRequest(
+      request: () => _remoteDataSource.forgetPassword(phone: phone),
+    );
   }
 
   @override
@@ -154,12 +159,16 @@ class DriverAuthRepositoryImpl extends BaseRepository implements DriverAuthRepos
         .withPasswordConfirmation(passwordConfirmation)
         .build();
 
-    return executeRemoteRequest(request: () => _remoteDataSource.resetPassword(parameters));
+    return executeRemoteRequest(
+      request: () => _remoteDataSource.resetPassword(parameters),
+    );
   }
 
   @override
   Future<ApiResult<void>> logout() async {
-    final result = await executeRemoteRequest(request: _remoteDataSource.logout);
+    final result = await executeRemoteRequest(
+      request: _remoteDataSource.logout,
+    );
 
     return result.when(
       success: (_, __) async {
@@ -176,7 +185,9 @@ class DriverAuthRepositoryImpl extends BaseRepository implements DriverAuthRepos
 
   @override
   Future<ApiResult<DriverCredentials>> refreshToken() async {
-    final result = await executeRemoteRequest(request: _remoteDataSource.refreshToken);
+    final result = await executeRemoteRequest(
+      request: _remoteDataSource.refreshToken,
+    );
 
     return result.when(
       success: (data, _) => ApiResult.success(data.toEntity()),

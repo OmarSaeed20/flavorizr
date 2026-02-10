@@ -10,7 +10,8 @@ import 'package:fast_golden_taxi/features/user/direct_booking/domain/entities/ve
 import 'package:fast_golden_taxi/features/user/direct_booking/domain/repositories/direct_booking_repository.dart';
 
 /// Implementation of [DirectBookingRepository].
-class DirectBookingRepositoryImpl extends BaseRepository implements DirectBookingRepository {
+class DirectBookingRepositoryImpl extends BaseRepository
+    implements DirectBookingRepository {
   final DirectBookingRemoteDataSource _remoteDataSource;
 
   DirectBookingRepositoryImpl({
@@ -24,7 +25,9 @@ class DirectBookingRepositoryImpl extends BaseRepository implements DirectBookin
   NetworkInfo get networkInfo => _networkInfo;
 
   @override
-  Future<ApiResult<BookingResponse>> createBooking(CreateBookingParameters params) async {
+  Future<ApiResult<BookingResponse>> createBooking(
+    CreateBookingParameters params,
+  ) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.createBooking(params),
     );
@@ -35,21 +38,27 @@ class DirectBookingRepositoryImpl extends BaseRepository implements DirectBookin
   }
 
   @override
-  Future<ApiResult<List<TaxiDriver>>> getNearbyDrivers(GetNearbyDriversParameters params) async {
+  Future<ApiResult<List<TaxiDriver>>> getNearbyDrivers(
+    GetNearbyDriversParameters params,
+  ) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.getNearbyDrivers(params),
     );
     return result.map(
-      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) =>
+          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }
 
   @override
   Future<ApiResult<List<VehicleType>>> getVehicleTypes() async {
-    final result = await executeRemoteRequest(request: _remoteDataSource.getVehicleTypes);
+    final result = await executeRemoteRequest(
+      request: _remoteDataSource.getVehicleTypes,
+    );
     return result.map(
-      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) =>
+          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }

@@ -63,7 +63,9 @@ class SaveBiometricCredentialsParametersBuilder
 
   /// Set cancel token
   @override
-  SaveBiometricCredentialsParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SaveBiometricCredentialsParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

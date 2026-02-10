@@ -16,11 +16,13 @@ class BookNowOrderParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static BookNowOrderParametersBuilder builder() => BookNowOrderParametersBuilder();
+  static BookNowOrderParametersBuilder builder() =>
+      BookNowOrderParametersBuilder();
 }
 
 /// Builder for BookNowOrderParameters.
-class BookNowOrderParametersBuilder extends ParametersBuilder<BookNowOrderParameters> {
+class BookNowOrderParametersBuilder
+    extends ParametersBuilder<BookNowOrderParameters> {
   int? _orderId;
   CancelToken? _cancelToken;
 
@@ -37,6 +39,9 @@ class BookNowOrderParametersBuilder extends ParametersBuilder<BookNowOrderParame
 
   @override
   BookNowOrderParameters build() {
-    return BookNowOrderParameters._(orderId: _orderId!, cancelToken: _cancelToken);
+    return BookNowOrderParameters._(
+      orderId: _orderId!,
+      cancelToken: _cancelToken,
+    );
   }
 }

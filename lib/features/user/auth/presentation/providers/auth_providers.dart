@@ -24,7 +24,9 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
   return const FlutterSecureStorage(
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+    ),
   );
 });
 
@@ -81,7 +83,10 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
     appleSignIn: () async {
       try {
         final credential = await SignInWithApple.getAppleIDCredential(
-          scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName],
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
         );
         return (
           idToken: credential.identityToken ?? '',
@@ -142,11 +147,12 @@ final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>((ref) {
 });
 
 /// Provider for CheckBiometricAvailabilityUseCase.
-final checkBiometricAvailabilityUseCaseProvider = Provider<CheckBiometricAvailabilityUseCase>((
-  ref,
-) {
-  return CheckBiometricAvailabilityUseCase(ref.watch(authRepositoryProvider));
-});
+final checkBiometricAvailabilityUseCaseProvider =
+    Provider<CheckBiometricAvailabilityUseCase>((ref) {
+      return CheckBiometricAvailabilityUseCase(
+        ref.watch(authRepositoryProvider),
+      );
+    });
 
 /// Provider for BiometricSignInUseCase.
 final biometricSignInUseCaseProvider = Provider<BiometricSignInUseCase>((ref) {

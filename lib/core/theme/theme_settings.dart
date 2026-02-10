@@ -129,8 +129,13 @@ class ThemeSettings {
           other.useHighContrast == useHighContrast;
 
   @override
-  int get hashCode =>
-      Object.hash(themeMode, useDynamicColor, useOledBlack, textScaleFactor, useHighContrast);
+  int get hashCode => Object.hash(
+    themeMode,
+    useDynamicColor,
+    useOledBlack,
+    textScaleFactor,
+    useHighContrast,
+  );
 
   @override
   String toString() =>

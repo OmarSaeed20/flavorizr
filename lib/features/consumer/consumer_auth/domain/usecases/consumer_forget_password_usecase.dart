@@ -9,13 +9,16 @@ import 'package:fast_golden_taxi/features/consumer/consumer_auth/domain/reposito
 ///
 /// Handles the business logic for requesting password reset code.
 /// Validates input parameters and delegates to repository.
-class ConsumerForgetPasswordUseCase extends BaseUseCase<void, ConsumerForgetPasswordParameters> {
+class ConsumerForgetPasswordUseCase
+    extends BaseUseCase<void, ConsumerForgetPasswordParameters> {
   const ConsumerForgetPasswordUseCase(this._repository);
 
   final ConsumerAuthRepository _repository;
 
   @override
-  Future<Either<Failure, void>> call(ConsumerForgetPasswordParameters params) async {
+  Future<Either<Failure, void>> call(
+    ConsumerForgetPasswordParameters params,
+  ) async {
     // Validate phone number
     if (params.phone.isEmpty) {
       return const Left(ValidationFailure(message: 'Phone number is required'));
@@ -23,7 +26,9 @@ class ConsumerForgetPasswordUseCase extends BaseUseCase<void, ConsumerForgetPass
 
     // Validate phone ISO code
     if (params.phoneIsoCode.isEmpty) {
-      return const Left(ValidationFailure(message: 'Phone ISO code is required'));
+      return const Left(
+        ValidationFailure(message: 'Phone ISO code is required'),
+      );
     }
 
     // Call repository

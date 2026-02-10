@@ -1,7 +1,6 @@
 // lib/features/company/company_profile/presentation/pages/company_edit_profile_page.dart
 import 'dart:io';
 
-import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
 import 'package:fast_golden_taxi/features/company/company_profile/data/parameters/update_company_profile_parameters.dart';
@@ -20,10 +19,12 @@ class CompanyEditProfilePage extends ConsumerStatefulWidget {
   const CompanyEditProfilePage({super.key});
 
   @override
-  ConsumerState<CompanyEditProfilePage> createState() => _CompanyEditProfilePageState();
+  ConsumerState<CompanyEditProfilePage> createState() =>
+      _CompanyEditProfilePageState();
 }
 
-class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage> {
+class _CompanyEditProfilePageState
+    extends ConsumerState<CompanyEditProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _nicknameController = TextEditingController();
@@ -62,14 +63,26 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
     }
 
     final parameters = UpdateCompanyProfileParameters(
-      name: _nameController.text.trim().isEmpty ? null : _nameController.text.trim(),
-      nickname: _nicknameController.text.trim().isEmpty ? null : _nicknameController.text.trim(),
-      email: _emailController.text.trim().isEmpty ? null : _emailController.text.trim(),
-      address: _addressController.text.trim().isEmpty ? null : _addressController.text.trim(),
-      bio: _bioController.text.trim().isEmpty ? null : _bioController.text.trim(),
+      name: _nameController.text.trim().isEmpty
+          ? null
+          : _nameController.text.trim(),
+      nickname: _nicknameController.text.trim().isEmpty
+          ? null
+          : _nicknameController.text.trim(),
+      email: _emailController.text.trim().isEmpty
+          ? null
+          : _emailController.text.trim(),
+      address: _addressController.text.trim().isEmpty
+          ? null
+          : _addressController.text.trim(),
+      bio: _bioController.text.trim().isEmpty
+          ? null
+          : _bioController.text.trim(),
     );
 
-    await ref.read(companyProfileControllerProvider.notifier).updateProfileInfo(parameters);
+    await ref
+        .read(companyProfileControllerProvider.notifier)
+        .updateProfileInfo(parameters);
   }
 
   @override
@@ -86,7 +99,10 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
       _bioController.text = user.bio ?? '';
     }
 
-    ref.listen<CompanyProfileState>(companyProfileControllerProvider, (previous, next) {
+    ref.listen<CompanyProfileState>(companyProfileControllerProvider, (
+      previous,
+      next,
+    ) {
       next.maybeWhen(
         updated: (_) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -99,7 +115,10 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
         },
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.message), backgroundColor: AppColors.of(context).error),
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: AppColors.of(context).error,
+            ),
           );
         },
         orElse: () {},
@@ -109,7 +128,9 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
-        actions: [TextButton(onPressed: _handleSave, child: const Text('Save'))],
+        actions: [
+          TextButton(onPressed: _handleSave, child: const Text('Save')),
+        ],
       ),
       body: Stack(
         children: [
@@ -132,7 +153,9 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
                                 radius: 60,
                                 backgroundImage: _selectedImagePath != null
                                     ? null
-                                    : (user?.image != null ? NetworkImage(user!.image!) : null),
+                                    : (user?.image != null
+                                          ? NetworkImage(user!.image!)
+                                          : null),
                                 child: _selectedImagePath != null
                                     ? null
                                     : (user?.image == null
@@ -158,7 +181,11 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
                                   ),
                                   child: const Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Icon(Icons.camera_alt, color: Colors.white, size: 20),
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -168,9 +195,9 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
                         const SizedBox(height: 8),
                         Text(
                           'Tap to change photo',
-                          style: AppTextStyles.of(
-                            context,
-                          ).bodySmall.copyWith(color: AppColors.of(context).textSecondary),
+                          style: AppTextStyles.of(context).bodySmall.copyWith(
+                            color: AppColors.of(context).textSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -216,7 +243,9 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value != null && value.trim().isNotEmpty) {
-                        final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                        final emailRegex = RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        );
                         if (!emailRegex.hasMatch(value.trim())) {
                           return 'Invalid email format';
                         }
@@ -256,11 +285,16 @@ class _CompanyEditProfilePageState extends ConsumerState<CompanyEditProfilePage>
                       onPressed: _handleSave,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: const Text(
                         'Save Changes',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

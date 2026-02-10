@@ -1,14 +1,14 @@
 // lib/features/company/company_auth/presentation/pages/company_reset_password_page.dart
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/parameters/company_reset_password_parameters.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/controllers/company_auth_controller.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/providers/company_auth_providers.dart';
 import 'package:fast_golden_taxi/shared/widgets/loading_overlay.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// Company Reset Password Page
 ///
@@ -17,10 +17,12 @@ class CompanyResetPasswordPage extends ConsumerStatefulWidget {
   const CompanyResetPasswordPage({super.key});
 
   @override
-  ConsumerState<CompanyResetPasswordPage> createState() => _CompanyResetPasswordPageState();
+  ConsumerState<CompanyResetPasswordPage> createState() =>
+      _CompanyResetPasswordPageState();
 }
 
-class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordPage> {
+class _CompanyResetPasswordPageState
+    extends ConsumerState<CompanyResetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _confirmationCodeController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -57,7 +59,7 @@ class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordP
     if (_phone == null || _phoneIsoCode == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Phone information missing. Please try again.'),
+          content: const Text('Phone information missing. Please try again.'),
           backgroundColor: AppColors.of(context).error,
         ),
       );
@@ -72,19 +74,24 @@ class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordP
       passwordConfirmation: _passwordConfirmationController.text,
     );
 
-    await ref.read(companyAuthControllerProvider.notifier).resetPassword(parameters);
+    await ref
+        .read(companyAuthControllerProvider.notifier)
+        .resetPassword(parameters);
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(companyAuthControllerProvider);
 
-    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (previous, next) {
+    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (
+      previous,
+      next,
+    ) {
       next.maybeWhen(
         passwordReset: () {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Password reset successfully'),
+              content: const Text('Password reset successfully'),
               backgroundColor: AppColors.of(context).success,
             ),
           );
@@ -92,14 +99,20 @@ class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordP
         },
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.message), backgroundColor: AppColors.of(context).error),
+            SnackBar(
+              content: Text(error.message),
+              backgroundColor: AppColors.of(context).error,
+            ),
           );
         },
         orElse: () {},
       );
     });
 
-    final isLoading = authState.maybeWhen(loading: () => true, orElse: () => false);
+    final isLoading = authState.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text('Reset Password')),
@@ -123,7 +136,11 @@ class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordP
                           color: AppColors.of(context).primary.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(50),
                         ),
-                        child: Icon(Icons.password, size: 60, color: AppColors.of(context).primary),
+                        child: Icon(
+                          Icons.password,
+                          size: 60,
+                          color: AppColors.of(context).primary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -136,9 +153,9 @@ class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordP
                     const SizedBox(height: 8),
                     Text(
                       'Enter the verification code and your new password',
-                      style: AppTextStyles.of(
-                        context,
-                      ).bodyMedium.copyWith(color: AppColors.of(context).textSecondary),
+                      style: AppTextStyles.of(context).bodyMedium.copyWith(
+                        color: AppColors.of(context).textSecondary,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 48),
@@ -216,7 +233,8 @@ class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordP
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
                             });
                           },
                         ),
@@ -238,11 +256,16 @@ class _CompanyResetPasswordPageState extends ConsumerState<CompanyResetPasswordP
                       onPressed: _handleResetPassword,
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       child: const Text(
                         'Reset Password',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

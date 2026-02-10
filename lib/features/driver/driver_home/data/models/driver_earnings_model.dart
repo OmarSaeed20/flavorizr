@@ -26,7 +26,9 @@ class DriverEarningsModel extends DriverEarnings {
       monthlyTrips: json['monthlyTrips'] ?? 0,
       totalTrips: json['totalTrips'] ?? 0,
       averageRating: (json['averageRating'] ?? 0.0).toDouble(),
-      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+      lastUpdated: DateTime.parse(
+        json['lastUpdated'] ?? DateTime.now().toIso8601String(),
+      ),
     );
   }
 

@@ -32,16 +32,24 @@ abstract class ConsumerAuthRemoteDataSource {
   Future<ApiResult<void>> logout(ConsumerLogoutParameters parameters);
 
   /// Sends verification code to consumer's phone.
-  Future<ApiResult<void>> sendVerificationCode(ConsumerSendVerificationCodeParameters parameters);
+  Future<ApiResult<void>> sendVerificationCode(
+    ConsumerSendVerificationCodeParameters parameters,
+  );
 
   /// Verifies consumer phone number with verification code.
-  Future<ApiResult<AuthResult>> verifyPhone(ConsumerVerifyPhoneParameters parameters);
+  Future<ApiResult<AuthResult>> verifyPhone(
+    ConsumerVerifyPhoneParameters parameters,
+  );
 
   /// Resets password with token.
-  Future<ApiResult<void>> resetPassword(ConsumerResetPasswordParameters parameters);
+  Future<ApiResult<void>> resetPassword(
+    ConsumerResetPasswordParameters parameters,
+  );
 
   /// Requests password reset code.
-  Future<ApiResult<void>> forgetPassword(ConsumerForgetPasswordParameters parameters);
+  Future<ApiResult<void>> forgetPassword(
+    ConsumerForgetPasswordParameters parameters,
+  );
 
   /// Gets current consumer profile.
   Future<ApiResult<UserModel>> getCurrentUser();
@@ -67,7 +75,9 @@ class ConsumerAuthRemoteDataSourceImpl
   String get baseUrl => _apiClient.dio.options.baseUrl;
 
   @override
-  Future<ApiResult<AuthResult>> login(ConsumerLoginParameters parameters) async {
+  Future<ApiResult<AuthResult>> login(
+    ConsumerLoginParameters parameters,
+  ) async {
     return post<AuthResult>(
       path: ConsumerAuthEndpoints.login,
       data: parameters.toJson(),
@@ -77,7 +87,9 @@ class ConsumerAuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<AuthResult>> register(ConsumerRegisterParameters parameters) async {
+  Future<ApiResult<AuthResult>> register(
+    ConsumerRegisterParameters parameters,
+  ) async {
     return post<AuthResult>(
       path: ConsumerAuthEndpoints.register,
       data: parameters.toJson(),
@@ -107,7 +119,9 @@ class ConsumerAuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<AuthResult>> verifyPhone(ConsumerVerifyPhoneParameters parameters) async {
+  Future<ApiResult<AuthResult>> verifyPhone(
+    ConsumerVerifyPhoneParameters parameters,
+  ) async {
     return post<AuthResult>(
       path: ConsumerAuthEndpoints.verifyPhone,
       data: parameters.toJson(),
@@ -117,7 +131,9 @@ class ConsumerAuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> resetPassword(ConsumerResetPasswordParameters parameters) async {
+  Future<ApiResult<void>> resetPassword(
+    ConsumerResetPasswordParameters parameters,
+  ) async {
     return post<void>(
       path: ConsumerAuthEndpoints.resetPassword,
       data: parameters.toJson(),
@@ -126,7 +142,9 @@ class ConsumerAuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> forgetPassword(ConsumerForgetPasswordParameters parameters) async {
+  Future<ApiResult<void>> forgetPassword(
+    ConsumerForgetPasswordParameters parameters,
+  ) async {
     return post<void>(
       path: ConsumerAuthEndpoints.forgetPassword,
       data: parameters.toJson(),
@@ -140,7 +158,9 @@ class ConsumerAuthRemoteDataSourceImpl
       path: ConsumerAuthEndpoints.profile,
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
-        return UserModel.fromJson(jsonData['user'] as Map<String, dynamic>? ?? jsonData);
+        return UserModel.fromJson(
+          jsonData['user'] as Map<String, dynamic>? ?? jsonData,
+        );
       },
     );
   }
@@ -155,7 +175,8 @@ class ConsumerAuthRemoteDataSourceImpl
     return post<AuthTokens>(
       path: ConsumerAuthEndpoints.refreshToken,
       data: {'refresh_token': refreshToken},
-      decoder: (data) => AuthTokens.fromApiResponse(data as Map<String, dynamic>),
+      decoder: (data) =>
+          AuthTokens.fromApiResponse(data as Map<String, dynamic>),
     );
   }
 

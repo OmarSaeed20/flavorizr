@@ -16,7 +16,8 @@ class GetDriverTripById {
       success: (trips, _) {
         final trip = trips.firstWhere(
           (t) => t.id == tripId,
-          orElse: () => throw const NotFoundException(message: 'Trip not found'),
+          orElse: () =>
+              throw const NotFoundException(message: 'Trip not found'),
         );
         return ApiResult.success(trip);
       },

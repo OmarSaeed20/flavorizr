@@ -53,7 +53,8 @@ class UpdateCompanyProfileParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
-  UpdateCompanyProfileParametersBuilder builder() => UpdateCompanyProfileParametersBuilder();
+  UpdateCompanyProfileParametersBuilder builder() =>
+      UpdateCompanyProfileParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -182,7 +183,9 @@ class UpdateCompanyProfileParametersBuilder
   }
 
   @override
-  ParametersBuilder<UpdateCompanyProfileParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<UpdateCompanyProfileParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

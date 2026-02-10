@@ -8,9 +8,11 @@ class UpdateProfileImageParameters extends Parameters {
   final String _profileImage;
   final CancelToken? _cancelToken;
 
-  const UpdateProfileImageParameters._({required String profileImage, CancelToken? cancelToken})
-    : _profileImage = profileImage,
-      _cancelToken = cancelToken;
+  const UpdateProfileImageParameters._({
+    required String profileImage,
+    CancelToken? cancelToken,
+  }) : _profileImage = profileImage,
+       _cancelToken = cancelToken;
 
   /// Convert to JSON for API request
   @override
@@ -23,11 +25,13 @@ class UpdateProfileImageParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateProfileImageParametersBuilder builder() => UpdateProfileImageParametersBuilder();
+  static UpdateProfileImageParametersBuilder builder() =>
+      UpdateProfileImageParametersBuilder();
 }
 
 /// Builder for UpdateProfileImageParameters
-class UpdateProfileImageParametersBuilder extends ParametersBuilder<UpdateProfileImageParameters> {
+class UpdateProfileImageParametersBuilder
+    extends ParametersBuilder<UpdateProfileImageParameters> {
   String? _profileImage;
   CancelToken? _cancelToken;
 
@@ -39,7 +43,9 @@ class UpdateProfileImageParametersBuilder extends ParametersBuilder<UpdateProfil
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateProfileImageParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UpdateProfileImageParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -50,6 +56,9 @@ class UpdateProfileImageParametersBuilder extends ParametersBuilder<UpdateProfil
     if (_profileImage == null) {
       throw ArgumentError('Profile image is required');
     }
-    return UpdateProfileImageParameters._(profileImage: _profileImage!, cancelToken: _cancelToken);
+    return UpdateProfileImageParameters._(
+      profileImage: _profileImage!,
+      cancelToken: _cancelToken,
+    );
   }
 }

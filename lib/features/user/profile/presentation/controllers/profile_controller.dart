@@ -48,7 +48,10 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final result = await _getProfile(const NoParams());
 
     if (result.error != null) {
-      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: result.error!.message,
+      );
       return;
     }
 
@@ -64,7 +67,10 @@ class ProfileController extends AutoDisposeNotifier<ProfileState> {
     final result = await _getProfileDetail(const NoParams());
 
     if (result.error != null) {
-      state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: result.error!.message,
+      );
       return;
     }
 

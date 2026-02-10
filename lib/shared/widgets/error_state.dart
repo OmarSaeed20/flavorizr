@@ -1,8 +1,6 @@
 // lib/shared/widgets/error_state.dart
 import 'package:fast_golden_taxi/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:fast_golden_taxi/core/theme/app_colors.dart';
-import 'package:fast_golden_taxi/core/theme/color_schemes.dart';
 
 /// Error State Widget
 ///
@@ -22,7 +20,13 @@ class ErrorState extends StatelessWidget {
   final VoidCallback? onRetry;
   final IconData? icon;
 
-  const ErrorState({super.key, required this.message, this.details, this.onRetry, this.icon});
+  const ErrorState({
+    super.key,
+    required this.message,
+    this.details,
+    this.onRetry,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +37,17 @@ class ErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon ?? Icons.error_outline, size: 64, color: theme.colorScheme.error),
+            Icon(
+              icon ?? Icons.error_outline,
+              size: 64,
+              color: theme.colorScheme.error,
+            ),
             const SizedBox(height: 16),
-            Text(message, style: theme.textTheme.titleLarge, textAlign: TextAlign.center),
+            Text(
+              message,
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
             if (details != null) ...[
               const SizedBox(height: 8),
               Text(
@@ -87,7 +99,13 @@ class EmptyState extends StatelessWidget {
   final IconData? icon;
   final Widget? action;
 
-  const EmptyState({super.key, required this.message, this.subMessage, this.icon, this.action});
+  const EmptyState({
+    super.key,
+    required this.message,
+    this.subMessage,
+    this.icon,
+    this.action,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +122,11 @@ class EmptyState extends StatelessWidget {
               color: theme.colorScheme.onSurface.withOpacity(0.6),
             ),
             const SizedBox(height: 16),
-            Text(message, style: theme.textTheme.titleLarge, textAlign: TextAlign.center),
+            Text(
+              message,
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
             if (subMessage != null) ...[
               const SizedBox(height: 8),
               Text(

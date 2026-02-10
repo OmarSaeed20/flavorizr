@@ -32,8 +32,11 @@ class TripOrderModel {
       tripId: json['trip_id'] as String? ?? json['tripId'] as String,
       userId: json['user_id'] as String? ?? json['userId'] as String,
       status: OrderStatus.fromString(json['status'] as String? ?? 'pending'),
-      paymentStatus: PaymentStatus.fromString(json['payment_status'] as String? ?? 'pending'),
-      paymentMethod: json['payment_method'] as String? ?? json['paymentMethod'] as String?,
+      paymentStatus: PaymentStatus.fromString(
+        json['payment_status'] as String? ?? 'pending',
+      ),
+      paymentMethod:
+          json['payment_method'] as String? ?? json['paymentMethod'] as String?,
       totalAmount: (json['total_amount'] as num?)?.toDouble(),
       currency: json['currency'] as String? ?? 'USD',
       discountAmount: (json['discount_amount'] as num?)?.toDouble(),

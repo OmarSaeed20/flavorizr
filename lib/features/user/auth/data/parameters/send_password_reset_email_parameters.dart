@@ -8,14 +8,18 @@ class SendPasswordResetEmailParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  const SendPasswordResetEmailParameters({required this.email, this.cancelToken});
+  const SendPasswordResetEmailParameters({
+    required this.email,
+    this.cancelToken,
+  });
 
   /// Convert to JSON for API request
   @override
   Map<String, dynamic> toJson() => {'email': email};
 
   /// Create a builder for this parameters type
-  SendPasswordResetEmailParametersBuilder builder() => SendPasswordResetEmailParametersBuilder();
+  SendPasswordResetEmailParametersBuilder builder() =>
+      SendPasswordResetEmailParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -29,7 +33,8 @@ class SendPasswordResetEmailParameters extends Parameters {
   int get hashCode => email.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() => 'SendPasswordResetEmailParameters(email: $email, cancelToken: $cancelToken)';
+  String toString() =>
+      'SendPasswordResetEmailParameters(email: $email, cancelToken: $cancelToken)';
 }
 
 /// Builder for SendPasswordResetEmailParameters
@@ -48,7 +53,9 @@ class SendPasswordResetEmailParametersBuilder
 
   /// Set cancel token
   @override
-  SendPasswordResetEmailParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SendPasswordResetEmailParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
@@ -56,6 +63,9 @@ class SendPasswordResetEmailParametersBuilder
   /// Build the parameters object
   @override
   SendPasswordResetEmailParameters build() {
-    return SendPasswordResetEmailParameters(email: _email!, cancelToken: _cancelToken);
+    return SendPasswordResetEmailParameters(
+      email: _email!,
+      cancelToken: _cancelToken,
+    );
   }
 }

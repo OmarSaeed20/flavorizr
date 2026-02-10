@@ -55,7 +55,10 @@ class _DriverProfilePageState extends ConsumerState<DriverProfilePage> {
                   const SizedBox(height: 16),
                   Text(state.error!, textAlign: TextAlign.center),
                   const SizedBox(height: 16),
-                  ElevatedButton(onPressed: _loadData, child: const Text('Retry')),
+                  ElevatedButton(
+                    onPressed: _loadData,
+                    child: const Text('Retry'),
+                  ),
                 ],
               ),
             )
@@ -66,9 +69,11 @@ class _DriverProfilePageState extends ConsumerState<DriverProfilePage> {
               child: ListView(
                 padding: const EdgeInsets.all(16.0),
                 children: [
-                  if (state.profile != null) DriverProfileHeader(profile: state.profile!),
+                  if (state.profile != null)
+                    DriverProfileHeader(profile: state.profile!),
                   const SizedBox(height: 16),
-                  if (state.vehicle != null) DriverVehicleCard(vehicle: state.vehicle!),
+                  if (state.vehicle != null)
+                    DriverVehicleCard(vehicle: state.vehicle!),
                   const SizedBox(height: 16),
                   DriverDocumentsList(
                     documents: state.documents,

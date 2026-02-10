@@ -26,7 +26,10 @@ class DriverVehicleCard extends StatelessWidget {
                 const Spacer(),
                 if (vehicle.isActive)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.green.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -77,10 +80,16 @@ class DriverVehicleCard extends StatelessWidget {
       children: [
         SizedBox(
           width: 120,
-          child: Text('$label:', style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+          child: Text(
+            '$label:',
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+          ),
         ),
         Expanded(
-          child: Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+          child: Text(
+            value,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
         ),
       ],
     );

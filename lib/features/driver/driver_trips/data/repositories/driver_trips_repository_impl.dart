@@ -19,7 +19,8 @@ import 'package:fast_golden_taxi/features/driver/driver_trips/domain/repositorie
 ///
 /// Extends BaseRepository for consistent error handling and network checks.
 /// Provides offline capability with local caching.
-class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRepository {
+class DriverTripsRepositoryImpl extends BaseRepository
+    implements DriverTripsRepository {
   final DriverTripsRemoteDataSource _remoteDataSource;
   final DriverTripsLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
@@ -37,7 +38,9 @@ class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRep
 
   @override
   Future<ApiResult<DriverTrip>> acceptTrip(String tripId) async {
-    final parameters = AcceptTripParameters.builder().withTripId(tripId).build();
+    final parameters = AcceptTripParameters.builder()
+        .withTripId(tripId)
+        .build();
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.acceptTrip(parameters),
     );
@@ -50,7 +53,9 @@ class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRep
 
   @override
   Future<ApiResult<void>> rejectTrip(String tripId) async {
-    final parameters = RejectTripParameters.builder().withTripId(tripId).build();
+    final parameters = RejectTripParameters.builder()
+        .withTripId(tripId)
+        .build();
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.rejectTrip(parameters),
     );
@@ -77,7 +82,9 @@ class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRep
   @override
   Future<ApiResult<DriverTrip>> arrived(String tripId) async {
     final parameters = ArrivedParameters.builder().withTripId(tripId).build();
-    final result = await executeRemoteRequest(request: () => _remoteDataSource.arrived(parameters));
+    final result = await executeRemoteRequest(
+      request: () => _remoteDataSource.arrived(parameters),
+    );
 
     return result.when(
       success: (data, _) => ApiResult.success(data),
@@ -87,7 +94,9 @@ class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRep
 
   @override
   Future<ApiResult<DriverTrip>> completeTrip(String tripId) async {
-    final parameters = CompleteTripParameters.builder().withTripId(tripId).build();
+    final parameters = CompleteTripParameters.builder()
+        .withTripId(tripId)
+        .build();
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.completeTrip(parameters),
     );
@@ -100,7 +109,9 @@ class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRep
 
   @override
   Future<ApiResult<void>> cancelTrip(String tripId) async {
-    final parameters = CancelTripParameters.builder().withTripId(tripId).build();
+    final parameters = CancelTripParameters.builder()
+        .withTripId(tripId)
+        .build();
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.cancelTrip(parameters),
     );
@@ -163,7 +174,10 @@ class DriverTripsRepositoryImpl extends BaseRepository implements DriverTripsRep
   }
 
   @override
-  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({String? date, String? status}) async {
+  Future<ApiResult<List<DriverTrip>>> getScheduleRequests({
+    String? date,
+    String? status,
+  }) async {
     final builder = GetScheduleRequestsParameters.builder();
     if (date != null) builder.withDate(date);
     if (status != null) builder.withStatus(status);

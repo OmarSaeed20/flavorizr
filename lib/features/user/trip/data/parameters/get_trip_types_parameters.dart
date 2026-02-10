@@ -30,11 +30,13 @@ class GetTripTypesParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  static GetTripTypesParametersBuilder builder() => GetTripTypesParametersBuilder();
+  static GetTripTypesParametersBuilder builder() =>
+      GetTripTypesParametersBuilder();
 }
 
 /// Builder for GetTripTypesParameters.
-class GetTripTypesParametersBuilder extends ParametersBuilder<GetTripTypesParameters> {
+class GetTripTypesParametersBuilder
+    extends ParametersBuilder<GetTripTypesParameters> {
   double? _pickupLatitude;
   double? _pickupLongitude;
   double? _destinationLatitude;
@@ -51,12 +53,16 @@ class GetTripTypesParametersBuilder extends ParametersBuilder<GetTripTypesParame
     return this;
   }
 
-  GetTripTypesParametersBuilder withDestinationLatitude(double destinationLatitude) {
+  GetTripTypesParametersBuilder withDestinationLatitude(
+    double destinationLatitude,
+  ) {
     _destinationLatitude = destinationLatitude;
     return this;
   }
 
-  GetTripTypesParametersBuilder withDestinationLongitude(double destinationLongitude) {
+  GetTripTypesParametersBuilder withDestinationLongitude(
+    double destinationLongitude,
+  ) {
     _destinationLongitude = destinationLongitude;
     return this;
   }

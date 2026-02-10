@@ -32,9 +32,8 @@ const String _kThemeSettingsKey = 'theme_settings';
 ///
 /// Consumers should `watch` this provider to rebuild when the user
 /// changes any theme preference.
-final themeControllerProvider = NotifierProvider<ThemeController, ThemeSettings>(
-  ThemeController.new,
-);
+final themeControllerProvider =
+    NotifierProvider<ThemeController, ThemeSettings>(ThemeController.new);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONTROLLER

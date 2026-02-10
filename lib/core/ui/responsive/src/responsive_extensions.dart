@@ -60,11 +60,21 @@ extension ResponsiveContextExtension on BuildContext {
 
   /// Returns value based on device type (mobile, tablet, desktop)
   T byDevice<T>({required T mobile, T? tablet, T? desktop}) {
-    return responsive.byDevice(mobile: mobile, tablet: tablet, desktop: desktop);
+    return responsive.byDevice(
+      mobile: mobile,
+      tablet: tablet,
+      desktop: desktop,
+    );
   }
 
   /// Returns value based on window size class
-  T byWindowSize<T>({required T compact, T? medium, T? expanded, T? large, T? extraLarge}) {
+  T byWindowSize<T>({
+    required T compact,
+    T? medium,
+    T? expanded,
+    T? large,
+    T? extraLarge,
+  }) {
     return responsive.byWindowSize(
       compact: compact,
       medium: medium,
@@ -205,26 +215,35 @@ extension ResponsiveBorderRadiusExtension on num {
   BorderRadius get circularRadius => BorderRadius.circular(r);
 
   /// Creates only top BorderRadius
-  BorderRadius get topRadius =>
-      BorderRadius.only(topLeft: Radius.circular(r), topRight: Radius.circular(r));
+  BorderRadius get topRadius => BorderRadius.only(
+    topLeft: Radius.circular(r),
+    topRight: Radius.circular(r),
+  );
 
   /// Creates only bottom BorderRadius
-  BorderRadius get bottomRadius =>
-      BorderRadius.only(bottomLeft: Radius.circular(r), bottomRight: Radius.circular(r));
+  BorderRadius get bottomRadius => BorderRadius.only(
+    bottomLeft: Radius.circular(r),
+    bottomRight: Radius.circular(r),
+  );
 
   /// Creates only left BorderRadius
-  BorderRadius get leftRadius =>
-      BorderRadius.only(topLeft: Radius.circular(r), bottomLeft: Radius.circular(r));
+  BorderRadius get leftRadius => BorderRadius.only(
+    topLeft: Radius.circular(r),
+    bottomLeft: Radius.circular(r),
+  );
 
   /// Creates only right BorderRadius
-  BorderRadius get rightRadius =>
-      BorderRadius.only(topRight: Radius.circular(r), bottomRight: Radius.circular(r));
+  BorderRadius get rightRadius => BorderRadius.only(
+    topRight: Radius.circular(r),
+    bottomRight: Radius.circular(r),
+  );
 }
 
 /// Widget extension for responsive padding and margin
 extension ResponsiveWidgetExtension on Widget {
   /// Add responsive padding all around
-  Widget withPadding(double value) => Padding(padding: EdgeInsets.all(value.r), child: this);
+  Widget withPadding(double value) =>
+      Padding(padding: EdgeInsets.all(value.r), child: this);
 
   /// Add responsive horizontal padding
   Widget withHorizontalPadding(double value) => Padding(
@@ -239,17 +258,30 @@ extension ResponsiveWidgetExtension on Widget {
   );
 
   /// Add responsive symmetric padding
-  Widget withSymmetricPadding({double horizontal = 0, double vertical = 0}) => Padding(
-    padding: EdgeInsets.symmetric(horizontal: horizontal.r, vertical: vertical.r),
-    child: this,
-  );
-
-  /// Add responsive edge insets padding
-  Widget withEdgePadding({double left = 0, double top = 0, double right = 0, double bottom = 0}) =>
+  Widget withSymmetricPadding({double horizontal = 0, double vertical = 0}) =>
       Padding(
-        padding: EdgeInsets.only(left: left.r, top: top.r, right: right.r, bottom: bottom.r),
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontal.r,
+          vertical: vertical.r,
+        ),
         child: this,
       );
+
+  /// Add responsive edge insets padding
+  Widget withEdgePadding({
+    double left = 0,
+    double top = 0,
+    double right = 0,
+    double bottom = 0,
+  }) => Padding(
+    padding: EdgeInsets.only(
+      left: left.r,
+      top: top.r,
+      right: right.r,
+      bottom: bottom.r,
+    ),
+    child: this,
+  );
 
   /// Center the widget with maximum width constraint
   Widget centeredWithMaxWidth(double maxWidth) => Center(
@@ -260,6 +292,11 @@ extension ResponsiveWidgetExtension on Widget {
   );
 
   /// Add safe area
-  Widget withSafeArea({bool top = true, bool bottom = true, bool left = true, bool right = true}) =>
+  Widget withSafeArea({
+    bool top = true,
+    bool bottom = true,
+    bool left = true,
+    bool right = true,
+  }) =>
       SafeArea(top: top, bottom: bottom, left: left, right: right, child: this);
 }

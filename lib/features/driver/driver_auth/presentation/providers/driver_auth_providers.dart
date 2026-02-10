@@ -12,12 +12,16 @@ import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/contro
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverAuthRemoteDataSource.
-final driverAuthRemoteDataSourceProvider = Provider<DriverAuthRemoteDataSource>((ref) {
-  return DriverAuthRemoteDataSourceImpl(ref.watch(apiClientProvider));
-});
+final driverAuthRemoteDataSourceProvider = Provider<DriverAuthRemoteDataSource>(
+  (ref) {
+    return DriverAuthRemoteDataSourceImpl(ref.watch(apiClientProvider));
+  },
+);
 
 /// Provider for DriverAuthLocalDataSource.
-final driverAuthLocalDataSourceProvider = Provider<DriverAuthLocalDataSource>((ref) {
+final driverAuthLocalDataSourceProvider = Provider<DriverAuthLocalDataSource>((
+  ref,
+) {
   final sharedPreferences = ref.watch(sharedPreferencesProvider);
   return DriverAuthLocalDataSourceImpl(sharedPreferences);
 });
@@ -50,24 +54,27 @@ final driverRegisterUseCaseProvider = Provider<DriverRegisterUseCase>((ref) {
 });
 
 /// Provider for VerifyDriverPhoneUseCase.
-final verifyDriverPhoneUseCaseProvider = Provider<VerifyDriverPhoneUseCase>((ref) {
+final verifyDriverPhoneUseCaseProvider = Provider<VerifyDriverPhoneUseCase>((
+  ref,
+) {
   return VerifyDriverPhoneUseCase(ref.watch(driverAuthRepositoryProvider));
 });
 
 /// Provider for ResetDriverPasswordUseCase.
-final resetDriverPasswordUseCaseProvider = Provider<ResetDriverPasswordUseCase>((ref) {
-  return ResetDriverPasswordUseCase(ref.watch(driverAuthRepositoryProvider));
-});
+final resetDriverPasswordUseCaseProvider = Provider<ResetDriverPasswordUseCase>(
+  (ref) {
+    return ResetDriverPasswordUseCase(ref.watch(driverAuthRepositoryProvider));
+  },
+);
 
 /// Provider for DriverAuthController.
-final driverAuthControllerProvider = StateNotifierProvider<DriverAuthController, DriverAuthState>((
-  ref,
-) {
-  return DriverAuthController(
-    ref.watch(driverLoginUseCaseProvider),
-    ref.watch(driverLogoutUseCaseProvider),
-    ref.watch(driverRegisterUseCaseProvider),
-    ref.watch(verifyDriverPhoneUseCaseProvider),
-    ref.watch(resetDriverPasswordUseCaseProvider),
-  );
-});
+final driverAuthControllerProvider =
+    StateNotifierProvider<DriverAuthController, DriverAuthState>((ref) {
+      return DriverAuthController(
+        ref.watch(driverLoginUseCaseProvider),
+        ref.watch(driverLogoutUseCaseProvider),
+        ref.watch(driverRegisterUseCaseProvider),
+        ref.watch(verifyDriverPhoneUseCaseProvider),
+        ref.watch(resetDriverPasswordUseCaseProvider),
+      );
+    });

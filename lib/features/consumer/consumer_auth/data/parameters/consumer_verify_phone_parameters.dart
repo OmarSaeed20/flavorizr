@@ -22,10 +22,15 @@ class ConsumerVerifyPhoneParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {'phone': phone, 'phone_iso_code': phoneIsoCode, 'code': code};
+  Map<String, dynamic> toJson() => {
+    'phone': phone,
+    'phone_iso_code': phoneIsoCode,
+    'code': code,
+  };
 
   /// Create a builder for this parameters type
-  ConsumerVerifyPhoneParametersBuilder builder() => ConsumerVerifyPhoneParametersBuilder();
+  ConsumerVerifyPhoneParametersBuilder builder() =>
+      ConsumerVerifyPhoneParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -38,7 +43,11 @@ class ConsumerVerifyPhoneParameters extends Parameters {
   }
 
   @override
-  int get hashCode => phone.hashCode ^ phoneIsoCode.hashCode ^ code.hashCode ^ cancelToken.hashCode;
+  int get hashCode =>
+      phone.hashCode ^
+      phoneIsoCode.hashCode ^
+      code.hashCode ^
+      cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -78,7 +87,9 @@ class ConsumerVerifyPhoneParametersBuilder
   }
 
   @override
-  ParametersBuilder<ConsumerVerifyPhoneParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ConsumerVerifyPhoneParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

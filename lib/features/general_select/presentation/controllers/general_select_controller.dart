@@ -10,9 +10,17 @@ class GeneralSelectState {
   final bool isLoading;
   final String? error;
 
-  const GeneralSelectState({this.options = const [], this.isLoading = false, this.error});
+  const GeneralSelectState({
+    this.options = const [],
+    this.isLoading = false,
+    this.error,
+  });
 
-  GeneralSelectState copyWith({List<SelectOption>? options, bool? isLoading, String? error}) {
+  GeneralSelectState copyWith({
+    List<SelectOption>? options,
+    bool? isLoading,
+    String? error,
+  }) {
     return GeneralSelectState(
       options: options ?? this.options,
       isLoading: isLoading ?? this.isLoading,
@@ -25,10 +33,15 @@ class GeneralSelectState {
 class GeneralSelectController extends StateNotifier<GeneralSelectState> {
   final GetSelectOptionsUseCase _getSelectOptionsUseCase;
 
-  GeneralSelectController(this._getSelectOptionsUseCase) : super(const GeneralSelectState());
+  GeneralSelectController(this._getSelectOptionsUseCase)
+    : super(const GeneralSelectState());
 
   /// Gets select options based on type and filters.
-  Future<void> getSelectOptions({required String type, String? search, int? limit}) async {
+  Future<void> getSelectOptions({
+    required String type,
+    String? search,
+    int? limit,
+  }) async {
     state = state.copyWith(isLoading: true);
 
     final builder = GetSelectOptionsParameters.builder().withType(type);

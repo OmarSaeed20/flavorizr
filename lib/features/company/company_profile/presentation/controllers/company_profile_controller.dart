@@ -1,6 +1,4 @@
 // lib/features/company/company_profile/presentation/controllers/company_profile_controller.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/company/company_profile/data/parameters/update_company_profile_image_parameters.dart';
@@ -11,6 +9,8 @@ import 'package:fast_golden_taxi/features/company/company_profile/domain/usecase
 import 'package:fast_golden_taxi/features/company/company_profile/domain/usecases/update_company_profile_image_usecase.dart';
 import 'package:fast_golden_taxi/features/company/company_profile/domain/usecases/update_company_profile_info_usecase.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'company_profile_controller.freezed.dart';
 
@@ -91,7 +91,9 @@ class CompanyProfileController extends StateNotifier<CompanyProfileState> {
   }
 
   /// Update company profile info
-  Future<void> updateProfileInfo(UpdateCompanyProfileParameters parameters) async {
+  Future<void> updateProfileInfo(
+    UpdateCompanyProfileParameters parameters,
+  ) async {
     state = const CompanyProfileState.updating();
 
     final result = await _updateProfileInfoUseCase.execute(parameters);
@@ -107,7 +109,9 @@ class CompanyProfileController extends StateNotifier<CompanyProfileState> {
   }
 
   /// Update company profile image
-  Future<void> updateProfileImage(UpdateCompanyProfileImageParameters parameters) async {
+  Future<void> updateProfileImage(
+    UpdateCompanyProfileImageParameters parameters,
+  ) async {
     state = const CompanyProfileState.updating();
 
     final result = await _updateProfileImageUseCase.execute(parameters);

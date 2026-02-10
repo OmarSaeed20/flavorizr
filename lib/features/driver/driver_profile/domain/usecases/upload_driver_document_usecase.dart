@@ -13,6 +13,9 @@ class UploadDriverDocumentUseCase {
     required String documentType,
     required String documentImage,
   }) {
-    return _repository.uploadDocument(documentType: documentType, documentImage: documentImage);
+    return _repository.uploadDocument(
+      documentType: documentType,
+      documentImage: documentImage,
+    );
   }
 }

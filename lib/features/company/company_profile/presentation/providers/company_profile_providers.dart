@@ -14,13 +14,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // ==================== Data Layer Providers ====================
 
 /// Company Profile Remote Data Source Provider
-final companyProfileRemoteDataSourceProvider = Provider<CompanyProfileRemoteDataSource>((ref) {
-  final dio = ref.watch(apiClientProvider);
-  return CompanyProfileRemoteDataSource(dio: dio.dio);
-});
+final companyProfileRemoteDataSourceProvider =
+    Provider<CompanyProfileRemoteDataSource>((ref) {
+      final dio = ref.watch(apiClientProvider);
+      return CompanyProfileRemoteDataSource(dio: dio.dio);
+    });
 
 /// Company Profile Repository Provider
-final companyProfileRepositoryProvider = Provider<CompanyProfileRepository>((ref) {
+final companyProfileRepositoryProvider = Provider<CompanyProfileRepository>((
+  ref,
+) {
   final remoteDataSource = ref.watch(companyProfileRemoteDataSourceProvider);
   return CompanyProfileRepositoryImpl(remoteDataSource: remoteDataSource);
 });
@@ -28,34 +31,40 @@ final companyProfileRepositoryProvider = Provider<CompanyProfileRepository>((ref
 // ==================== Domain Layer Providers ====================
 
 /// Get Company Profile Use Case Provider
-final getCompanyProfileUseCaseProvider = Provider<GetCompanyProfileUseCase>((ref) {
+final getCompanyProfileUseCaseProvider = Provider<GetCompanyProfileUseCase>((
+  ref,
+) {
   final repository = ref.watch(companyProfileRepositoryProvider);
   return GetCompanyProfileUseCase(repository);
 });
 
 /// Get Company Profile Detail Use Case Provider
-final getCompanyProfileDetailUseCaseProvider = Provider<GetCompanyProfileDetailUseCase>((ref) {
-  final repository = ref.watch(companyProfileRepositoryProvider);
-  return GetCompanyProfileDetailUseCase(repository);
-});
+final getCompanyProfileDetailUseCaseProvider =
+    Provider<GetCompanyProfileDetailUseCase>((ref) {
+      final repository = ref.watch(companyProfileRepositoryProvider);
+      return GetCompanyProfileDetailUseCase(repository);
+    });
 
 /// Update Company Profile Info Use Case Provider
-final updateCompanyProfileInfoUseCaseProvider = Provider<UpdateCompanyProfileInfoUseCase>((ref) {
-  final repository = ref.watch(companyProfileRepositoryProvider);
-  return UpdateCompanyProfileInfoUseCase(repository);
-});
+final updateCompanyProfileInfoUseCaseProvider =
+    Provider<UpdateCompanyProfileInfoUseCase>((ref) {
+      final repository = ref.watch(companyProfileRepositoryProvider);
+      return UpdateCompanyProfileInfoUseCase(repository);
+    });
 
 /// Update Company Profile Image Use Case Provider
-final updateCompanyProfileImageUseCaseProvider = Provider<UpdateCompanyProfileImageUseCase>((ref) {
-  final repository = ref.watch(companyProfileRepositoryProvider);
-  return UpdateCompanyProfileImageUseCase(repository);
-});
+final updateCompanyProfileImageUseCaseProvider =
+    Provider<UpdateCompanyProfileImageUseCase>((ref) {
+      final repository = ref.watch(companyProfileRepositoryProvider);
+      return UpdateCompanyProfileImageUseCase(repository);
+    });
 
 /// Delete Company Profile Image Use Case Provider
-final deleteCompanyProfileImageUseCaseProvider = Provider<DeleteCompanyProfileImageUseCase>((ref) {
-  final repository = ref.watch(companyProfileRepositoryProvider);
-  return DeleteCompanyProfileImageUseCase(repository);
-});
+final deleteCompanyProfileImageUseCaseProvider =
+    Provider<DeleteCompanyProfileImageUseCase>((ref) {
+      final repository = ref.watch(companyProfileRepositoryProvider);
+      return DeleteCompanyProfileImageUseCase(repository);
+    });
 
 // ==================== Presentation Layer Providers ====================
 
@@ -64,10 +73,18 @@ final companyProfileControllerProvider =
     StateNotifierProvider<CompanyProfileController, CompanyProfileState>((ref) {
       return CompanyProfileController(
         getProfileUseCase: ref.watch(getCompanyProfileUseCaseProvider),
-        getProfileDetailUseCase: ref.watch(getCompanyProfileDetailUseCaseProvider),
-        updateProfileInfoUseCase: ref.watch(updateCompanyProfileInfoUseCaseProvider),
-        updateProfileImageUseCase: ref.watch(updateCompanyProfileImageUseCaseProvider),
-        deleteProfileImageUseCase: ref.watch(deleteCompanyProfileImageUseCaseProvider),
+        getProfileDetailUseCase: ref.watch(
+          getCompanyProfileDetailUseCaseProvider,
+        ),
+        updateProfileInfoUseCase: ref.watch(
+          updateCompanyProfileInfoUseCaseProvider,
+        ),
+        updateProfileImageUseCase: ref.watch(
+          updateCompanyProfileImageUseCaseProvider,
+        ),
+        deleteProfileImageUseCase: ref.watch(
+          deleteCompanyProfileImageUseCaseProvider,
+        ),
       );
     });
 
@@ -77,5 +94,9 @@ final companyProfileStateProvider = companyProfileControllerProvider;
 /// Company User Provider
 final companyUserProvider = Provider((ref) {
   final state = ref.watch(companyProfileControllerProvider);
-  return state.maybeWhen(loaded: (user) => user, updated: (user) => user, orElse: () => null);
+  return state.maybeWhen(
+    loaded: (user) => user,
+    updated: (user) => user,
+    orElse: () => null,
+  );
 });

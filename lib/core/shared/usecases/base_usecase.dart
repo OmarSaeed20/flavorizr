@@ -30,6 +30,7 @@ import 'package:fast_golden_taxi/core/error/failures.dart';
 /// ```
 abstract class BaseUseCase<T, Params> {
   const BaseUseCase();
+
   /// Executes the use case with the given parameters.
   ///
   /// Returns [Right] with the result on success.
@@ -43,6 +44,7 @@ abstract class BaseUseCase<T, Params> {
 /// The [NoParams] class can be used as a placeholder.
 abstract class NoParamsUseCase<T> {
   const NoParamsUseCase();
+
   /// Executes the use case without parameters.
   ///
   /// Returns [Right] with the result on success.
@@ -56,6 +58,7 @@ abstract class NoParamsUseCase<T> {
 /// involve async operations like network calls or database queries.
 abstract class SyncUseCase<T, Params> {
   const SyncUseCase();
+
   /// Executes the use case synchronously with the given parameters.
   ///
   /// Returns [Right] with the result on success.
@@ -66,6 +69,7 @@ abstract class SyncUseCase<T, Params> {
 /// Base class for synchronous use cases without parameters.
 abstract class SyncNoParamsUseCase<T> {
   const SyncNoParamsUseCase();
+
   /// Executes the use case synchronously without parameters.
   ///
   /// Returns [Right] with the result on success.
@@ -79,6 +83,7 @@ abstract class SyncNoParamsUseCase<T> {
 /// real-time updates from a database or WebSocket.
 abstract class StreamUseCase<T, Params> {
   const StreamUseCase();
+
   /// Executes the use case and returns a stream of results.
   ///
   /// The stream emits [Right] with results on success.
@@ -115,6 +120,7 @@ class NoParams {
 /// cancelled before completion.
 abstract class CancellableUseCase<T, Params> {
   const CancellableUseCase();
+
   /// Executes the use case with the given parameters.
   ///
   /// Returns [Right] with the result on success.
@@ -133,6 +139,7 @@ abstract class CancellableUseCase<T, Params> {
 /// Use this for use cases that return data in pages/chunks.
 abstract class PaginatedUseCase<T, Params> {
   const PaginatedUseCase();
+
   /// Executes the use case with the given parameters.
   ///
   /// Returns [Right] with a list of results on success.
@@ -157,6 +164,7 @@ abstract class PaginatedUseCase<T, Params> {
 /// performance and reduce network calls.
 abstract class CachedUseCase<T, Params> {
   const CachedUseCase();
+
   /// Executes the use case with the given parameters.
   ///
   /// If [forceRefresh] is true, bypasses the cache and fetches fresh data.
@@ -177,6 +185,7 @@ abstract class CachedUseCase<T, Params> {
 /// be retried automatically.
 abstract class RetryableUseCase<T, Params> {
   const RetryableUseCase();
+
   /// Executes the use case with the given parameters.
   ///
   /// Returns [Right] with the result on success.
@@ -202,6 +211,7 @@ abstract class RetryableUseCase<T, Params> {
 /// are important for user experience.
 abstract class ProgressUseCase<T, Params> {
   const ProgressUseCase();
+
   /// Executes the use case with the given parameters.
   ///
   /// Returns [Right] with the result on success.

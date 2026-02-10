@@ -18,27 +18,34 @@ part 'failures.freezed.dart';
 @freezed
 class Failure with _$Failure {
   /// Server failure - indicates a server-side error.
-  const factory Failure.server({required String message, int? statusCode}) = ServerFailure;
+  const factory Failure.server({required String message, int? statusCode}) =
+      ServerFailure;
 
   /// Network failure - indicates a network connectivity issue.
   const factory Failure.network({required String message}) = NetworkFailure;
 
   /// Validation failure - indicates invalid input data.
-  const factory Failure.validation({required String message, Map<String, String>? fieldErrors}) =
-      ValidationFailure;
+  const factory Failure.validation({
+    required String message,
+    Map<String, String>? fieldErrors,
+  }) = ValidationFailure;
 
   /// Authentication failure - indicates auth-related errors.
   const factory Failure.auth({required String message}) = AuthFailure;
 
   /// Unauthorized failure - indicates missing or invalid credentials.
-  const factory Failure.unauthorized({required String message}) = UnauthorizedFailure;
+  const factory Failure.unauthorized({required String message}) =
+      UnauthorizedFailure;
 
   /// Not found failure - indicates a resource was not found.
   const factory Failure.notFound({required String message}) = NotFoundFailure;
 
   /// Unknown failure - catch-all for unexpected errors.
-  const factory Failure.unknown({required String message, Object? error, StackTrace? stackTrace}) =
-      UnknownFailure;
+  const factory Failure.unknown({
+    required String message,
+    Object? error,
+    StackTrace? stackTrace,
+  }) = UnknownFailure;
 
   /// Cache failure - indicates a cache-related error.
   const factory Failure.cache({required String message}) = CacheFailure;
@@ -47,16 +54,19 @@ class Failure with _$Failure {
   const factory Failure.timeout({required String message}) = TimeoutFailure;
 
   /// Permission failure - indicates missing permissions.
-  const factory Failure.permission({required String message}) = PermissionFailure;
+  const factory Failure.permission({required String message}) =
+      PermissionFailure;
 
   /// Conflict failure - indicates a resource conflict.
   const factory Failure.conflict({required String message}) = ConflictFailure;
 
   /// Too many requests failure - indicates rate limiting.
-  const factory Failure.tooManyRequests({required String message}) = TooManyRequestsFailure;
+  const factory Failure.tooManyRequests({required String message}) =
+      TooManyRequestsFailure;
 
   /// Maintenance failure - indicates the service is under maintenance.
-  const factory Failure.maintenance({required String message}) = MaintenanceFailure;
+  const factory Failure.maintenance({required String message}) =
+      MaintenanceFailure;
 
   /// Payment failure - indicates a payment-related error.
   const factory Failure.payment({required String message}) = PaymentFailure;
@@ -65,20 +75,26 @@ class Failure with _$Failure {
   const factory Failure.location({required String message}) = LocationFailure;
 
   /// File upload failure - indicates a file upload error.
-  const factory Failure.fileUpload({required String message}) = FileUploadFailure;
+  const factory Failure.fileUpload({required String message}) =
+      FileUploadFailure;
 
   /// Verification failure - indicates a verification error.
-  const factory Failure.verification({required String message}) = VerificationFailure;
+  const factory Failure.verification({required String message}) =
+      VerificationFailure;
 
   /// Rate limit failure - indicates rate limiting.
-  const factory Failure.rateLimit({required String message, int? retryAfter}) = RateLimitFailure;
+  const factory Failure.rateLimit({required String message, int? retryAfter}) =
+      RateLimitFailure;
 
   /// Service unavailable failure - indicates the service is unavailable.
-  const factory Failure.serviceUnavailable({required String message}) = ServiceUnavailableFailure;
+  const factory Failure.serviceUnavailable({required String message}) =
+      ServiceUnavailableFailure;
 
   /// Bad request failure - indicates a bad request.
-  const factory Failure.badRequest({required String message, Map<String, dynamic>? details}) =
-      BadRequestFailure;
+  const factory Failure.badRequest({
+    required String message,
+    Map<String, dynamic>? details,
+  }) = BadRequestFailure;
 
   /// Custom failure - for application-specific errors.
   const factory Failure.custom({

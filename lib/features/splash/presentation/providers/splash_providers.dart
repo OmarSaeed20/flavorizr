@@ -27,6 +27,7 @@ final splashRepositoryProvider = Provider<SplashRepository>((ref) {
 // ==================== Use Cases ====================
 
 /// Provider for CheckAppInitializationUseCase.
-final checkAppInitializationUseCaseProvider = Provider<CheckAppInitializationUseCase>((ref) {
-  return CheckAppInitializationUseCase(ref.watch(splashRepositoryProvider));
-});
+final checkAppInitializationUseCaseProvider =
+    Provider<CheckAppInitializationUseCase>((ref) {
+      return CheckAppInitializationUseCase(ref.watch(splashRepositoryProvider));
+    });

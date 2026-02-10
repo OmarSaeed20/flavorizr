@@ -27,7 +27,9 @@ abstract class ConsumerAuthRepository {
   ///
   /// Returns [AuthResult] with tokens and user data on success.
   /// Returns [Failure] on error.
-  Future<Either<Failure, AuthResult>> register(ConsumerRegisterParameters parameters);
+  Future<Either<Failure, AuthResult>> register(
+    ConsumerRegisterParameters parameters,
+  );
 
   /// Logs out the current consumer.
   ///
@@ -46,17 +48,23 @@ abstract class ConsumerAuthRepository {
   ///
   /// Returns [AuthResult] with tokens and user data on success.
   /// Returns [Failure] on error.
-  Future<Either<Failure, AuthResult>> verifyPhone(ConsumerVerifyPhoneParameters parameters);
+  Future<Either<Failure, AuthResult>> verifyPhone(
+    ConsumerVerifyPhoneParameters parameters,
+  );
 
   /// Resets password with verification code.
   ///
   /// Returns [Failure] on error.
-  Future<Either<Failure, void>> resetPassword(ConsumerResetPasswordParameters parameters);
+  Future<Either<Failure, void>> resetPassword(
+    ConsumerResetPasswordParameters parameters,
+  );
 
   /// Requests password reset code.
   ///
   /// Returns [Failure] on error.
-  Future<Either<Failure, void>> forgetPassword(ConsumerForgetPasswordParameters parameters);
+  Future<Either<Failure, void>> forgetPassword(
+    ConsumerForgetPasswordParameters parameters,
+  );
 
   /// Gets current consumer profile.
   ///
@@ -96,7 +104,10 @@ abstract class ConsumerAuthRepository {
   /// Saves biometric credentials for quick login.
   ///
   /// Returns [Failure] on error.
-  Future<Either<Failure, void>> saveBiometricCredentials(String phone, String password);
+  Future<Either<Failure, void>> saveBiometricCredentials(
+    String phone,
+    String password,
+  );
 
   /// Gets stored biometric credentials.
   ///

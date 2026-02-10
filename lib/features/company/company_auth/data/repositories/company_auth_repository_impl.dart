@@ -38,7 +38,9 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
         final tokens = AuthTokens(
           accessToken: authResponse.accessToken ?? authResponse.token ?? '',
           refreshToken: authResponse.refreshToken ?? '',
-          accessTokenExpiresAt: DateTime.now().add(Duration(seconds: expiresIn)),
+          accessTokenExpiresAt: DateTime.now().add(
+            Duration(seconds: expiresIn),
+          ),
           tokenType: authResponse.tokenType ?? 'Bearer',
         );
 
@@ -58,7 +60,9 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
   }
 
   @override
-  Future<ApiResult<AuthTokens>> register(CompanyRegisterParameters parameters) async {
+  Future<ApiResult<AuthTokens>> register(
+    CompanyRegisterParameters parameters,
+  ) async {
     final result = await _remoteDataSource.register(parameters);
 
     return result.when(
@@ -68,7 +72,9 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
         final tokens = AuthTokens(
           accessToken: authResponse.accessToken ?? authResponse.token ?? '',
           refreshToken: authResponse.refreshToken ?? '',
-          accessTokenExpiresAt: DateTime.now().add(Duration(seconds: expiresIn)),
+          accessTokenExpiresAt: DateTime.now().add(
+            Duration(seconds: expiresIn),
+          ),
           tokenType: authResponse.tokenType ?? 'Bearer',
         );
 
@@ -113,7 +119,9 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
   }
 
   @override
-  Future<ApiResult<AuthTokens>> verifyPhone(CompanyVerifyPhoneParameters parameters) async {
+  Future<ApiResult<AuthTokens>> verifyPhone(
+    CompanyVerifyPhoneParameters parameters,
+  ) async {
     final result = await _remoteDataSource.verifyPhone(parameters);
 
     return result.when(
@@ -123,7 +131,9 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
         final tokens = AuthTokens(
           accessToken: authResponse.accessToken ?? authResponse.token ?? '',
           refreshToken: authResponse.refreshToken ?? '',
-          accessTokenExpiresAt: DateTime.now().add(Duration(seconds: expiresIn)),
+          accessTokenExpiresAt: DateTime.now().add(
+            Duration(seconds: expiresIn),
+          ),
           tokenType: authResponse.tokenType ?? 'Bearer',
         );
 
@@ -143,12 +153,16 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
   }
 
   @override
-  Future<ApiResult<void>> forgetPassword(CompanyForgetPasswordParameters parameters) async {
+  Future<ApiResult<void>> forgetPassword(
+    CompanyForgetPasswordParameters parameters,
+  ) async {
     return _remoteDataSource.forgetPassword(parameters);
   }
 
   @override
-  Future<ApiResult<void>> resetPassword(CompanyResetPasswordParameters parameters) async {
+  Future<ApiResult<void>> resetPassword(
+    CompanyResetPasswordParameters parameters,
+  ) async {
     return _remoteDataSource.resetPassword(parameters);
   }
 

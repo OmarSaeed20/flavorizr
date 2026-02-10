@@ -49,7 +49,8 @@ class GetCitiesParameters extends Parameters {
 }
 
 /// Builder for GetCitiesParameters
-class GetCitiesParametersBuilder extends ParametersBuilder<GetCitiesParameters> {
+class GetCitiesParametersBuilder
+    extends ParametersBuilder<GetCitiesParameters> {
   int? _countryId;
   int? _governorateId;
   String? _search;

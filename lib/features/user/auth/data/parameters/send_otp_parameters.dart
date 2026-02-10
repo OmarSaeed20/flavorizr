@@ -29,7 +29,8 @@ class SendOtpParameters extends Parameters {
   int get hashCode => phoneNumber.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() => 'SendOtpParameters(phoneNumber: $phoneNumber, cancelToken: $cancelToken)';
+  String toString() =>
+      'SendOtpParameters(phoneNumber: $phoneNumber, cancelToken: $cancelToken)';
 }
 
 /// Builder for SendOtpParameters
@@ -55,6 +56,9 @@ class SendOtpParametersBuilder extends ParametersBuilder<SendOtpParameters> {
   /// Build the parameters object
   @override
   SendOtpParameters build() {
-    return SendOtpParameters(phoneNumber: _phoneNumber!, cancelToken: _cancelToken);
+    return SendOtpParameters(
+      phoneNumber: _phoneNumber!,
+      cancelToken: _cancelToken,
+    );
   }
 }

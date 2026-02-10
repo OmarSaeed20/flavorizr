@@ -29,7 +29,10 @@ class CompanyAuthLocalDataSource {
   /// Save auth tokens
   Future<void> saveTokens(AuthTokens tokens) async {
     await _secureStorage.write(key: _accessTokenKey, value: tokens.accessToken);
-    await _secureStorage.write(key: _refreshTokenKey, value: tokens.refreshToken);
+    await _secureStorage.write(
+      key: _refreshTokenKey,
+      value: tokens.refreshToken,
+    );
   }
 
   /// Get access token

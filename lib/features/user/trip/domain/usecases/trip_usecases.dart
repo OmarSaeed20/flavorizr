@@ -22,7 +22,8 @@ import 'package:fast_golden_taxi/features/user/trip/domain/repositories/trip_rep
 import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 
 /// Use case for getting trip types.
-class GetTripTypesUseCase extends UseCase<List<TripType>, GetTripTypesParameters> {
+class GetTripTypesUseCase
+    extends UseCase<List<TripType>, GetTripTypesParameters> {
   GetTripTypesUseCase(this._repository);
 
   final TripRepository _repository;
@@ -46,7 +47,8 @@ class GetTripDetailUseCase extends UseCase<Trip, GetTripDetailParameters> {
 }
 
 /// Use case for getting captain's trip details.
-class GetCaptainTripDetailUseCase extends UseCase<Trip, GetCaptainTripDetailParameters> {
+class GetCaptainTripDetailUseCase
+    extends UseCase<Trip, GetCaptainTripDetailParameters> {
   GetCaptainTripDetailUseCase(this._repository);
 
   final TripRepository _repository;
@@ -58,7 +60,8 @@ class GetCaptainTripDetailUseCase extends UseCase<Trip, GetCaptainTripDetailPara
 }
 
 /// Use case for getting trip history.
-class GetTripHistoryUseCase extends UseCase<List<Trip>, GetTripHistoryParameters> {
+class GetTripHistoryUseCase
+    extends UseCase<List<Trip>, GetTripHistoryParameters> {
   GetTripHistoryUseCase(this._repository);
 
   final TripRepository _repository;
@@ -95,7 +98,8 @@ class StorePublicTripUseCase extends UseCase<Trip, StorePublicTripParameters> {
 }
 
 /// Use case for creating a private trip.
-class StorePrivateTripUseCase extends UseCase<Trip, StorePrivateTripParameters> {
+class StorePrivateTripUseCase
+    extends UseCase<Trip, StorePrivateTripParameters> {
   StorePrivateTripUseCase(this._repository);
 
   final TripRepository _repository;
@@ -155,7 +159,8 @@ class ReportTripUseCase extends UseCase<void, ReportTripParameters> {
 }
 
 /// Use case for evaluating a trip.
-class TripEvaluationUseCase extends UseCase<TripEvaluation, TripEvaluationParameters> {
+class TripEvaluationUseCase
+    extends UseCase<TripEvaluation, TripEvaluationParameters> {
   TripEvaluationUseCase(this._repository);
 
   final TripRepository _repository;
@@ -179,7 +184,8 @@ class BookNowOrderUseCase extends UseCase<TripOrder, BookNowOrderParameters> {
 }
 
 /// Use case for getting user's orders.
-class GetMyOrdersUseCase extends UseCase<List<TripOrder>, GetMyOrdersParameters> {
+class GetMyOrdersUseCase
+    extends UseCase<List<TripOrder>, GetMyOrdersParameters> {
   GetMyOrdersUseCase(this._repository);
 
   final TripRepository _repository;

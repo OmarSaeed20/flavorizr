@@ -20,10 +20,14 @@ class ConsumerForgetPasswordParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {'phone': phone, 'phone_iso_code': phoneIsoCode};
+  Map<String, dynamic> toJson() => {
+    'phone': phone,
+    'phone_iso_code': phoneIsoCode,
+  };
 
   /// Create a builder for this parameters type
-  ConsumerForgetPasswordParametersBuilder builder() => ConsumerForgetPasswordParametersBuilder();
+  ConsumerForgetPasswordParametersBuilder builder() =>
+      ConsumerForgetPasswordParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -35,7 +39,8 @@ class ConsumerForgetPasswordParameters extends Parameters {
   }
 
   @override
-  int get hashCode => phone.hashCode ^ phoneIsoCode.hashCode ^ cancelToken.hashCode;
+  int get hashCode =>
+      phone.hashCode ^ phoneIsoCode.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -68,7 +73,9 @@ class ConsumerForgetPasswordParametersBuilder
   }
 
   @override
-  ParametersBuilder<ConsumerForgetPasswordParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ConsumerForgetPasswordParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

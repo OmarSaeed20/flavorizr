@@ -75,7 +75,8 @@ class ConsumerLoginParameters extends Parameters {
 }
 
 /// Builder for ConsumerLoginParameters
-class ConsumerLoginParametersBuilder extends ParametersBuilder<ConsumerLoginParameters> {
+class ConsumerLoginParametersBuilder
+    extends ParametersBuilder<ConsumerLoginParameters> {
   String? _phone;
   String? _phoneIsoCode;
   String? _password;
@@ -134,7 +135,9 @@ class ConsumerLoginParametersBuilder extends ParametersBuilder<ConsumerLoginPara
   }
 
   @override
-  ParametersBuilder<ConsumerLoginParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<ConsumerLoginParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

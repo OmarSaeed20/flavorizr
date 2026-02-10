@@ -17,8 +17,12 @@ class DriverInfoCard extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: driver.photo != null ? NetworkImage(driver.photo!) : null,
-              child: driver.photo == null ? const Icon(Icons.person, size: 30) : null,
+              backgroundImage: driver.photo != null
+                  ? NetworkImage(driver.photo!)
+                  : null,
+              child: driver.photo == null
+                  ? const Icon(Icons.person, size: 30)
+                  : null,
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -27,7 +31,10 @@ class DriverInfoCard extends StatelessWidget {
                 children: [
                   Text(
                     driver.name,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Row(
@@ -36,7 +43,10 @@ class DriverInfoCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         driver.rating.toStringAsFixed(1),
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Text(
@@ -67,11 +77,17 @@ class DriverInfoCard extends StatelessWidget {
               children: [
                 Text(
                   '${driver.distance.toStringAsFixed(1)} km',
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: driver.isAvailable
                         ? Colors.green.withOpacity(0.1)

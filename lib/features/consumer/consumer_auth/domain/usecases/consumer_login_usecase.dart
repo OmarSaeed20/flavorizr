@@ -10,13 +10,16 @@ import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.
 ///
 /// Handles the business logic for authenticating a consumer.
 /// Validates input parameters and delegates to repository.
-class ConsumerLoginUseCase extends BaseUseCase<AuthResult, ConsumerLoginParameters> {
+class ConsumerLoginUseCase
+    extends BaseUseCase<AuthResult, ConsumerLoginParameters> {
   const ConsumerLoginUseCase(this._repository);
 
   final ConsumerAuthRepository _repository;
 
   @override
-  Future<Either<Failure, AuthResult>> call(ConsumerLoginParameters params) async {
+  Future<Either<Failure, AuthResult>> call(
+    ConsumerLoginParameters params,
+  ) async {
     // Validate phone number
     if (params.phone.isEmpty) {
       return const Left(ValidationFailure(message: 'Phone number is required'));
@@ -29,12 +32,16 @@ class ConsumerLoginUseCase extends BaseUseCase<AuthResult, ConsumerLoginParamete
 
     // Validate phone ISO code
     if (params.phoneIsoCode.isEmpty) {
-      return const Left(ValidationFailure(message: 'Phone ISO code is required'));
+      return const Left(
+        ValidationFailure(message: 'Phone ISO code is required'),
+      );
     }
 
     // Validate Firebase token
     if (params.firebaseToken.isEmpty) {
-      return const Left(ValidationFailure(message: 'Firebase token is required'));
+      return const Left(
+        ValidationFailure(message: 'Firebase token is required'),
+      );
     }
 
     // Call repository

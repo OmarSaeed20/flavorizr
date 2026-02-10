@@ -102,7 +102,11 @@ class ProfileSettingsPage extends ConsumerWidget {
   }) {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
-      child: ListTile(leading: Icon(icon), title: Text(label), subtitle: Text(value)),
+      child: ListTile(
+        leading: Icon(icon),
+        title: Text(label),
+        subtitle: Text(value),
+      ),
     );
   }
 }

@@ -9,10 +9,12 @@ class DriverResetPasswordPage extends ConsumerStatefulWidget {
   const DriverResetPasswordPage({super.key});
 
   @override
-  ConsumerState<DriverResetPasswordPage> createState() => _DriverResetPasswordPageState();
+  ConsumerState<DriverResetPasswordPage> createState() =>
+      _DriverResetPasswordPageState();
 }
 
-class _DriverResetPasswordPageState extends ConsumerState<DriverResetPasswordPage> {
+class _DriverResetPasswordPageState
+    extends ConsumerState<DriverResetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _otpController = TextEditingController();
@@ -70,7 +72,10 @@ class _DriverResetPasswordPageState extends ConsumerState<DriverResetPasswordPag
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                DriverPhoneInput(controller: _phoneController, enabled: !state.isLoading),
+                DriverPhoneInput(
+                  controller: _phoneController,
+                  enabled: !state.isLoading,
+                ),
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _otpController,

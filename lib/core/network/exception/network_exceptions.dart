@@ -43,7 +43,10 @@ sealed class NetworkException implements Exception {
 class NoInternetException extends NetworkException {
   /// Creates a no internet exception.
   const NoInternetException()
-    : super(message: 'No internet connection. Please check your network.', statusCode: null);
+    : super(
+        message: 'No internet connection. Please check your network.',
+        statusCode: null,
+      );
 }
 
 /// Request timeout occurred.
@@ -72,8 +75,10 @@ class ServerException extends NetworkException {
 /// Thrown when the request is malformed or contains invalid data.
 class BadRequestException extends NetworkException {
   /// Creates a bad request exception.
-  const BadRequestException({super.message = 'Bad request. Please check your input.', super.data})
-    : super(statusCode: 400);
+  const BadRequestException({
+    super.message = 'Bad request. Please check your input.',
+    super.data,
+  }) : super(statusCode: 400);
 }
 
 /// Unauthorized access (401 status code).
@@ -81,8 +86,10 @@ class BadRequestException extends NetworkException {
 /// Thrown when authentication is required but missing or invalid.
 class UnauthorizedException extends NetworkException {
   /// Creates an unauthorized exception.
-  const UnauthorizedException({super.message = 'Unauthorized. Please login again.', super.data})
-    : super(statusCode: 401);
+  const UnauthorizedException({
+    super.message = 'Unauthorized. Please login again.',
+    super.data,
+  }) : super(statusCode: 401);
 }
 
 /// Access forbidden (403 status code).
@@ -108,8 +115,10 @@ class NotFoundException extends NetworkException {
 /// Thrown when the request conflicts with the current state of the resource.
 class ConflictException extends NetworkException {
   /// Creates a conflict exception.
-  const ConflictException({super.message = 'Conflict with current state.', super.data})
-    : super(statusCode: 409);
+  const ConflictException({
+    super.message = 'Conflict with current state.',
+    super.data,
+  }) : super(statusCode: 409);
 }
 
 /// Validation error (422 status code).
@@ -117,8 +126,11 @@ class ConflictException extends NetworkException {
 /// Thrown when request data fails validation.
 class ValidationException extends NetworkException {
   /// Creates a validation exception.
-  const ValidationException({super.message = 'Validation failed.', super.data, this.errors})
-    : super(statusCode: 422);
+  const ValidationException({
+    super.message = 'Validation failed.',
+    super.data,
+    this.errors,
+  }) : super(statusCode: 422);
 
   /// Field-specific validation errors.
   final Map<String, List<String>>? errors;
@@ -144,7 +156,8 @@ class RateLimitException extends NetworkException {
 /// Thrown when a request is explicitly cancelled by the user or system.
 class RequestCancelledException extends NetworkException {
   /// Creates a request cancelled exception.
-  const RequestCancelledException() : super(message: 'Request was cancelled.', statusCode: null);
+  const RequestCancelledException()
+    : super(message: 'Request was cancelled.', statusCode: null);
 }
 
 /// Unknown or unexpected error.
@@ -181,7 +194,10 @@ class NetworkExceptionFactory {
   ///
   /// [exception] - The exception to convert.
   /// [stackTrace] - Optional stack trace for debugging.
-  static NetworkException mapExceptionToFailure(Object exception, [StackTrace? stackTrace]) {
+  static NetworkException mapExceptionToFailure(
+    Object exception, [
+    StackTrace? stackTrace,
+  ]) {
     // DioException handling
     if (exception is DioException) {
       return _mapDioException(exception, stackTrace);
@@ -212,7 +228,10 @@ class NetworkExceptionFactory {
 
     // Type cast errors
     if (exception is TypeError) {
-      return UnknownNetworkException(message: 'Data type mismatch', exception: exception);
+      return UnknownNetworkException(
+        message: 'Data type mismatch',
+        exception: exception,
+      );
     }
 
     // File system exceptions
@@ -224,7 +243,10 @@ class NetworkExceptionFactory {
     }
 
     // Fallback to unexpected failure
-    return UnknownNetworkException(message: exception.toString(), exception: exception);
+    return UnknownNetworkException(
+      message: exception.toString(),
+      exception: exception,
+    );
   }
 
   /// Maps DioException to appropriate NetworkException type.
@@ -234,7 +256,10 @@ class NetworkExceptionFactory {
   ///
   /// [exception] - The DioException to map.
   /// [stackTrace] - Optional stack trace for debugging.
-  static NetworkException _mapDioException(DioException exception, [StackTrace? stackTrace]) {
+  static NetworkException _mapDioException(
+    DioException exception, [
+    StackTrace? stackTrace,
+  ]) {
     switch (exception.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -248,7 +273,9 @@ class NetworkExceptionFactory {
         return const RequestCancelledException();
 
       case DioExceptionType.badCertificate:
-        return const UnknownNetworkException(message: 'Certificate verification failed.');
+        return const UnknownNetworkException(
+          message: 'Certificate verification failed.',
+        );
 
       case DioExceptionType.badResponse:
         return _mapHttpStatusCode(
@@ -315,7 +342,10 @@ class NetworkExceptionFactory {
             errors: fieldErrors,
           );
         }
-        return BadRequestException(message: errorMessage ?? 'Invalid request', data: responseData);
+        return BadRequestException(
+          message: errorMessage ?? 'Invalid request',
+          data: responseData,
+        );
 
       case 401:
         return UnauthorizedException(
@@ -324,13 +354,22 @@ class NetworkExceptionFactory {
         );
 
       case 403:
-        return ForbiddenException(message: errorMessage ?? 'Access denied', data: responseData);
+        return ForbiddenException(
+          message: errorMessage ?? 'Access denied',
+          data: responseData,
+        );
 
       case 404:
-        return NotFoundException(message: errorMessage ?? 'Resource not found', data: responseData);
+        return NotFoundException(
+          message: errorMessage ?? 'Resource not found',
+          data: responseData,
+        );
 
       case 409:
-        return ConflictException(message: errorMessage ?? 'Conflict occurred', data: responseData);
+        return ConflictException(
+          message: errorMessage ?? 'Conflict occurred',
+          data: responseData,
+        );
 
       case 422:
         return ValidationException(
@@ -340,7 +379,10 @@ class NetworkExceptionFactory {
         );
 
       case 429:
-        return RateLimitException(message: errorMessage ?? 'Too many requests', data: responseData);
+        return RateLimitException(
+          message: errorMessage ?? 'Too many requests',
+          data: responseData,
+        );
 
       case 500:
       case 501:
@@ -412,7 +454,10 @@ extension NetworkExceptionToFailure on NetworkException {
     return switch (this) {
       NoInternetException() => Failure.network(message: message),
       TimeoutException() => Failure.timeout(message: message),
-      ServerException() => Failure.server(message: message, statusCode: statusCode),
+      ServerException() => Failure.server(
+        message: message,
+        statusCode: statusCode,
+      ),
       BadRequestException() => Failure.badRequest(message: message),
       UnauthorizedException() => Failure.unauthorized(message: message),
       ForbiddenException() => Failure.unauthorized(message: message),

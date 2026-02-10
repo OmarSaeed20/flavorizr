@@ -74,7 +74,9 @@ abstract class AuthRepository {
   /// Signs in with magic link (passwordless).
   ///
   /// User clicks a link in their email to authenticate.
-  AuthEither<AuthResult> signInWithMagicLink(SignInWithMagicLinkParameters parameters);
+  AuthEither<AuthResult> signInWithMagicLink(
+    SignInWithMagicLinkParameters parameters,
+  );
 
   // ==================== Registration ====================
 
@@ -95,7 +97,9 @@ abstract class AuthRepository {
   /// Possible failures:
   /// - [NotFoundException] - Email not registered
   /// - [NoInternetException] - No internet connection
-  AuthEither<void> sendPasswordResetEmail(SendPasswordResetEmailParameters parameters);
+  AuthEither<void> sendPasswordResetEmail(
+    SendPasswordResetEmailParameters parameters,
+  );
 
   /// Resets the password using a reset token.
   AuthEither<void> resetPassword(ResetPasswordParameters parameters);
@@ -155,7 +159,9 @@ abstract class AuthRepository {
   /// Enables biometric authentication.
   ///
   /// Stores credentials securely for biometric unlock.
-  AuthEither<void> enableBiometric(SaveBiometricCredentialsParameters parameters);
+  AuthEither<void> enableBiometric(
+    SaveBiometricCredentialsParameters parameters,
+  );
 
   /// Disables biometric authentication.
   AuthEither<void> disableBiometric();

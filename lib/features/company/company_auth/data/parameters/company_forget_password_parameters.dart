@@ -20,10 +20,14 @@ class CompanyForgetPasswordParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {'phone': phone, 'phone_iso_code': phoneIsoCode};
+  Map<String, dynamic> toJson() => {
+    'phone': phone,
+    'phone_iso_code': phoneIsoCode,
+  };
 
   /// Create a builder for this parameters type
-  CompanyForgetPasswordParametersBuilder builder() => CompanyForgetPasswordParametersBuilder();
+  CompanyForgetPasswordParametersBuilder builder() =>
+      CompanyForgetPasswordParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -35,7 +39,8 @@ class CompanyForgetPasswordParameters extends Parameters {
   }
 
   @override
-  int get hashCode => phone.hashCode ^ phoneIsoCode.hashCode ^ cancelToken.hashCode;
+  int get hashCode =>
+      phone.hashCode ^ phoneIsoCode.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -68,7 +73,9 @@ class CompanyForgetPasswordParametersBuilder
   }
 
   @override
-  ParametersBuilder<CompanyForgetPasswordParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<CompanyForgetPasswordParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

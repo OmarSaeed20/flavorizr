@@ -46,7 +46,10 @@ class NotificationController extends StateNotifier<NotificationState> {
         _currentPage++;
 
         if (refresh) {
-          state = NotificationState.loaded(notifications: newNotifications, hasMore: _hasMore);
+          state = NotificationState.loaded(
+            notifications: newNotifications,
+            hasMore: _hasMore,
+          );
         } else {
           state = NotificationState.loaded(
             notifications: [...state.notifications, ...newNotifications],
@@ -103,7 +106,10 @@ class NotificationController extends StateNotifier<NotificationState> {
         final updatedNotifications = state.notifications.map((n) {
           return n.copyWith(isRead: true);
         }).toList();
-        state = state.copyWith(notifications: updatedNotifications, unreadCount: 0);
+        state = state.copyWith(
+          notifications: updatedNotifications,
+          unreadCount: 0,
+        );
       },
       exception: (error) {
         // Handle error silently

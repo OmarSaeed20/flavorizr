@@ -11,6 +11,8 @@ class ToggleAvailabilityStatusUseCase {
 
   Future<ApiResult<DriverSettings>> call(bool isAvailable) {
     // Implement when toggleAvailabilityStatus is added to repository
-    throw UnimplementedError('toggleAvailabilityStatus not yet implemented in repository');
+    throw UnimplementedError(
+      'toggleAvailabilityStatus not yet implemented in repository',
+    );
   }
 }

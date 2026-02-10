@@ -213,7 +213,9 @@ class DriverProfileController extends StateNotifier<DriverProfileState> {
 
     result.when(
       success: (_, __) {
-        final updatedDocuments = state.documents.where((doc) => doc.id != documentId).toList();
+        final updatedDocuments = state.documents
+            .where((doc) => doc.id != documentId)
+            .toList();
         state = state.copyWith(documents: updatedDocuments, isUpdating: false);
       },
       exception: (error) {

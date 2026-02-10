@@ -57,7 +57,8 @@ class ResetPasswordParameters extends Parameters {
 }
 
 /// Builder for ResetPasswordParameters
-class ResetPasswordParametersBuilder extends ParametersBuilder<ResetPasswordParameters> {
+class ResetPasswordParametersBuilder
+    extends ParametersBuilder<ResetPasswordParameters> {
   String? _phone;
   String? _token;
   String? _password;
@@ -85,7 +86,9 @@ class ResetPasswordParametersBuilder extends ParametersBuilder<ResetPasswordPara
   }
 
   /// Set password confirmation
-  ResetPasswordParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
+  ResetPasswordParametersBuilder withPasswordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }

@@ -19,7 +19,9 @@ import 'package:fast_golden_taxi/features/driver/driver_trips/data/parameters/st
 /// Returns ApiResult with success or error data.
 abstract class DriverTripsRemoteDataSource {
   /// Accepts a trip request.
-  Future<ApiResult<DriverTripModel>> acceptTrip(AcceptTripParameters parameters);
+  Future<ApiResult<DriverTripModel>> acceptTrip(
+    AcceptTripParameters parameters,
+  );
 
   /// Rejects a trip request.
   Future<ApiResult<void>> rejectTrip(RejectTripParameters parameters);
@@ -31,7 +33,9 @@ abstract class DriverTripsRemoteDataSource {
   Future<ApiResult<DriverTripModel>> arrived(ArrivedParameters parameters);
 
   /// Completes a trip.
-  Future<ApiResult<DriverTripModel>> completeTrip(CompleteTripParameters parameters);
+  Future<ApiResult<DriverTripModel>> completeTrip(
+    CompleteTripParameters parameters,
+  );
 
   /// Cancels a trip.
   Future<ApiResult<void>> cancelTrip(CancelTripParameters parameters);
@@ -64,7 +68,9 @@ class DriverTripsRemoteDataSourceImpl
   String get baseUrl => _apiClient.dio.options.baseUrl;
 
   @override
-  Future<ApiResult<DriverTripModel>> acceptTrip(AcceptTripParameters parameters) async {
+  Future<ApiResult<DriverTripModel>> acceptTrip(
+    AcceptTripParameters parameters,
+  ) async {
     return post<DriverTripModel>(
       path: DriverTripsEndpoints.acceptTrip,
       data: parameters.toJson(),
@@ -74,11 +80,16 @@ class DriverTripsRemoteDataSourceImpl
 
   @override
   Future<ApiResult<void>> rejectTrip(RejectTripParameters parameters) async {
-    return post<void>(path: DriverTripsEndpoints.rejectTrip, data: parameters.toJson());
+    return post<void>(
+      path: DriverTripsEndpoints.rejectTrip,
+      data: parameters.toJson(),
+    );
   }
 
   @override
-  Future<ApiResult<DriverTripModel>> startTrip(StartTripParameters parameters) async {
+  Future<ApiResult<DriverTripModel>> startTrip(
+    StartTripParameters parameters,
+  ) async {
     return patch<DriverTripModel>(
       path: DriverTripsEndpoints.startTrip,
       data: parameters.toJson(),
@@ -87,7 +98,9 @@ class DriverTripsRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<DriverTripModel>> arrived(ArrivedParameters parameters) async {
+  Future<ApiResult<DriverTripModel>> arrived(
+    ArrivedParameters parameters,
+  ) async {
     return patch<DriverTripModel>(
       path: DriverTripsEndpoints.arrived,
       data: parameters.toJson(),
@@ -96,7 +109,9 @@ class DriverTripsRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<DriverTripModel>> completeTrip(CompleteTripParameters parameters) async {
+  Future<ApiResult<DriverTripModel>> completeTrip(
+    CompleteTripParameters parameters,
+  ) async {
     return patch<DriverTripModel>(
       path: DriverTripsEndpoints.completeTrip,
       data: parameters.toJson(),
@@ -106,7 +121,10 @@ class DriverTripsRemoteDataSourceImpl
 
   @override
   Future<ApiResult<void>> cancelTrip(CancelTripParameters parameters) async {
-    return patch<void>(path: DriverTripsEndpoints.cancelTrip, data: parameters.toJson());
+    return patch<void>(
+      path: DriverTripsEndpoints.cancelTrip,
+      data: parameters.toJson(),
+    );
   }
 
   @override
@@ -115,9 +133,10 @@ class DriverTripsRemoteDataSourceImpl
       path: DriverTripsEndpoints.getScheduleTrips,
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
-        final items = (jsonData['trips'] as List? ?? jsonData['data'] as List? ?? [])
-            .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
-            .toList();
+        final items =
+            (jsonData['trips'] as List? ?? jsonData['data'] as List? ?? [])
+                .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
+                .toList();
         return items;
       },
     );
@@ -143,9 +162,10 @@ class DriverTripsRemoteDataSourceImpl
       data: parameters.toJson(),
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
-        final items = (jsonData['trips'] as List? ?? jsonData['data'] as List? ?? [])
-            .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
-            .toList();
+        final items =
+            (jsonData['trips'] as List? ?? jsonData['data'] as List? ?? [])
+                .map((e) => DriverTripModel.fromJson(e as Map<String, dynamic>))
+                .toList();
         return items;
       },
     );

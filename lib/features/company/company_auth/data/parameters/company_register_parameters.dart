@@ -63,7 +63,8 @@ class CompanyRegisterParameters extends Parameters {
   };
 
   /// Create a builder for this parameters type
-  CompanyRegisterParametersBuilder builder() => CompanyRegisterParametersBuilder();
+  CompanyRegisterParametersBuilder builder() =>
+      CompanyRegisterParametersBuilder();
 
   @override
   bool operator ==(Object other) {
@@ -110,7 +111,8 @@ class CompanyRegisterParameters extends Parameters {
 }
 
 /// Builder for CompanyRegisterParameters
-class CompanyRegisterParametersBuilder extends ParametersBuilder<CompanyRegisterParameters> {
+class CompanyRegisterParametersBuilder
+    extends ParametersBuilder<CompanyRegisterParameters> {
   String? _companyType;
   String? _name;
   String? _nickname;
@@ -164,7 +166,9 @@ class CompanyRegisterParametersBuilder extends ParametersBuilder<CompanyRegister
   }
 
   /// Set the password confirmation
-  CompanyRegisterParametersBuilder passwordConfirmation(String passwordConfirmation) {
+  CompanyRegisterParametersBuilder passwordConfirmation(
+    String passwordConfirmation,
+  ) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }
@@ -218,7 +222,9 @@ class CompanyRegisterParametersBuilder extends ParametersBuilder<CompanyRegister
   }
 
   @override
-  ParametersBuilder<CompanyRegisterParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<CompanyRegisterParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

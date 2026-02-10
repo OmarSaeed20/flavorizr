@@ -17,8 +17,13 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   ChatRemoteDataSource(this._apiClient);
   final ApiClient _apiClient;
 
-  Future<ApiResult<R>> _mapResult<T, R>(ApiResult<T> result, R Function(T data) mapper) async {
-    return await result.mapDataAsync(mapper: (data) => ApiResult.success(mapper(data)));
+  Future<ApiResult<R>> _mapResult<T, R>(
+    ApiResult<T> result,
+    R Function(T data) mapper,
+  ) async {
+    return await result.mapDataAsync(
+      mapper: (data) => ApiResult.success(mapper(data)),
+    );
   }
 
   @override
@@ -58,11 +63,15 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }
 
   Future<ApiResult<Conversation>> getConversation(String id) async {
-    final result = await get<Map<String, dynamic>>(path: ChatEndpoints.conversationById(id));
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.conversationById(id),
+    );
     return _mapResult(result, Conversation.fromMap);
   }
 
-  Future<ApiResult<Conversation>> createDirectConversation({required String otherUserId}) async {
+  Future<ApiResult<Conversation>> createDirectConversation({
+    required String otherUserId,
+  }) async {
     final result = await post<Map<String, dynamic>>(
       path: ChatEndpoints.createDirectConversation,
       data: {'other_user_id': otherUserId},
@@ -120,7 +129,9 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     required String conversationId,
     required String userId,
   }) async {
-    return delete<void>(path: ChatEndpoints.removeParticipant(conversationId, userId));
+    return delete<void>(
+      path: ChatEndpoints.removeParticipant(conversationId, userId),
+    );
   }
 
   Future<ApiResult<void>> leaveConversation(String conversationId) async {
@@ -138,7 +149,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }) async {
     return post<void>(
       path: ChatEndpoints.muteConversation(conversationId),
-      data: {'mute': mute, if (duration != null) 'duration_seconds': duration.inSeconds},
+      data: {
+        'mute': mute,
+        if (duration != null) 'duration_seconds': duration.inSeconds,
+      },
     );
   }
 
@@ -146,7 +160,10 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     required String conversationId,
     required bool pin,
   }) async {
-    return post<void>(path: ChatEndpoints.pinConversation(conversationId), data: {'pin': pin});
+    return post<void>(
+      path: ChatEndpoints.pinConversation(conversationId),
+      data: {'pin': pin},
+    );
   }
 
   Future<ApiResult<void>> archiveConversation({
@@ -190,7 +207,9 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }
 
   Future<ApiResult<Message>> getMessage(String messageId) async {
-    final result = await get<Map<String, dynamic>>(path: ChatEndpoints.getMessage(messageId));
+    final result = await get<Map<String, dynamic>>(
+      path: ChatEndpoints.getMessage(messageId),
+    );
     return _mapResult(result, Message.fromMap);
   }
 
@@ -235,7 +254,9 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     final result = await upload<Map<String, dynamic>>(
       path: ChatEndpoints.sendMediaMessage(conversationId),
       formData: formData,
-      onSendProgress: onProgress != null ? (int sent, int total) => onProgress(sent / total) : null,
+      onSendProgress: onProgress != null
+          ? (int sent, int total) => onProgress(sent / total)
+          : null,
     );
     return _mapResult(result, Message.fromMap);
   }
@@ -282,26 +303,45 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     );
   }
 
-  Future<ApiResult<void>> addReaction({required String messageId, required String reaction}) async {
-    return post<void>(path: ChatEndpoints.addReaction(messageId), data: {'reaction': reaction});
+  Future<ApiResult<void>> addReaction({
+    required String messageId,
+    required String reaction,
+  }) async {
+    return post<void>(
+      path: ChatEndpoints.addReaction(messageId),
+      data: {'reaction': reaction},
+    );
   }
 
   Future<ApiResult<void>> removeReaction({
     required String messageId,
     required String reaction,
   }) async {
-    return delete<void>(path: ChatEndpoints.removeReaction(messageId, reaction));
+    return delete<void>(
+      path: ChatEndpoints.removeReaction(messageId, reaction),
+    );
   }
 
-  Future<ApiResult<void>> pinMessage({required String messageId, required bool pin}) async {
-    return post<void>(path: ChatEndpoints.pinMessage(messageId), data: {'pin': pin});
+  Future<ApiResult<void>> pinMessage({
+    required String messageId,
+    required bool pin,
+  }) async {
+    return post<void>(
+      path: ChatEndpoints.pinMessage(messageId),
+      data: {'pin': pin},
+    );
   }
 
-  Future<ApiResult<List<Message>>> getPinnedMessages(String conversationId) async {
-    final result = await get<List<dynamic>>(path: ChatEndpoints.getPinnedMessages(conversationId));
+  Future<ApiResult<List<Message>>> getPinnedMessages(
+    String conversationId,
+  ) async {
+    final result = await get<List<dynamic>>(
+      path: ChatEndpoints.getPinnedMessages(conversationId),
+    );
     return _mapResult(
       result,
-      (data) => data.map((e) => Message.fromMap(e as Map<String, dynamic>)).toList(),
+      (data) =>
+          data.map((e) => Message.fromMap(e as Map<String, dynamic>)).toList(),
     );
   }
 
@@ -315,7 +355,11 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }) async {
     final result = await get<Map<String, dynamic>>(
       path: ChatEndpoints.searchMessages(conversationId),
-      queryParameters: {'q': query, if (cursor != null) 'cursor': cursor, 'limit': limit},
+      queryParameters: {
+        'q': query,
+        if (cursor != null) 'cursor': cursor,
+        'limit': limit,
+      },
     );
 
     return _mapResult(result, (data) {
@@ -338,7 +382,11 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
   }) async {
     final result = await get<Map<String, dynamic>>(
       path: ChatEndpoints.searchAllMessages,
-      queryParameters: {'q': query, if (cursor != null) 'cursor': cursor, 'limit': limit},
+      queryParameters: {
+        'q': query,
+        if (cursor != null) 'cursor': cursor,
+        'limit': limit,
+      },
     );
 
     return _mapResult(result, (data) {
@@ -369,7 +417,9 @@ class ChatRemoteDataSource with BaseRemoteDataSource {
     final result = await upload<Map<String, dynamic>>(
       path: ChatEndpoints.uploadAttachment,
       formData: formData,
-      onSendProgress: onProgress != null ? (int sent, int total) => onProgress(sent / total) : null,
+      onSendProgress: onProgress != null
+          ? (int sent, int total) => onProgress(sent / total)
+          : null,
     );
 
     return _mapResult(result, (data) => data['url'] as String);

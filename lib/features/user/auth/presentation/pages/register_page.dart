@@ -50,7 +50,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _handleRegister() async {
     if (_formKey.currentState?.validate() ?? false) {
-      final result = await ref.read(registerControllerProvider.notifier).register();
+      final result = await ref
+          .read(registerControllerProvider.notifier)
+          .register();
 
       if (result != null && mounted) {
         // Navigate to home on success
@@ -73,7 +75,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Close')),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close'),
+          ),
         ],
       ),
     );
@@ -101,7 +106,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     // Title
                     Text(
                       'Create Account',
-                      style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
@@ -126,7 +133,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.error_outline, color: theme.colorScheme.error, size: 20),
+                            Icon(
+                              Icons.error_outline,
+                              color: theme.colorScheme.error,
+                              size: 20,
+                            ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
@@ -155,8 +166,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       textCapitalization: TextCapitalization.words,
                       autofillHints: const [AutofillHints.name],
                       prefixIcon: const Icon(Icons.person_outline),
-                      onChanged: (value) =>
-                          ref.read(registerControllerProvider.notifier).setDisplayName(value),
+                      onChanged: (value) => ref
+                          .read(registerControllerProvider.notifier)
+                          .setDisplayName(value),
                       onSubmitted: (_) => _phoneFocusNode.requestFocus(),
                     ),
                     const SizedBox(height: 16),
@@ -171,8 +183,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       enabled: !state.isLoading,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.phone,
-                      onChanged: (value) =>
-                          ref.read(registerControllerProvider.notifier).setPhone(value),
+                      onChanged: (value) => ref
+                          .read(registerControllerProvider.notifier)
+                          .setPhone(value),
                       onSubmitted: (_) => _passwordFocusNode.requestFocus(),
                     ),
                     const SizedBox(height: 16),
@@ -188,11 +201,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       enabled: !state.isLoading,
                       textInputAction: TextInputAction.next,
                       autofillHints: const [AutofillHints.newPassword],
-                      onToggleVisibility: () =>
-                          ref.read(registerControllerProvider.notifier).togglePasswordVisibility(),
-                      onChanged: (value) =>
-                          ref.read(registerControllerProvider.notifier).setPassword(value),
-                      onSubmitted: (_) => _confirmPasswordFocusNode.requestFocus(),
+                      onToggleVisibility: () => ref
+                          .read(registerControllerProvider.notifier)
+                          .togglePasswordVisibility(),
+                      onChanged: (value) => ref
+                          .read(registerControllerProvider.notifier)
+                          .setPassword(value),
+                      onSubmitted: (_) =>
+                          _confirmPasswordFocusNode.requestFocus(),
                     ),
                     const SizedBox(height: 4),
 
@@ -222,8 +238,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       onToggleVisibility: () => ref
                           .read(registerControllerProvider.notifier)
                           .toggleConfirmPasswordVisibility(),
-                      onChanged: (value) =>
-                          ref.read(registerControllerProvider.notifier).setConfirmPassword(value),
+                      onChanged: (value) => ref
+                          .read(registerControllerProvider.notifier)
+                          .setConfirmPassword(value),
                       onSubmitted: (_) => _handleRegister(),
                     ),
                     const SizedBox(height: 16),
@@ -257,7 +274,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     color: theme.colorScheme.primary,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  recognizer: TapGestureRecognizer()..onTap = _showTermsDialog,
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _showTermsDialog,
                                 ),
                                 const TextSpan(text: ' and '),
                                 TextSpan(
@@ -266,7 +284,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     color: theme.colorScheme.primary,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  recognizer: TapGestureRecognizer()..onTap = _showTermsDialog,
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _showTermsDialog,
                                 ),
                               ],
                             ),
@@ -308,9 +327,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Already have an account? ', style: theme.textTheme.bodyMedium),
+                        Text(
+                          'Already have an account? ',
+                          style: theme.textTheme.bodyMedium,
+                        ),
                         TextButton(
-                          onPressed: state.isLoading ? null : () => context.pop(),
+                          onPressed: state.isLoading
+                              ? null
+                              : () => context.pop(),
                           child: const Text('Sign In'),
                         ),
                       ],

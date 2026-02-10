@@ -17,7 +17,10 @@ class SignInWithOtpParameters extends Parameters {
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {'verification_id': verificationId, 'otp_code': otpCode};
+  Map<String, dynamic> toJson() => {
+    'verification_id': verificationId,
+    'otp_code': otpCode,
+  };
 
   /// Create a builder for this parameters type
   SignInWithOtpParametersBuilder builder() => SignInWithOtpParametersBuilder();
@@ -32,7 +35,8 @@ class SignInWithOtpParameters extends Parameters {
   }
 
   @override
-  int get hashCode => verificationId.hashCode ^ otpCode.hashCode ^ cancelToken.hashCode;
+  int get hashCode =>
+      verificationId.hashCode ^ otpCode.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>
@@ -40,7 +44,8 @@ class SignInWithOtpParameters extends Parameters {
 }
 
 /// Builder for SignInWithOtpParameters
-class SignInWithOtpParametersBuilder extends ParametersBuilder<SignInWithOtpParameters> {
+class SignInWithOtpParametersBuilder
+    extends ParametersBuilder<SignInWithOtpParameters> {
   String? _verificationId;
   String? _otpCode;
   CancelToken? _cancelToken;

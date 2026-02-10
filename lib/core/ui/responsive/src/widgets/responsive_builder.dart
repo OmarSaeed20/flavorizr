@@ -25,11 +25,16 @@ class ResponsiveBuilder extends StatelessWidget {
   /// Default builder (used as fallback)
   final Widget Function(BuildContext context, DeviceInfo info)? builder;
 
-  const ResponsiveBuilder({super.key, this.mobile, this.tablet, this.desktop, this.builder})
-    : assert(
-        mobile != null || tablet != null || desktop != null || builder != null,
-        'At least one builder must be provided',
-      );
+  const ResponsiveBuilder({
+    super.key,
+    this.mobile,
+    this.tablet,
+    this.desktop,
+    this.builder,
+  }) : assert(
+         mobile != null || tablet != null || desktop != null || builder != null,
+         'At least one builder must be provided',
+       );
 
   @override
   Widget build(BuildContext context) {
@@ -90,11 +95,16 @@ class WindowSizeBuilder extends StatelessWidget {
     final info = DeviceInfo.fromContext(context);
 
     final selectedBuilder = switch (info.windowSizeClass) {
-      WindowSizeClass.compact => compact ?? medium ?? expanded ?? large ?? extraLarge,
-      WindowSizeClass.medium => medium ?? compact ?? expanded ?? large ?? extraLarge,
-      WindowSizeClass.expanded => expanded ?? medium ?? large ?? compact ?? extraLarge,
-      WindowSizeClass.large => large ?? expanded ?? extraLarge ?? medium ?? compact,
-      WindowSizeClass.extraLarge => extraLarge ?? large ?? expanded ?? medium ?? compact,
+      WindowSizeClass.compact =>
+        compact ?? medium ?? expanded ?? large ?? extraLarge,
+      WindowSizeClass.medium =>
+        medium ?? compact ?? expanded ?? large ?? extraLarge,
+      WindowSizeClass.expanded =>
+        expanded ?? medium ?? large ?? compact ?? extraLarge,
+      WindowSizeClass.large =>
+        large ?? expanded ?? extraLarge ?? medium ?? compact,
+      WindowSizeClass.extraLarge =>
+        extraLarge ?? large ?? expanded ?? medium ?? compact,
     };
 
     if (selectedBuilder == null) {
@@ -113,7 +123,11 @@ class OrientationBuilder extends StatelessWidget {
   /// Builder for landscape orientation
   final Widget Function(BuildContext context, DeviceInfo info) landscape;
 
-  const OrientationBuilder({super.key, required this.portrait, required this.landscape});
+  const OrientationBuilder({
+    super.key,
+    required this.portrait,
+    required this.landscape,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +191,11 @@ class ResponsiveValueBuilder<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final info = DeviceInfo.fromContext(context);
-    final value = info.byDevice(mobile: mobile, tablet: tablet, desktop: desktop);
+    final value = info.byDevice(
+      mobile: mobile,
+      tablet: tablet,
+      desktop: desktop,
+    );
     return builder(context, value);
   }
 }

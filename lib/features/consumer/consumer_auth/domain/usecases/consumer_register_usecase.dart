@@ -10,16 +10,21 @@ import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.
 ///
 /// Handles the business logic for registering a new consumer.
 /// Validates input parameters and delegates to repository.
-class ConsumerRegisterUseCase extends BaseUseCase<AuthResult, ConsumerRegisterParameters> {
+class ConsumerRegisterUseCase
+    extends BaseUseCase<AuthResult, ConsumerRegisterParameters> {
   const ConsumerRegisterUseCase(this._repository);
 
   final ConsumerAuthRepository _repository;
 
   @override
-  Future<Either<Failure, AuthResult>> call(ConsumerRegisterParameters params) async {
+  Future<Either<Failure, AuthResult>> call(
+    ConsumerRegisterParameters params,
+  ) async {
     // Validate company type (should be "customer" for consumers)
     if (params.companyType != 'customer') {
-      return const Left(ValidationFailure(message: 'Invalid company type for consumer'));
+      return const Left(
+        ValidationFailure(message: 'Invalid company type for consumer'),
+      );
     }
 
     // Validate name
@@ -34,7 +39,9 @@ class ConsumerRegisterUseCase extends BaseUseCase<AuthResult, ConsumerRegisterPa
 
     // Validate phone ISO code
     if (params.phoneIso2Code.isEmpty) {
-      return const Left(ValidationFailure(message: 'Phone ISO code is required'));
+      return const Left(
+        ValidationFailure(message: 'Phone ISO code is required'),
+      );
     }
 
     // Validate password
@@ -44,7 +51,9 @@ class ConsumerRegisterUseCase extends BaseUseCase<AuthResult, ConsumerRegisterPa
 
     // Validate password confirmation
     if (params.passwordConfirmation.isEmpty) {
-      return const Left(ValidationFailure(message: 'Password confirmation is required'));
+      return const Left(
+        ValidationFailure(message: 'Password confirmation is required'),
+      );
     }
 
     // Validate password match
@@ -54,30 +63,40 @@ class ConsumerRegisterUseCase extends BaseUseCase<AuthResult, ConsumerRegisterPa
 
     // Validate password strength (minimum 6 characters)
     if (params.password.length < 6) {
-      return const Left(ValidationFailure(message: 'Password must be at least 6 characters'));
+      return const Left(
+        ValidationFailure(message: 'Password must be at least 6 characters'),
+      );
     }
 
     // Validate country ID
     if (params.countryId <= 0) {
-      return const Left(ValidationFailure(message: 'Valid country ID is required'));
+      return const Left(
+        ValidationFailure(message: 'Valid country ID is required'),
+      );
     }
 
     // Validate governorate ID
     if (params.governorateId <= 0) {
-      return const Left(ValidationFailure(message: 'Valid governorate ID is required'));
+      return const Left(
+        ValidationFailure(message: 'Valid governorate ID is required'),
+      );
     }
 
     // Validate birthdate format (YYYY-MM-DD)
     final birthdateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
     if (!birthdateRegex.hasMatch(params.birthdate)) {
-      return const Left(ValidationFailure(message: 'Invalid birthdate format (YYYY-MM-DD)'));
+      return const Left(
+        ValidationFailure(message: 'Invalid birthdate format (YYYY-MM-DD)'),
+      );
     }
 
     // Validate birthdate is not in the future
     try {
       final birthdate = DateTime.parse(params.birthdate);
       if (birthdate.isAfter(DateTime.now())) {
-        return const Left(ValidationFailure(message: 'Birthdate cannot be in the future'));
+        return const Left(
+          ValidationFailure(message: 'Birthdate cannot be in the future'),
+        );
       }
     } catch (e) {
       return const Left(ValidationFailure(message: 'Invalid birthdate'));
@@ -85,7 +104,9 @@ class ConsumerRegisterUseCase extends BaseUseCase<AuthResult, ConsumerRegisterPa
 
     // Validate gender
     if (params.gender != 'male' && params.gender != 'female') {
-      return const Left(ValidationFailure(message: 'Gender must be "male" or "female"'));
+      return const Left(
+        ValidationFailure(message: 'Gender must be "male" or "female"'),
+      );
     }
 
     // Call repository

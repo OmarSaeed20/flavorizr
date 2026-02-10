@@ -37,7 +37,8 @@ class TripState {
   final String? errorMessage;
   final bool isSuccess;
 
-  bool get isAnyLoading => isLoading || isCreatingTrip || isConfirmingTrip || isCancellingTrip;
+  bool get isAnyLoading =>
+      isLoading || isCreatingTrip || isConfirmingTrip || isCancellingTrip;
 
   TripState copyWith({
     List<TripType>? tripTypes,
@@ -79,7 +80,9 @@ class TripController extends AutoDisposeNotifier<TripState> {
   TripState build() {
     _getTripTypesUseCase = ref.watch(getTripTypesUseCaseProvider);
     _getTripDetailUseCase = ref.watch(getTripDetailUseCaseProvider);
-    _getAvailablePublicTripsUseCase = ref.watch(getAvailablePublicTripsUseCaseProvider);
+    _getAvailablePublicTripsUseCase = ref.watch(
+      getAvailablePublicTripsUseCaseProvider,
+    );
     _storePublicTripUseCase = ref.watch(storePublicTripUseCaseProvider);
     _storePrivateTripUseCase = ref.watch(storePrivateTripUseCaseProvider);
     _confirmTripUseCase = ref.watch(confirmTripUseCaseProvider);
@@ -91,7 +94,9 @@ class TripController extends AutoDisposeNotifier<TripState> {
   Future<void> loadTripTypes() async {
     state = state.copyWith(isLoading: true, clearError: true);
 
-    final result = await _getTripTypesUseCase(GetTripTypesParameters.builder().build());
+    final result = await _getTripTypesUseCase(
+      GetTripTypesParameters.builder().build(),
+    );
 
     result.when(
       success: (tripTypes, error) {
@@ -104,11 +109,17 @@ class TripController extends AutoDisposeNotifier<TripState> {
   }
 
   /// Load available public trips.
-  Future<void> loadAvailableTrips({required String orderId, required String userId}) async {
+  Future<void> loadAvailableTrips({
+    required String orderId,
+    required String userId,
+  }) async {
     state = state.copyWith(isLoading: true, clearError: true);
 
     final result = await _getAvailablePublicTripsUseCase(
-      GetAvailablePublicTripsParameters.builder().withOrderId(orderId).withUserId(userId).build(),
+      GetAvailablePublicTripsParameters.builder()
+          .withOrderId(orderId)
+          .withUserId(userId)
+          .build(),
     );
 
     result.when(
@@ -157,20 +168,33 @@ class TripController extends AutoDisposeNotifier<TripState> {
     final result = await _storePublicTripUseCase(
       StorePublicTripParameters.builder()
           .withVehicleTypeId(vehicleTypeId)
-          .withPickUpLocation(pickupLongitude.toString(), pickupLatitude.toString())
+          .withPickUpLocation(
+            pickupLongitude.toString(),
+            pickupLatitude.toString(),
+          )
           .withPickupName(pickupAddress)
-          .withDestinationLocation(dropoffLongitude.toString(), dropoffLatitude.toString())
+          .withDestinationLocation(
+            dropoffLongitude.toString(),
+            dropoffLatitude.toString(),
+          )
           .withDestinationName(dropoffAddress)
           .build(),
     );
 
     return result.when(
       success: (trip, i) {
-        state = state.copyWith(currentTrip: trip, isCreatingTrip: false, isSuccess: true);
+        state = state.copyWith(
+          currentTrip: trip,
+          isCreatingTrip: false,
+          isSuccess: true,
+        );
         return trip;
       },
       exception: (error) {
-        state = state.copyWith(isCreatingTrip: false, errorMessage: error.message);
+        state = state.copyWith(
+          isCreatingTrip: false,
+          errorMessage: error.message,
+        );
         return null;
       },
     );
@@ -195,9 +219,15 @@ class TripController extends AutoDisposeNotifier<TripState> {
     final result = await _storePrivateTripUseCase(
       StorePrivateTripParameters.builder()
           .withVehicleTypeId(vehicleTypeId)
-          .withPickUpLocation(pickupLongitude.toString(), pickupLatitude.toString())
+          .withPickUpLocation(
+            pickupLongitude.toString(),
+            pickupLatitude.toString(),
+          )
           .withPickupName(pickupAddress)
-          .withDestinationLocation(dropoffLongitude.toString(), dropoffLatitude.toString())
+          .withDestinationLocation(
+            dropoffLongitude.toString(),
+            dropoffLatitude.toString(),
+          )
           .withDestinationName(dropoffAddress)
           .withAppointmentType(appointmentType)
           .withDate(date)
@@ -208,42 +238,68 @@ class TripController extends AutoDisposeNotifier<TripState> {
 
     return result.when(
       success: (trip, i) {
-        state = state.copyWith(currentTrip: trip, isCreatingTrip: false, isSuccess: true);
+        state = state.copyWith(
+          currentTrip: trip,
+          isCreatingTrip: false,
+          isSuccess: true,
+        );
         return trip;
       },
       exception: (error) {
-        state = state.copyWith(isCreatingTrip: false, errorMessage: error.message);
+        state = state.copyWith(
+          isCreatingTrip: false,
+          errorMessage: error.message,
+        );
         return null;
       },
     );
   }
 
   /// Confirm a trip.
-  Future<Trip?> confirmTrip({required String orderId, required String userId}) async {
+  Future<Trip?> confirmTrip({
+    required String orderId,
+    required String userId,
+  }) async {
     state = state.copyWith(isConfirmingTrip: true, clearError: true);
 
     final result = await _confirmTripUseCase(
-      ConfirmTripParameters.builder().withOrderId(orderId).withUserId(userId).build(),
+      ConfirmTripParameters.builder()
+          .withOrderId(orderId)
+          .withUserId(userId)
+          .build(),
     );
 
     return result.when(
       success: (trip, i) {
-        state = state.copyWith(currentTrip: trip, isConfirmingTrip: false, isSuccess: true);
+        state = state.copyWith(
+          currentTrip: trip,
+          isConfirmingTrip: false,
+          isSuccess: true,
+        );
         return trip;
       },
       exception: (error) {
-        state = state.copyWith(isConfirmingTrip: false, errorMessage: error.message);
+        state = state.copyWith(
+          isConfirmingTrip: false,
+          errorMessage: error.message,
+        );
         return null;
       },
     );
   }
 
   /// Cancel a trip.
-  Future<bool> cancelTrip({required String orderId, required String userId}) async {
+  Future<bool> cancelTrip({
+    required String orderId,
+    required String userId,
+  }) async {
     state = state.copyWith(isCancellingTrip: true, clearError: true);
 
     final result = await _cancelTripUseCase(
-      CancelTripParameters.builder().withOrderId(orderId).withUserId(userId).build(),
+      CancelTripParameters.builder()
+          .withOrderId(orderId)
+          .withUserId(userId)
+          .build(),
     );
 
     return result.when(
@@ -252,7 +308,10 @@ class TripController extends AutoDisposeNotifier<TripState> {
         return true;
       },
       exception: (error) {
-        state = state.copyWith(isCancellingTrip: false, errorMessage: error.message);
+        state = state.copyWith(
+          isCancellingTrip: false,
+          errorMessage: error.message,
+        );
         return false;
       },
     );

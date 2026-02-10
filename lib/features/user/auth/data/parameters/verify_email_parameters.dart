@@ -29,11 +29,13 @@ class VerifyEmailParameters extends Parameters {
   int get hashCode => token.hashCode ^ cancelToken.hashCode;
 
   @override
-  String toString() => 'VerifyEmailParameters(token: ****, cancelToken: $cancelToken)';
+  String toString() =>
+      'VerifyEmailParameters(token: ****, cancelToken: $cancelToken)';
 }
 
 /// Builder for VerifyEmailParameters
-class VerifyEmailParametersBuilder extends ParametersBuilder<VerifyEmailParameters> {
+class VerifyEmailParametersBuilder
+    extends ParametersBuilder<VerifyEmailParameters> {
   String? _token;
   CancelToken? _cancelToken;
 

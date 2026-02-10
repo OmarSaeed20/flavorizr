@@ -1,8 +1,8 @@
 // lib/features/consumer/consumer_auth/data/datasources/consumer_auth_local_datasource.dart
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_tokens.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Local data source for consumer authentication operations.
 ///
@@ -76,7 +76,10 @@ class ConsumerAuthLocalDataSourceImpl implements ConsumerAuthLocalDataSource {
   @override
   Future<void> saveTokens(AuthTokens tokens) async {
     await secureStorage.write(key: _keyAccessToken, value: tokens.accessToken);
-    await secureStorage.write(key: _keyRefreshToken, value: tokens.refreshToken);
+    await secureStorage.write(
+      key: _keyRefreshToken,
+      value: tokens.refreshToken,
+    );
     await secureStorage.write(
       key: _keyAccessTokenExpiry,
       value: tokens.accessTokenExpiresAt.toIso8601String(),

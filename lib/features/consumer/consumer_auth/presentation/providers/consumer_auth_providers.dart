@@ -28,30 +28,36 @@ final consumerSecureStorageProvider = Provider<FlutterSecureStorage>((ref) {
 });
 
 /// Provider for SharedPreferences.
-final consumerSharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) async {
+final consumerSharedPreferencesProvider = FutureProvider<SharedPreferences>((
+  ref,
+) async {
   return SharedPreferences.getInstance();
 });
 
 /// Provider for ConsumerAuthRemoteDataSource.
-final consumerAuthRemoteDataSourceProvider = Provider<ConsumerAuthRemoteDataSource>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return ConsumerAuthRemoteDataSourceImpl(apiClient);
-});
+final consumerAuthRemoteDataSourceProvider =
+    Provider<ConsumerAuthRemoteDataSource>((ref) {
+      final apiClient = ref.watch(apiClientProvider);
+      return ConsumerAuthRemoteDataSourceImpl(apiClient);
+    });
 
 /// Provider for ConsumerAuthLocalDataSource.
-final consumerAuthLocalDataSourceProvider = Provider<ConsumerAuthLocalDataSource>((ref) {
-  final secureStorage = ref.watch(consumerSecureStorageProvider);
-  final sharedPreferences = ref.watch(consumerSharedPreferencesProvider).value;
+final consumerAuthLocalDataSourceProvider =
+    Provider<ConsumerAuthLocalDataSource>((ref) {
+      final secureStorage = ref.watch(consumerSecureStorageProvider);
+      final sharedPreferences = ref
+          .watch(consumerSharedPreferencesProvider)
+          .value;
 
-  if (sharedPreferences == null) {
-    throw StateError('SharedPreferences not initialized');
-  }
+      if (sharedPreferences == null) {
+        throw StateError('SharedPreferences not initialized');
+      }
 
-  return ConsumerAuthLocalDataSourceImpl(
-    secureStorage: secureStorage,
-    sharedPreferences: sharedPreferences,
-  );
-});
+      return ConsumerAuthLocalDataSourceImpl(
+        secureStorage: secureStorage,
+        sharedPreferences: sharedPreferences,
+      );
+    });
 
 // ==================== Repository ====================
 
@@ -75,36 +81,41 @@ final consumerLoginUseCaseProvider = Provider<ConsumerLoginUseCase>((ref) {
 });
 
 /// Provider for ConsumerRegisterUseCase.
-final consumerRegisterUseCaseProvider = Provider<ConsumerRegisterUseCase>((ref) {
+final consumerRegisterUseCaseProvider = Provider<ConsumerRegisterUseCase>((
+  ref,
+) {
   final repository = ref.watch(consumerAuthRepositoryProvider);
   return ConsumerRegisterUseCase(repository);
 });
 
 /// Provider for ConsumerVerifyPhoneUseCase.
-final consumerVerifyPhoneUseCaseProvider = Provider<ConsumerVerifyPhoneUseCase>((ref) {
-  final repository = ref.watch(consumerAuthRepositoryProvider);
-  return ConsumerVerifyPhoneUseCase(repository);
-});
+final consumerVerifyPhoneUseCaseProvider = Provider<ConsumerVerifyPhoneUseCase>(
+  (ref) {
+    final repository = ref.watch(consumerAuthRepositoryProvider);
+    return ConsumerVerifyPhoneUseCase(repository);
+  },
+);
 
 /// Provider for ConsumerSendVerificationCodeUseCase.
-final consumerSendVerificationCodeUseCaseProvider = Provider<ConsumerSendVerificationCodeUseCase>((
-  ref,
-) {
-  final repository = ref.watch(consumerAuthRepositoryProvider);
-  return ConsumerSendVerificationCodeUseCase(repository);
-});
+final consumerSendVerificationCodeUseCaseProvider =
+    Provider<ConsumerSendVerificationCodeUseCase>((ref) {
+      final repository = ref.watch(consumerAuthRepositoryProvider);
+      return ConsumerSendVerificationCodeUseCase(repository);
+    });
 
 /// Provider for ConsumerForgetPasswordUseCase.
-final consumerForgetPasswordUseCaseProvider = Provider<ConsumerForgetPasswordUseCase>((ref) {
-  final repository = ref.watch(consumerAuthRepositoryProvider);
-  return ConsumerForgetPasswordUseCase(repository);
-});
+final consumerForgetPasswordUseCaseProvider =
+    Provider<ConsumerForgetPasswordUseCase>((ref) {
+      final repository = ref.watch(consumerAuthRepositoryProvider);
+      return ConsumerForgetPasswordUseCase(repository);
+    });
 
 /// Provider for ConsumerResetPasswordUseCase.
-final consumerResetPasswordUseCaseProvider = Provider<ConsumerResetPasswordUseCase>((ref) {
-  final repository = ref.watch(consumerAuthRepositoryProvider);
-  return ConsumerResetPasswordUseCase(repository);
-});
+final consumerResetPasswordUseCaseProvider =
+    Provider<ConsumerResetPasswordUseCase>((ref) {
+      final repository = ref.watch(consumerAuthRepositoryProvider);
+      return ConsumerResetPasswordUseCase(repository);
+    });
 
 /// Provider for ConsumerLogoutUseCase.
 final consumerLogoutUseCaseProvider = Provider<ConsumerLogoutUseCase>((ref) {
@@ -113,13 +124,15 @@ final consumerLogoutUseCaseProvider = Provider<ConsumerLogoutUseCase>((ref) {
 });
 
 /// Provider for ConsumerGetCurrentUserUseCase.
-final consumerGetCurrentUserUseCaseProvider = Provider<ConsumerGetCurrentUserUseCase>((ref) {
-  final repository = ref.watch(consumerAuthRepositoryProvider);
-  return ConsumerGetCurrentUserUseCase(repository);
-});
+final consumerGetCurrentUserUseCaseProvider =
+    Provider<ConsumerGetCurrentUserUseCase>((ref) {
+      final repository = ref.watch(consumerAuthRepositoryProvider);
+      return ConsumerGetCurrentUserUseCase(repository);
+    });
 
 /// Provider for ConsumerBiometricAuthUseCase.
-final consumerBiometricAuthUseCaseProvider = Provider<ConsumerBiometricAuthUseCase>((ref) {
-  final repository = ref.watch(consumerAuthRepositoryProvider);
-  return ConsumerBiometricAuthUseCase(repository);
-});
+final consumerBiometricAuthUseCaseProvider =
+    Provider<ConsumerBiometricAuthUseCase>((ref) {
+      final repository = ref.watch(consumerAuthRepositoryProvider);
+      return ConsumerBiometricAuthUseCase(repository);
+    });

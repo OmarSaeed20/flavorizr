@@ -22,13 +22,18 @@ import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_tokens.
 /// Combines remote and local data sources with error handling.
 /// Implements caching strategy for offline support.
 class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
-  const ConsumerAuthRepositoryImpl({required this.remoteDataSource, required this.localDataSource});
+  const ConsumerAuthRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localDataSource,
+  });
 
   final ConsumerAuthRemoteDataSource remoteDataSource;
   final ConsumerAuthLocalDataSource localDataSource;
 
   @override
-  Future<Either<Failure, AuthResult>> login(ConsumerLoginParameters parameters) async {
+  Future<Either<Failure, AuthResult>> login(
+    ConsumerLoginParameters parameters,
+  ) async {
     try {
       final result = await remoteDataSource.login(parameters);
 
@@ -47,7 +52,9 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
   }
 
   @override
-  Future<Either<Failure, AuthResult>> register(ConsumerRegisterParameters parameters) async {
+  Future<Either<Failure, AuthResult>> register(
+    ConsumerRegisterParameters parameters,
+  ) async {
     try {
       final result = await remoteDataSource.register(parameters);
 
@@ -66,7 +73,9 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> logout(ConsumerLogoutParameters parameters) async {
+  Future<Either<Failure, void>> logout(
+    ConsumerLogoutParameters parameters,
+  ) async {
     try {
       final result = await remoteDataSource.logout(parameters);
 
@@ -109,7 +118,9 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
   }
 
   @override
-  Future<Either<Failure, AuthResult>> verifyPhone(ConsumerVerifyPhoneParameters parameters) async {
+  Future<Either<Failure, AuthResult>> verifyPhone(
+    ConsumerVerifyPhoneParameters parameters,
+  ) async {
     try {
       final result = await remoteDataSource.verifyPhone(parameters);
 
@@ -128,7 +139,9 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> resetPassword(ConsumerResetPasswordParameters parameters) async {
+  Future<Either<Failure, void>> resetPassword(
+    ConsumerResetPasswordParameters parameters,
+  ) async {
     try {
       final result = await remoteDataSource.resetPassword(parameters);
 
@@ -142,7 +155,9 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> forgetPassword(ConsumerForgetPasswordParameters parameters) async {
+  Future<Either<Failure, void>> forgetPassword(
+    ConsumerForgetPasswordParameters parameters,
+  ) async {
     try {
       final result = await remoteDataSource.forgetPassword(parameters);
 
@@ -212,7 +227,9 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
     try {
       final refreshToken = await localDataSource.getRefreshToken();
       if (refreshToken == null) {
-        return const Left(UnauthorizedFailure(message: 'No refresh token available'));
+        return const Left(
+          UnauthorizedFailure(message: 'No refresh token available'),
+        );
       }
 
       final result = await remoteDataSource.refreshToken(refreshToken);
@@ -261,7 +278,10 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> saveBiometricCredentials(String phone, String password) async {
+  Future<Either<Failure, void>> saveBiometricCredentials(
+    String phone,
+    String password,
+  ) async {
     try {
       await localDataSource.saveBiometricCredentials(phone, password);
       return const Right(null);
@@ -271,7 +291,8 @@ class ConsumerAuthRepositoryImpl implements ConsumerAuthRepository {
   }
 
   @override
-  Future<Either<Failure, Map<String, String>?>> getBiometricCredentials() async {
+  Future<Either<Failure, Map<String, String>?>>
+  getBiometricCredentials() async {
     try {
       final credentials = await localDataSource.getBiometricCredentials();
       return Right(credentials);

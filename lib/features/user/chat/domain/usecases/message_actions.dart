@@ -9,7 +9,10 @@ class EditMessage {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<ApiResult<Message>> call({required String messageId, required String content}) {
+  Future<ApiResult<Message>> call({
+    required String messageId,
+    required String content,
+  }) {
     return _repository.editMessage(messageId: messageId, content: content);
   }
 }
@@ -22,8 +25,14 @@ class DeleteMessage {
   /// Executes the use case.
   ///
   /// [forEveryone] - If true, deletes for all users.
-  Future<ApiResult<void>> call({required String messageId, bool forEveryone = false}) {
-    return _repository.deleteMessage(messageId: messageId, forEveryone: forEveryone);
+  Future<ApiResult<void>> call({
+    required String messageId,
+    bool forEveryone = false,
+  }) {
+    return _repository.deleteMessage(
+      messageId: messageId,
+      forEveryone: forEveryone,
+    );
   }
 }
 
@@ -33,7 +42,10 @@ class AddReaction {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<ApiResult<void>> call({required String messageId, required String reaction}) {
+  Future<ApiResult<void>> call({
+    required String messageId,
+    required String reaction,
+  }) {
     return _repository.addReaction(messageId: messageId, reaction: reaction);
   }
 }
@@ -44,7 +56,10 @@ class RemoveReaction {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<ApiResult<void>> call({required String messageId, required String reaction}) {
+  Future<ApiResult<void>> call({
+    required String messageId,
+    required String reaction,
+  }) {
     return _repository.removeReaction(messageId: messageId, reaction: reaction);
   }
 }
@@ -55,8 +70,14 @@ class MarkMessagesAsRead {
   final ChatRepository _repository;
 
   /// Executes the use case.
-  Future<ApiResult<void>> call({required String conversationId, String? upToMessageId}) {
-    return _repository.markAsRead(conversationId: conversationId, upToMessageId: upToMessageId);
+  Future<ApiResult<void>> call({
+    required String conversationId,
+    String? upToMessageId,
+  }) {
+    return _repository.markAsRead(
+      conversationId: conversationId,
+      upToMessageId: upToMessageId,
+    );
   }
 }
 

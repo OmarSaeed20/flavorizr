@@ -39,11 +39,13 @@ class UpdatePrivacyParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdatePrivacyParametersBuilder builder() => UpdatePrivacyParametersBuilder();
+  static UpdatePrivacyParametersBuilder builder() =>
+      UpdatePrivacyParametersBuilder();
 }
 
 /// Builder for UpdatePrivacyParameters
-class UpdatePrivacyParametersBuilder extends ParametersBuilder<UpdatePrivacyParameters> {
+class UpdatePrivacyParametersBuilder
+    extends ParametersBuilder<UpdatePrivacyParameters> {
   bool? _showPhone;
   bool? _showLocation;
   bool? _allowRatings;

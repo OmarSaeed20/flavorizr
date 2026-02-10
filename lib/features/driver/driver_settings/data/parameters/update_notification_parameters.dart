@@ -29,8 +29,10 @@ class UpdateNotificationParameters extends Parameters {
   @override
   Map<String, dynamic> toJson() {
     return {
-      if (_notificationsEnabled != null) 'notifications_enabled': _notificationsEnabled,
-      if (_emailNotifications != null) 'email_notifications': _emailNotifications,
+      if (_notificationsEnabled != null)
+        'notifications_enabled': _notificationsEnabled,
+      if (_emailNotifications != null)
+        'email_notifications': _emailNotifications,
       if (_smsNotifications != null) 'sms_notifications': _smsNotifications,
       if (_pushNotifications != null) 'push_notifications': _pushNotifications,
     };
@@ -44,11 +46,13 @@ class UpdateNotificationParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateNotificationParametersBuilder builder() => UpdateNotificationParametersBuilder();
+  static UpdateNotificationParametersBuilder builder() =>
+      UpdateNotificationParametersBuilder();
 }
 
 /// Builder for UpdateNotificationParameters
-class UpdateNotificationParametersBuilder extends ParametersBuilder<UpdateNotificationParameters> {
+class UpdateNotificationParametersBuilder
+    extends ParametersBuilder<UpdateNotificationParameters> {
   bool? _notificationsEnabled;
   bool? _emailNotifications;
   bool? _smsNotifications;
@@ -56,32 +60,42 @@ class UpdateNotificationParametersBuilder extends ParametersBuilder<UpdateNotifi
   CancelToken? _cancelToken;
 
   /// Set notifications enabled
-  UpdateNotificationParametersBuilder withNotificationsEnabled(bool notificationsEnabled) {
+  UpdateNotificationParametersBuilder withNotificationsEnabled(
+    bool notificationsEnabled,
+  ) {
     _notificationsEnabled = notificationsEnabled;
     return this;
   }
 
   /// Set email notifications
-  UpdateNotificationParametersBuilder withEmailNotifications(bool emailNotifications) {
+  UpdateNotificationParametersBuilder withEmailNotifications(
+    bool emailNotifications,
+  ) {
     _emailNotifications = emailNotifications;
     return this;
   }
 
   /// Set SMS notifications
-  UpdateNotificationParametersBuilder withSmsNotifications(bool smsNotifications) {
+  UpdateNotificationParametersBuilder withSmsNotifications(
+    bool smsNotifications,
+  ) {
     _smsNotifications = smsNotifications;
     return this;
   }
 
   /// Set push notifications
-  UpdateNotificationParametersBuilder withPushNotifications(bool pushNotifications) {
+  UpdateNotificationParametersBuilder withPushNotifications(
+    bool pushNotifications,
+  ) {
     _pushNotifications = pushNotifications;
     return this;
   }
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateNotificationParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UpdateNotificationParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

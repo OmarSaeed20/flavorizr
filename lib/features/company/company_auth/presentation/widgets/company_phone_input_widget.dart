@@ -1,7 +1,6 @@
 // lib/features/company/company_auth/presentation/widgets/company_phone_input_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fast_golden_taxi/core/theme/app_colors.dart';
 
 /// Company Phone Input Widget
 ///
@@ -37,7 +36,10 @@ class CompanyPhoneInputWidget extends StatelessWidget {
               labelText: 'Code',
               hintText: 'EG',
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 16,
+              ),
             ),
             textCapitalization: TextCapitalization.characters,
             inputFormatters: [

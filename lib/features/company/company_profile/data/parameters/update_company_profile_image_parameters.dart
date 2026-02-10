@@ -11,7 +11,10 @@ class UpdateCompanyProfileImageParameters extends Parameters {
   @override
   final CancelToken? cancelToken;
 
-  const UpdateCompanyProfileImageParameters({required this.imagePath, this.cancelToken});
+  const UpdateCompanyProfileImageParameters({
+    required this.imagePath,
+    this.cancelToken,
+  });
 
   /// Convert to JSON for API request
   @override
@@ -55,19 +58,26 @@ class UpdateCompanyProfileImageParametersBuilder
   }
 
   /// Set the cancel token
-  UpdateCompanyProfileImageParametersBuilder cancelToken(CancelToken cancelToken) {
+  UpdateCompanyProfileImageParametersBuilder cancelToken(
+    CancelToken cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
 
   @override
-  ParametersBuilder<UpdateCompanyProfileImageParameters> withCancelToken(CancelToken? cancelToken) {
+  ParametersBuilder<UpdateCompanyProfileImageParameters> withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }
 
   @override
   UpdateCompanyProfileImageParameters build() {
-    return UpdateCompanyProfileImageParameters(imagePath: _imagePath!, cancelToken: _cancelToken);
+    return UpdateCompanyProfileImageParameters(
+      imagePath: _imagePath!,
+      cancelToken: _cancelToken,
+    );
   }
 }

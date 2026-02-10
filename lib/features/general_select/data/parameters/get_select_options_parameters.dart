@@ -42,11 +42,13 @@ class GetSelectOptionsParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static GetSelectOptionsParametersBuilder builder() => GetSelectOptionsParametersBuilder();
+  static GetSelectOptionsParametersBuilder builder() =>
+      GetSelectOptionsParametersBuilder();
 }
 
 /// Builder for GetSelectOptionsParameters
-class GetSelectOptionsParametersBuilder extends ParametersBuilder<GetSelectOptionsParameters> {
+class GetSelectOptionsParametersBuilder
+    extends ParametersBuilder<GetSelectOptionsParameters> {
   String? _type;
   String? _search;
   int? _limit;

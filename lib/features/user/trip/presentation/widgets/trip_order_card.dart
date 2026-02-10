@@ -13,7 +13,10 @@ class TripOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final statusColor = _getStatusColor(context, order.status);
-    final paymentStatusColor = _getPaymentStatusColor(context, order.paymentStatus);
+    final paymentStatusColor = _getPaymentStatusColor(
+      context,
+      order.paymentStatus,
+    );
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -31,11 +34,16 @@ class TripOrderCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       'Order #${order.id.substring(0, 8)}',
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -56,9 +64,16 @@ class TripOrderCard extends StatelessWidget {
               // Trip ID reference
               Row(
                 children: [
-                  Icon(Icons.directions_car, size: 16, color: theme.colorScheme.outline),
+                  Icon(
+                    Icons.directions_car,
+                    size: 16,
+                    color: theme.colorScheme.outline,
+                  ),
                   const SizedBox(width: 4),
-                  Text('Trip: ${order.tripId.substring(0, 8)}', style: theme.textTheme.bodySmall),
+                  Text(
+                    'Trip: ${order.tripId.substring(0, 8)}',
+                    style: theme.textTheme.bodySmall,
+                  ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -69,7 +84,11 @@ class TripOrderCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.calendar_today, size: 16, color: theme.colorScheme.outline),
+                      Icon(
+                        Icons.calendar_today,
+                        size: 16,
+                        color: theme.colorScheme.outline,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         _formatDate(order.createdAt),
@@ -90,7 +109,10 @@ class TripOrderCard extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: paymentStatusColor.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),

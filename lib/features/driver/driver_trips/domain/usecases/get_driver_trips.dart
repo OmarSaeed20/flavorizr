@@ -8,7 +8,10 @@ class GetDriverTrips {
 
   GetDriverTrips(this.repository);
 
-  Future<ApiResult<List<DriverTrip>>> call({String? date, String? status}) async {
+  Future<ApiResult<List<DriverTrip>>> call({
+    String? date,
+    String? status,
+  }) async {
     return repository.getScheduleRequests(date: date, status: status);
   }
 }

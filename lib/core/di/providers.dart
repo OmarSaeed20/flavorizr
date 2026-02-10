@@ -6,16 +6,6 @@
 library;
 
 import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/chat_repository.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/chat_repository_impl.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/general_repository.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/general_repository_impl.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/notification_repository.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/notification_repository_impl.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/trip_repository.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/trip_repository_impl.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/user_repository.dart';
-import 'package:fast_golden_taxi/core/network/api/repositories/user_repository_impl.dart';
 import 'package:fast_golden_taxi/core/network/api_client.dart';
 import 'package:fast_golden_taxi/core/network/network_info.dart';
 import 'package:fast_golden_taxi/core/network/websocket/websocket_manager.dart';
@@ -34,17 +24,12 @@ export 'package:fast_golden_taxi/core/di/providers.dart'
         apiClientProvider,
         appInitializationProvider,
         appLoggerProvider,
-        chatRepositoryProvider,
         crashlyticsServiceProvider,
-        generalRepositoryProvider,
         imageCacheServiceProvider,
         networkInfoProvider,
-        notificationRepositoryProvider,
         notificationServiceProvider,
         platformServiceProvider,
         sharedPreferencesProvider,
-        tripRepositoryProvider,
-        userRepositoryProvider,
         webSocketManagerProvider;
 
 // ==================== Storage Providers ====================
@@ -55,7 +40,9 @@ export 'package:fast_golden_taxi/core/di/providers.dart'
 /// with the actual SharedPreferences instance.
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   // This will be overridden in bootstrap.dart with the actual instance
-  throw UnimplementedError('sharedPreferencesProvider must be overridden in bootstrap');
+  throw UnimplementedError(
+    'sharedPreferencesProvider must be overridden in bootstrap',
+  );
 });
 
 // ==================== Network Providers ====================
@@ -68,38 +55,6 @@ final apiClientProvider = Provider<ApiClient>((ref) {
 /// Provider for network information (connectivity).
 final networkInfoProvider = Provider<NetworkInfo>((ref) {
   return NetworkInfoImpl();
-});
-
-// ==================== Repository Providers ====================
-
-/// Provider for the user repository.
-final userRepositoryProvider = Provider<UserRepository>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return UserRepositoryImpl(apiClient.dio);
-});
-
-/// Provider for the trip repository.
-final tripRepositoryProvider = Provider<TripRepository>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return TripRepositoryImpl(apiClient.dio);
-});
-
-/// Provider for the notification repository.
-final notificationRepositoryProvider = Provider<NotificationRepository>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return NotificationRepositoryImpl(apiClient.dio);
-});
-
-/// Provider for the chat repository.
-final chatRepositoryProvider = Provider<ChatRepository>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return ChatRepositoryImpl(apiClient.dio);
-});
-
-/// Provider for the general repository.
-final generalRepositoryProvider = Provider<GeneralRepository>((ref) {
-  final apiClient = ref.watch(apiClientProvider);
-  return GeneralRepositoryImpl(apiClient.dio);
 });
 
 // ==================== Service Providers ====================

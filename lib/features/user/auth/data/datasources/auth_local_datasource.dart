@@ -47,7 +47,8 @@ abstract class AuthLocalDataSource {
   });
 
   /// Gets biometric credentials.
-  Future<ApiResult<({String email, String password})>> getBiometricCredentials();
+  Future<ApiResult<({String email, String password})>>
+  getBiometricCredentials();
 
   /// Checks if biometric credentials are saved.
   Future<ApiResult<bool>> hasBiometricCredentials();
@@ -57,7 +58,9 @@ abstract class AuthLocalDataSource {
 }
 
 /// Implementation of [AuthLocalDataSource] using BaseLocalDataSource.
-class AuthLocalDataSourceImpl with BaseLocalDataSource implements AuthLocalDataSource {
+class AuthLocalDataSourceImpl
+    with BaseLocalDataSource
+    implements AuthLocalDataSource {
   AuthLocalDataSourceImpl({
     required FlutterSecureStorage secureStorage,
     required SharedPreferences prefs,
@@ -107,11 +110,17 @@ class AuthLocalDataSourceImpl with BaseLocalDataSource implements AuthLocalDataS
       fetcher: () async {
         final accessToken = await _secureStorage.read(key: _accessTokenKey);
         final refreshToken = await _secureStorage.read(key: _refreshTokenKey);
-        final accessTokenExpiry = await _secureStorage.read(key: _accessTokenExpiryKey);
-        final refreshTokenExpiry = await _secureStorage.read(key: _refreshTokenExpiryKey);
+        final accessTokenExpiry = await _secureStorage.read(
+          key: _accessTokenExpiryKey,
+        );
+        final refreshTokenExpiry = await _secureStorage.read(
+          key: _refreshTokenExpiryKey,
+        );
         final tokenType = await _secureStorage.read(key: _tokenTypeKey);
 
-        if (accessToken == null || refreshToken == null || accessTokenExpiry == null) {
+        if (accessToken == null ||
+            refreshToken == null ||
+            accessTokenExpiry == null) {
           return null;
         }
 
@@ -176,7 +185,10 @@ class AuthLocalDataSourceImpl with BaseLocalDataSource implements AuthLocalDataS
 
   @override
   Future<ApiResult<void>> deleteUser() async {
-    return deleteLocalData(key: _userKey, deleter: () => _prefs.remove(_userKey));
+    return deleteLocalData(
+      key: _userKey,
+      deleter: () => _prefs.remove(_userKey),
+    );
   }
 
   @override
@@ -219,7 +231,8 @@ class AuthLocalDataSourceImpl with BaseLocalDataSource implements AuthLocalDataS
   }
 
   @override
-  Future<ApiResult<({String email, String password})>> getBiometricCredentials() async {
+  Future<ApiResult<({String email, String password})>>
+  getBiometricCredentials() async {
     return getLocalData<({String email, String password})>(
       key: _biometricEmailKey,
       fetcher: () async {

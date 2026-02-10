@@ -53,7 +53,8 @@ class UpdateDriverVehicleParameters extends Parameters {
       if (_vehicleType != null) 'vehicle_type': _vehicleType,
       if (_capacity != null) 'capacity': _capacity,
       if (_vin != null) 'vin': _vin,
-      if (_registrationNumber != null) 'registration_number': _registrationNumber,
+      if (_registrationNumber != null)
+        'registration_number': _registrationNumber,
       if (_registrationExpiry != null)
         'registration_expiry': _registrationExpiry!.toIso8601String(),
     };
@@ -73,7 +74,8 @@ class UpdateDriverVehicleParameters extends Parameters {
   CancelToken? get cancelToken => _cancelToken;
 
   /// Static builder factory
-  static UpdateDriverVehicleParametersBuilder builder() => UpdateDriverVehicleParametersBuilder();
+  static UpdateDriverVehicleParametersBuilder builder() =>
+      UpdateDriverVehicleParametersBuilder();
 }
 
 /// Builder for UpdateDriverVehicleParameters
@@ -140,20 +142,26 @@ class UpdateDriverVehicleParametersBuilder
   }
 
   /// Set the registration number
-  UpdateDriverVehicleParametersBuilder withRegistrationNumber(String registrationNumber) {
+  UpdateDriverVehicleParametersBuilder withRegistrationNumber(
+    String registrationNumber,
+  ) {
     _registrationNumber = registrationNumber;
     return this;
   }
 
   /// Set the registration expiry
-  UpdateDriverVehicleParametersBuilder withRegistrationExpiry(DateTime registrationExpiry) {
+  UpdateDriverVehicleParametersBuilder withRegistrationExpiry(
+    DateTime registrationExpiry,
+  ) {
     _registrationExpiry = registrationExpiry;
     return this;
   }
 
   /// Set the cancel token for request cancellation
   @override
-  UpdateDriverVehicleParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  UpdateDriverVehicleParametersBuilder withCancelToken(
+    CancelToken? cancelToken,
+  ) {
     _cancelToken = cancelToken;
     return this;
   }

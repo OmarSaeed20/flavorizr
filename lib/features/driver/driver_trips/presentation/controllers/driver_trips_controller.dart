@@ -146,14 +146,23 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
       final result = await getPendingTrips();
       result.when(
         success: (pendingTrips, _) {
-          state = state.copyWith(isLoadingPending: false, pendingTrips: pendingTrips);
+          state = state.copyWith(
+            isLoadingPending: false,
+            pendingTrips: pendingTrips,
+          );
         },
         exception: (error) {
-          state = state.copyWith(isLoadingPending: false, errorMessage: error.message);
+          state = state.copyWith(
+            isLoadingPending: false,
+            errorMessage: error.message,
+          );
         },
       );
     } catch (e) {
-      state = state.copyWith(isLoadingPending: false, errorMessage: e.toString());
+      state = state.copyWith(
+        isLoadingPending: false,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -167,12 +176,17 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
           state = state.copyWith(
             isUpdatingTrip: false,
             currentTrip: trip,
-            pendingTrips: state.pendingTrips.where((t) => t.id != tripId).toList(),
+            pendingTrips: state.pendingTrips
+                .where((t) => t.id != tripId)
+                .toList(),
           );
           return trip;
         },
         exception: (error) {
-          state = state.copyWith(isUpdatingTrip: false, errorMessage: error.message);
+          state = state.copyWith(
+            isUpdatingTrip: false,
+            errorMessage: error.message,
+          );
           return null;
         },
       );
@@ -191,12 +205,17 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
         success: (_, __) {
           state = state.copyWith(
             isUpdatingTrip: false,
-            pendingTrips: state.pendingTrips.where((t) => t.id != tripId).toList(),
+            pendingTrips: state.pendingTrips
+                .where((t) => t.id != tripId)
+                .toList(),
           );
           return true;
         },
         exception: (error) {
-          state = state.copyWith(isUpdatingTrip: false, errorMessage: error.message);
+          state = state.copyWith(
+            isUpdatingTrip: false,
+            errorMessage: error.message,
+          );
           return false;
         },
       );
@@ -217,7 +236,10 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
           return trip;
         },
         exception: (error) {
-          state = state.copyWith(isUpdatingTrip: false, errorMessage: error.message);
+          state = state.copyWith(
+            isUpdatingTrip: false,
+            errorMessage: error.message,
+          );
           return null;
         },
       );
@@ -228,7 +250,10 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
   }
 
   /// Complete a trip
-  Future<DriverTrip?> completeTripRequest(String tripId, double actualFare) async {
+  Future<DriverTrip?> completeTripRequest(
+    String tripId,
+    double actualFare,
+  ) async {
     state = state.copyWith(isUpdatingTrip: true);
     try {
       final result = await completeTrip(tripId);
@@ -238,7 +263,10 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
           return trip;
         },
         exception: (error) {
-          state = state.copyWith(isUpdatingTrip: false, errorMessage: error.message);
+          state = state.copyWith(
+            isUpdatingTrip: false,
+            errorMessage: error.message,
+          );
           return null;
         },
       );
@@ -270,7 +298,10 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
           return true;
         },
         exception: (error) {
-          state = state.copyWith(isUpdatingTrip: false, errorMessage: error.message);
+          state = state.copyWith(
+            isUpdatingTrip: false,
+            errorMessage: error.message,
+          );
           return false;
         },
       );
@@ -282,10 +313,16 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
 
   /// Update trip location
   /// Note: This functionality needs to be added to the repository interface
-  Future<bool> updateCurrentTripLocation(String tripId, double latitude, double longitude) async {
+  Future<bool> updateCurrentTripLocation(
+    String tripId,
+    double latitude,
+    double longitude,
+  ) async {
     try {
       // Implement when updateTripLocation is added to repository
-      state = state.copyWith(errorMessage: 'Update trip location not yet implemented');
+      state = state.copyWith(
+        errorMessage: 'Update trip location not yet implemented',
+      );
       return false;
     } catch (e) {
       state = state.copyWith(errorMessage: e.toString());
@@ -298,7 +335,9 @@ class DriverTripsController extends StateNotifier<DriverTripsState> {
   Future<void> loadTripStats() async {
     try {
       // Implement when getTripStats is added to repository
-      state = state.copyWith(errorMessage: 'Get trip stats not yet implemented');
+      state = state.copyWith(
+        errorMessage: 'Get trip stats not yet implemented',
+      );
     } catch (e) {
       state = state.copyWith(errorMessage: e.toString());
     }

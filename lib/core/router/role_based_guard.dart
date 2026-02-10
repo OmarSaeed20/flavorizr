@@ -24,7 +24,10 @@ class UserRoleGuard extends RouteGuard {
 
     // If user has no role, deny access (should redirect to role selection)
     if (userRole == null || userRole.isEmpty) {
-      AppLogger.instance.logInfo('Access denied: No role assigned', data: {'route': location});
+      AppLogger.instance.logInfo(
+        'Access denied: No role assigned',
+        data: {'route': location},
+      );
       return false;
     }
 
@@ -67,7 +70,10 @@ class UserRoleGuard extends RouteGuard {
   }
 
   @override
-  Future<String?> getRedirectPath(BuildContext context, GoRouterState state) async {
+  Future<String?> getRedirectPath(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
     final userRole = await getUserRole();
 
     // If no role, redirect to role selection
@@ -87,7 +93,10 @@ class UserRoleGuard extends RouteGuard {
 
 /// Guard that ensures user has selected a role before accessing protected routes
 class RoleSelectionGuard extends RouteGuard {
-  const RoleSelectionGuard({required this.getUserRole, this.redirectPath = Routes.roleSelection});
+  const RoleSelectionGuard({
+    required this.getUserRole,
+    this.redirectPath = Routes.roleSelection,
+  });
 
   final Future<String?> Function() getUserRole;
   final String redirectPath;
@@ -110,7 +119,10 @@ class RoleSelectionGuard extends RouteGuard {
 
     // Check if user has a role
     if (userRole == null || userRole.isEmpty) {
-      AppLogger.instance.logInfo('Role selection required', data: {'route': location});
+      AppLogger.instance.logInfo(
+        'Role selection required',
+        data: {'route': location},
+      );
       return false;
     }
 
@@ -125,7 +137,10 @@ class RoleSelectionGuard extends RouteGuard {
 
 /// Combined guard for checking both authentication and role
 class AuthAndRoleGuard extends RouteGuard {
-  const AuthAndRoleGuard({required this.isAuthenticated, required this.getUserRole});
+  const AuthAndRoleGuard({
+    required this.isAuthenticated,
+    required this.getUserRole,
+  });
 
   final Future<bool> Function() isAuthenticated;
   final Future<String?> Function() getUserRole;
@@ -142,14 +157,20 @@ class AuthAndRoleGuard extends RouteGuard {
     // Check authentication first
     final authenticated = await isAuthenticated();
     if (!authenticated) {
-      AppLogger.instance.logInfo('Access denied: Not authenticated', data: {'route': location});
+      AppLogger.instance.logInfo(
+        'Access denied: Not authenticated',
+        data: {'route': location},
+      );
       return false;
     }
 
     // Then check role
     final userRole = await getUserRole();
     if (userRole == null || userRole.isEmpty) {
-      AppLogger.instance.logInfo('Access denied: No role selected', data: {'route': location});
+      AppLogger.instance.logInfo(
+        'Access denied: No role selected',
+        data: {'route': location},
+      );
       return false;
     }
 
@@ -168,7 +189,10 @@ class AuthAndRoleGuard extends RouteGuard {
   }
 
   @override
-  Future<String?> getRedirectPath(BuildContext context, GoRouterState state) async {
+  Future<String?> getRedirectPath(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
     final authenticated = await isAuthenticated();
 
     if (!authenticated) {

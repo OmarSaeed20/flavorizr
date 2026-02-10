@@ -17,7 +17,8 @@ import 'package:fast_golden_taxi/features/general_select/domain/entities/select_
 import 'package:fast_golden_taxi/features/general_select/domain/repositories/general_select_repository.dart';
 
 /// Implementation of [GeneralSelectRepository].
-class GeneralSelectRepositoryImpl extends BaseRepository implements GeneralSelectRepository {
+class GeneralSelectRepositoryImpl extends BaseRepository
+    implements GeneralSelectRepository {
   final GeneralSelectRemoteDataSource _remoteDataSource;
   final GeneralSelectLocalDataSource _localDataSource;
   final NetworkInfo _networkInfo;
@@ -34,18 +35,23 @@ class GeneralSelectRepositoryImpl extends BaseRepository implements GeneralSelec
   NetworkInfo get networkInfo => _networkInfo;
 
   @override
-  Future<ApiResult<List<SelectOption>>> getSelectOptions(GetSelectOptionsParameters params) async {
+  Future<ApiResult<List<SelectOption>>> getSelectOptions(
+    GetSelectOptionsParameters params,
+  ) async {
     final result = await executeRemoteRequest(
       request: () => _remoteDataSource.getSelectOptions(params),
     );
     return result.map(
-      success: (data) => ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
+      success: (data) =>
+          ApiResult.success(data.data.map((e) => e.toEntity()).toList()),
       exception: (error) => ApiResult.exception(error.exception),
     );
   }
 
   @override
-  Future<ApiResult<List<SelectOption>>> getVehicleTypes(GetVehicleTypesParameters params) async {
+  Future<ApiResult<List<SelectOption>>> getVehicleTypes(
+    GetVehicleTypesParameters params,
+  ) async {
     final result = await fetchWithCache<List<SelectOptionModel>>(
       cacheKey: 'vehicle_types',
       remoteFetcher: () => _remoteDataSource.getVehicleTypes(params),
@@ -63,7 +69,9 @@ class GeneralSelectRepositoryImpl extends BaseRepository implements GeneralSelec
   }
 
   @override
-  Future<ApiResult<List<SelectOption>>> getCities(GetCitiesParameters params) async {
+  Future<ApiResult<List<SelectOption>>> getCities(
+    GetCitiesParameters params,
+  ) async {
     final result = await fetchWithCache<List<SelectOptionModel>>(
       cacheKey: 'cities',
       remoteFetcher: () => _remoteDataSource.getCities(params),
@@ -101,7 +109,9 @@ class GeneralSelectRepositoryImpl extends BaseRepository implements GeneralSelec
   }
 
   @override
-  Future<ApiResult<List<SelectOption>>> getCountries(GetCountriesParameters params) async {
+  Future<ApiResult<List<SelectOption>>> getCountries(
+    GetCountriesParameters params,
+  ) async {
     final result = await fetchWithCache<List<SelectOptionModel>>(
       cacheKey: 'countries',
       remoteFetcher: () => _remoteDataSource.getCountries(params),
@@ -119,7 +129,9 @@ class GeneralSelectRepositoryImpl extends BaseRepository implements GeneralSelec
   }
 
   @override
-  Future<ApiResult<Map<String, dynamic>>> getAboutUs(GetAboutUsParameters params) async {
+  Future<ApiResult<Map<String, dynamic>>> getAboutUs(
+    GetAboutUsParameters params,
+  ) async {
     final result = await fetchWithCache<Map<String, dynamic>>(
       cacheKey: 'about_us',
       remoteFetcher: () => _remoteDataSource.getAboutUs(params),
@@ -137,7 +149,9 @@ class GeneralSelectRepositoryImpl extends BaseRepository implements GeneralSelec
   }
 
   @override
-  Future<ApiResult<List<Map<String, dynamic>>>> getQuestions(GetQuestionsParameters params) async {
+  Future<ApiResult<List<Map<String, dynamic>>>> getQuestions(
+    GetQuestionsParameters params,
+  ) async {
     final result = await fetchWithCache<List<Map<String, dynamic>>>(
       cacheKey: 'questions',
       remoteFetcher: () => _remoteDataSource.getQuestions(params),
@@ -155,7 +169,9 @@ class GeneralSelectRepositoryImpl extends BaseRepository implements GeneralSelec
   }
 
   @override
-  Future<ApiResult<Map<String, dynamic>>> getPolicies(GetPoliciesParameters params) async {
+  Future<ApiResult<Map<String, dynamic>>> getPolicies(
+    GetPoliciesParameters params,
+  ) async {
     final result = await fetchWithCache<Map<String, dynamic>>(
       cacheKey: 'policies',
       remoteFetcher: () => _remoteDataSource.getPolicies(params),

@@ -47,7 +47,12 @@ class SuccessMessage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(message, style: theme.textTheme.titleMedium?.copyWith(color: Colors.green)),
+                Text(
+                  message,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: Colors.green,
+                  ),
+                ),
                 if (subMessage != null) ...[
                   const SizedBox(height: 4),
                   Text(
@@ -78,7 +83,12 @@ class InfoMessage extends StatelessWidget {
   final String? subMessage;
   final IconData? icon;
 
-  const InfoMessage({super.key, required this.message, this.subMessage, this.icon});
+  const InfoMessage({
+    super.key,
+    required this.message,
+    this.subMessage,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +108,12 @@ class InfoMessage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(message, style: theme.textTheme.titleMedium?.copyWith(color: Colors.blue)),
+                Text(
+                  message,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: Colors.blue,
+                  ),
+                ),
                 if (subMessage != null) ...[
                   const SizedBox(height: 4),
                   Text(
@@ -125,7 +140,12 @@ class WarningMessage extends StatelessWidget {
   final String? subMessage;
   final IconData? icon;
 
-  const WarningMessage({super.key, required this.message, this.subMessage, this.icon});
+  const WarningMessage({
+    super.key,
+    required this.message,
+    this.subMessage,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +165,12 @@ class WarningMessage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(message, style: theme.textTheme.titleMedium?.copyWith(color: Colors.orange)),
+                Text(
+                  message,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: Colors.orange,
+                  ),
+                ),
                 if (subMessage != null) ...[
                   const SizedBox(height: 4),
                   Text(
@@ -172,7 +197,12 @@ class ErrorMessage extends StatelessWidget {
   final String? subMessage;
   final IconData? icon;
 
-  const ErrorMessage({super.key, required this.message, this.subMessage, this.icon});
+  const ErrorMessage({
+    super.key,
+    required this.message,
+    this.subMessage,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +224,9 @@ class ErrorMessage extends StatelessWidget {
               children: [
                 Text(
                   message,
-                  style: theme.textTheme.titleMedium?.copyWith(color: theme.colorScheme.error),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.error,
+                  ),
                 ),
                 if (subMessage != null) ...[
                   const SizedBox(height: 4),

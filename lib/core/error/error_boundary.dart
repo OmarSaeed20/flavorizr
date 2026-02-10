@@ -141,13 +141,19 @@ class DefaultErrorWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Error icon
-            Icon(Icons.error_outline_rounded, size: 64, color: colorScheme.error),
+            Icon(
+              Icons.error_outline_rounded,
+              size: 64,
+              color: colorScheme.error,
+            ),
             const SizedBox(height: 16),
 
             // Error title
             Text(
               'Something went wrong',
-              style: theme.textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: colorScheme.onSurface,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
@@ -155,7 +161,9 @@ class DefaultErrorWidget extends StatelessWidget {
             // Error message
             Text(
               'An unexpected error occurred.\nPlease try again.',
-              style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
               textAlign: TextAlign.center,
             ),
 
@@ -187,7 +195,9 @@ class DefaultErrorWidget extends StatelessWidget {
                           style: theme.textTheme.bodySmall?.copyWith(
                             fontFamily: 'monospace',
                             fontSize: 10,
-                            color: colorScheme.onErrorContainer.withValues(alpha: 0.7),
+                            color: colorScheme.onErrorContainer.withValues(
+                              alpha: 0.7,
+                            ),
                           ),
                           maxLines: 10,
                           overflow: TextOverflow.ellipsis,
@@ -228,7 +238,8 @@ class ErrorSnackbarBoundary extends StatefulWidget {
 
 class _ErrorSnackbarBoundaryState extends State<ErrorSnackbarBoundary> {
   @override
-  Widget build(BuildContext context) => _ErrorCatcher(onError: _handleError, child: widget.child);
+  Widget build(BuildContext context) =>
+      _ErrorCatcher(onError: _handleError, child: widget.child);
 
   void _handleError(Object error, StackTrace stack) {
     // Log the error
