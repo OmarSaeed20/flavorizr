@@ -5,7 +5,6 @@ import 'package:fast_golden_taxi/features/driver/driver_reviews/data/repositorie
 import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/repositories/driver_review_repository.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/usecases/get_driver_reviews.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/presentation/controllers/driver_reviews_controller.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for driver review remote data source
@@ -16,8 +15,8 @@ final driverReviewRemoteDataSourceProvider = Provider<DriverReviewRemoteDataSour
 
 /// Provider for driver review local data source
 final driverReviewLocalDataSourceProvider = Provider<DriverReviewLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
-  return DriverReviewLocalDataSourceImpl(sharedPreferences!);
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+  return DriverReviewLocalDataSourceImpl(sharedPreferences);
 });
 
 /// Provider for driver review repository

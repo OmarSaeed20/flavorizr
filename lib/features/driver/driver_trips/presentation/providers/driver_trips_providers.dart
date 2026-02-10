@@ -22,8 +22,8 @@ final driverTripsRemoteDataSourceProvider = Provider<DriverTripsRemoteDataSource
 
 /// Provider for DriverTripsLocalDataSource
 final driverTripsLocalDataSourceProvider = Provider<DriverTripsLocalDataSource>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider).value;
-  return DriverTripsLocalDataSourceImpl(prefs: prefs!);
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return DriverTripsLocalDataSourceImpl(prefs: prefs);
 });
 
 /// Provider for DriverTripsRepository

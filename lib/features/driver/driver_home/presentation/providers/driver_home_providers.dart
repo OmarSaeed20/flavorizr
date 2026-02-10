@@ -5,7 +5,6 @@ import 'package:fast_golden_taxi/features/driver/driver_home/data/repositories/d
 import 'package:fast_golden_taxi/features/driver/driver_home/domain/repositories/driver_home_repository.dart';
 import 'package:fast_golden_taxi/features/driver/driver_home/domain/usecases/get_driver_home_data.dart';
 import 'package:fast_golden_taxi/features/driver/driver_home/presentation/controllers/driver_home_controller.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverHomeRemoteDataSource
@@ -16,8 +15,8 @@ final driverHomeRemoteDataSourceProvider = Provider<DriverHomeRemoteDataSource>(
 
 /// Provider for DriverHomeLocalDataSource
 final driverHomeLocalDataSourceProvider = Provider<DriverHomeLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
-  return DriverHomeLocalDataSourceImpl(sharedPreferences!);
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+  return DriverHomeLocalDataSourceImpl(sharedPreferences);
 });
 
 /// Provider for DriverHomeRepository

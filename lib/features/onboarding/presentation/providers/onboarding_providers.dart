@@ -12,8 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for OnboardingLocalDataSource.
 final onboardingLocalDataSourceProvider = Provider<OnboardingLocalDataSource>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider).value;
-  return OnboardingLocalDataSourceImpl(prefs: prefs!);
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return OnboardingLocalDataSourceImpl(prefs: prefs);
 });
 
 // ==================== Repository ====================

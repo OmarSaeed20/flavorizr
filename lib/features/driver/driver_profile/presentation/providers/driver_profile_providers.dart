@@ -11,7 +11,6 @@ import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/
 import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/update_driver_vehicle_usecase.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/domain/usecases/upload_driver_document_usecase.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/controllers/driver_profile_controller.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverProfileRemoteDataSource.
@@ -21,8 +20,8 @@ final driverProfileRemoteDataSourceProvider = Provider<DriverProfileRemoteDataSo
 
 /// Provider for DriverProfileLocalDataSource.
 final driverProfileLocalDataSourceProvider = Provider<DriverProfileLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
-  return DriverProfileLocalDataSourceImpl(prefs: sharedPreferences!);
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+  return DriverProfileLocalDataSourceImpl(prefs: sharedPreferences);
 });
 
 /// Provider for DriverProfileRepository.

@@ -9,7 +9,6 @@ import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/dri
 import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/reset_driver_password_usecase.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/domain/usecases/verify_driver_phone_usecase.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/controllers/driver_auth_controller.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverAuthRemoteDataSource.
@@ -19,8 +18,8 @@ final driverAuthRemoteDataSourceProvider = Provider<DriverAuthRemoteDataSource>(
 
 /// Provider for DriverAuthLocalDataSource.
 final driverAuthLocalDataSourceProvider = Provider<DriverAuthLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
-  return DriverAuthLocalDataSourceImpl(sharedPreferences!);
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+  return DriverAuthLocalDataSourceImpl(sharedPreferences);
 });
 
 /// Provider for DriverAuthRepository.

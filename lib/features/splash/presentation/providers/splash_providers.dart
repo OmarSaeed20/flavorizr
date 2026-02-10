@@ -12,8 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Provider for SplashLocalDataSource.
 final splashLocalDataSourceProvider = Provider<SplashLocalDataSource>((ref) {
   final secureStorage = ref.watch(secureStorageProvider);
-  final prefs = ref.watch(sharedPreferencesProvider).value;
-  return SplashLocalDataSourceImpl(secureStorage: secureStorage, prefs: prefs!);
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return SplashLocalDataSourceImpl(secureStorage: secureStorage, prefs: prefs);
 });
 
 // ==================== Repository ====================

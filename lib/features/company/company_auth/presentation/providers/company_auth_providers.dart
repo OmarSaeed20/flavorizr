@@ -1,10 +1,5 @@
 // lib/features/company/company_auth/presentation/providers/company_auth_providers.dart
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dio/dio.dart';
 import 'package:fast_golden_taxi/core/di/providers.dart';
-import 'package:fast_golden_taxi/core/network/api_client.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/datasources/company_auth_local_datasource.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/datasources/company_auth_remote_datasource.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/repositories/company_auth_repository_impl.dart';
@@ -17,6 +12,8 @@ import 'package:fast_golden_taxi/features/company/company_auth/domain/usecases/c
 import 'package:fast_golden_taxi/features/company/company_auth/domain/usecases/company_send_verification_code_usecase.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/domain/usecases/company_verify_phone_usecase.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/controllers/company_auth_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // ==================== Data Layer Providers ====================
 
@@ -29,10 +26,10 @@ final companyAuthRemoteDataSourceProvider = Provider<CompanyAuthRemoteDataSource
 /// Company Auth Local Data Source Provider
 final companyAuthLocalDataSourceProvider = Provider<CompanyAuthLocalDataSource>((ref) {
   const secureStorage = FlutterSecureStorage();
-  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
   return CompanyAuthLocalDataSource(
     secureStorage: secureStorage,
-    sharedPreferences: sharedPreferences!,
+    sharedPreferences: sharedPreferences,
   );
 });
 

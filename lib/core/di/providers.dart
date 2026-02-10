@@ -53,9 +53,9 @@ export 'package:fast_golden_taxi/core/di/providers.dart'
 ///
 /// This provider is typically overridden during app initialization
 /// with the actual SharedPreferences instance.
-final sharedPreferencesProvider = FutureProvider<SharedPreferences>((ref) async {
-  final prefs = await SharedPreferences.getInstance();
-  return prefs;
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  // This will be overridden in bootstrap.dart with the actual instance
+  throw UnimplementedError('sharedPreferencesProvider must be overridden in bootstrap');
 });
 
 // ==================== Network Providers ====================

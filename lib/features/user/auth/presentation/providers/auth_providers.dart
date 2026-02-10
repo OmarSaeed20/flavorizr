@@ -1,6 +1,5 @@
 // lib/features/auth/presentation/providers/auth_providers.dart
 import 'package:fast_golden_taxi/core/di/providers.dart';
-import 'package:fast_golden_taxi/core/network/network_info.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/datasources/auth_local_datasource.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/repositories/auth_repository_impl.dart';
@@ -50,8 +49,8 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
 /// Provider for AuthLocalDataSource.
 final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
   final secureStorage = ref.watch(secureStorageProvider);
-  final prefs = ref.watch(sharedPreferencesProvider).value;
-  return AuthLocalDataSourceImpl(secureStorage: secureStorage, prefs: prefs!);
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return AuthLocalDataSourceImpl(secureStorage: secureStorage, prefs: prefs);
 });
 
 // ==================== Repository ====================

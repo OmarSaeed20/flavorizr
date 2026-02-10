@@ -141,7 +141,7 @@ Future<void> bootstrap(Flavor flavor) async {
         ProviderScope(
           observers: kDebugMode ? [ProviderLogger()] : [],
           overrides: [
-            sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+            sharedPreferencesProvider.overrideWith((ref) => sharedPreferences),
             apiClientProvider.overrideWithValue(apiClient),
           ],
           child: const App(),

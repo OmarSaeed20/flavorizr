@@ -81,7 +81,7 @@ extension ResponsiveTextStyleExtension on TextStyle {
 
 /// Line height presets
 abstract class LineHeights {
-  LineHeights._();
+  const LineHeights._();
 
   /// Tight line height (1.2)
   static const double tight = 1.2;

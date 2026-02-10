@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// Defines the font family and text styles used throughout the app.
 /// Follows Material 3 type scale with customizations.
 class AppTypography {
-  AppTypography._();
+  const AppTypography._();
 
   /// Default font family for the app.
   static const String fontFamily = 'Roboto';
@@ -158,35 +158,32 @@ class AppTypography {
   );
 
   /// Custom text styles for specific use cases.
-  static TextStyle caption({Color? color, double scaleFactor = 1.0}) =>
-      TextStyle(
-        fontSize: 10 * scaleFactor,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0.4,
-        height: 1.2,
-        fontFamily: bodyFontFamily,
-        color: color,
-      );
+  static TextStyle caption({Color? color, double scaleFactor = 1.0}) => TextStyle(
+    fontSize: 10 * scaleFactor,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0.4,
+    height: 1.2,
+    fontFamily: bodyFontFamily,
+    color: color,
+  );
 
-  static TextStyle overline({Color? color, double scaleFactor = 1.0}) =>
-      TextStyle(
-        fontSize: 10 * scaleFactor,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 1.5,
-        height: 1.2,
-        fontFamily: bodyFontFamily,
-        color: color,
-      );
+  static TextStyle overline({Color? color, double scaleFactor = 1.0}) => TextStyle(
+    fontSize: 10 * scaleFactor,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 1.5,
+    height: 1.2,
+    fontFamily: bodyFontFamily,
+    color: color,
+  );
 
-  static TextStyle button({Color? color, double scaleFactor = 1.0}) =>
-      TextStyle(
-        fontSize: 14 * scaleFactor,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 1.25,
-        height: 1.43,
-        fontFamily: bodyFontFamily,
-        color: color,
-      );
+  static TextStyle button({Color? color, double scaleFactor = 1.0}) => TextStyle(
+    fontSize: 14 * scaleFactor,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 1.25,
+    height: 1.43,
+    fontFamily: bodyFontFamily,
+    color: color,
+  );
 
   static TextStyle code({Color? color, double scaleFactor = 1.0}) => TextStyle(
     fontSize: 14 * scaleFactor,
