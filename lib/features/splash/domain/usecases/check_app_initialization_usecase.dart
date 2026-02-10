@@ -4,6 +4,9 @@ import 'package:fast_golden_taxi/features/splash/domain/repositories/splash_repo
 
 /// Result of the app initialization check.
 enum InitializationResult {
+  /// User has not selected a language yet (first launch).
+  languageSelection,
+
   /// User needs to complete onboarding.
   onboarding,
 
@@ -37,7 +40,15 @@ class CheckAppInitializationUseCase {
       );
     }
 
-    // Check if onboarding is completed
+    // 1. Check if language has been selected
+    final languageResult = await _repository.isLanguageSelected();
+    final isLanguageSelected = languageResult.data ?? false;
+
+    if (!isLanguageSelected) {
+      return const ApiResult.success(InitializationResult.languageSelection);
+    }
+
+    // 2. Check if onboarding is completed
     final onboardingResult = await _repository.isOnboardingCompleted();
     final isOnboardingCompleted = onboardingResult.data ?? false;
 
@@ -45,7 +56,7 @@ class CheckAppInitializationUseCase {
       return const ApiResult.success(InitializationResult.onboarding);
     }
 
-    // Check if user is authenticated
+    // 3. Check if user is authenticated
     final authResult = await _repository.isAuthenticated();
     final isAuthenticated = authResult.data ?? false;
 
@@ -53,6 +64,7 @@ class CheckAppInitializationUseCase {
       return const ApiResult.success(InitializationResult.home);
     }
 
+    // 4. Not authenticated → go to role selection
     return const ApiResult.success(InitializationResult.login);
   }
 }

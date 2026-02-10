@@ -11,6 +11,9 @@ abstract class SplashRepository {
   /// Checks if onboarding has been completed.
   Future<ApiResult<bool>> isOnboardingCompleted();
 
+  /// Checks if the user has selected a language.
+  Future<ApiResult<bool>> isLanguageSelected();
+
   /// Checks if the app is being launched for the first time.
   Future<ApiResult<bool>> isFirstLaunch();
 

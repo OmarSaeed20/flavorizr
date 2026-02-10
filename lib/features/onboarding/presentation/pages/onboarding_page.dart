@@ -38,20 +38,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   Future<void> _handleSkip() async {
-    final success = await ref
-        .read(onboardingControllerProvider.notifier)
-        .skipOnboarding();
+    final success = await ref.read(onboardingControllerProvider.notifier).skipOnboarding();
     if (success && mounted) {
-      context.go(Routes.login);
+      context.go(Routes.roleSelection);
     }
   }
 
   Future<void> _handleGetStarted() async {
-    final success = await ref
-        .read(onboardingControllerProvider.notifier)
-        .completeOnboarding();
+    final success = await ref.read(onboardingControllerProvider.notifier).completeOnboarding();
     if (success && mounted) {
-      context.go(Routes.login);
+      context.go(Routes.roleSelection);
     }
   }
 
@@ -166,10 +162,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       child: Column(
         children: [
           // Page indicator
-          OnboardingIndicator(
-            count: state.pages.length,
-            currentIndex: state.currentPageIndex,
-          ),
+          OnboardingIndicator(count: state.pages.length, currentIndex: state.currentPageIndex),
           const SizedBox(height: 32),
 
           // Progress bar (alternative)
@@ -199,11 +192,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.error_outline_rounded,
-                size: 64,
-                color: theme.colorScheme.error,
-              ),
+              Icon(Icons.error_outline_rounded, size: 64, color: theme.colorScheme.error),
               const SizedBox(height: 16),
               Text('Something went wrong', style: theme.textTheme.titleLarge),
               const SizedBox(height: 8),
@@ -236,17 +225,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.info_outline_rounded,
-                size: 64,
-                color: theme.colorScheme.primary,
-              ),
+              Icon(Icons.info_outline_rounded, size: 64, color: theme.colorScheme.primary),
               const SizedBox(height: 16),
               Text('No onboarding content', style: theme.textTheme.titleLarge),
               const SizedBox(height: 24),
               AppButton.primary(
-                onPressed: () => context.go(Routes.login),
-                text: 'Continue to Login',
+                onPressed: () => context.go(Routes.roleSelection),
+                text: 'Continue',
               ),
             ],
           ),

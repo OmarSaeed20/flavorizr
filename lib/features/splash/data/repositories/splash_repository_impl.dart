@@ -18,9 +18,7 @@ class SplashRepositoryImpl implements SplashRepository {
       return ApiResult.success(hasToken);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check authentication status: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to check authentication status: $e'),
       );
     }
   }
@@ -32,9 +30,19 @@ class SplashRepositoryImpl implements SplashRepository {
       return ApiResult.success(completed);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check onboarding status: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to check onboarding status: $e'),
+      );
+    }
+  }
+
+  @override
+  Future<ApiResult<bool>> isLanguageSelected() async {
+    try {
+      final selected = await _localDataSource.isLanguageSelected();
+      return ApiResult.success(selected);
+    } catch (e) {
+      return ApiResult.exception(
+        UnknownNetworkException(message: 'Failed to check language selection status: $e'),
       );
     }
   }
@@ -46,9 +54,7 @@ class SplashRepositoryImpl implements SplashRepository {
       return ApiResult.success(isFirst);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to check first launch status: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to check first launch status: $e'),
       );
     }
   }
@@ -60,9 +66,7 @@ class SplashRepositoryImpl implements SplashRepository {
       return const ApiResult.success(null);
     } catch (e) {
       return ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Failed to mark first launch completed: $e',
-        ),
+        UnknownNetworkException(message: 'Failed to mark first launch completed: $e'),
       );
     }
   }
@@ -87,9 +91,7 @@ class SplashRepositoryImpl implements SplashRepository {
       await Future<void>.delayed(const Duration(milliseconds: 500));
       return const ApiResult.success(null);
     } catch (e) {
-      return ApiResult.exception(
-        UnknownNetworkException(message: 'Failed to initialize app: $e'),
-      );
+      return ApiResult.exception(UnknownNetworkException(message: 'Failed to initialize app: $e'));
     }
   }
 }

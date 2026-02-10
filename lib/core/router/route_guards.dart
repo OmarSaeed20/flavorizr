@@ -24,16 +24,12 @@ abstract class RouteGuard {
 
 /// Guard that checks if user is authenticated.
 class AuthGuard extends RouteGuard {
-  const AuthGuard({
-    required this.isAuthenticated,
-    this.redirectPath = Routes.login,
-  });
+  const AuthGuard({required this.isAuthenticated, this.redirectPath = Routes.login});
   final Future<bool> Function() isAuthenticated;
   final String redirectPath;
 
   @override
-  Future<bool> canActivate(BuildContext context, GoRouterState state) async =>
-      isAuthenticated();
+  Future<bool> canActivate(BuildContext context, GoRouterState state) async => isAuthenticated();
 
   @override
   String? getRedirectPath(BuildContext context, GoRouterState state) {
@@ -50,10 +46,7 @@ class AuthGuard extends RouteGuard {
 ///
 /// Used to prevent authenticated users from accessing login/register pages.
 class GuestGuard extends RouteGuard {
-  const GuestGuard({
-    required this.isAuthenticated,
-    this.redirectPath = Routes.home,
-  });
+  const GuestGuard({required this.isAuthenticated, this.redirectPath = Routes.home});
   final Future<bool> Function() isAuthenticated;
   final String redirectPath;
 
@@ -62,8 +55,7 @@ class GuestGuard extends RouteGuard {
       !(await isAuthenticated());
 
   @override
-  String? getRedirectPath(BuildContext context, GoRouterState state) =>
-      redirectPath;
+  String? getRedirectPath(BuildContext context, GoRouterState state) => redirectPath;
 }
 
 /// Guard that checks user roles/permissions.
@@ -91,8 +83,7 @@ class RoleGuard extends RouteGuard {
   }
 
   @override
-  String? getRedirectPath(BuildContext context, GoRouterState state) =>
-      redirectPath;
+  String? getRedirectPath(BuildContext context, GoRouterState state) => redirectPath;
 }
 
 /// Guard that checks if onboarding is completed.
@@ -105,8 +96,36 @@ class OnboardingGuard extends RouteGuard {
       isOnboardingCompleted();
 
   @override
-  String? getRedirectPath(BuildContext context, GoRouterState state) =>
-      Routes.onboarding;
+  String? getRedirectPath(BuildContext context, GoRouterState state) => Routes.onboarding;
+}
+
+/// Guard that ensures user has selected a language before proceeding.
+///
+/// Redirects to language selection page if `language_selected` is false
+/// in SharedPreferences. This guard should be registered BEFORE
+/// [OnboardingGuard] in the global guard chain.
+class LanguageSelectionGuard extends RouteGuard {
+  const LanguageSelectionGuard({required this.isLanguageSelected});
+
+  final Future<bool> Function() isLanguageSelected;
+
+  @override
+  Future<bool> canActivate(BuildContext context, GoRouterState state) async {
+    final location = state.matchedLocation;
+
+    // Allow access to language selection page itself, splash, and error pages
+    if (location == Routes.languageSelection ||
+        location == Routes.splash ||
+        location == Routes.error ||
+        location == Routes.notFound) {
+      return true;
+    }
+
+    return isLanguageSelected();
+  }
+
+  @override
+  String? getRedirectPath(BuildContext context, GoRouterState state) => Routes.languageSelection;
 }
 
 /// Guard that checks if email is verified.
@@ -115,12 +134,10 @@ class EmailVerificationGuard extends RouteGuard {
   final Future<bool> Function() isEmailVerified;
 
   @override
-  Future<bool> canActivate(BuildContext context, GoRouterState state) async =>
-      isEmailVerified();
+  Future<bool> canActivate(BuildContext context, GoRouterState state) async => isEmailVerified();
 
   @override
-  String? getRedirectPath(BuildContext context, GoRouterState state) =>
-      Routes.verifyEmail;
+  String? getRedirectPath(BuildContext context, GoRouterState state) => Routes.verifyEmail;
 }
 
 /// Guard that checks a feature flag.
@@ -139,8 +156,7 @@ class FeatureFlagGuard extends RouteGuard {
       isFeatureEnabled(featureName);
 
   @override
-  String? getRedirectPath(BuildContext context, GoRouterState state) =>
-      redirectPath;
+  String? getRedirectPath(BuildContext context, GoRouterState state) => redirectPath;
 }
 
 /// Guard that combines multiple guards with AND logic.
@@ -161,10 +177,7 @@ class CompositeAndGuard extends RouteGuard {
   }
 
   @override
-  Future<String?> getRedirectPath(
-    BuildContext context,
-    GoRouterState state,
-  ) async {
+  Future<String?> getRedirectPath(BuildContext context, GoRouterState state) async {
     // Return the first guard's redirect path that would deny access
     for (final guard in guards) {
       return await guard.getRedirectPath(context, state);
@@ -192,8 +205,7 @@ class CompositeOrGuard extends RouteGuard {
   }
 
   @override
-  String? getRedirectPath(BuildContext context, GoRouterState state) =>
-      defaultRedirectPath;
+  String? getRedirectPath(BuildContext context, GoRouterState state) => defaultRedirectPath;
 }
 
 /// Utility class for managing multiple route guards.

@@ -75,19 +75,13 @@ final routerProvider = Provider<GoRouter>((ref) => AppRouter.instance.router);
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 /// Shell navigator key for consumer bottom navigation.
-final consumerShellNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'consumerShell',
-);
+final consumerShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'consumerShell');
 
 /// Shell navigator key for driver bottom navigation.
-final driverShellNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'driverShell',
-);
+final driverShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'driverShell');
 
 /// Shell navigator key for company navigation.
-final companyShellNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'companyShell',
-);
+final companyShellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'companyShell');
 
 // ==================== App Router ====================
 
@@ -146,20 +140,24 @@ class AppRouter {
   Future<void> initialize({
     Future<bool> Function()? isAuthenticated,
     Future<bool> Function()? isOnboardingCompleted,
+    Future<bool> Function()? isLanguageSelected,
     Future<String> Function()? getUserRole, // 'consumer', 'driver', 'company'
     String initialLocation = Routes.splash,
     List<RouteBase>? additionalRoutes,
   }) async {
     if (_isInitialized) return;
 
-    if (isAuthenticated != null) {
-      _guardManager.addGlobalGuard(AuthGuard(isAuthenticated: isAuthenticated));
+    // Language selection guard (must come before onboarding)
+    if (isLanguageSelected != null) {
+      _guardManager.addGlobalGuard(LanguageSelectionGuard(isLanguageSelected: isLanguageSelected));
     }
 
     if (isOnboardingCompleted != null) {
-      _guardManager.addGlobalGuard(
-        OnboardingGuard(isOnboardingCompleted: isOnboardingCompleted),
-      );
+      _guardManager.addGlobalGuard(OnboardingGuard(isOnboardingCompleted: isOnboardingCompleted));
+    }
+
+    if (isAuthenticated != null) {
+      _guardManager.addGlobalGuard(AuthGuard(isAuthenticated: isAuthenticated));
     }
 
     // Add role-based guard for consumer, driver, and company routes
@@ -196,16 +194,11 @@ class AppRouter {
 
   // ==================== Route Handling ====================
 
-  Future<String?> _handleRedirect(
-    BuildContext context,
-    GoRouterState state,
-  ) async {
+  Future<String?> _handleRedirect(BuildContext context, GoRouterState state) async {
     final location = state.matchedLocation;
 
     // Don't redirect on error, notFound, or splash routes
-    if (location == Routes.error ||
-        location == Routes.notFound ||
-        location == Routes.splash) {
+    if (location == Routes.error || location == Routes.notFound || location == Routes.splash) {
       return null;
     }
 
@@ -236,25 +229,14 @@ class AppRouter {
       canGoBack: _routeHistory.length > 1,
     );
 
-    AppLogger.instance.logInfo(
-      'Route changed: $route',
-      category: LogCategory.ui,
-      data: params,
-    );
+    AppLogger.instance.logInfo('Route changed: $route', category: LogCategory.ui, data: params);
   }
 
-  void _handleException(
-    BuildContext context,
-    GoRouterState state,
-    GoRouter router,
-  ) {
+  void _handleException(BuildContext context, GoRouterState state, GoRouter router) {
     AppLogger.instance.logError(
       'Router exception',
       category: LogCategory.ui,
-      data: {
-        'location': state.matchedLocation,
-        'error': state.error?.toString(),
-      },
+      data: {'location': state.matchedLocation, 'error': state.error?.toString()},
     );
     router.go(Routes.error, extra: state.error?.toString());
   }
@@ -266,6 +248,14 @@ class AppRouter {
       path: Routes.splash,
       name: Routes.splashName,
       builder: (context, state) => const SplashPage(),
+    ),
+    GoRoute(
+      path: Routes.languageSelection,
+      name: Routes.languageSelectionName,
+      builder: (context, state) => const PlaceholderScreen(
+        title: 'Language Selection',
+        message: 'Select your preferred language',
+      ),
     ),
     GoRoute(
       path: Routes.error,
@@ -315,8 +305,7 @@ class AppRouter {
       path: Routes.resetPassword,
       name: Routes.resetPasswordName,
       builder: (context, state) {
-        final token =
-            state.uri.queryParameters['token'] ?? state.extra as String?;
+        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
         return ResetPasswordPage(token: token);
       },
     ),
@@ -324,9 +313,21 @@ class AppRouter {
       path: Routes.verifyEmail,
       name: Routes.verifyEmailName,
       builder: (context, state) {
-        final token =
-            state.uri.queryParameters['token'] ?? state.extra as String?;
+        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
         return VerifyEmailPage(token: token);
+      },
+    ),
+    GoRoute(
+      path: Routes.verifyPhone,
+      name: Routes.verifyPhoneName,
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        final phone = extra?['phone'] as String? ?? '';
+        final flowContext = extra?['flowContext'] as String? ?? 'registration';
+        return PlaceholderScreen(
+          title: 'Verify Phone',
+          message: 'OTP verification for $phone ($flowContext)',
+        );
       },
     ),
     GoRoute(
@@ -358,10 +359,8 @@ class AppRouter {
         GoRoute(
           path: Routes.locationSearch,
           name: Routes.locationSearchName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Search Location',
-            message: 'Search pickup/dropoff',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Search Location', message: 'Search pickup/dropoff'),
         ),
         GoRoute(
           path: Routes.rideOptions,
@@ -374,10 +373,8 @@ class AppRouter {
         GoRoute(
           path: Routes.rideConfirmation,
           name: Routes.rideConfirmationName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Confirm Ride',
-            message: 'Confirm booking details',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Confirm Ride', message: 'Confirm booking details'),
         ),
         GoRoute(
           path: Routes.directBooking,
@@ -387,18 +384,14 @@ class AppRouter {
         GoRoute(
           path: Routes.driverTracking,
           name: Routes.driverTrackingName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Track Driver',
-            message: 'Real-time driver tracking',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Track Driver', message: 'Real-time driver tracking'),
         ),
         GoRoute(
           path: Routes.tripRating,
           name: Routes.tripRatingName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Rate Trip',
-            message: 'Rate and review your trip',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Rate Trip', message: 'Rate and review your trip'),
         ),
 
         // Consumer Trip Management
@@ -423,44 +416,34 @@ class AppRouter {
         GoRoute(
           path: Routes.scheduledTrips,
           name: Routes.scheduledTripsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Scheduled Trips',
-            message: 'Your scheduled rides',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Scheduled Trips', message: 'Your scheduled rides'),
         ),
 
         // Consumer Payment & Wallet
         GoRoute(
           path: Routes.paymentMethods,
           name: Routes.paymentMethodsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Payment Methods',
-            message: 'Manage payment methods',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Payment Methods', message: 'Manage payment methods'),
         ),
         GoRoute(
           path: Routes.wallet,
           name: Routes.walletName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Wallet',
-            message: 'Your wallet balance',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Wallet', message: 'Your wallet balance'),
         ),
         GoRoute(
           path: Routes.promocodes,
           name: Routes.promocodesName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Promo Codes',
-            message: 'Available promo codes',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Promo Codes', message: 'Available promo codes'),
         ),
         GoRoute(
           path: Routes.receipts,
           name: Routes.receiptsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Receipts',
-            message: 'Trip receipts',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Receipts', message: 'Trip receipts'),
         ),
 
         // Consumer Saved Places
@@ -494,10 +477,8 @@ class AppRouter {
         GoRoute(
           path: Routes.accountVerification,
           name: Routes.accountVerificationName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Verification',
-            message: 'Verify your account',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Verification', message: 'Verify your account'),
         ),
         GoRoute(
           path: Routes.referral,
@@ -527,18 +508,14 @@ class AppRouter {
             GoRoute(
               path: Routes.privacySettingsPath,
               name: Routes.privacySettingsName,
-              builder: (context, state) => const PlaceholderScreen(
-                title: 'Privacy',
-                message: 'Privacy settings',
-              ),
+              builder: (context, state) =>
+                  const PlaceholderScreen(title: 'Privacy', message: 'Privacy settings'),
             ),
             GoRoute(
               path: Routes.securitySettingsPath,
               name: Routes.securitySettingsName,
-              builder: (context, state) => const PlaceholderScreen(
-                title: 'Security',
-                message: 'Security settings',
-              ),
+              builder: (context, state) =>
+                  const PlaceholderScreen(title: 'Security', message: 'Security settings'),
             ),
             GoRoute(
               path: Routes.languageSettingsPath,
@@ -548,10 +525,8 @@ class AppRouter {
             GoRoute(
               path: Routes.aboutPath,
               name: Routes.aboutName,
-              builder: (context, state) => const PlaceholderScreen(
-                title: 'About',
-                message: 'About this app',
-              ),
+              builder: (context, state) =>
+                  const PlaceholderScreen(title: 'About', message: 'About this app'),
             ),
           ],
         ),
@@ -560,26 +535,20 @@ class AppRouter {
         GoRoute(
           path: Routes.help,
           name: Routes.helpName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Help Center',
-            message: 'Help and support',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Help Center', message: 'Help and support'),
         ),
         GoRoute(
           path: Routes.feedback,
           name: Routes.feedbackName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Feedback',
-            message: 'Send us your feedback',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Feedback', message: 'Send us your feedback'),
         ),
         GoRoute(
           path: Routes.complaint,
           name: Routes.complaintName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Submit Complaint',
-            message: 'File a complaint',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Submit Complaint', message: 'File a complaint'),
         ),
 
         // Consumer Notifications & Chat
@@ -629,8 +598,7 @@ class AppRouter {
       path: Routes.driverVerifyPhone,
       name: Routes.driverVerifyPhoneName,
       builder: (context, state) {
-        final phone =
-            state.uri.queryParameters['phone'] ?? state.extra as String? ?? '';
+        final phone = state.uri.queryParameters['phone'] ?? state.extra as String? ?? '';
         return DriverVerifyPhonePage(phone: phone);
       },
     ),
@@ -638,11 +606,8 @@ class AppRouter {
     // Driver Shell Routes
     ShellRoute(
       navigatorKey: driverShellNavigatorKey,
-      builder: (context, state, child) => MainShell(
-        currentRoute: state.matchedLocation,
-        isDriver: true,
-        child: child,
-      ),
+      builder: (context, state, child) =>
+          MainShell(currentRoute: state.matchedLocation, isDriver: true, child: child),
       routes: [
         // Driver Home & Dashboard
         GoRoute(
@@ -653,26 +618,20 @@ class AppRouter {
         GoRoute(
           path: Routes.driverEarnings,
           name: Routes.driverEarningsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Earnings',
-            message: 'Your earnings dashboard',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Earnings', message: 'Your earnings dashboard'),
         ),
         GoRoute(
           path: Routes.performanceStats,
           name: Routes.performanceStatsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Performance',
-            message: 'Your performance stats',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Performance', message: 'Your performance stats'),
         ),
         GoRoute(
           path: Routes.heatMap,
           name: Routes.heatMapName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Heat Map',
-            message: 'High-demand areas',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Heat Map', message: 'High-demand areas'),
         ),
 
         // Driver Trips
@@ -686,10 +645,7 @@ class AppRouter {
           name: Routes.tripRequestName,
           builder: (context, state) {
             final tripId = state.pathParameters['id'] ?? '';
-            return PlaceholderScreen(
-              title: 'Trip Request',
-              message: 'Trip request: $tripId',
-            );
+            return PlaceholderScreen(title: 'Trip Request', message: 'Trip request: $tripId');
           },
         ),
 
@@ -702,36 +658,28 @@ class AppRouter {
         GoRoute(
           path: Routes.driverVerification,
           name: Routes.driverVerificationName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Verification',
-            message: 'Document verification',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Verification', message: 'Document verification'),
         ),
         GoRoute(
           path: Routes.vehicleRegistration,
           name: Routes.vehicleRegistrationName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Vehicle',
-            message: 'Vehicle registration',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Vehicle', message: 'Vehicle registration'),
         ),
 
         // Driver Earnings & Payments
         GoRoute(
           path: Routes.withdrawal,
           name: Routes.withdrawalName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Withdraw',
-            message: 'Cash out earnings',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Withdraw', message: 'Cash out earnings'),
         ),
         GoRoute(
           path: Routes.paymentHistory,
           name: Routes.paymentHistoryName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Payment History',
-            message: 'Your payment history',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Payment History', message: 'Your payment history'),
         ),
 
         // Driver Features
@@ -747,18 +695,14 @@ class AppRouter {
         GoRoute(
           path: Routes.scheduleManagement,
           name: Routes.scheduleManagementName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Schedule',
-            message: 'Manage your schedule',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Schedule', message: 'Manage your schedule'),
         ),
         GoRoute(
           path: Routes.driverTraining,
           name: Routes.driverTrainingName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Training',
-            message: 'Training materials',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Training', message: 'Training materials'),
         ),
 
         // Driver Settings
@@ -770,10 +714,8 @@ class AppRouter {
         GoRoute(
           path: Routes.driverNotifications,
           name: Routes.driverNotificationsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Notifications',
-            message: 'Your notifications',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Notifications', message: 'Your notifications'),
         ),
       ],
     ),
@@ -812,122 +754,93 @@ class AppRouter {
     // Company Shell Routes
     ShellRoute(
       navigatorKey: companyShellNavigatorKey,
-      builder: (context, state, child) => MainShell(
-        currentRoute: state.matchedLocation,
-        isCompany: true,
-        child: child,
-      ),
+      builder: (context, state, child) =>
+          MainShell(currentRoute: state.matchedLocation, isCompany: true, child: child),
       routes: [
         // Company Dashboard
         GoRoute(
           path: Routes.companyDashboard,
           name: Routes.companyDashboardName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Dashboard',
-            message: 'Company dashboard',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Dashboard', message: 'Company dashboard'),
         ),
         GoRoute(
           path: Routes.companyAnalytics,
           name: Routes.companyAnalyticsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Analytics',
-            message: 'Business analytics',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Analytics', message: 'Business analytics'),
         ),
         GoRoute(
           path: Routes.revenueReports,
           name: Routes.revenueReportsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Revenue Reports',
-            message: 'Financial reports',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Revenue Reports', message: 'Financial reports'),
         ),
 
         // Fleet Management
         GoRoute(
           path: Routes.fleetOverview,
           name: Routes.fleetOverviewName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Fleet Overview',
-            message: 'Your fleet',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Fleet Overview', message: 'Your fleet'),
         ),
         GoRoute(
           path: Routes.vehicleList,
           name: Routes.vehicleListName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Vehicles',
-            message: 'All vehicles',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Vehicles', message: 'All vehicles'),
         ),
         GoRoute(
           path: Routes.addVehicle,
           name: Routes.addVehicleName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Add Vehicle',
-            message: 'Register new vehicle',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Add Vehicle', message: 'Register new vehicle'),
         ),
         GoRoute(
           path: Routes.maintenanceSchedule,
           name: Routes.maintenanceScheduleName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Maintenance',
-            message: 'Maintenance schedule',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Maintenance', message: 'Maintenance schedule'),
         ),
 
         // Driver Management
         GoRoute(
           path: Routes.companyDrivers,
           name: Routes.companyDriversName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Drivers',
-            message: 'Manage drivers',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Drivers', message: 'Manage drivers'),
         ),
         GoRoute(
           path: Routes.addCompanyDriver,
           name: Routes.addCompanyDriverName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Add Driver',
-            message: 'Register new driver',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Add Driver', message: 'Register new driver'),
         ),
 
         // Company Trips & Earnings
         GoRoute(
           path: Routes.companyTrips,
           name: Routes.companyTripsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Trips',
-            message: 'All company trips',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Trips', message: 'All company trips'),
         ),
         GoRoute(
           path: Routes.tripReports,
           name: Routes.tripReportsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Trip Reports',
-            message: 'Trip analytics',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Trip Reports', message: 'Trip analytics'),
         ),
         GoRoute(
           path: Routes.companyEarnings,
           name: Routes.companyEarningsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Earnings',
-            message: 'Company earnings',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Earnings', message: 'Company earnings'),
         ),
         GoRoute(
           path: Routes.commissionSettings,
           name: Routes.commissionSettingsName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Commission',
-            message: 'Commission settings',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Commission', message: 'Commission settings'),
         ),
 
         // Company Settings
@@ -969,10 +882,8 @@ class AppRouter {
         GoRoute(
           path: Routes.zoneManagement,
           name: Routes.zoneManagementName,
-          builder: (context, state) => const PlaceholderScreen(
-            title: 'Zones',
-            message: 'Operating zones',
-          ),
+          builder: (context, state) =>
+              const PlaceholderScreen(title: 'Zones', message: 'Operating zones'),
         ),
       ],
     ),
@@ -1037,8 +948,7 @@ class AppRouter {
 
   bool canPop() => _router.canPop();
 
-  String get currentLocation =>
-      _router.routeInformationProvider.value.uri.toString();
+  String get currentLocation => _router.routeInformationProvider.value.uri.toString();
 
   void refresh() {
     _router.refresh();

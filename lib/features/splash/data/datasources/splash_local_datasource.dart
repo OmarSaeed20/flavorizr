@@ -10,6 +10,9 @@ abstract class SplashLocalDataSource {
   /// Checks if onboarding has been completed.
   Future<bool> isOnboardingCompleted();
 
+  /// Checks if the user has selected a language.
+  Future<bool> isLanguageSelected();
+
   /// Checks if this is the first launch.
   Future<bool> isFirstLaunch();
 
@@ -33,6 +36,7 @@ class SplashLocalDataSourceImpl implements SplashLocalDataSource {
 
   static const String _tokenKey = 'auth_token';
   static const String _onboardingCompletedKey = 'onboarding_completed';
+  static const String _languageSelectedKey = 'language_selected';
   static const String _firstLaunchKey = 'first_launch_completed';
 
   @override
@@ -44,6 +48,11 @@ class SplashLocalDataSourceImpl implements SplashLocalDataSource {
   @override
   Future<bool> isOnboardingCompleted() async {
     return _prefs.getBool(_onboardingCompletedKey) ?? false;
+  }
+
+  @override
+  Future<bool> isLanguageSelected() async {
+    return _prefs.getBool(_languageSelectedKey) ?? false;
   }
 
   @override
