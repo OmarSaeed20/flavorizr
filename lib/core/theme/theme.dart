@@ -1,14 +1,16 @@
 // lib/core/theme/theme.dart
-/// Theme system exports for the application.
+
+/// Theme system barrel exports.
 ///
-/// This file provides a single import point for all theme-related
-/// functionality including:
-/// - Theme settings and preferences
-/// - Color schemes and semantic colors
-/// - Typography configuration
-/// - Theme controller for state management
+/// Import this single file to get access to the entire theme API:
+///
+/// ```dart
+/// import 'package:fast_golden_taxi/core/theme/theme.dart';
+/// ```
 library;
 
+export 'app_colors.dart';
+export 'app_text_styles.dart';
 export 'app_theme.dart';
 export 'color_schemes.dart';
 export 'theme_controller.dart';

@@ -1,48 +1,27 @@
 // lib/core/theme/app_text_styles.dart
-/// App text styles for backward compatibility.
+
+/// Theme-aware text-style accessor for Fast Golden Taxi.
 ///
-/// This file provides static text style properties that can be used
-/// throughout the app. These styles are theme-aware and will
-/// update based on the current theme.
+/// Wraps the Material [TextTheme] resolved from the current
+/// [BuildContext] so callsites can write:
+///
+/// ```dart
+/// final styles = AppTextStyles.of(context);
+/// Text('Title', style: styles.titleLarge);
+/// ```
+///
+/// For the raw type-scale configuration see [AppTypography].
 library;
 
+import 'package:fast_golden_taxi/core/theme/typography.dart';
 import 'package:flutter/material.dart';
 
-/// App text styles that can be used throughout the application.
+/// Convenience wrapper around [TextTheme] for backward compatibility.
 ///
-/// These text styles are designed to be used with the current theme's
-/// TextTheme. For theme-aware styles, use [of] to get styles
-/// based on the current BuildContext.
+/// Prefer `Theme.of(context).textTheme` or the `context.textTheme`
+/// extension (from `app_theme.dart`) in new code.
 class AppTextStyles {
-  // AppTextStyles._();
-
-  /// Get theme-aware text styles from the current BuildContext.
-  static AppTextStyles of(BuildContext context) {
-    final theme = Theme.of(context);
-    return AppTextStyles._fromTheme(theme);
-  }
-
-  /// Create AppTextStyles from a ThemeData.
-  static AppTextStyles _fromTheme(ThemeData theme) {
-    final textTheme = theme.textTheme;
-    return AppTextStyles._internal(
-      headlineLarge: textTheme.headlineLarge!,
-      headlineMedium: textTheme.headlineMedium!,
-      headlineSmall: textTheme.headlineSmall!,
-      titleLarge: textTheme.titleLarge!,
-      titleMedium: textTheme.titleMedium!,
-      titleSmall: textTheme.titleSmall!,
-      bodyLarge: textTheme.bodyLarge!,
-      bodyMedium: textTheme.bodyMedium!,
-      bodySmall: textTheme.bodySmall!,
-      labelLarge: textTheme.labelLarge!,
-      labelMedium: textTheme.labelMedium!,
-      labelSmall: textTheme.labelSmall!,
-    );
-  }
-
-  // Internal constructor for creating instances
-  const AppTextStyles._internal({
+  const AppTextStyles._({
     required this.headlineLarge,
     required this.headlineMedium,
     required this.headlineSmall,
@@ -57,26 +36,45 @@ class AppTextStyles {
     required this.labelSmall,
   });
 
-  // Display styles
+  /// Resolves text styles from the nearest [Theme].
+  static AppTextStyles of(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    return AppTextStyles._(
+      headlineLarge: tt.headlineLarge!,
+      headlineMedium: tt.headlineMedium!,
+      headlineSmall: tt.headlineSmall!,
+      titleLarge: tt.titleLarge!,
+      titleMedium: tt.titleMedium!,
+      titleSmall: tt.titleSmall!,
+      bodyLarge: tt.bodyLarge!,
+      bodyMedium: tt.bodyMedium!,
+      bodySmall: tt.bodySmall!,
+      labelLarge: tt.labelLarge!,
+      labelMedium: tt.labelMedium!,
+      labelSmall: tt.labelSmall!,
+    );
+  }
+
+  // ── Headline ────────────────────────────────────────────────────────────
   final TextStyle headlineLarge;
   final TextStyle headlineMedium;
   final TextStyle headlineSmall;
 
-  // Title styles
+  // ── Title ───────────────────────────────────────────────────────────────
   final TextStyle titleLarge;
   final TextStyle titleMedium;
   final TextStyle titleSmall;
 
-  // Body styles
+  // ── Body ────────────────────────────────────────────────────────────────
   final TextStyle bodyLarge;
   final TextStyle bodyMedium;
   final TextStyle bodySmall;
 
-  // Label styles
+  // ── Label ───────────────────────────────────────────────────────────────
   final TextStyle labelLarge;
   final TextStyle labelMedium;
   final TextStyle labelSmall;
 
-  // Static styles for backward compatibility
-  static const String fontFamily = 'Roboto';
+  /// Default font family (static constant for quick reference).
+  static const String fontFamily = AppTypography.fontFamily; // Poppins
 }

@@ -1,4 +1,19 @@
 // lib/core/theme/theme_controller.dart
+
+/// Riverpod-based theme controller with SharedPreferences persistence.
+///
+/// The controller owns a single [ThemeSettings] state object and
+/// automatically persists every mutation to disk.
+///
+/// ```dart
+/// // Read
+/// final settings = ref.watch(themeControllerProvider);
+///
+/// // Write
+/// ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.dark);
+/// ```
+library;
+
 import 'dart:convert';
 
 import 'package:fast_golden_taxi/core/theme/theme_settings.dart';
@@ -6,141 +21,133 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Key used to store theme settings in SharedPreferences.
-const String _themeSettingsKey = 'theme_settings';
+/// SharedPreferences key for the serialised [ThemeSettings].
+const String _kThemeSettingsKey = 'theme_settings';
 
-/// Provider for accessing and modifying theme settings.
+// ═══════════════════════════════════════════════════════════════════════════════
+// PROVIDER
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/// Global provider for theme settings.
 ///
-/// Usage:
-/// ```dart
-/// // Read current settings
-/// final settings = ref.watch(themeControllerProvider);
-///
-/// // Update settings
-/// ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.dark);
-/// ```
+/// Consumers should `watch` this provider to rebuild when the user
+/// changes any theme preference.
 final themeControllerProvider = NotifierProvider<ThemeController, ThemeSettings>(
   ThemeController.new,
 );
 
-/// Controls theme settings with persistence.
-///
-/// This controller:
-/// - Loads saved settings on initialization
-/// - Persists changes to SharedPreferences
-/// - Provides methods to update individual settings
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONTROLLER
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/// Manages theme preferences with automatic persistence.
 class ThemeController extends Notifier<ThemeSettings> {
   SharedPreferences? _prefs;
 
   @override
   ThemeSettings build() {
+    // Kick off async load; state starts at defaults.
     _loadSettings();
     return ThemeSettings.defaults;
   }
 
-  /// Loads theme settings from SharedPreferences.
+  // ─────────────────────────────────────────────────────────────────────────
+  // Persistence helpers
+  // ─────────────────────────────────────────────────────────────────────────
+
   Future<void> _loadSettings() async {
     try {
       _prefs = await SharedPreferences.getInstance();
-      final json = _prefs?.getString(_themeSettingsKey);
-      if (json != null) {
-        final data = jsonDecode(json) as Map<String, dynamic>;
-        state = ThemeSettings.fromJson(data);
+      final raw = _prefs?.getString(_kThemeSettingsKey);
+      if (raw != null) {
+        state = ThemeSettings.fromJson(jsonDecode(raw) as Map<String, dynamic>);
       }
     } catch (e) {
-      // If loading fails, keep default settings
-      debugPrint('Failed to load theme settings: $e');
+      debugPrint('ThemeController: failed to load settings – $e');
     }
   }
 
-  /// Saves current theme settings to SharedPreferences.
-  Future<void> _saveSettings() async {
+  Future<void> _save() async {
     try {
       _prefs ??= await SharedPreferences.getInstance();
-      final json = jsonEncode(state.toJson());
-      await _prefs?.setString(_themeSettingsKey, json);
+      await _prefs?.setString(_kThemeSettingsKey, jsonEncode(state.toJson()));
     } catch (e) {
-      debugPrint('Failed to save theme settings: $e');
+      debugPrint('ThemeController: failed to save settings – $e');
     }
   }
 
-  /// Updates the theme mode.
+  // ─────────────────────────────────────────────────────────────────────────
+  // Public mutators
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /// Sets the theme mode (light / dark / system).
   Future<void> setThemeMode(ThemeMode mode) async {
     state = state.copyWith(themeMode: mode);
-    await _saveSettings();
+    await _save();
   }
 
-  /// Updates the color scheme index.
-  Future<void> setColorScheme(int index) async {
-    state = state.copyWith(colorSchemeIndex: index);
-    await _saveSettings();
-  }
-
-  /// Toggles dynamic color usage.
+  /// Toggles system dynamic-color usage (Android 12+).
   Future<void> setUseDynamicColor(bool value) async {
     state = state.copyWith(useDynamicColor: value);
-    await _saveSettings();
+    await _save();
   }
 
-  /// Toggles OLED black mode.
+  /// Toggles OLED true-black dark mode.
   Future<void> setUseOledBlack(bool value) async {
     state = state.copyWith(useOledBlack: value);
-    await _saveSettings();
+    await _save();
   }
 
-  /// Updates the text scale factor.
+  /// Updates the global text scale factor (clamped 0.8 – 1.4).
   Future<void> setTextScaleFactor(double factor) async {
-    // Clamp factor between 0.8 and 1.4
-    final clampedFactor = factor.clamp(0.8, 1.4);
-    state = state.copyWith(textScaleFactor: clampedFactor);
-    await _saveSettings();
+    state = state.copyWith(textScaleFactor: factor.clamp(0.8, 1.4));
+    await _save();
   }
 
-  /// Toggles high contrast mode.
+  /// Toggles high-contrast mode.
   Future<void> setUseHighContrast(bool value) async {
     state = state.copyWith(useHighContrast: value);
-    await _saveSettings();
+    await _save();
   }
 
-  /// Toggles Material 3 mode.
-  Future<void> setUseMaterial3(bool value) async {
-    state = state.copyWith(useMaterial3: value);
-    await _saveSettings();
-  }
-
-  /// Resets all settings to defaults.
-  Future<void> resetToDefaults() async {
-    state = ThemeSettings.defaults;
-    await _saveSettings();
-  }
-
-  /// Cycles through theme modes: system -> light -> dark -> system
+  /// Cycles theme modes: system → light → dark → system.
   Future<void> cycleThemeMode() async {
-    final nextMode = switch (state.themeMode) {
+    final next = switch (state.themeMode) {
       ThemeMode.system => ThemeMode.light,
       ThemeMode.light => ThemeMode.dark,
       ThemeMode.dark => ThemeMode.system,
     };
-    await setThemeMode(nextMode);
+    await setThemeMode(next);
   }
 
-  /// Updates multiple settings at once.
+  /// Replaces the entire settings object.
   Future<void> updateSettings(ThemeSettings settings) async {
     state = settings;
-    await _saveSettings();
+    await _save();
+  }
+
+  /// Resets everything to factory defaults.
+  Future<void> resetToDefaults() async {
+    state = ThemeSettings.defaults;
+    await _save();
   }
 }
 
-/// Provider for the current brightness based on theme mode and platform.
+// ═══════════════════════════════════════════════════════════════════════════════
+// DERIVED PROVIDERS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/// Convenience provider for the current brightness.
+///
+/// Note: this returns a *best guess* based on [ThemeMode] alone.
+/// The actual brightness used by the framework also depends on
+/// `MediaQuery.platformBrightnessOf(context)`.
 final currentBrightnessProvider = Provider<Brightness>((ref) {
-  final settings = ref.watch(themeControllerProvider);
-  // This will be overridden by the actual platform brightness
-  // when building the MaterialApp
-  return settings.themeMode == ThemeMode.dark ? Brightness.dark : Brightness.light;
+  final mode = ref.watch(themeControllerProvider).themeMode;
+  return mode == ThemeMode.dark ? Brightness.dark : Brightness.light;
 });
 
-/// Provider for whether dark mode is active.
+/// Whether dark mode is likely active.
 final isDarkModeProvider = Provider<bool>((ref) {
-  final brightness = ref.watch(currentBrightnessProvider);
-  return brightness == Brightness.dark;
+  return ref.watch(currentBrightnessProvider) == Brightness.dark;
 });

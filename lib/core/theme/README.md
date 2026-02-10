@@ -1,641 +1,195 @@
 # Theme Module
 
-The theme module provides a comprehensive theming system for the Fast Golden Taxi application with Material 3 design system support, dynamic colors, and extensive customization options.
+The theme module provides a **Figma-accurate** Material 3 color system for the Fast Golden Taxi application. Every hex value is extracted directly from the Figma design file – no generic Material defaults. Both **light** and **dark** mode palettes are fully specified.
 
 ## 📁 Directory Structure
 
 ```
 lib/core/theme/
-├── app_theme.dart           # Main theme generation
-├── color_schemes.dart       # Predefined color schemes
-├── typography.dart          # Typography configuration
-├── theme_controller.dart    # Riverpod theme controller
-└── theme_settings.dart      # Theme settings model
+├── app_colors.dart        # Figma palette tokens (k* / kDark* constants) + AppColors accessor
+├── app_text_styles.dart   # Theme-aware TextStyle accessor
+├── app_theme.dart         # ThemeData builder + AppThemeExtension + context extensions
+├── color_schemes.dart     # Light / Dark / OLED ColorScheme + SemanticColors
+├── theme.dart             # Barrel exports
+├── theme_controller.dart  # Riverpod controller + persistence
+├── theme_settings.dart    # Immutable settings model
+├── typography.dart        # Poppins / Inter / Roboto type-scale
+└── README.md              # ← you are here
 ```
 
-## 🎯 Key Components
+## 🎨 Color Palette – Light Mode (from Figma)
 
-### 1. AppTheme (`app_theme.dart`)
+| Token | Hex | Usage |
+|---|---|---|
+| **Primary** | `#FFBF00` | Golden CTA buttons (Confirm, Accept, Submit), map marker borders |
+| **Primary Variant** | `#F2C223` | Selected chip border, date-picker accent |
+| **Destructive** | `#CC2B2B` | Cancel button text, error states |
+| **Gray 900** | `#000000` | Black text, status-bar icons |
+| **Gray 800** | `#212121` | Date/time display text |
+| **Gray 700** | `#353535` | Headings, selected date-picker bg |
+| **Gray 600** | `#3C3C3C` | Car marker border |
+| **Gray 500** | `#686868` | Address / subtitle text |
+| **Gray 400** | `#949494` | Placeholder / hint text, disabled bg |
+| **Gray 300** | `#B6B6B6` | Toggle border |
+| **Gray 200** | `#D1D1D1` | Input field borders |
+| **Gray 150** | `#E4E4E4` | Card / chip borders, keyboard keys |
+| **Gray 100** | `#F2F2F2` | Input field bg, dividers |
+| **Gray 50** | `#FAFAFA` | Avatar borders, icon-button bg |
+| **White** | `#FFFFFF` | Card backgrounds, bottom sheets |
 
-Main theme generation using flex_color_scheme.
+## 🌙 Color Palette – Dark Mode (from Figma)
 
-**Features:**
-- 28+ predefined color schemes
-- Material 3 design system
-- Dynamic color support
-- OLED black mode
-- Custom component themes
+| Token | Hex | Figma Usage |
+|---|---|---|
+| **Dark Primary** | `#DAA520` | Goldenrod – titles, labels, accents, primary CTAs |
+| **Dark Primary Variant** | `#F2C223` | Selected tab/chip border, active accent |
+| **Dark Background** | `#636363` | Scaffold / page background |
+| **Dark Surface** | `#4A4A4A` | Cards, app bar, containers, inputs, bottom sheets |
+| **Dark Surface Variant** | `#636363` | Card borders, input borders, dividers |
+| **Dark Segment Border** | `#4F4F4F` | Segmented control border |
+| **Dark On Surface** | `#FFFFFF` | Primary text – headings, names, body |
+| **Dark Text Secondary** | `#D1D1D1` | Status bar, subtitles, data values |
+| **Dark Text Tertiary** | `#B5B5B5` | Body text, descriptions, help text |
+| **Dark Text Hint** | `#949494` | Input hints, labels, secondary info |
+| **Dark Text Muted** | `#6C6C6C` | Currency suffix in inputs |
+| **Dark Badge** | `#26F1C630` | Badge/tag background (15% gold) |
+| **Dark Chart Accent** | `#FFDB58` | Pie chart accent |
+| **Dark Chat Bubble Sent** | `#B6B6B6` | Sent message bubble |
+| **Dark Overlay** | `#B3000000` | Modal backdrop (70% black) |
+| **Dark Selected Tab Fill** | `#DAA520` | Selected tab background |
+| **Dark Selected Tab Text** | `#4A4A4A` | Inverted text on selected tab |
 
-**Usage:**
-```dart
-// Light theme
-final lightTheme = AppTheme.light(settings: themeSettings);
+### Shadows
 
-// Dark theme
-final darkTheme = AppTheme.dark(settings: themeSettings);
+| Token | Light | Dark | Usage |
+|---|---|---|---|
+| `kShadowLight` / `kDarkShadowSubtle` | `0x14000000` (8%) | `0x14000000` (8%) | General light shadow |
+| `kShadowCard` / `kDarkShadowCard` | `0x3FE1E1E1` (~25%) | `0x28E1E1E1` (~16%) | Card shadow |
+| `kShadowSheet` / `kDarkShadow` | `0x3F000000` (25%) | `0x33000000` (20%) | Bottom-sheet / drop shadow |
+| `kShadowKey` | `0x4C000000` (30%) | — | Keyboard key shadow |
 
-// Use in MaterialApp
-MaterialApp(
-  theme: lightTheme,
-  darkTheme: darkTheme,
-  themeMode: themeSettings.themeMode,
-);
-```
+### Dark-Mode Gradients
 
-**Theme Generation:**
-```dart
-static ThemeData light({required ThemeSettings settings}) {
-  final scheme = settings.colorScheme;
-  final useMaterial3 = settings.useMaterial3;
+| Gradient | Colors | Usage |
+|---|---|---|
+| **Wallet Card** | `#000000` → `#F7CF4D` | Wallet card background with 3% white overlay |
 
-  return FlexThemeData.light(
-    scheme: scheme,
-    usedColors: settings.usedColors,
-    surfaceMode: settings.surfaceMode,
-    blendLevel: settings.blendLevel,
-    appBarStyle: FlexAppBarStyle.primary,
-    appBarOpacity: settings.appBarOpacity,
-    transparentStatusBar: settings.transparentStatusBar,
-    subThemesData: _buildSubThemes(settings),
-    keyColors: settings.useKeyColors
-        ? FlexKeyColors(
-            useKeyColors: true,
-            useSecondary: settings.useSecondaryKeyColor,
-            useTertiary: settings.useTertiaryKeyColor,
-          )
-        : null,
-    tones: settings.useTones
-        ? FlexTones(
-            brightness: Brightness.light,
-            onMain: settings.onMainTone,
-            onContainer: settings.onContainerTone,
-          )
-        : null,
-    visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    useMaterial3: useMaterial3,
-    swapLegacyOnMaterial3: useMaterial3,
-    fontFamily: 'Inter',
-  ).copyWith(
-    extensions: [
-      _buildCustomColors(settings),
-    ],
-  );
-}
-```
+## 🔤 Typography
 
-### 2. ColorSchemes (`color_schemes.dart`)
+| Role | Font | Weights |
+|---|---|---|
+| **Display / Headline / Title / Label** | Poppins | w400, w500, w600, w700 |
+| **Body** | Inter | w400, w500, w600 |
+| **Chat messages** | Roboto | w400 |
+| **Monospace** (OTP / code) | Roboto Mono | w400 |
+| **Arabic locale** | Omnia Arabic ITF | — |
 
-Predefined color schemes using flex_color_scheme.
-
-**Available Schemes:**
-- Material Design (Blue, Red, Green, Yellow, Purple, Orange, Pink, Cyan, Teal, Amber, Indigo, Lime, Brown, Grey, BlueGrey)
-- Custom (Golden, Taxi, Brand)
-- Deep Purple, Deep Orange, Deep Teal
-- Rose, Violet, Emerald, Sapphire
-- Mango, Lime, Sky, Mint
-
-**Usage:**
-```dart
-// Get a color scheme
-final scheme = ColorSchemes.golden;
-
-// Use in theme settings
-final settings = ThemeSettings(
-  colorScheme: scheme,
-  themeMode: ThemeMode.system,
-);
-
-// Access scheme colors
-final primary = scheme.primary;
-final secondary = scheme.secondary;
-final tertiary = scheme.tertiary;
-```
-
-**Color Scheme Examples:**
-```dart
-class ColorSchemes {
-  // Material Design schemes
-  static const blue = FlexScheme.blue;
-  static const red = FlexScheme.red;
-  static const green = FlexScheme.green;
-  static const yellow = FlexScheme.yellow;
-  static const purple = FlexScheme.purple;
-  static const orange = FlexScheme.orange;
-  static const pink = FlexScheme.pink;
-  static const cyan = FlexScheme.cyan;
-  static const teal = FlexScheme.teal;
-  static const amber = FlexScheme.amber;
-  static const indigo = FlexScheme.indigo;
-  static const lime = FlexScheme.lime;
-  static const brown = FlexScheme.brown;
-  static const grey = FlexScheme.grey;
-  static const blueGrey = FlexScheme.blueGrey;
-
-  // Custom schemes
-  static const golden = FlexScheme.gold;
-  static const taxi = FlexScheme.barossa;
-  static const brand = FlexScheme.mango;
-
-  // Deep schemes
-  static const deepPurple = FlexScheme.deepPurple;
-  static const deepOrange = FlexScheme.deepOrange;
-  static const deepTeal = FlexScheme.deepTeal;
-
-  // Vibrant schemes
-  static const rose = FlexScheme.rose;
-  static const violet = FlexScheme.violet;
-  static const emerald = FlexScheme.emerald;
-  static const sapphire = FlexScheme.sapphire;
-}
-```
-
-### 3. Typography (`typography.dart`)
-
-Typography configuration using Material 3 type scale.
-
-**Features:**
-- Material 3 type scale
-- Custom font family (Inter)
-- Responsive text scaling
-- Custom text styles
-
-**Usage:**
-```dart
-// Get text theme
-final textTheme = AppTypography.textTheme;
-
-// Use in theme
-MaterialApp(
-  theme: ThemeData(
-    textTheme: textTheme,
-  ),
-);
-
-// Access text styles
-Text(
-  'Hello',
-  style: textTheme.displayLarge,
-);
-```
-
-**Text Scale:**
-```dart
-static TextTheme get textTheme => const TextTheme(
-  // Display styles
-  displayLarge: TextStyle(
-    fontSize: 57,
-    fontWeight: FontWeight.w400,
-    letterSpacing: -0.25,
-  ),
-  displayMedium: TextStyle(
-    fontSize: 45,
-    fontWeight: FontWeight.w400,
-  ),
-  displaySmall: TextStyle(
-    fontSize: 36,
-    fontWeight: FontWeight.w400,
-  ),
-
-  // Headline styles
-  headlineLarge: TextStyle(
-    fontSize: 32,
-    fontWeight: FontWeight.w400,
-  ),
-  headlineMedium: TextStyle(
-    fontSize: 28,
-    fontWeight: FontWeight.w400,
-  ),
-  headlineSmall: TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.w400,
-  ),
-
-  // Title styles
-  titleLarge: TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.w400,
-  ),
-  titleMedium: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.15,
-  ),
-  titleSmall: TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.1,
-  ),
-
-  // Body styles
-  bodyLarge: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0.5,
-  ),
-  bodyMedium: TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0.25,
-  ),
-  bodySmall: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    letterSpacing: 0.4,
-  ),
-
-  // Label styles
-  labelLarge: TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.1,
-  ),
-  labelMedium: TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.5,
-  ),
-  labelSmall: TextStyle(
-    fontSize: 11,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.5,
-  ),
-);
-```
-
-### 4. ThemeController (`theme_controller.dart`)
-
-Riverpod controller for theme management with persistence.
-
-**Features:**
-- Theme mode switching (light/dark/system)
-- Color scheme selection
-- Custom theme settings
-- Persistence with SharedPreferences
-
-**Usage:**
-```dart
-// Watch theme settings
-final themeSettings = ref.watch(themeControllerProvider);
-
-// Change theme mode
-ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.dark);
-
-// Change color scheme
-ref.read(themeControllerProvider.notifier).setColorScheme(FlexScheme.gold);
-
-// Update settings
-ref.read(themeControllerProvider.notifier).updateSettings(
-  ThemeSettings(
-    colorScheme: FlexScheme.gold,
-    themeMode: ThemeMode.system,
-    useMaterial3: true,
-  ),
-);
-```
-
-**ThemeController:**
-```dart
-class ThemeController extends StateNotifier<ThemeSettings> {
-  final SharedPreferences _prefs;
-
-  ThemeController(this._prefs) : super(_loadSettings(_prefs));
-
-  static ThemeSettings _loadSettings(SharedPreferences prefs) {
-    final themeModeIndex = prefs.getInt('theme_mode') ?? 0;
-    final colorSchemeIndex = prefs.getInt('color_scheme') ?? 0;
-    final useMaterial3 = prefs.getBool('use_material3') ?? true;
-
-    return ThemeSettings(
-      themeMode: ThemeMode.values[themeModeIndex],
-      colorScheme: FlexScheme.values[colorSchemeIndex],
-      useMaterial3: useMaterial3,
-    );
-  }
-
-  void setThemeMode(ThemeMode mode) {
-    _prefs.setInt('theme_mode', mode.index);
-    state = state.copyWith(themeMode: mode);
-  }
-
-  void setColorScheme(FlexScheme scheme) {
-    _prefs.setInt('color_scheme', scheme.index);
-    state = state.copyWith(colorScheme: scheme);
-  }
-
-  void updateSettings(ThemeSettings settings) {
-    _prefs.setInt('theme_mode', settings.themeMode.index);
-    _prefs.setInt('color_scheme', settings.colorScheme.index);
-    _prefs.setBool('use_material3', settings.useMaterial3);
-    state = settings;
-  }
-}
-```
-
-### 5. ThemeSettings (`theme_settings.dart`)
-
-Theme settings model with freezed.
-
-**Properties:**
-- Theme mode (light/dark/system)
-- Color scheme
-- Material 3 flag
-- Surface mode
-- Blend level
-- Custom colors
-
-**Usage:**
-```dart
-// Create settings
-final settings = ThemeSettings(
-  themeMode: ThemeMode.system,
-  colorScheme: FlexScheme.gold,
-  useMaterial3: true,
-  surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-  blendLevel: 0,
-);
-
-// Copy with changes
-final newSettings = settings.copyWith(
-  themeMode: ThemeMode.dark,
-);
-```
-
-**ThemeSettings Model:**
-```dart
-@freezed
-class ThemeSettings with _$ThemeSettings {
-  const factory ThemeSettings({
-    required ThemeMode themeMode,
-    required FlexScheme colorScheme,
-    @Default(true) bool useMaterial3,
-    @Default(FlexSurfaceMode.levelSurfacesLowScaffold) FlexSurfaceMode surfaceMode,
-    @Default(0) int blendLevel,
-    @Default(FlexAppBarStyle.primary) FlexAppBarStyle appBarStyle,
-    @Default(1.0) double appBarOpacity,
-    @Default(false) bool transparentStatusBar,
-    @Default(FlexUsedColors.primary) FlexUsedColors usedColors,
-    @Default(true) bool useKeyColors,
-    @Default(true) bool useSecondaryKeyColor,
-    @Default(true) bool useTertiaryKeyColor,
-    @Default(true) bool useTones,
-    @Default(40) int onMainTone,
-    @Default(90) int onContainerTone,
-  }) = _ThemeSettings;
-
-  factory ThemeSettings.fromJson(Map<String, dynamic> json) =>
-      _$ThemeSettingsFromJson(json);
-}
-```
+> SF Pro Text appears in Figma for iOS keyboard rendering only – it is **not** bundled.
 
 ## 🏗️ Architecture
 
-### Theme System Flow
-
 ```
-1. App starts
-2. Load theme settings from SharedPreferences
-3. Initialize ThemeController with settings
-4. Generate light and dark themes
-5. Apply themes to MaterialApp
-6. Listen for theme changes
-7. Update UI when theme changes
-```
-
-### Theme Generation
-
-```
-ThemeSettings
-    ↓
+ThemeSettings (immutable model)
+       │
+       ▼
+ThemeController (Riverpod Notifier + SharedPreferences)
+       │
+       ▼
 AppTheme.light() / AppTheme.dark()
-    ↓
-FlexThemeData (flex_color_scheme)
-    ↓
-ThemeData (Flutter)
-    ↓
-MaterialApp
+       │  uses ──► kLightColorScheme / kDarkColorScheme / kOledDarkColorScheme
+       │  uses ──► AppTypography.createTextTheme()
+       │  uses ──► AppThemeExtension (success/warning/info/shimmer/overlay/badge/chat)
+       ▼
+ThemeData  ──►  MaterialApp.theme / darkTheme
 ```
 
-## 📝 Best Practices
+### Dark-Mode ColorScheme Mapping
 
-### 1. Use ThemeController for Theme Management
-
-```dart
-// Good
-final themeSettings = ref.watch(themeControllerProvider);
-ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.dark);
-
-// Bad
-// Manage theme manually without controller
+```
+Figma Element                 → Material 3 Slot
+─────────────────────────────────────────────────
+Scaffold / page bg (#636363)  → surface (+ scaffoldBackgroundColor override)
+Card / app bar (#4A4A4A)      → surfaceContainer / surfaceContainerLow
+Primary CTA (#DAA520)         → primary
+Selected accent (#F2C223)     → tertiary
+Primary text (#FFFFFF)        → onSurface
+Subtitles (#D1D1D1)           → onSurfaceVariant
+Hints (#949494)               → outline
+Card borders (#636363)        → outlineVariant
+Error (#CC2B2B)               → error
 ```
 
-### 2. Use Theme.of(context) for Theme Access
+## 🚀 Quick Start
+
+### In `MaterialApp`
 
 ```dart
-// Good
-final theme = Theme.of(context);
-final color = theme.colorScheme.primary;
+final settings = ref.watch(themeControllerProvider);
 
-// Bad
-// Hardcode colors
-final color = Colors.blue;
-```
-
-### 3. Use TextTheme for Typography
-
-```dart
-// Good
-Text(
-  'Hello',
-  style: Theme.of(context).textTheme.headlineMedium,
-);
-
-// Bad
-Text(
-  'Hello',
-  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-);
-```
-
-### 4. Use ColorScheme for Colors
-
-```dart
-// Good
-Container(
-  color: Theme.of(context).colorScheme.primary,
-);
-
-// Bad
-Container(
-  color: Colors.blue,
-);
-```
-
-### 5. Support Dark Mode
-
-```dart
-// Good
 MaterialApp(
   theme: AppTheme.light(settings: settings),
   darkTheme: AppTheme.dark(settings: settings),
   themeMode: settings.themeMode,
 );
-
-// Bad
-MaterialApp(
-  theme: AppTheme.light(settings: settings),
-);
 ```
 
-## 🔧 Usage Examples
-
-### Custom Theme Widget
+### Accessing colors in widgets
 
 ```dart
-class ThemedContainer extends StatelessWidget {
-  final Widget child;
+// Via ColorScheme (preferred)
+final primary = Theme.of(context).colorScheme.primary;
 
-  const ThemedContainer({super.key, required this.child});
+// Via context extension
+final cs = context.colorScheme;
+final tt = context.textTheme;
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+// Via AppColors helper (auto-adapts to dark mode)
+final colors = AppColors.of(context);
+Container(color: colors.primary);        // #FFBF00 (light) / #DAA520 (dark)
+Container(color: colors.inputBackground); // #F2F2F2 (light) / #4A4A4A (dark)
+Container(color: colors.textHint);        // #949494 (both modes)
 
-    return Container(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: colorScheme.outline),
-      ),
-      child: child,
-    );
-  }
-}
+// Via AppThemeExtension (success / warning / info / overlay / badge / chat)
+final ext = context.appColors;
+Container(color: ext.success);
+Container(color: ext.overlay);       // 70% black (dark) / 80% black (light)
+Container(color: ext.chatBubbleSent); // #B6B6B6 (dark) / #F2F2F2 (light)
+Container(color: ext.cardSurface);    // #4A4A4A (dark) / #FFFFFF (light)
+
+// Raw palette tokens (when you need a specific constant)
+Container(color: kDarkPrimary);  // #DAA520
+Container(color: kDarkSurface);  // #4A4A4A
 ```
 
-### Theme Switcher
+### Changing theme at runtime
 
 ```dart
-class ThemeSwitcher extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeSettings = ref.watch(themeControllerProvider);
+// Switch to dark mode
+ref.read(themeControllerProvider.notifier).setThemeMode(ThemeMode.dark);
 
-    return SegmentedButton<ThemeMode>(
-      segments: const [
-        ButtonSegment(
-          value: ThemeMode.light,
-          label: Text('Light'),
-          icon: Icon(Icons.light_mode),
-        ),
-        ButtonSegment(
-          value: ThemeMode.dark,
-          label: Text('Dark'),
-          icon: Icon(Icons.dark_mode),
-        ),
-        ButtonSegment(
-          value: ThemeMode.system,
-          label: Text('System'),
-          icon: Icon(Icons.brightness_auto),
-        ),
-      ],
-      selected: {themeSettings.themeMode},
-      onSelectionChanged: (Set<ThemeMode> selected) {
-        ref.read(themeControllerProvider.notifier)
-            .setThemeMode(selected.first);
-      },
-    );
-  }
-}
+// Enable OLED black
+ref.read(themeControllerProvider.notifier).setUseOledBlack(true);
+
+// Cycle: system → light → dark → system
+ref.read(themeControllerProvider.notifier).cycleThemeMode();
+
+// Adjust text scale
+ref.read(themeControllerProvider.notifier).setTextScaleFactor(1.2);
+
+// Reset everything
+ref.read(themeControllerProvider.notifier).resetToDefaults();
 ```
 
-### Color Scheme Selector
+## ✅ Best Practices
 
-```dart
-class ColorSchemeSelector extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final themeSettings = ref.watch(themeControllerProvider);
-
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-      ),
-      itemCount: FlexScheme.values.length,
-      itemBuilder: (context, index) {
-        final scheme = FlexScheme.values[index];
-        final isSelected = themeSettings.colorScheme == scheme;
-
-        return GestureDetector(
-          onTap: () {
-            ref.read(themeControllerProvider.notifier)
-                .setColorScheme(scheme);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: FlexColor.of(scheme).light.primary,
-              border: Border.all(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.transparent,
-                width: 2,
-              ),
-            ),
-            child: isSelected
-                ? const Icon(Icons.check, color: Colors.white)
-                : null,
-          ),
-        );
-      },
-    );
-  }
-}
-```
-
-## 🧪 Testing
-
-### Widget Tests
-
-```dart
-testWidgets('Theme should apply correctly', (tester) async {
-  await tester.pumpWidget(
-    ProviderScope(
-      overrides: [
-        themeControllerProvider.overrideWith((ref) => ThemeController(mockPrefs)),
-      ],
-      child: MaterialApp(
-        theme: AppTheme.light(settings: defaultSettings),
-        home: Scaffold(
-          body: Container(
-            color: Theme.of(tester.element(find.byType(Scaffold)))
-                .colorScheme
-                .primary,
-          ),
-        ),
-      ),
-    ),
-  );
-
-  final container = tester.widget<Container>(find.byType(Container));
-  expect(container.color, isNotNull);
-});
-```
-
-## 📚 Additional Resources
-
-- [Material 3 Design](https://m3.material.io)
-- [flex_color_scheme](https://pub.dev/packages/flex_color_scheme)
-- [Flutter Theming](https://flutter.dev/docs/development/ui/widgets/material)
-
-## 🤝 Contributing
-
-When modifying the theme system:
-
-1. Test on both light and dark modes
-2. Ensure accessibility (contrast ratios)
-3. Test on different screen sizes
-4. Update documentation
-5. Add tests
+1. **Use `ColorScheme` for colors** – never hard-code hex values in widgets.
+2. **Use `AppColors.of(context)`** for semantic tokens like `textHint`, `border`, `inputBackground` – they auto-adapt to dark mode.
+3. **Use `TextTheme` for typography** – never inline `TextStyle(fontSize: …)`.
+4. **Use `k*` / `kDark*` constants** only for values that don't exist in `ColorScheme` (shadows, overlays, social-login colors, gradients).
+5. **Test both light and dark** – the golden primary keeps `onPrimary: black` in both modes for maximum contrast.
+6. **Check OLED mode** – surfaces should render significantly darker when `useOledBlack` is `true`.
+7. **Keep Figma in sync** – when the design file changes, update `app_colors.dart` first, then propagate to `color_schemes.dart`.
+8. **Use `context.appColors`** for extended tokens (overlay, badge, chatBubbleSent, chartAccent, cardSurface).
 
 ## 📄 License
 
