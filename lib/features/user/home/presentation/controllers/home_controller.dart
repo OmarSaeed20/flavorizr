@@ -1,4 +1,4 @@
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/home/data/parameters/get_available_trips_parameters.dart';
 import 'package:fast_golden_taxi/features/user/home/domain/entities/home_data.dart';
 import 'package:fast_golden_taxi/features/user/home/domain/usecases/get_advertisements_usecase.dart';

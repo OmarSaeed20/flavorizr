@@ -19,8 +19,8 @@ final driverAuthRemoteDataSourceProvider = Provider<DriverAuthRemoteDataSource>(
 
 /// Provider for DriverAuthLocalDataSource.
 final driverAuthLocalDataSourceProvider = Provider<DriverAuthLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return DriverAuthLocalDataSourceImpl(sharedPreferences);
+  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
+  return DriverAuthLocalDataSourceImpl(sharedPreferences!);
 });
 
 /// Provider for DriverAuthRepository.

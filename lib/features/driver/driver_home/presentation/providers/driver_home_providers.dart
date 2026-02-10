@@ -16,8 +16,8 @@ final driverHomeRemoteDataSourceProvider = Provider<DriverHomeRemoteDataSource>(
 
 /// Provider for DriverHomeLocalDataSource
 final driverHomeLocalDataSourceProvider = Provider<DriverHomeLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return DriverHomeLocalDataSourceImpl(sharedPreferences);
+  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
+  return DriverHomeLocalDataSourceImpl(sharedPreferences!);
 });
 
 /// Provider for DriverHomeRepository

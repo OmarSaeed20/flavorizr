@@ -21,7 +21,8 @@ final driverProfileRemoteDataSourceProvider = Provider<DriverProfileRemoteDataSo
 
 /// Provider for DriverProfileLocalDataSource.
 final driverProfileLocalDataSourceProvider = Provider<DriverProfileLocalDataSource>((ref) {
-  return DriverProfileLocalDataSourceImpl(prefs: ref.watch(sharedPreferencesProvider));
+  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
+  return DriverProfileLocalDataSourceImpl(prefs: sharedPreferences!);
 });
 
 /// Provider for DriverProfileRepository.

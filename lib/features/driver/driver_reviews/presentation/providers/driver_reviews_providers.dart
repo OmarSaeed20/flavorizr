@@ -16,8 +16,8 @@ final driverReviewRemoteDataSourceProvider = Provider<DriverReviewRemoteDataSour
 
 /// Provider for driver review local data source
 final driverReviewLocalDataSourceProvider = Provider<DriverReviewLocalDataSource>((ref) {
-  final sharedPreferences = ref.watch(sharedPreferencesProvider);
-  return DriverReviewLocalDataSourceImpl(sharedPreferences);
+  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
+  return DriverReviewLocalDataSourceImpl(sharedPreferences!);
 });
 
 /// Provider for driver review repository

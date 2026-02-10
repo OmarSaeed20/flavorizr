@@ -12,7 +12,6 @@ import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/ge
 import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/reject_trip.dart';
 import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/start_trip.dart';
 import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/controllers/driver_trips_controller.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Provider for DriverTripsRemoteDataSource
@@ -23,8 +22,8 @@ final driverTripsRemoteDataSourceProvider = Provider<DriverTripsRemoteDataSource
 
 /// Provider for DriverTripsLocalDataSource
 final driverTripsLocalDataSourceProvider = Provider<DriverTripsLocalDataSource>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return DriverTripsLocalDataSourceImpl(prefs: prefs);
+  final prefs = ref.watch(sharedPreferencesProvider).value;
+  return DriverTripsLocalDataSourceImpl(prefs: prefs!);
 });
 
 /// Provider for DriverTripsRepository

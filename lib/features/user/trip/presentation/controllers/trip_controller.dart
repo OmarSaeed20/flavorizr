@@ -1,5 +1,5 @@
 // lib/features/trip/presentation/controllers/trip_controller.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/cancel_trip_parameters.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/confirm_trip_parameters.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_available_public_trips_parameters.dart';

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Base mixin for local data sources
 /// Provides common functionality for local data operations

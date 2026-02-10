@@ -1,4 +1,4 @@
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/domain/entities/driver_document.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/domain/repositories/driver_profile_repository.dart';
 

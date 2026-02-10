@@ -1,6 +1,6 @@
 // lib/features/splash/data/repositories/splash_repository_impl.dart
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/splash/data/datasources/splash_local_datasource.dart';
 import 'package:fast_golden_taxi/features/splash/domain/repositories/splash_repository.dart';
 

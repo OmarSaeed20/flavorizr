@@ -5,7 +5,7 @@ import 'package:fast_golden_taxi/core/network/api/parameters/notification_parame
 import 'package:fast_golden_taxi/core/network/api/repositories/notification_repository.dart';
 import 'package:fast_golden_taxi/core/network/api_response.dart';
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Notification Repository Implementation
 /// Implements the notification repository interface using Dio for API calls

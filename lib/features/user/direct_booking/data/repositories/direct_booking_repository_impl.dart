@@ -1,6 +1,6 @@
 import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
 import 'package:fast_golden_taxi/core/network/network_info.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/data/datasources/direct_booking_remote_datasource.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/create_booking_parameters.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/get_nearby_drivers_parameters.dart';

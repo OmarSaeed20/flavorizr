@@ -1,984 +1,477 @@
-Title
-===
-Abstract:xxx
-## Papar Information
-- Title:  `paper name`
-- Authors:  `A`,`B`,`C`
-- Preprint: [https://arxiv.org/abs/xx]()
-- Full-preprint: [paper position]()
-- Video: [video position]()
+# Fast Golden Taxi - Application Source Code
 
-## Install & Dependence
-- python
-- pytorch
-- numpy
+This directory contains the complete source code for the Fast Golden Taxi Flutter application, organized in a clean, modular architecture following industry best practices.
 
-## Dataset Preparation
-| Dataset | Download |
-| ---     | ---   |
-| dataset-A | [download]() |
-| dataset-B | [download]() |
-| dataset-C | [download]() |
+## 📁 Directory Structure
 
-## Use
-- for train
-  ```
-  python train.py
-  ```
-- for test
-  ```
-  python test.py
-  ```
-## Pretrained model
-| Model | Download |
-| ---     | ---   |
-| Model-1 | [download]() |
-| Model-2 | [download]() |
-| Model-3 | [download]() |
+```
+lib/
+├── main.dart                 # Application entry point
+├── app.dart                  # Root app widget with router and theme
+├── bootstrap.dart            # 17-step initialization sequence
+├── observers.dart            # App observers (navigation, lifecycle)
+├── config/                   # Configuration and flavors
+├── core/                     # Core functionality and utilities
+├── features/                 # Feature modules
+├── shared/                   # Shared utilities and widgets
+├── services/                 # Application-level services
+├── pages/                    # Router layouts and screens
+└── l10n/                     # Internationalization and localization
+```
 
-if Current 
-## Directory Hierarchy
-```
-|—— app.dart
-|—— bootstrap.dart
-|—— config
-|    |—— app_config.dart
-|    |—— firebase
-|        |—— firebase_config.dart
-|        |—— firebase_options
-|            |—— firebase_options_dev.dart
-|            |—— firebase_options_prod.dart
-|            |—— firebase_options_staging.dart
-|    |—— flavors.dart
-|—— core
-|    |—— accessibility
-|        |—— accessibility.dart
-|        |—— accessibility_service.dart
-|        |—— focus_helpers.dart
-|        |—— semantic_widgets.dart
-|    |—— core.dart
-|    |—— di
-|        |—— providers.dart
-|    |—— error
-|        |—— error.dart
-|        |—— error_boundary.dart
-|        |—— error_handler.dart
-|        |—— failures.dart
-|    |—— localization
-|        |—— locale_controller.dart
-|        |—— localization_service.dart
-|    |—— logger
-|        |—— advanced_app_logger.dart
-|        |—— app_logger.dart
-|        |—— logger_integration_helpers.dart
-|        |—— logger_ui_components.dart
-|    |—— network
-|        |—— api
-|            |—— endpoints
-|                |—— auth_endpoints.dart
-|                |—— chat_endpoints.dart
-|                |—— general_endpoints.dart
-|                |—— notification_endpoints.dart
-|                |—— trip_endpoints.dart
-|                |—— user_endpoints.dart
-|            |—— models
-|                |—— api_chat.dart
-|                |—— api_chat.freezed.dart
-|                |—— api_chat.g.dart
-|                |—— api_general.dart
-|                |—— api_general.freezed.dart
-|                |—— api_general.g.dart
-|                |—— api_notification.dart
-|                |—— api_notification.freezed.dart
-|                |—— api_notification.g.dart
-|                |—— api_trip.dart
-|                |—— api_trip.freezed.dart
-|                |—— api_trip.g.dart
-|                |—— api_user.dart
-|                |—— api_user.freezed.dart
-|                |—— api_user.g.dart
-|                |—— api_user_profile.dart
-|                |—— api_user_profile.freezed.dart
-|                |—— api_user_profile.g.dart
-|            |—— parameters
-|                |—— auth_parameters.dart
-|                |—— chat_parameters.dart
-|                |—— general_parameters.dart
-|                |—— notification_parameters.dart
-|                |—— trip_parameters.dart
-|                |—— user_parameters.dart
-|            |—— repositories
-|                |—— auth_repository.dart
-|                |—— auth_repository_impl.dart
-|                |—— chat_repository.dart
-|                |—— chat_repository_impl.dart
-|                |—— general_repository.dart
-|                |—— general_repository_impl.dart
-|                |—— notification_repository.dart
-|                |—— notification_repository_impl.dart
-|                |—— trip_repository.dart
-|                |—— trip_repository_impl.dart
-|                |—— user_repository.dart
-|                |—— user_repository_impl.dart
-|            |—— services
-|                |—— auth_service.dart
-|                |—— chat_service.dart
-|                |—— general_service.dart
-|                |—— notification_service.dart
-|                |—— trip_service.dart
-|                |—— user_service.dart
-|        |—— api_client.dart
-|        |—— api_endpoints.dart
-|        |—— api_response.dart
-|        |—— base
-|            |—— datasource
-|                |—— base_data_source.dart
-|                |—— base_local_data_source.dart
-|            |—— repo
-|                |—— base_repository.dart
-|        |—— exception
-|            |—— dio_exception_handler.dart
-|            |—— exception_message.dart
-|            |—— network_exceptions.dart
-|        |—— interceptors
-|            |—— analytics_interceptor.dart
-|            |—— auth_interceptor.dart
-|            |—— logging_interceptor.dart
-|            |—— performance_interceptor.dart
-|            |—— retry_interceptor.dart
-|        |—— network_info.dart
-|        |—— resluts
-|            |—— dio_reslut.dart
-|            |—— dio_reslut.freezed.dart
-|        |—— websocket
-|            |—— websocket.dart
-|            |—— websocket_client.dart
-|            |—— websocket_event_handler.dart
-|            |—— websocket_manager.dart
-|    |—— performance
-|        |—— image_cache_service.dart
-|        |—— lazy_loading_service.dart
-|        |—— performance.dart
-|        |—— performance_monitor.dart
-|        |—— performance_profiler.dart
-|        |—— widget_optimizer.dart
-|    |—— platform
-|        |—— adaptive_widgets.dart
-|        |—— platform.dart
-|        |—— platform_service.dart
-|    |—— router
-|        |—— app_router.dart
-|        |—— navigation_state.dart
-|        |—— route_config.dart
-|        |—— route_guards.dart
-|        |—— route_transitions.dart
-|        |—— router.dart
-|        |—— router_observer.dart
-|        |—— routes.dart
-|        |—— widgets
-|            |—— error_screen.dart
-|            |—— main_shell.dart
-|            |—— not_found_screen.dart
-|            |—— placeholder_screen.dart
-|            |—— widgets.dart
-|    |—— services
-|        |—— notification_service.dart
-|    |—— theme
-|        |—— app_theme.dart
-|        |—— color_schemes.dart
-|        |—— theme.dart
-|        |—— theme_controller.dart
-|        |—— theme_settings.dart
-|        |—— typography.dart
-|    |—— ui
-|        |—— responsive
-|            |—— README.md
-|            |—— responsive.dart
-|            |—— src
-|                |—— breakpoints.dart
-|                |—— device_info.dart
-|                |—— responsive_context.dart
-|                |—— responsive_data.dart
-|                |—— responsive_extensions.dart
-|                |—— responsive_value.dart
-|                |—— spacing
-|                    |—— gap_widgets.dart
-|                    |—— spacing.dart
-|                    |—— spacing_constants.dart
-|                |—— typography
-|                    |—— text_scale.dart
-|                    |—— typography.dart
-|                    |—— typography_tokens.dart
-|                |—— widgets
-|                    |—— adaptive_scaffold.dart
-|                    |—— responsive_builder.dart
-|                    |—— responsive_layout.dart
-|                    |—— responsive_visibility.dart
-|                    |—— widgets.dart
-|        |—— ui.dart
-|—— features
-|    |—— driver
-|        |—— driver_auth
-|            |—— data
-|                |—— datasources
-|                    |—— driver_auth_local_datasource.dart
-|                    |—— driver_auth_remote_datasource.dart
-|                |—— endpoints
-|                    |—— driver_auth_endpoints.dart
-|                |—— models
-|                    |—— driver_credentials_model.dart
-|                    |—— driver_model.dart
-|                |—— parameters
-|                    |—— driver_login_parameters.dart
-|                    |—— driver_register_parameters.dart
-|                    |—— reset_driver_password_parameters.dart
-|                    |—— verify_driver_phone_parameters.dart
-|                |—— repositories
-|                    |—— driver_auth_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— driver.dart
-|                    |—— driver_credentials.dart
-|                |—— repositories
-|                    |—— driver_auth_repository.dart
-|                |—— usecases
-|                    |—— driver_login_usecase.dart
-|                    |—— driver_logout_usecase.dart
-|                    |—— driver_register_usecase.dart
-|                    |—— reset_driver_password_usecase.dart
-|                    |—— verify_driver_phone_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— driver_auth_controller.dart
-|                |—— pages
-|                    |—— driver_login_page.dart
-|                    |—— driver_register_page.dart
-|                    |—— driver_reset_password_page.dart
-|                    |—— driver_verify_phone_page.dart
-|                |—— providers
-|                    |—— driver_auth_providers.dart
-|                |—— widgets
-|                    |—— driver_email_input.dart
-|                    |—— driver_name_input.dart
-|                    |—— driver_password_input.dart
-|                    |—— driver_phone_input.dart
-|        |—— driver_home
-|            |—— data
-|                |—— datasources
-|                    |—— driver_home_local_datasource.dart
-|                    |—— driver_home_remote_datasource.dart
-|                |—— endpoints
-|                    |—— driver_home_endpoints.dart
-|                |—— models
-|                    |—— driver_earnings_model.dart
-|                    |—— driver_home_data_model.dart
-|                    |—— driver_stats_model.dart
-|                    |—— driver_trip_model.dart
-|                |—— parameters
-|                    |—— get_driver_trips_parameters.dart
-|                    |—— update_availability_status_parameters.dart
-|                    |—— update_online_status_parameters.dart
-|                |—— repositories
-|                    |—— driver_home_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— driver_earnings.dart
-|                    |—— driver_home_data.dart
-|                    |—— driver_stats.dart
-|                    |—— driver_trip.dart
-|                |—— repositories
-|                    |—— driver_home_repository.dart
-|                |—— usecases
-|                    |—— get_driver_home_data.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— driver_home_controller.dart
-|                |—— pages
-|                    |—— driver_home_page.dart
-|                |—— providers
-|                    |—— driver_home_providers.dart
-|                |—— widgets
-|                    |—— driver_earnings_card.dart
-|                    |—— driver_stats_card.dart
-|                    |—— driver_trip_card.dart
-|                    |—— online_status_switch.dart
-|        |—— driver_profile
-|            |—— data
-|                |—— datasources
-|                    |—— driver_profile_local_datasource.dart
-|                    |—— driver_profile_remote_datasource.dart
-|                |—— endpoints
-|                    |—— driver_profile_endpoints.dart
-|                |—— models
-|                    |—— driver_document_model.dart
-|                    |—— driver_profile_model.dart
-|                    |—— driver_vehicle_model.dart
-|                |—— parameters
-|                    |—— delete_document_parameters.dart
-|                    |—— submit_verification_parameters.dart
-|                    |—— update_driver_profile_parameters.dart
-|                    |—— update_driver_vehicle_parameters.dart
-|                    |—— update_profile_image_parameters.dart
-|                    |—— update_vehicle_parameters.dart
-|                    |—— upload_document_parameters.dart
-|                    |—— upload_driver_document_parameters.dart
-|                |—— repositories
-|                    |—— driver_profile_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— driver_document.dart
-|                    |—— driver_profile.dart
-|                    |—— driver_vehicle.dart
-|                |—— repositories
-|                    |—— driver_profile_repository.dart
-|                |—— usecases
-|                    |—— delete_driver_document_usecase.dart
-|                    |—— get_driver_documents_usecase.dart
-|                    |—— get_driver_profile_usecase.dart
-|                    |—— get_driver_vehicle_usecase.dart
-|                    |—— update_driver_profile_usecase.dart
-|                    |—— update_driver_vehicle_usecase.dart
-|                    |—— upload_driver_document_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— driver_profile_controller.dart
-|                |—— pages
-|                    |—— driver_profile_page.dart
-|                |—— providers
-|                    |—— driver_profile_providers.dart
-|                |—— widgets
-|                    |—— driver_documents_list.dart
-|                    |—— driver_profile_header.dart
-|                    |—— driver_vehicle_card.dart
-|        |—— driver_reviews
-|            |—— data
-|                |—— datasources
-|                    |—— driver_review_local_datasource.dart
-|                    |—— driver_review_remote_datasource.dart
-|                |—— endpoints
-|                    |—— driver_reviews_endpoints.dart
-|                |—— models
-|                    |—— driver_review_model.dart
-|                    |—— review_stats_model.dart
-|                |—— parameters
-|                    |—— get_driver_reviews_parameters.dart
-|                    |—— get_driver_reviews_params.dart
-|                    |—— respond_to_review_parameters.dart
-|                    |—— respond_to_review_params.dart
-|                |—— repositories
-|                    |—— driver_review_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— driver_review.dart
-|                    |—— review_stats.dart
-|                |—— repositories
-|                    |—— driver_review_repository.dart
-|                |—— usecases
-|                    |—— get_driver_reviews.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— driver_reviews_controller.dart
-|                |—— pages
-|                    |—— driver_reviews_page.dart
-|                |—— providers
-|                    |—— driver_reviews_providers.dart
-|                |—— widgets
-|                    |—— review_card.dart
-|                    |—— review_filter_chip.dart
-|                    |—— review_stats_card.dart
-|        |—— driver_settings
-|            |—— data
-|                |—— datasources
-|                    |—— driver_settings_local_datasource.dart
-|                    |—— driver_settings_remote_datasource.dart
-|                |—— endpoints
-|                    |—— driver_settings_endpoints.dart
-|                |—— models
-|                    |—— driver_settings_model.dart
-|                |—— parameters
-|                    |—— update_driver_settings_parameters.dart
-|                    |—— update_language_parameters.dart
-|                    |—— update_notification_parameters.dart
-|                    |—— update_privacy_parameters.dart
-|                |—— repositories
-|                    |—— driver_settings_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— driver_settings.dart
-|                    |—— vehicle_preference.dart
-|                |—— repositories
-|                    |—— driver_settings_repository.dart
-|                |—— usecases
-|                    |—— get_driver_settings_usecase.dart
-|                    |—— toggle_availability_status_usecase.dart
-|                    |—— toggle_online_status_usecase.dart
-|                    |—— update_driver_settings_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— driver_settings_controller.dart
-|                |—— pages
-|                    |—— driver_settings_page.dart
-|                |—— providers
-|                    |—— driver_settings_providers.dart
-|                |—— widgets
-|                    |—— availability_status_switch.dart
-|                    |—— notification_settings_tile.dart
-|                    |—— online_status_switch.dart
-|        |—— driver_trips
-|            |—— data
-|                |—— datasources
-|                    |—— driver_trips_local_datasource.dart
-|                    |—— driver_trips_remote_datasource.dart
-|                |—— endpoints
-|                    |—— driver_trips_endpoints.dart
-|                |—— models
-|                    |—— driver_trip_model.dart
-|                    |—— trip_route_model.dart
-|                |—— parameters
-|                    |—— accept_trip_parameters.dart
-|                    |—— arrived_parameters.dart
-|                    |—— cancel_trip_parameters.dart
-|                    |—— complete_trip_parameters.dart
-|                    |—— create_schedule_request_parameters.dart
-|                    |—— get_driver_trips_parameters.dart
-|                    |—— get_schedule_requests_parameters.dart
-|                    |—— reject_trip_parameters.dart
-|                    |—— start_trip_parameters.dart
-|                    |—— update_trip_location_parameters.dart
-|                |—— repositories
-|                    |—— driver_trips_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— driver_trip.dart
-|                    |—— trip_request.dart
-|                    |—— trip_route.dart
-|                |—— repositories
-|                    |—— driver_trips_repository.dart
-|                |—— usecases
-|                    |—— accept_trip.dart
-|                    |—— cancel_trip.dart
-|                    |—— complete_trip.dart
-|                    |—— get_driver_trip_by_id.dart
-|                    |—— get_driver_trips.dart
-|                    |—— get_pending_trips.dart
-|                    |—— reject_trip.dart
-|                    |—— start_trip.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— driver_trips_controller.dart
-|                |—— pages
-|                    |—— driver_trips_page.dart
-|                |—— providers
-|                    |—— driver_trips_providers.dart
-|                |—— widgets
-|                    |—— pending_trip_card.dart
-|                    |—— trip_card.dart
-|                    |—— trip_filter_chip.dart
-|    |—— general_select
-|        |—— data
-|            |—— datasources
-|                |—— general_select_local_datasource.dart
-|                |—— general_select_remote_datasource.dart
-|            |—— endpoints
-|                |—— general_select_endpoints.dart
-|            |—— models
-|                |—— select_option_model.dart
-|            |—— parameters
-|                |—— get_about_us_parameters.dart
-|                |—— get_cities_parameters.dart
-|                |—— get_common_problems_parameters.dart
-|                |—— get_countries_parameters.dart
-|                |—— get_general_settings_parameters.dart
-|                |—— get_policies_parameters.dart
-|                |—— get_questions_parameters.dart
-|                |—— get_select_options_parameters.dart
-|                |—— get_vehicle_types_parameters.dart
-|            |—— repositories
-|                |—— general_select_repository_impl.dart
-|        |—— domain
-|            |—— entities
-|                |—— select_option.dart
-|            |—— repositories
-|                |—— general_select_repository.dart
-|            |—— usecases
-|                |—— general_select_usecases.dart
-|        |—— presentation
-|            |—— controllers
-|                |—— general_select_controller.dart
-|            |—— pages
-|                |—— general_select_page.dart
-|            |—— providers
-|                |—— general_select_providers.dart
-|            |—— widgets
-|                |—— select_option_item.dart
-|    |—— onboarding
-|        |—— data
-|            |—— datasources
-|                |—— onboarding_local_datasource.dart
-|            |—— models
-|                |—— onboarding_page_model.dart
-|            |—— repositories
-|                |—— onboarding_repository_impl.dart
-|        |—— domain
-|            |—— entities
-|                |—— onboarding_page.dart
-|            |—— repositories
-|                |—— onboarding_repository.dart
-|            |—— usecases
-|                |—— complete_onboarding_usecase.dart
-|                |—— get_onboarding_pages_usecase.dart
-|                |—— is_onboarding_completed_usecase.dart
-|        |—— onboarding.dart
-|        |—— presentation
-|            |—— controllers
-|                |—— onboarding_controller.dart
-|            |—— pages
-|                |—— onboarding_page.dart
-|            |—— providers
-|                |—— onboarding_providers.dart
-|            |—— widgets
-|                |—— onboarding_indicator.dart
-|                |—— onboarding_page_view.dart
-|    |—— splash
-|        |—— data
-|            |—— datasources
-|                |—— splash_local_datasource.dart
-|            |—— repositories
-|                |—— splash_repository_impl.dart
-|        |—— domain
-|            |—— repositories
-|                |—— splash_repository.dart
-|            |—— usecases
-|                |—— check_app_initialization_usecase.dart
-|        |—— presentation
-|            |—— controllers
-|                |—— splash_controller.dart
-|            |—— pages
-|                |—— splash_page.dart
-|            |—— providers
-|                |—— splash_providers.dart
-|        |—— splash.dart
-|    |—— user
-|        |—— auth
-|            |—— auth.dart
-|            |—— data
-|                |—— datasources
-|                    |—— auth_local_datasource.dart
-|                    |—— auth_remote_datasource.dart
-|                |—— endpoints
-|                    |—— auth_endpoints.dart
-|                |—— models
-|                    |—— api_auth_response.dart
-|                    |—— api_auth_response.freezed.dart
-|                    |—— api_auth_response.g.dart
-|                    |—— api_user.dart
-|                    |—— api_user.freezed.dart
-|                    |—— api_user.g.dart
-|                    |—— user_model.dart
-|                |—— parameters
-|                    |—— base_parameters.dart
-|                    |—— change_password_parameters.dart
-|                    |—— confirmation_code_parameters.dart
-|                    |—— forget_password_parameters.dart
-|                    |—— login_parameters.dart
-|                    |—— logout_parameters.dart
-|                    |—— refresh_token_parameters.dart
-|                    |—— register_parameters.dart
-|                    |—— reset_password_parameters.dart
-|                    |—— save_biometric_credentials_parameters.dart
-|                    |—— send_magic_link_parameters.dart
-|                    |—— send_otp_parameters.dart
-|                    |—— send_password_reset_email_parameters.dart
-|                    |—— send_verification_code_parameters.dart
-|                    |—— sign_in_with_email_parameters.dart
-|                    |—— sign_in_with_magic_link_parameters.dart
-|                    |—— sign_in_with_otp_parameters.dart
-|                    |—— verify_email_parameters.dart
-|                    |—— verify_phone_parameters.dart
-|                    |—— verify_user_parameters.dart
-|                |—— repositories
-|                    |—— auth_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— auth_result.dart
-|                    |—— auth_tokens.dart
-|                    |—— user.dart
-|                |—— repositories
-|                    |—— auth_repository.dart
-|                |—— usecases
-|                    |—— biometric_auth_usecase.dart
-|                    |—— get_current_user_usecase.dart
-|                    |—— login_usecase.dart
-|                    |—— logout_usecase.dart
-|                    |—— password_reset_usecase.dart
-|                    |—— register_usecase.dart
-|                    |—— social_auth_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— forgot_password_controller.dart
-|                    |—— login_controller.dart
-|                    |—— register_controller.dart
-|                    |—— reset_password_controller.dart
-|                    |—— verify_email_controller.dart
-|                |—— pages
-|                    |—— forgot_password_page.dart
-|                    |—— login_page.dart
-|                    |—— register_page.dart
-|                    |—— reset_password_page.dart
-|                    |—— verify_email_page.dart
-|                |—— providers
-|                    |—— auth_providers.dart
-|                |—— widgets
-|                    |—— social_login_buttons.dart
-|        |—— chat
-|            |—— chat.dart
-|            |—— data
-|                |—— datasources
-|                    |—— chat_local_datasource.dart
-|                    |—— chat_remote_datasource.dart
-|                |—— endpoints
-|                    |—— chat_endpoints.dart
-|                |—— repositories
-|                    |—— chat_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— conversation.dart
-|                    |—— entities.dart
-|                    |—— message.dart
-|                    |—— typing_indicator.dart
-|                |—— repositories
-|                    |—— chat_repository.dart
-|                |—— usecases
-|                    |—— create_conversation.dart
-|                    |—— get_conversations.dart
-|                    |—— get_messages.dart
-|                    |—— message_actions.dart
-|                    |—— send_message.dart
-|            |—— presentation
-|                |—— providers
-|                    |—— chat_providers.dart
-|                |—— screens
-|                    |—— chat_list_screen.dart
-|                    |—— conversation_screen.dart
-|                    |—— screens.dart
-|                |—— widgets
-|                    |—— chat_input.dart
-|                    |—— conversation_tile.dart
-|                    |—— message_bubble.dart
-|                    |—— widgets.dart
-|        |—— direct_booking
-|            |—— data
-|                |—— datasources
-|                    |—— direct_booking_remote_datasource.dart
-|                |—— endpoints
-|                    |—— direct_booking_endpoints.dart
-|                |—— models
-|                    |—— booking_response_model.dart
-|                    |—— driver_model.dart
-|                    |—— vehicle_type_model.dart
-|                |—— parameters
-|                    |—— create_booking_parameters.dart
-|                    |—— get_nearby_drivers_parameters.dart
-|                |—— repositories
-|                    |—— direct_booking_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— booking_request.dart
-|                    |—— booking_response.dart
-|                    |—— driver.dart
-|                    |—— vehicle_type.dart
-|                |—— repositories
-|                    |—— direct_booking_repository.dart
-|                |—— usecases
-|                    |—— cancel_booking_usecase.dart
-|                    |—— create_booking_usecase.dart
-|                    |—— get_nearby_drivers_usecase.dart
-|                    |—— get_vehicle_types_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— direct_booking_controller.dart
-|                |—— pages
-|                    |—— direct_booking_page.dart
-|                |—— providers
-|                    |—— direct_booking_providers.dart
-|                |—— widgets
-|                    |—— booking_status_card.dart
-|                    |—— driver_info_card.dart
-|                    |—— vehicle_type_card.dart
-|        |—— home
-|            |—— data
-|                |—— datasources
-|                    |—— home_remote_datasource.dart
-|                |—— endpoints
-|                    |—— home_endpoints.dart
-|                |—— models
-|                    |—— advertisement_model.dart
-|                    |—— available_trip_model.dart
-|                    |—— banner_model.dart
-|                    |—— home_data_model.dart
-|                |—— parameters
-|                    |—— get_available_trips_parameters.dart
-|                |—— repositories
-|                    |—— home_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— advertisement.dart
-|                    |—— available_trip.dart
-|                    |—— banner.dart
-|                    |—— home_data.dart
-|                |—— repositories
-|                    |—— home_repository.dart
-|                |—— usecases
-|                    |—— get_advertisements_usecase.dart
-|                    |—— get_available_trips_usecase.dart
-|                    |—— get_home_data_usecase.dart
-|                    |—— get_notification_count_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— home_controller.dart
-|                |—— pages
-|                    |—— home_page.dart
-|                |—— providers
-|                    |—— home_providers.dart
-|                |—— widgets
-|                    |—— advertisement_banner.dart
-|                    |—— available_trip_card.dart
-|                    |—— banner_carousel.dart
-|        |—— notification
-|            |—— data
-|                |—— datasources
-|                    |—— notification_remote_datasource.dart
-|                |—— endpoints
-|                    |—— notification_endpoints.dart
-|                |—— models
-|                    |—— notification_model.dart
-|                |—— parameters
-|                    |—— get_notifications_parameters.dart
-|                |—— repositories
-|                    |—— notification_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— notification.dart
-|                |—— repositories
-|                    |—— notification_repository.dart
-|                |—— usecases
-|                    |—— get_notification_count_usecase.dart
-|                    |—— get_notifications_usecase.dart
-|                    |—— mark_all_as_read_usecase.dart
-|                    |—— mark_as_read_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— notification_controller.dart
-|                |—— pages
-|                    |—— notification_page.dart
-|                |—— providers
-|                    |—— notification_providers.dart
-|                |—— widgets
-|                    |—— notification_item.dart
-|        |—— profile
-|            |—— data
-|                |—— datasources
-|                    |—— datasources.dart
-|                    |—— profile_local_datasource.dart
-|                    |—— profile_remote_datasource.dart
-|                |—— models
-|                    |—— profile_model.dart
-|                |—— repositories
-|                    |—— profile_repository_impl.dart
-|                    |—— repositories.dart
-|            |—— domain
-|                |—— entities
-|                    |—— profile.dart
-|                |—— repositories
-|                    |—— profile_repository.dart
-|                |—— usecases
-|                    |—— profile_usecases.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— edit_profile_controller.dart
-|                    |—— profile_controller.dart
-|                |—— pages
-|                    |—— edit_profile_page.dart
-|                    |—— pages.dart
-|                    |—— profile_page.dart
-|                    |—— profile_settings_page.dart
-|                |—— providers
-|                    |—— profile_providers.dart
-|                |—— widgets
-|                    |—— profile_avatar_picker.dart
-|                    |—— profile_cover_picker.dart
-|                    |—— user_avatar.dart
-|                    |—— widgets.dart
-|        |—— schedule_trip
-|            |—— data
-|                |—— datasources
-|                    |—— schedule_trip_remote_datasource.dart
-|                |—— endpoints
-|                    |—— schedule_trip_endpoints.dart
-|                |—— models
-|                    |—— scheduled_trip_model.dart
-|                |—— parameters
-|                    |—— create_scheduled_trip_parameters.dart
-|                    |—— get_scheduled_trips_parameters.dart
-|                |—— repositories
-|                    |—— schedule_trip_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— schedule_trip_request.dart
-|                    |—— scheduled_trip.dart
-|                |—— repositories
-|                    |—— schedule_trip_repository.dart
-|                |—— usecases
-|                    |—— cancel_scheduled_trip_usecase.dart
-|                    |—— create_scheduled_trip_usecase.dart
-|                    |—— get_scheduled_trip_by_id_usecase.dart
-|                    |—— get_scheduled_trips_usecase.dart
-|                    |—— update_scheduled_trip_usecase.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— schedule_trip_controller.dart
-|                |—— pages
-|                    |—— schedule_trip_page.dart
-|                |—— providers
-|                    |—— schedule_trip_providers.dart
-|                |—— widgets
-|                    |—— scheduled_trip_card.dart
-|        |—— settings
-|            |—— data
-|                |—— repositories
-|                    |—— notification_settings_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— notification_settings.dart
-|                |—— repositories
-|                    |—— notification_settings_repository.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— notification_settings_controller.dart
-|                |—— pages
-|                    |—— appearance_settings_page.dart
-|                    |—— language_settings_page.dart
-|                    |—— notification_settings_page.dart
-|                    |—— pages.dart
-|                    |—— settings_page.dart
-|                |—— providers
-|                    |—— settings_providers.dart
-|                |—— widgets
-|                    |—— quiet_hours_picker.dart
-|                    |—— settings_section.dart
-|                    |—— settings_switch_tile.dart
-|                    |—— widgets.dart
-|        |—— trip
-|            |—— data
-|                |—— datasources
-|                    |—— trip_local_datasource.dart
-|                    |—— trip_remote_datasource.dart
-|                |—— endpoints
-|                    |—— trip_endpoints.dart
-|                |—— models
-|                    |—— trip_evaluation_model.dart
-|                    |—— trip_model.dart
-|                    |—— trip_order_model.dart
-|                    |—— trip_type_model.dart
-|                |—— parameters
-|                    |—— base_parameters.dart
-|                    |—— book_now_order_parameters.dart
-|                    |—— cancel_trip_parameters.dart
-|                    |—— confirm_trip_parameters.dart
-|                    |—— edit_private_trip_parameters.dart
-|                    |—— get_available_public_trips_parameters.dart
-|                    |—— get_captain_trip_detail_parameters.dart
-|                    |—— get_my_orders_parameters.dart
-|                    |—— get_trip_detail_parameters.dart
-|                    |—— get_trip_history_parameters.dart
-|                    |—— get_trip_types_parameters.dart
-|                    |—— report_trip_parameters.dart
-|                    |—— store_private_trip_parameters.dart
-|                    |—— store_public_trip_parameters.dart
-|                    |—— trip_evaluation_parameters.dart
-|                |—— repositories
-|                    |—— trip_repository_impl.dart
-|            |—— domain
-|                |—— entities
-|                    |—— trip.dart
-|                    |—— trip_evaluation.dart
-|                    |—— trip_order.dart
-|                    |—— trip_type.dart
-|                |—— repositories
-|                    |—— trip_repository.dart
-|                |—— usecases
-|                    |—— trip_usecases.dart
-|            |—— presentation
-|                |—— controllers
-|                    |—— trip_controller.dart
-|                    |—— trip_history_controller.dart
-|                    |—— trip_order_controller.dart
-|                |—— pages
-|                    |—— trip_detail_page.dart
-|                    |—— trip_history_page.dart
-|                    |—— trip_orders_page.dart
-|                    |—— trip_page.dart
-|                |—— providers
-|                    |—— trip_providers.dart
-|                |—— widgets
-|                    |—— trip_card.dart
-|                    |—— trip_order_card.dart
-|                    |—— trip_type_card.dart
-|—— l10n
-|    |—— app_ar.arb
-|    |—— app_en.arb
-|    |—— app_localizations.dart
-|    |—— app_localizations_ar.dart
-|    |—— app_localizations_en.dart
-|—— main.dart
-|—— observers.dart
-|—— pages
-|    |—— router_layouts_screens.dart
-|    |—— router_supporting_services.dart
-|—— services
-|    |—— analytics
-|        |—— analytics_service.dart
-|        |—— crashlytics_service.dart
-|    |—— firebase_service.dart
-|—— shared
-|    |—— domain
-|        |—— usecases
-|            |—— usecase.dart
-|    |—— presentation
-|        |—— screens
-|            |—— not_found_screen.dart
-|        |—— widgets
-|            |—— buttons
-|                |—— app_button.dart
-|            |—— inputs
-|                |—— app_dropdown_button2.dart
-|                |—— app_text_field.dart
-```
-## Code Details
-### Tested Platform
-- software
-  ```
-  OS: Debian unstable (May 2021), Ubuntu LTS
-  Python: 3.8.5 (anaconda)
-  PyTorch: 1.7.1, 1.8.1
-  ```
-- hardware
-  ```
-  CPU: Intel Xeon 6226R
-  GPU: Nvidia RTX3090 (24GB)
-  ```
-### Hyper parameters
-```
-```
-## References
-- [paper-1]()
-- [paper-2]()
-- [code-1](https://github.com)
-- [code-2](https://github.com)
-  
-## License
+## 🚀 Quick Start
 
-## Citing
-If you use xxx,please use the following BibTeX entry.
+### Entry Point
+
+The application starts in `main.dart`:
+
+```dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Detect flavor from platform
+  final flavor = Flavor.values.firstWhere(
+    (f) => f.name == appFlavor,
+    orElse: () => Flavor.dev,
+  );
+
+  // Bootstrap the application
+  await bootstrap(flavor);
+
+  runApp(const App());
+}
 ```
+
+### Bootstrap Process
+
+`bootstrap.dart` initializes the application in 17 steps:
+
+1. Initialize Flutter bindings
+2. Set flavor
+3. Configure HTTP overrides
+4. Initialize Firebase
+5. Set up FCM background handler
+6. Initialize AppConfig
+7. Initialize AppLogger
+8. Initialize ErrorHandler
+9. Initialize NotificationService
+10. Set preferred orientations
+11. Initialize ThemeSettings
+12. Initialize LocaleController
+13. Initialize Router
+14. Initialize Analytics
+15. Initialize Crashlytics
+16. Initialize Remote Config
+17. Register observers
+
+### Root App Widget
+
+`app.dart` configures the MaterialApp.router:
+
+```dart
+class App extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeSettings = ref.watch(themeSettingsProvider);
+    final locale = ref.watch(localeControllerProvider);
+
+    return MaterialApp.router(
+      title: F.title,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light(settings: themeSettings),
+      darkTheme: AppTheme.dark(settings: themeSettings),
+      themeMode: themeSettings.themeMode,
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      routerConfig: AppRouter.instance.router,
+    );
+  }
+}
 ```
+
+## 📦 Module Overview
+
+### 1. Config Module (`config/`)
+
+Configuration and flavor management.
+
+**Key Files:**
+- `flavors.dart` - Flavor definitions (dev/staging/prod)
+- `app_config.dart` - Per-flavor configuration
+- `firebase_config.dart` - Firebase configuration
+
+**Features:**
+- Multi-flavor support (dev/staging/prod)
+- Environment-specific configurations
+- Firebase configuration per flavor
+- Feature flags
+
+**Documentation:** [config/README.md](config/README.md)
+
+### 2. Core Module (`core/`)
+
+Core functionality and utilities.
+
+**Sub-modules:**
+- `di/` - Dependency injection with Riverpod
+- `error/` - Error handling and error boundaries
+- `network/` - HTTP client and interceptors
+- `theme/` - Theme system with 28+ color schemes
+- `localization/` - Localization service
+- `logger/` - Advanced logging with Talker
+- `accessibility/` - Accessibility helpers
+- `performance/` - Performance monitoring
+- `services/` - Core services (notification, auth, storage, analytics)
+- `router/` - GoRouter configuration with 80+ routes
+- `platform/` - Platform-specific utilities
+- `ui/` - Responsive UI framework
+
+**Documentation:** [core/README.md](core/README.md)
+
+### 3. Features Module (`features/`)
+
+Feature modules following clean architecture.
+
+**Structure:**
+```
+features/
+├── feature_name/
+│   ├── data/          # Data layer (repositories, data sources)
+│   ├── domain/        # Domain layer (entities, use cases)
+│   └── presentation/  # Presentation layer (pages, widgets)
+```
+
+**Features:**
+- Authentication
+- Booking
+- Profile
+- Settings
+- And more...
+
+**Documentation:** [features/README.md](features/README.md)
+
+### 4. Shared Module (`shared/`)
+
+Shared utilities and widgets.
+
+**Contents:**
+- Use cases (BaseUseCase, StreamUseCase)
+- Domain entities
+- Value objects
+- Utilities
+- Shared widgets
+- Constants
+- Extensions
+
+**Documentation:** [shared/README.md](shared/README.md)
+
+### 5. Services Module (`services/`)
+
+Application-level services.
+
+**Services:**
+- Firebase initialization
+- Analytics service
+- Crashlytics service
+
+**Documentation:** [services/README.md](services/README.md)
+
+### 6. Pages Module (`pages/`)
+
+Router layouts and screens.
+
+**Contents:**
+- Router layouts and screens configuration
+- Supporting services for router
+
+**Documentation:** [pages/README.md](pages/README.md)
+
+### 7. L10n Module (`l10n/`)
+
+Internationalization and localization.
+
+**Supported Languages:**
+- English (en)
+- Arabic (ar)
+
+**Contents:**
+- ARB translation files
+- Generated localizations classes
+
+**Documentation:** [l10n/README.md](l10n/README.md)
+
+## 🏗️ Architecture
+
+### Layered Architecture
+
+```
+┌─────────────────────────────────────┐
+│         Presentation Layer          │
+│  (Pages, Widgets, Controllers)      │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│          Domain Layer               │
+│  (Use Cases, Entities, Value Objects)│
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│           Data Layer                │
+│  (Repositories, Data Sources)       │
+└─────────────────────────────────────┘
+              ↓
+┌─────────────────────────────────────┐
+│          Core Layer                 │
+│  (Network, Storage, Services)       │
+└─────────────────────────────────────┘
+```
+
+### Dependency Flow
+
+```
+Presentation → Domain → Data → Core
+```
+
+### Clean Architecture Principles
+
+1. **Dependency Rule:** Dependencies point inward
+2. **Separation of Concerns:** Each layer has a single responsibility
+3. **Testability:** Each layer can be tested independently
+4. **Scalability:** Easy to add new features
+5. **Maintainability:** Clear structure and organization
+
+## 🔧 Key Technologies
+
+### State Management
+- **Riverpod** - Type-safe state management with code generation
+- **Providers** - Singleton, state, future, and stream providers
+
+### Networking
+- **Dio** - HTTP client with interceptors
+- **WebSocket** - Real-time communication
+- **Connectivity** - Network status monitoring
+
+### Storage
+- **Secure Storage** - Encrypted key-value storage
+- **Shared Preferences** - Simple key-value storage
+
+### Navigation
+- **GoRouter** - Declarative routing with guards
+- **Deep Linking** - URL-based navigation
+
+### Theming
+- **Flex Color Scheme** - 28+ Material 3 color schemes
+- **Dynamic Colors** - Android 12+ dynamic theming
+- **Dark Mode** - Full dark mode support
+
+### Localization
+- **ARB Files** - Translation resource bundles
+- **RTL Support** - Right-to-left language support
+
+### Firebase
+- **Auth** - Authentication
+- **Analytics** - User analytics
+- **Crashlytics** - Crash reporting
+- **Messaging** - Push notifications
+- **Remote Config** - Remote configuration
+
+### Logging
+- **Talker** - Advanced logging with UI viewer
+- **Log Levels** - Debug, info, warning, error, critical
+- **Categories** - Organized log categories
+
+### Performance
+- **Image Cache** - Optimized image caching
+- **Lazy Loading** - On-demand content loading
+- **Performance Profiler** - Performance monitoring
+
+### Accessibility
+- **Semantic Widgets** - Screen reader support
+- **Focus Helpers** - Keyboard navigation
+- **High Contrast** - Accessibility support
+
+### Responsive Design
+- **Breakpoints** - Material 3 responsive breakpoints
+- **Adaptive Widgets** - Platform-specific widgets
+- **Spacing System** - Consistent spacing
+
+## 📝 Best Practices
+
+### 1. Follow Clean Architecture
+
+```dart
+// Good - Use use cases
+class GetUserUseCase extends BaseUseCase<User, String> {
+  final UserRepository repository;
+
+  GetUserUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, User>> call(String userId) async {
+    return await repository.getUser(userId);
+  }
+}
+
+// Bad - Call repository directly
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final user = ref.watch(userRepositoryProvider).getUser('1');
+    return Text(user.name);
+  }
+}
+```
+
+### 2. Use Dependency Injection
+
+```dart
+// Good - Use providers
+@Provider
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return UserRepository(apiClient);
+});
+
+// Bad - Create instances directly
+final repository = UserRepository(apiClient);
+```
+
+### 3. Handle Errors Properly
+
+```dart
+// Good - Use error handler
+try {
+  await riskyOperation();
+} catch (e, stack) {
+  errorHandler.handleError(e, stack);
+}
+
+// Bad - Don't handle errors
+await riskyOperation();
+```
+
+### 4. Use Type Safety
+
+```dart
+// Good - Use freezed
+@freezed
+class User with _$User {
+  const factory User({
+    required String id,
+    required String name,
+    required String email,
+  }) = _User;
+}
+
+// Bad - Use plain classes
+class User {
+  final String id;
+  final String name;
+  final String email;
+
+  User(this.id, this.name, this.email);
+}
+```
+
+### 5. Write Tests
+
+```dart
+// Good - Write tests
+test('GetUserUseCase should return user', () async {
+  final mockRepository = MockUserRepository();
+  final useCase = GetUserUseCase(mockRepository);
+
+  when(mockRepository.getUser('1')).thenAnswer((_) async => User(id: '1', name: 'John'));
+
+  final result = await useCase('1');
+
+  expect(result.isRight(), true);
+});
+
+// Bad - Don't write tests
+```
+
+## 🧪 Testing
+
+### Running Tests
+
+```bash
+# Run all tests
+flutter test
+
+# Run tests with coverage
+flutter test --coverage
+
+# Run specific test file
+flutter test test/user_test.dart
+```
+
+### Test Structure
+
+```
+test/
+├── core/           # Core module tests
+├── features/       # Feature module tests
+├── shared/         # Shared module tests
+└── helpers/        # Test helpers and mocks
+```
+
+## 📚 Documentation
+
+- [Phase 0 Foundations](../../docs/phases/phase_0_foundations.md)
+- [API Documentation](../../docs/API_DOCUMENTATION.md)
+- [Config Module](config/README.md)
+- [Core Module](core/README.md)
+- [Features Module](features/README.md)
+- [Shared Module](shared/README.md)
+- [Services Module](services/README.md)
+- [Pages Module](pages/README.md)
+- [L10n Module](l10n/README.md)
+
+## 🚀 Building
+
+### Build APK
+
+```bash
+# Dev flavor
+flutter build apk --flavor=dev --dart-define=FLAVOR=dev
+
+# Staging flavor
+flutter build apk --flavor=staging --dart-define=FLAVOR=staging
+
+# Prod flavor
+flutter build apk --flavor=prod --dart-define=FLAVOR=prod
+```
+
+### Build iOS
+
+```bash
+# Dev flavor
+flutter build ios --flavor=dev --dart-define=FLAVOR=dev
+
+# Staging flavor
+flutter build ios --flavor=staging --dart-define=FLAVOR=staging
+
+# Prod flavor
+flutter build ios --flavor=prod --dart-define=FLAVOR=prod
+```
+
+## 🤝 Contributing
+
+When contributing to the codebase:
+
+1. Follow the existing architecture
+2. Write tests for new features
+3. Update documentation
+4. Follow code style guidelines
+5. Run code generation
+6. Run tests before committing
+
+## 📄 License
+
+This project is part of the Fast Golden Taxi application.
+
+---
+
+**Built with ❤️ using Flutter and Clean Architecture**

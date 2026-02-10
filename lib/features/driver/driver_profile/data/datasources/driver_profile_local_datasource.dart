@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_document_model.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_profile_model.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_vehicle_model.dart';

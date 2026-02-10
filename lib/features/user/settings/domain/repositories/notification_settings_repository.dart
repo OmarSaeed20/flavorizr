@@ -1,5 +1,5 @@
 // lib/features/settings/domain/repositories/notification_settings_repository.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/settings/domain/entities/notification_settings.dart';
 
 /// Repository interface for notification settings operations.

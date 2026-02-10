@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fast_golden_taxi/core/network/api_client.dart';
 import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/data/endpoints/driver_reviews_endpoints.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/data/models/driver_review_model.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/data/parameters/get_driver_reviews_parameters.dart';

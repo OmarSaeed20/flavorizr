@@ -5,7 +5,7 @@ import 'package:fast_golden_taxi/core/network/api/parameters/trip_parameters.dar
 import 'package:fast_golden_taxi/core/network/api/repositories/trip_repository.dart';
 import 'package:fast_golden_taxi/core/network/api_response.dart';
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Trip Repository Implementation
 /// Handles all trip-related API calls

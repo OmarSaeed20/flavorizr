@@ -1,431 +1,146 @@
-/* // lib/core/error/failures.dart
-/// Base class for all failures in the domain layer.
+// lib/core/error/failures.dart
+/// Domain failures for the application.
 ///
-/// Failures represent expected error conditions that are part of
-/// the business logic. They are used with Either<Failure, Success>
-/// pattern for explicit error handling.
+/// This file defines all possible failure types that can occur
+/// in the domain layer. Failures are used with the Either pattern
+/// from dartz to represent error states.
+library;
+
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'failures.freezed.dart';
+
+/// Base class for all domain failures.
 ///
-/// Use failures for:
-/// - Network errors
-/// - Validation errors
-/// - Business rule violations
-/// - Permission errors
-/// - Not found errors
-abstract class Failure {
-  const Failure({required this.message, this.code, this.exception, this.stackTrace});
+/// Failures represent error conditions in the domain layer.
+/// They are used with the Either<Failure, T> pattern to handle
+/// errors in a type-safe way.
+@freezed
+class Failure with _$Failure {
+  /// Server failure - indicates a server-side error.
+  const factory Failure.server({required String message, int? statusCode}) = ServerFailure;
 
-  /// Human-readable error message for display.
-  final String message;
+  /// Network failure - indicates a network connectivity issue.
+  const factory Failure.network({required String message}) = NetworkFailure;
 
-  /// Optional error code for debugging and analytics.
-  final String? code;
+  /// Validation failure - indicates invalid input data.
+  const factory Failure.validation({required String message, Map<String, String>? fieldErrors}) =
+      ValidationFailure;
 
-  /// Optional original exception for debugging.
-  final Object? exception;
+  /// Authentication failure - indicates auth-related errors.
+  const factory Failure.auth({required String message}) = AuthFailure;
 
-  /// Optional stack trace for debugging.
-  final StackTrace? stackTrace;
+  /// Unauthorized failure - indicates missing or invalid credentials.
+  const factory Failure.unauthorized({required String message}) = UnauthorizedFailure;
 
+  /// Not found failure - indicates a resource was not found.
+  const factory Failure.notFound({required String message}) = NotFoundFailure;
+
+  /// Unknown failure - catch-all for unexpected errors.
+  const factory Failure.unknown({required String message, Object? error, StackTrace? stackTrace}) =
+      UnknownFailure;
+
+  /// Cache failure - indicates a cache-related error.
+  const factory Failure.cache({required String message}) = CacheFailure;
+
+  /// Timeout failure - indicates a request timed out.
+  const factory Failure.timeout({required String message}) = TimeoutFailure;
+
+  /// Permission failure - indicates missing permissions.
+  const factory Failure.permission({required String message}) = PermissionFailure;
+
+  /// Conflict failure - indicates a resource conflict.
+  const factory Failure.conflict({required String message}) = ConflictFailure;
+
+  /// Too many requests failure - indicates rate limiting.
+  const factory Failure.tooManyRequests({required String message}) = TooManyRequestsFailure;
+
+  /// Maintenance failure - indicates the service is under maintenance.
+  const factory Failure.maintenance({required String message}) = MaintenanceFailure;
+
+  /// Payment failure - indicates a payment-related error.
+  const factory Failure.payment({required String message}) = PaymentFailure;
+
+  /// Location failure - indicates a location-related error.
+  const factory Failure.location({required String message}) = LocationFailure;
+
+  /// File upload failure - indicates a file upload error.
+  const factory Failure.fileUpload({required String message}) = FileUploadFailure;
+
+  /// Verification failure - indicates a verification error.
+  const factory Failure.verification({required String message}) = VerificationFailure;
+
+  /// Rate limit failure - indicates rate limiting.
+  const factory Failure.rateLimit({required String message, int? retryAfter}) = RateLimitFailure;
+
+  /// Service unavailable failure - indicates the service is unavailable.
+  const factory Failure.serviceUnavailable({required String message}) = ServiceUnavailableFailure;
+
+  /// Bad request failure - indicates a bad request.
+  const factory Failure.badRequest({required String message, Map<String, dynamic>? details}) =
+      BadRequestFailure;
+
+  /// Custom failure - for application-specific errors.
+  const factory Failure.custom({
+    required String code,
+    required String message,
+    Map<String, dynamic>? data,
+  }) = CustomFailure;
+
+  const Failure._();
+
+  /// Get the error message.
   @override
-  String toString() => 'Failure(message: $message, code: $code)';
+  String get message => when(
+    server: (m, _) => m,
+    network: (m) => m,
+    validation: (m, _) => m,
+    auth: (m) => m,
+    unauthorized: (m) => m,
+    notFound: (m) => m,
+    unknown: (m, _, __) => m,
+    cache: (m) => m,
+    timeout: (m) => m,
+    permission: (m) => m,
+    conflict: (m) => m,
+    tooManyRequests: (m) => m,
+    maintenance: (m) => m,
+    payment: (m) => m,
+    location: (m) => m,
+    fileUpload: (m) => m,
+    verification: (m) => m,
+    rateLimit: (m, _) => m,
+    serviceUnavailable: (m) => m,
+    badRequest: (m, _) => m,
+    custom: (_, m, __) => m,
+  );
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is Failure && other.message == message && other.code == code;
-  }
+  /// Check if this is a network-related failure.
+  bool get isNetwork => this is NetworkFailure || this is TimeoutFailure;
 
-  @override
-  int get hashCode => Object.hash(message, code);
+  /// Check if this is an auth-related failure.
+  bool get isAuth => this is AuthFailure || this is UnauthorizedFailure;
 
-  /// Converts failure to a user-friendly message.
-  String get userMessage => message;
+  /// Check if this is a validation failure.
+  bool get isValidation => this is ValidationFailure;
 
-  /// Whether this failure should be reported to crash analytics.
-  bool get shouldReport => true;
+  /// Check if this is a server error (5xx).
+  bool get isServerError => this is ServerFailure;
 
-  /// Creates a map representation for logging.
-  Map<String, dynamic> toMap() => {
-    'type': runtimeType.toString(),
-    'message': message,
-    'code': code,
-    'exception': exception?.toString(),
-  };
+  /// Check if this is a client error (4xx).
+  bool get isClientError =>
+      this is BadRequestFailure ||
+      this is UnauthorizedFailure ||
+      this is NotFoundFailure ||
+      this is ConflictFailure ||
+      this is TooManyRequestsFailure ||
+      this is RateLimitFailure;
+
+  /// Check if this failure is retryable.
+  bool get isRetryable =>
+      isNetwork ||
+      this is TimeoutFailure ||
+      this is ServiceUnavailableFailure ||
+      this is TooManyRequestsFailure ||
+      this is RateLimitFailure;
 }
-
-// ==================== Network Failures ====================
-
-/// Failure when no internet connection is available.
-class NetworkFailure extends Failure {
-  const NetworkFailure({
-    super.message = 'No internet connection. Please check your network.',
-    super.code = 'NETWORK_ERROR',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-/// Failure when server returns an error response.
-class ServerFailure extends Failure {
-  const ServerFailure({
-    super.message = 'Server error occurred. Please try again later.',
-    super.code = 'SERVER_ERROR',
-    super.exception,
-    super.stackTrace,
-    this.statusCode,
-  });
-
-  /// HTTP status code if available.
-  final int? statusCode;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'statusCode': statusCode};
-}
-
-/// Failure when request times out.
-class TimeoutFailure extends Failure {
-  const TimeoutFailure({
-    super.message = 'Request timed out. Please try again.',
-    super.code = 'TIMEOUT',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-/// Failure when connection is cancelled.
-class CancelledFailure extends Failure {
-  const CancelledFailure({
-    super.message = 'Request was cancelled.',
-    super.code = 'CANCELLED',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-/// Failure for bad request (400).
-class BadRequestFailure extends Failure {
-  const BadRequestFailure({
-    super.message = 'Invalid request. Please check your input.',
-    super.code = 'BAD_REQUEST',
-    super.exception,
-    super.stackTrace,
-  });
-}
-
-/// Failure for rate limiting (429).
-class RateLimitFailure extends Failure {
-  const RateLimitFailure({
-    super.message = 'Too many requests. Please wait and try again.',
-    super.code = 'RATE_LIMIT',
-    super.exception,
-    super.stackTrace,
-    this.retryAfter,
-  });
-
-  /// Time to wait before retrying (in seconds).
-  final int? retryAfter;
-
-  @override
-  bool get shouldReport => false;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'retryAfter': retryAfter};
-}
-
-// ==================== Auth Failures ====================
-
-/// Failure when user is not authenticated.
-class UnauthenticatedFailure extends Failure {
-  const UnauthenticatedFailure({
-    super.message = 'Please sign in to continue.',
-    super.code = 'UNAUTHENTICATED',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-/// Failure when user doesn't have permission.
-class UnauthorizedFailure extends Failure {
-  const UnauthorizedFailure({
-    super.message = "You don't have permission to perform this action.",
-    super.code = 'UNAUTHORIZED',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-/// Failure when login credentials are invalid.
-class InvalidCredentialsFailure extends Failure {
-  const InvalidCredentialsFailure({
-    super.message = 'Invalid email or password.',
-    super.code = 'INVALID_CREDENTIALS',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-/// Failure when session has expired.
-class SessionExpiredFailure extends Failure {
-  const SessionExpiredFailure({
-    super.message = 'Your session has expired. Please sign in again.',
-    super.code = 'SESSION_EXPIRED',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-/// Failure when account is locked or disabled.
-class AccountDisabledFailure extends Failure {
-  const AccountDisabledFailure({
-    super.message = 'Your account has been disabled. Please contact support.',
-    super.code = 'ACCOUNT_DISABLED',
-    super.exception,
-    super.stackTrace,
-  });
-}
-
-/// Failure when email is not verified.
-class EmailNotVerifiedFailure extends Failure {
-  const EmailNotVerifiedFailure({
-    super.message = 'Please verify your email to continue.',
-    super.code = 'EMAIL_NOT_VERIFIED',
-    super.exception,
-    super.stackTrace,
-  });
-
-  @override
-  bool get shouldReport => false;
-}
-
-// ==================== Validation Failures ====================
-
-/// Failure for input validation errors.
-class ValidationFailure extends Failure {
-  const ValidationFailure({
-    super.message = 'Please check your input and try again.',
-    super.code = 'VALIDATION_ERROR',
-    super.exception,
-    super.stackTrace,
-    this.fieldErrors,
-  });
-
-  /// Map of field names to error messages.
-  final Map<String, List<String>>? fieldErrors;
-
-  @override
-  bool get shouldReport => false;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'fieldErrors': fieldErrors};
-
-  /// Gets error for a specific field.
-  String? getFieldError(String field) => fieldErrors?[field]?.firstOrNull;
-
-  /// Gets all errors for a specific field.
-  List<String> getFieldErrors(String field) => fieldErrors?[field] ?? [];
-
-  /// Whether there are any field-specific errors.
-  bool get hasFieldErrors => fieldErrors?.isNotEmpty ?? false;
-}
-
-// ==================== Data Failures ====================
-
-/// Failure when requested data is not found.
-class NotFoundFailure extends Failure {
-  const NotFoundFailure({
-    super.message = 'The requested resource was not found.',
-    super.code = 'NOT_FOUND',
-    super.exception,
-    super.stackTrace,
-    this.resourceType,
-    this.resourceId,
-  });
-
-  /// The type of resource that was not found.
-  final String? resourceType;
-
-  /// The ID of the resource that was not found.
-  final String? resourceId;
-
-  @override
-  Map<String, dynamic> toMap() => {
-    ...super.toMap(),
-    'resourceType': resourceType,
-    'resourceId': resourceId,
-  };
-}
-
-/// Failure when there's a conflict (e.g., duplicate entry).
-class ConflictFailure extends Failure {
-  const ConflictFailure({
-    super.message = 'A conflict occurred. The resource already exists.',
-    super.code = 'CONFLICT',
-    super.exception,
-    super.stackTrace,
-  });
-}
-
-/// Failure for local storage/cache errors.
-class CacheFailure extends Failure {
-  const CacheFailure({
-    super.message = 'Failed to access local storage.',
-    super.code = 'CACHE_ERROR',
-    super.exception,
-    super.stackTrace,
-  });
-}
-
-/// Failure when data parsing fails.
-class ParseFailure extends Failure {
-  const ParseFailure({
-    super.message = 'Failed to process data.',
-    super.code = 'PARSE_ERROR',
-    super.exception,
-    super.stackTrace,
-  });
-}
-
-// ==================== Feature Failures ====================
-
-/// Failure when a feature is disabled.
-class FeatureDisabledFailure extends Failure {
-  const FeatureDisabledFailure({
-    super.message = 'This feature is currently unavailable.',
-    super.code = 'FEATURE_DISABLED',
-    super.exception,
-    super.stackTrace,
-    this.featureName,
-  });
-
-  /// The name of the disabled feature.
-  final String? featureName;
-
-  @override
-  bool get shouldReport => false;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'featureName': featureName};
-}
-
-/// Failure when user needs to upgrade their plan.
-class UpgradeRequiredFailure extends Failure {
-  const UpgradeRequiredFailure({
-    super.message = 'Please upgrade your plan to access this feature.',
-    super.code = 'UPGRADE_REQUIRED',
-    super.exception,
-    super.stackTrace,
-    this.requiredPlan,
-  });
-
-  /// The minimum required plan.
-  final String? requiredPlan;
-
-  @override
-  bool get shouldReport => false;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'requiredPlan': requiredPlan};
-}
-
-/// Failure when maintenance is in progress.
-class MaintenanceFailure extends Failure {
-  const MaintenanceFailure({
-    super.message = 'Service is under maintenance. Please try again later.',
-    super.code = 'MAINTENANCE',
-    super.exception,
-    super.stackTrace,
-    this.expectedEnd,
-  });
-
-  /// Expected end time for maintenance.
-  final DateTime? expectedEnd;
-
-  @override
-  bool get shouldReport => false;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'expectedEnd': expectedEnd?.toIso8601String()};
-}
-
-// ==================== Permission Failures ====================
-
-/// Failure when a permission is denied.
-class PermissionDeniedFailure extends Failure {
-  const PermissionDeniedFailure({
-    super.message = 'Permission denied. Please grant the required permission.',
-    super.code = 'PERMISSION_DENIED',
-    super.exception,
-    super.stackTrace,
-    this.permission,
-  });
-
-  /// The permission that was denied.
-  final String? permission;
-
-  @override
-  bool get shouldReport => false;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'permission': permission};
-}
-
-// ==================== Generic Failures ====================
-
-/// Failure for unexpected errors.
-class UnexpectedFailure extends Failure {
-  const UnexpectedFailure({
-    super.message = 'An unexpected error occurred. Please try again.',
-    super.code = 'UNEXPECTED_ERROR',
-    super.exception,
-    super.stackTrace,
-  });
-}
-
-/// Failure when operation is not supported.
-class UnsupportedFailure extends Failure {
-  const UnsupportedFailure({
-    super.message = 'This operation is not supported.',
-    super.code = 'UNSUPPORTED',
-    super.exception,
-    super.stackTrace,
-  });
-}
-
-/// Failure for platform-specific errors.
-class PlatformFailure extends Failure {
-  const PlatformFailure({
-    super.message = 'A platform error occurred.',
-    super.code = 'PLATFORM_ERROR',
-    super.exception,
-    super.stackTrace,
-    this.platform,
-  });
-
-  /// The platform where the error occurred.
-  final String? platform;
-
-  @override
-  Map<String, dynamic> toMap() => {...super.toMap(), 'platform': platform};
-}
- */

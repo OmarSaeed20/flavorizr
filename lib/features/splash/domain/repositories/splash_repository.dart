@@ -1,5 +1,5 @@
 // lib/features/splash/domain/repositories/splash_repository.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Repository interface for splash screen operations.
 ///

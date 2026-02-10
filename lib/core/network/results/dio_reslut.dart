@@ -25,6 +25,9 @@ sealed class ApiResult<T> with _$ApiResult<T> {
 
   NetworkException? get error => maybeWhen(exception: (error) => error, orElse: () => null);
 
+  /// Creates a failure result from an exception.
+  static ApiResult<T> failure<T>(NetworkException error) => ApiResult.exception(error);
+
   ApiResult<T> whenVoid({
     required void Function(T success) success,
     required void Function(NetworkException error) error,

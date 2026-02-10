@@ -1,5 +1,5 @@
 // lib/features/onboarding/domain/usecases/is_onboarding_completed_usecase.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/onboarding/domain/repositories/onboarding_repository.dart';
 
 /// Use case for checking if onboarding is completed.

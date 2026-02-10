@@ -1,5 +1,5 @@
 // lib/features/general_select/domain/usecases/general_select_usecases.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/general_select/data/parameters/get_about_us_parameters.dart';
 import 'package:fast_golden_taxi/features/general_select/data/parameters/get_cities_parameters.dart';
 import 'package:fast_golden_taxi/features/general_select/data/parameters/get_common_problems_parameters.dart';

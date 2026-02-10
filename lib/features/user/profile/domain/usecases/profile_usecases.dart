@@ -1,6 +1,6 @@
 // lib/features/profile/domain/usecases/profile_usecases.dart
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/profile/domain/entities/profile.dart';
 import 'package:fast_golden_taxi/features/user/profile/domain/repositories/profile_repository.dart';
 import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';

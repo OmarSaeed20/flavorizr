@@ -1,5 +1,5 @@
 // lib/shared/domain/usecases/usecase.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Type alias for use case result handling.
 typedef UseCaseResult<T> = Future<ApiResult<T>>;

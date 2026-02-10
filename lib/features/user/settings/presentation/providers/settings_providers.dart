@@ -1,5 +1,5 @@
 // lib/features/settings/presentation/providers/settings_providers.dart
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
+import 'package:fast_golden_taxi/core/di/providers.dart';
 import 'package:fast_golden_taxi/features/user/settings/data/repositories/notification_settings_repository_impl.dart';
 import 'package:fast_golden_taxi/features/user/settings/domain/entities/notification_settings.dart';
 import 'package:fast_golden_taxi/features/user/settings/domain/repositories/notification_settings_repository.dart';

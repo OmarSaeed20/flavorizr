@@ -1,4 +1,4 @@
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/data/parameters/get_nearby_drivers_parameters.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/domain/entities/driver.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/domain/repositories/direct_booking_repository.dart';

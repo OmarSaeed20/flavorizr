@@ -1,6 +1,6 @@
 import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
 import 'package:fast_golden_taxi/core/network/network_info.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/data/datasources/driver_profile_local_datasource.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/data/datasources/driver_profile_remote_datasource.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/data/models/driver_document_model.dart';

@@ -1,6 +1,6 @@
 // lib/features/splash/presentation/controllers/splash_controller.dart
 import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/splash/domain/usecases/check_app_initialization_usecase.dart';
 import 'package:fast_golden_taxi/features/splash/presentation/providers/splash_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

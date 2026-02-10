@@ -6,6 +6,19 @@ import 'package:fast_golden_taxi/core/router/route_guards.dart';
 import 'package:fast_golden_taxi/core/router/router_observer.dart';
 import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:fast_golden_taxi/core/router/widgets/widgets.dart';
+import 'package:fast_golden_taxi/features/auth/role_selection/presentation/pages/role_selection_page.dart';
+import 'package:fast_golden_taxi/features/company/company_auth/presentation/pages/company_forgot_password_page.dart';
+// Company feature pages
+import 'package:fast_golden_taxi/features/company/company_auth/presentation/pages/company_login_page.dart';
+import 'package:fast_golden_taxi/features/company/company_auth/presentation/pages/company_register_page.dart';
+import 'package:fast_golden_taxi/features/company/company_auth/presentation/pages/company_reset_password_page.dart';
+import 'package:fast_golden_taxi/features/company/company_profile/presentation/pages/company_edit_profile_page.dart';
+import 'package:fast_golden_taxi/features/company/company_profile/presentation/pages/company_profile_page.dart';
+import 'package:fast_golden_taxi/features/company/company_settings/presentation/pages/company_about_page.dart';
+import 'package:fast_golden_taxi/features/company/company_settings/presentation/pages/company_faq_page.dart';
+import 'package:fast_golden_taxi/features/company/company_settings/presentation/pages/company_privacy_policy_page.dart';
+import 'package:fast_golden_taxi/features/company/company_settings/presentation/pages/company_settings_page.dart';
+import 'package:fast_golden_taxi/features/company/company_settings/presentation/pages/company_terms_page.dart';
 // Driver feature pages
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_login_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_register_page.dart';
@@ -298,10 +311,7 @@ class AppRouter {
     GoRoute(
       path: Routes.roleSelection,
       name: Routes.roleSelectionName,
-      builder: (context, state) => const PlaceholderScreen(
-        title: 'Select Role',
-        message: 'Choose Consumer, Driver, or Company',
-      ),
+      builder: (context, state) => const RoleSelectionPage(),
     ),
   ];
 
@@ -691,15 +701,28 @@ class AppRouter {
     GoRoute(
       path: Routes.companyLogin,
       name: Routes.companyLoginName,
-      builder: (context, state) =>
-          const PlaceholderScreen(title: 'Company Login', message: 'Company login page'),
+      builder: (context, state) => const CompanyLoginPage(),
     ),
     GoRoute(
       path: Routes.companyRegister,
       name: Routes.companyRegisterName,
-      builder: (context, state) =>
-          const PlaceholderScreen(title: 'Company Registration', message: 'Register your company'),
+      builder: (context, state) => const CompanyRegisterPage(),
     ),
+    GoRoute(
+      path: '/company/auth/forgot-password',
+      name: 'companyForgotPassword',
+      builder: (context, state) => const CompanyForgotPasswordPage(),
+    ),
+    GoRoute(
+      path: '/company/auth/reset-password',
+      name: 'companyResetPassword',
+      builder: (context, state) => const CompanyResetPasswordPage(),
+    ),
+    // GoRoute(
+    //   path: '/company/auth/verify-phone',
+    //   name: 'companyVerifyPhone',
+    //   builder: (context, state) => const CompanyVerifyPhonePage(),
+    // ),
 
     // Company Shell Routes
     ShellRoute(
@@ -797,14 +820,37 @@ class AppRouter {
         GoRoute(
           path: Routes.companyProfile,
           name: Routes.companyProfileName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Company Profile', message: 'Company information'),
+          builder: (context, state) => const CompanyProfilePage(),
+        ),
+        GoRoute(
+          path: '/company/profile/edit',
+          name: 'companyEditProfile',
+          builder: (context, state) => const CompanyEditProfilePage(),
         ),
         GoRoute(
           path: Routes.companySettings,
           name: Routes.companySettingsName,
-          builder: (context, state) =>
-              const PlaceholderScreen(title: 'Settings', message: 'Company settings'),
+          builder: (context, state) => const CompanySettingsPage(),
+        ),
+        GoRoute(
+          path: '/company/settings/about',
+          name: 'companyAbout',
+          builder: (context, state) => const CompanyAboutPage(),
+        ),
+        GoRoute(
+          path: '/company/settings/faq',
+          name: 'companyFaq',
+          builder: (context, state) => const CompanyFaqPage(),
+        ),
+        GoRoute(
+          path: '/company/settings/privacy',
+          name: 'companyPrivacy',
+          builder: (context, state) => const CompanyPrivacyPolicyPage(),
+        ),
+        GoRoute(
+          path: '/company/settings/terms',
+          name: 'companyTerms',
+          builder: (context, state) => const CompanyTermsPage(),
         ),
         GoRoute(
           path: Routes.zoneManagement,

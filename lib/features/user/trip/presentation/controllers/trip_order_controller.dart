@@ -1,5 +1,5 @@
 // lib/features/trip/presentation/controllers/trip_order_controller.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/book_now_order_parameters.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/get_my_orders_parameters.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/trip_evaluation_parameters.dart';

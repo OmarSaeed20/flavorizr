@@ -6,7 +6,7 @@ import 'package:fast_golden_taxi/core/network/base/datasource/base_data_source.d
 import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/network/network_info.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Base class for repositories
 /// Provides common functionality for data operations combining remote and local sources

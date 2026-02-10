@@ -1,7 +1,7 @@
 import 'package:fast_golden_taxi/core/network/api/models/api_notification.dart';
 import 'package:fast_golden_taxi/core/network/api/parameters/notification_parameters.dart';
 import 'package:fast_golden_taxi/core/network/api_response.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Notification Repository Interface
 /// Defines the contract for notification data operations

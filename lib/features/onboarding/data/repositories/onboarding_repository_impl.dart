@@ -1,6 +1,6 @@
 // lib/features/onboarding/data/repositories/onboarding_repository_impl.dart
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/onboarding/data/datasources/onboarding_local_datasource.dart';
 import 'package:fast_golden_taxi/features/onboarding/domain/entities/onboarding_page.dart';
 import 'package:fast_golden_taxi/features/onboarding/domain/repositories/onboarding_repository.dart';

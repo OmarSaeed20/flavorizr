@@ -1,7 +1,7 @@
 import 'package:fast_golden_taxi/core/network/api/models/api_chat.dart';
 import 'package:fast_golden_taxi/core/network/api/parameters/chat_parameters.dart';
 import 'package:fast_golden_taxi/core/network/api_response.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 
 /// Chat Repository Interface
 /// Defines the contract for chat data operations

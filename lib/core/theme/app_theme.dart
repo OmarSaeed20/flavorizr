@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 /// - Custom typography
 /// - Component-specific theming
 class AppTheme {
-  AppTheme._();
+  const AppTheme._();
 
   /// Creates a light theme based on the provided [settings].
   ///
@@ -283,8 +283,10 @@ class AppTheme {
           info: SemanticColors.info,
           infoContainer: isDark ? SemanticColors.infoDark : SemanticColors.infoLight,
           onInfo: Colors.white,
-          shimmerBase: isDark ? AppColors.shimmerBaseDark : AppColors.shimmerBase,
-          shimmerHighlight: isDark ? AppColors.shimmerHighlightDark : AppColors.shimmerHighlight,
+          shimmerBase: isDark ? ConstantColors.shimmerBaseDark : ConstantColors.shimmerBase,
+          shimmerHighlight: isDark
+              ? ConstantColors.shimmerHighlightDark
+              : ConstantColors.shimmerHighlight,
         ),
       ],
     );

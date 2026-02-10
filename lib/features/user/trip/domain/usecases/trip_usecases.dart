@@ -1,5 +1,5 @@
 // lib/features/trip/domain/usecases/trip_usecases.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/book_now_order_parameters.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/cancel_trip_parameters.dart';
 import 'package:fast_golden_taxi/features/user/trip/data/parameters/confirm_trip_parameters.dart';

@@ -257,4 +257,267 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finish => 'Finish';
+
+  @override
+  String get companyLogin => 'Company Login';
+
+  @override
+  String get companyLoginSubtitle => 'Sign in to your company account';
+
+  @override
+  String get companyRegister => 'Company Registration';
+
+  @override
+  String get companyRegisterSubtitle => 'Create a new company account';
+
+  @override
+  String get companyName => 'Company Name';
+
+  @override
+  String get companyNameHint => 'Enter your company name';
+
+  @override
+  String get companyPhone => 'Company Phone';
+
+  @override
+  String get companyPhoneHint => 'Enter your company phone number';
+
+  @override
+  String get companyEmail => 'Company Email';
+
+  @override
+  String get companyEmailHint => 'Enter your company email';
+
+  @override
+  String get companyAddress => 'Company Address';
+
+  @override
+  String get companyAddressHint => 'Enter your company address';
+
+  @override
+  String get companyForgotPassword => 'Forgot Password?';
+
+  @override
+  String get companyForgotPasswordSubtitle =>
+      'Enter your email to reset password';
+
+  @override
+  String get companyResetPassword => 'Reset Password';
+
+  @override
+  String get companyResetPasswordSubtitle => 'Create a new password';
+
+  @override
+  String get companyVerifyPhone => 'Verify Phone';
+
+  @override
+  String get companyVerifyPhoneSubtitle =>
+      'Enter the verification code sent to your phone';
+
+  @override
+  String get verificationCode => 'Verification Code';
+
+  @override
+  String get dontHaveAccount => 'Don\'t have an account?';
+
+  @override
+  String get register => 'Register';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get phoneNumberHint => 'Enter your phone number';
+
+  @override
+  String get phoneNumberRequired => 'Phone number is required';
+
+  @override
+  String get invalidPhoneNumber => 'Invalid phone number';
+
+  @override
+  String get verificationCodeHint => 'Enter 6-digit code';
+
+  @override
+  String get resendCode => 'Resend Code';
+
+  @override
+  String resendCodeIn(Object seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get welcomeBack => 'Welcome Back';
+
+  @override
+  String get loginToContinue => 'Login to continue';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get passwordRequired => 'Password is required';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get loginWithBiometric => 'Login with Biometric';
+
+  @override
+  String get companyLoginSuccess => 'Login successful';
+
+  @override
+  String get companyRegisterSuccess => 'Registration successful';
+
+  @override
+  String get companyPhoneVerified => 'Phone verified successfully';
+
+  @override
+  String get companyProfile => 'Company Profile';
+
+  @override
+  String get companyProfileSubtitle => 'Manage your company information';
+
+  @override
+  String get editCompanyProfile => 'Edit Company Profile';
+
+  @override
+  String get editCompanyProfileSubtitle => 'Update your company details';
+
+  @override
+  String get companyLogo => 'Company Logo';
+
+  @override
+  String get changeLogo => 'Change Logo';
+
+  @override
+  String get removeLogo => 'Remove Logo';
+
+  @override
+  String get companyDetails => 'Company Details';
+
+  @override
+  String get businessLicense => 'Business License';
+
+  @override
+  String get taxId => 'Tax ID';
+
+  @override
+  String get taxIdHint => 'Enter your tax ID';
+
+  @override
+  String get updateProfile => 'Update Profile';
+
+  @override
+  String get profileUpdated => 'Profile updated successfully';
+
+  @override
+  String get logoUpdated => 'Logo updated successfully';
+
+  @override
+  String get logoRemoved => 'Logo removed successfully';
+
+  @override
+  String get companySettings => 'Company Settings';
+
+  @override
+  String get companySettingsSubtitle => 'Manage your company settings';
+
+  @override
+  String get aboutUs => 'About Us';
+
+  @override
+  String get aboutUsSubtitle => 'Learn about Fast Golden Taxi';
+
+  @override
+  String get faq => 'FAQ';
+
+  @override
+  String get faqSubtitle => 'Frequently asked questions';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get privacyPolicySubtitle => 'Read our privacy policy';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get termsOfServiceSubtitle => 'Read our terms of service';
+
+  @override
+  String get contactSupport => 'Contact Support';
+
+  @override
+  String get contactSupportSubtitle => 'Get help from our support team';
+
+  @override
+  String get reportProblem => 'Report a Problem';
+
+  @override
+  String get reportProblemSubtitle => 'Report an issue or bug';
+
+  @override
+  String get companyNotifications => 'Notifications';
+
+  @override
+  String get companyNotificationsSubtitle => 'Manage notification preferences';
+
+  @override
+  String get companySecurity => 'Security';
+
+  @override
+  String get companySecuritySubtitle => 'Password and security settings';
+
+  @override
+  String get companyLanguage => 'Language';
+
+  @override
+  String get companyLanguageSubtitle => 'Change app language';
+
+  @override
+  String get companyTheme => 'Theme';
+
+  @override
+  String get companyThemeSubtitle => 'Change app theme';
+
+  @override
+  String get appVersion => 'App Version';
+
+  @override
+  String get roleSelection => 'Select Your Role';
+
+  @override
+  String get roleSelectionSubtitle =>
+      'Choose how you want to use Fast Golden Taxi';
+
+  @override
+  String get consumerRole => 'Consumer';
+
+  @override
+  String get consumerRoleDescription => 'Book rides and travel comfortably';
+
+  @override
+  String get driverRole => 'Driver';
+
+  @override
+  String get driverRoleDescription => 'Earn money by driving';
+
+  @override
+  String get companyRole => 'Company';
+
+  @override
+  String get companyRoleDescription => 'Manage your fleet efficiently';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account?';
 }

@@ -1,4 +1,4 @@
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/driver/driver_trips/domain/entities/driver_trip.dart';
 import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/accept_trip.dart';
 import 'package:fast_golden_taxi/features/driver/driver_trips/domain/usecases/cancel_trip.dart';

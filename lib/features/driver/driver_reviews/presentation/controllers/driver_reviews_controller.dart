@@ -1,4 +1,4 @@
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/entities/driver_review.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/domain/usecases/get_driver_reviews.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

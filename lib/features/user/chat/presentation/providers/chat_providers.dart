@@ -1,6 +1,6 @@
 // lib/features/chat/presentation/providers/chat_providers.dart
 import 'package:fast_golden_taxi/core/di/providers.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/core/network/websocket/websocket.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:fast_golden_taxi/features/user/chat/data/datasources/chat_local_datasource.dart';

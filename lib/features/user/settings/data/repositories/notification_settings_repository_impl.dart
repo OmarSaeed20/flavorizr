@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/network/network_info.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/settings/domain/entities/notification_settings.dart';
 import 'package:fast_golden_taxi/features/user/settings/domain/repositories/notification_settings_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';

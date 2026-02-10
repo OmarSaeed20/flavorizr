@@ -13,7 +13,6 @@ import 'package:fast_golden_taxi/core/logger/advanced_app_logger.dart';
 import 'package:fast_golden_taxi/core/network/api_client.dart';
 import 'package:fast_golden_taxi/core/router/app_router.dart';
 import 'package:fast_golden_taxi/core/services/notification_service.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
 import 'package:fast_golden_taxi/observers.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

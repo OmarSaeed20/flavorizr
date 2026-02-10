@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_tokens.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

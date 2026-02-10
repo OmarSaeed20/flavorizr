@@ -571,6 +571,522 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish'**
   String get finish;
+
+  /// No description provided for @companyLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Login'**
+  String get companyLogin;
+
+  /// No description provided for @companyLoginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to your company account'**
+  String get companyLoginSubtitle;
+
+  /// No description provided for @companyRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Registration'**
+  String get companyRegister;
+
+  /// No description provided for @companyRegisterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new company account'**
+  String get companyRegisterSubtitle;
+
+  /// No description provided for @companyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Name'**
+  String get companyName;
+
+  /// No description provided for @companyNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your company name'**
+  String get companyNameHint;
+
+  /// No description provided for @companyPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Phone'**
+  String get companyPhone;
+
+  /// No description provided for @companyPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your company phone number'**
+  String get companyPhoneHint;
+
+  /// No description provided for @companyEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Email'**
+  String get companyEmail;
+
+  /// No description provided for @companyEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your company email'**
+  String get companyEmailHint;
+
+  /// No description provided for @companyAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Address'**
+  String get companyAddress;
+
+  /// No description provided for @companyAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your company address'**
+  String get companyAddressHint;
+
+  /// No description provided for @companyForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get companyForgotPassword;
+
+  /// No description provided for @companyForgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email to reset password'**
+  String get companyForgotPasswordSubtitle;
+
+  /// No description provided for @companyResetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get companyResetPassword;
+
+  /// No description provided for @companyResetPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new password'**
+  String get companyResetPasswordSubtitle;
+
+  /// No description provided for @companyVerifyPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Phone'**
+  String get companyVerifyPhone;
+
+  /// No description provided for @companyVerifyPhoneSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the verification code sent to your phone'**
+  String get companyVerifyPhoneSubtitle;
+
+  /// No description provided for @verificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Code'**
+  String get verificationCode;
+
+  /// No description provided for @dontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get dontHaveAccount;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @phoneNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number'**
+  String get phoneNumberHint;
+
+  /// No description provided for @phoneNumberRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get phoneNumberRequired;
+
+  /// No description provided for @invalidPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone number'**
+  String get invalidPhoneNumber;
+
+  /// No description provided for @verificationCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 6-digit code'**
+  String get verificationCodeHint;
+
+  /// No description provided for @resendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Code'**
+  String get resendCode;
+
+  /// No description provided for @resendCodeIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String resendCodeIn(Object seconds);
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get welcomeBack;
+
+  /// No description provided for @loginToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Login to continue'**
+  String get loginToContinue;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @passwordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get passwordHint;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get passwordRequired;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @loginWithBiometric.
+  ///
+  /// In en, this message translates to:
+  /// **'Login with Biometric'**
+  String get loginWithBiometric;
+
+  /// No description provided for @companyLoginSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Login successful'**
+  String get companyLoginSuccess;
+
+  /// No description provided for @companyRegisterSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration successful'**
+  String get companyRegisterSuccess;
+
+  /// No description provided for @companyPhoneVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone verified successfully'**
+  String get companyPhoneVerified;
+
+  /// No description provided for @companyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Profile'**
+  String get companyProfile;
+
+  /// No description provided for @companyProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your company information'**
+  String get companyProfileSubtitle;
+
+  /// No description provided for @editCompanyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Company Profile'**
+  String get editCompanyProfile;
+
+  /// No description provided for @editCompanyProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your company details'**
+  String get editCompanyProfileSubtitle;
+
+  /// No description provided for @companyLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Logo'**
+  String get companyLogo;
+
+  /// No description provided for @changeLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Logo'**
+  String get changeLogo;
+
+  /// No description provided for @removeLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove Logo'**
+  String get removeLogo;
+
+  /// No description provided for @companyDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Details'**
+  String get companyDetails;
+
+  /// No description provided for @businessLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Business License'**
+  String get businessLicense;
+
+  /// No description provided for @taxId.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax ID'**
+  String get taxId;
+
+  /// No description provided for @taxIdHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your tax ID'**
+  String get taxIdHint;
+
+  /// No description provided for @updateProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Profile'**
+  String get updateProfile;
+
+  /// No description provided for @profileUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileUpdated;
+
+  /// No description provided for @logoUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Logo updated successfully'**
+  String get logoUpdated;
+
+  /// No description provided for @logoRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Logo removed successfully'**
+  String get logoRemoved;
+
+  /// No description provided for @companySettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Settings'**
+  String get companySettings;
+
+  /// No description provided for @companySettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your company settings'**
+  String get companySettingsSubtitle;
+
+  /// No description provided for @aboutUs.
+  ///
+  /// In en, this message translates to:
+  /// **'About Us'**
+  String get aboutUs;
+
+  /// No description provided for @aboutUsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn about Fast Golden Taxi'**
+  String get aboutUsSubtitle;
+
+  /// No description provided for @faq.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get faq;
+
+  /// No description provided for @faqSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently asked questions'**
+  String get faqSubtitle;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyPolicySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read our privacy policy'**
+  String get privacyPolicySubtitle;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// No description provided for @termsOfServiceSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read our terms of service'**
+  String get termsOfServiceSubtitle;
+
+  /// No description provided for @contactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get contactSupport;
+
+  /// No description provided for @contactSupportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get help from our support team'**
+  String get contactSupportSubtitle;
+
+  /// No description provided for @reportProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a Problem'**
+  String get reportProblem;
+
+  /// No description provided for @reportProblemSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report an issue or bug'**
+  String get reportProblemSubtitle;
+
+  /// No description provided for @companyNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get companyNotifications;
+
+  /// No description provided for @companyNotificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage notification preferences'**
+  String get companyNotificationsSubtitle;
+
+  /// No description provided for @companySecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get companySecurity;
+
+  /// No description provided for @companySecuritySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password and security settings'**
+  String get companySecuritySubtitle;
+
+  /// No description provided for @companyLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get companyLanguage;
+
+  /// No description provided for @companyLanguageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change app language'**
+  String get companyLanguageSubtitle;
+
+  /// No description provided for @companyTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get companyTheme;
+
+  /// No description provided for @companyThemeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change app theme'**
+  String get companyThemeSubtitle;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersion;
+
+  /// No description provided for @roleSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Your Role'**
+  String get roleSelection;
+
+  /// No description provided for @roleSelectionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how you want to use Fast Golden Taxi'**
+  String get roleSelectionSubtitle;
+
+  /// No description provided for @consumerRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumer'**
+  String get consumerRole;
+
+  /// No description provided for @consumerRoleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Book rides and travel comfortably'**
+  String get consumerRoleDescription;
+
+  /// No description provided for @driverRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver'**
+  String get driverRole;
+
+  /// No description provided for @driverRoleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn money by driving'**
+  String get driverRoleDescription;
+
+  /// No description provided for @companyRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get companyRole;
+
+  /// No description provided for @companyRoleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your fleet efficiently'**
+  String get companyRoleDescription;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAccount;
 }
 
 class _AppLocalizationsDelegate

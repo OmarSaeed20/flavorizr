@@ -63,6 +63,36 @@ class UserModel {
     metadata: entity.metadata,
   );
 
+  /// Creates a model from an API user response.
+  factory UserModel.fromApiUser(dynamic apiUser) {
+    if (apiUser is Map<String, dynamic>) {
+      return UserModel.fromJson(apiUser);
+    }
+    // Handle ApiUser object if it's a typed object
+    return UserModel(
+      id: apiUser.id?.toString() ?? '',
+      email: apiUser.email ?? '',
+      displayName: apiUser.name ?? apiUser.nickname,
+      photoUrl: apiUser.avatar,
+      phoneNumber: apiUser.phone,
+      emailVerified: apiUser.email != null,
+      phoneVerified: true,
+      createdAt: apiUser.createdAt ?? DateTime.now(),
+      lastLoginAt: apiUser.updatedAt,
+      roles: ['user'],
+      metadata: {
+        'nickname': apiUser.nickname,
+        'country': apiUser.country,
+        'governorate': apiUser.governorate,
+        'birthdate': apiUser.birthdate,
+        'gender': apiUser.gender,
+        'deviceType': apiUser.deviceType,
+        'deviceToken': apiUser.deviceToken,
+        'deviceId': apiUser.deviceId,
+      },
+    );
+  }
+
   final String id;
   final String email;
   final String? displayName;
@@ -75,6 +105,13 @@ class UserModel {
   final DateTime? lastLoginAt;
   final List<String> roles;
   final Map<String, dynamic> metadata;
+
+  // Additional properties for compatibility with API responses
+  String? get name => displayName;
+  String? get nickname => metadata['nickname'] as String?;
+  String? get address => metadata['address'] as String?;
+  String? get bio => metadata['bio'] as String?;
+  String? get image => photoUrl;
 
   /// Converts to JSON.
   Map<String, dynamic> toJson() {

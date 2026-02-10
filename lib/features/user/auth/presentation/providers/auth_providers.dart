@@ -17,15 +17,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 // ==================== External Dependencies ====================
-
-/// Provider for SharedPreferences.
-final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError('SharedPreferences must be overridden');
-});
 
 /// Provider for FlutterSecureStorage.
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
@@ -33,11 +27,6 @@ final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
   );
-});
-
-/// Provider for NetworkInfo.
-final networkInfoProvider = Provider<NetworkInfo>((ref) {
-  return NetworkInfoImpl();
 });
 
 /// Provider for LocalAuthentication.
@@ -61,8 +50,8 @@ final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
 /// Provider for AuthLocalDataSource.
 final authLocalDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
   final secureStorage = ref.watch(secureStorageProvider);
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return AuthLocalDataSourceImpl(secureStorage: secureStorage, prefs: prefs);
+  final prefs = ref.watch(sharedPreferencesProvider).value;
+  return AuthLocalDataSourceImpl(secureStorage: secureStorage, prefs: prefs!);
 });
 
 // ==================== Repository ====================

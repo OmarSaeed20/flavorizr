@@ -151,4 +151,64 @@ abstract class ApiEndpoints {
 
   /// Get driver reviews.
   static const String driverReviews = '/user/driver/reviews';
+
+  // ==================== Company Auth Endpoints ====================
+
+  /// Company sign in.
+  static const String companySignIn = '/company/auth/login';
+
+  /// Company sign up.
+  static const String companySignUp = '/company/auth/register';
+
+  /// Verify company phone number.
+  static const String companyVerifyPhone = '/company/auth/verify-phone';
+
+  /// Send verification code to company phone.
+  static const String companySendVerificationCode = '/company/auth/send-verification-code';
+
+  /// Company forgot password.
+  static const String companyForgotPassword = '/company/auth/forgot-password';
+
+  /// Company reset password.
+  static const String companyResetPassword = '/company/auth/reset-password';
+
+  /// Company sign out.
+  static const String companySignOut = '/company/auth/logout';
+
+  // ==================== Company Profile Endpoints ====================
+
+  /// Get company profile.
+  static const String companyProfile = '/company/profile';
+
+  /// Get detailed company profile information.
+  static const String companyProfileDetail = '/company/profile/detail';
+
+  /// Update company profile information.
+  static const String updateCompanyProfileInfo = '/company/profile/update-info';
+
+  /// Update company profile image.
+  static const String updateCompanyProfileImage = '/company/profile/update-image';
+
+  /// Delete company profile image.
+  static const String deleteCompanyProfileImage = '/company/profile/delete-image';
+
+  // ==================== Company Settings Endpoints ====================
+
+  /// Get company settings.
+  static const String companySettings = '/company/settings';
+
+  /// Update company settings.
+  static const String updateCompanySettings = '/company/settings';
+
+  /// Get about us content.
+  static const String aboutUs = '/company/settings/about';
+
+  /// Get FAQ content.
+  static const String faq = '/company/settings/faq';
+
+  /// Get privacy policy.
+  static const String privacyPolicy = '/company/settings/privacy';
+
+  /// Get terms of service.
+  static const String termsOfService = '/company/settings/terms';
 }

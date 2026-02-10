@@ -7,7 +7,7 @@ import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart'
         ServerException,
         UnauthorizedException,
         ValidationException;
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/change_password_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/logout_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/register_parameters.dart';

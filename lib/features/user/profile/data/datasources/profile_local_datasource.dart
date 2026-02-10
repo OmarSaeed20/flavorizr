@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:fast_golden_taxi/core/network/base/datasource/base_local_data_source.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/profile/data/models/profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

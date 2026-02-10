@@ -257,4 +257,266 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get finish => 'إنهاء';
+
+  @override
+  String get companyLogin => 'تسجيل دخول الشركة';
+
+  @override
+  String get companyLoginSubtitle => 'سجل الدخول إلى حساب شركتك';
+
+  @override
+  String get companyRegister => 'تسجيل شركة جديدة';
+
+  @override
+  String get companyRegisterSubtitle => 'إنشاء حساب شركة جديد';
+
+  @override
+  String get companyName => 'اسم الشركة';
+
+  @override
+  String get companyNameHint => 'أدخل اسم شركتك';
+
+  @override
+  String get companyPhone => 'هاتف الشركة';
+
+  @override
+  String get companyPhoneHint => 'أدخل رقم هاتف شركتك';
+
+  @override
+  String get companyEmail => 'بريد الشركة الإلكتروني';
+
+  @override
+  String get companyEmailHint => 'أدخل بريد شركتك الإلكتروني';
+
+  @override
+  String get companyAddress => 'عنوان الشركة';
+
+  @override
+  String get companyAddressHint => 'أدخل عنوان شركتك';
+
+  @override
+  String get companyForgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get companyForgotPasswordSubtitle =>
+      'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور';
+
+  @override
+  String get companyResetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get companyResetPasswordSubtitle => 'إنشاء كلمة مرور جديدة';
+
+  @override
+  String get companyVerifyPhone => 'تأكيد الهاتف';
+
+  @override
+  String get companyVerifyPhoneSubtitle => 'أدخل رمز التحقق المرسل إلى هاتفك';
+
+  @override
+  String get verificationCode => 'رمز التحقق';
+
+  @override
+  String get dontHaveAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get register => 'تسجيل';
+
+  @override
+  String get phoneNumber => 'رقم الهاتف';
+
+  @override
+  String get phoneNumberHint => 'أدخل رقم هاتفك';
+
+  @override
+  String get phoneNumberRequired => 'رقم الهاتف مطلوب';
+
+  @override
+  String get invalidPhoneNumber => 'رقم هاتف غير صالح';
+
+  @override
+  String get verificationCodeHint => 'أدخل الرمز المكون من 6 أرقام';
+
+  @override
+  String get resendCode => 'إعادة إرسال الرمز';
+
+  @override
+  String resendCodeIn(Object seconds) {
+    return 'إعادة الإرسال خلال $seconds ثانية';
+  }
+
+  @override
+  String get welcomeBack => 'مرحباً بعودتك';
+
+  @override
+  String get loginToContinue => 'سجل الدخول للمتابعة';
+
+  @override
+  String get password => 'كلمة المرور';
+
+  @override
+  String get passwordHint => 'أدخل كلمة المرور';
+
+  @override
+  String get passwordRequired => 'كلمة المرور مطلوبة';
+
+  @override
+  String get forgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get login => 'تسجيل الدخول';
+
+  @override
+  String get loginWithBiometric => 'تسجيل الدخول بالبصمة';
+
+  @override
+  String get companyLoginSuccess => 'تم تسجيل الدخول بنجاح';
+
+  @override
+  String get companyRegisterSuccess => 'تم التسجيل بنجاح';
+
+  @override
+  String get companyPhoneVerified => 'تم تأكيد الهاتف بنجاح';
+
+  @override
+  String get companyProfile => 'ملف الشركة';
+
+  @override
+  String get companyProfileSubtitle => 'إدارة معلومات شركتك';
+
+  @override
+  String get editCompanyProfile => 'تعديل ملف الشركة';
+
+  @override
+  String get editCompanyProfileSubtitle => 'تحديث تفاصيل شركتك';
+
+  @override
+  String get companyLogo => 'شعار الشركة';
+
+  @override
+  String get changeLogo => 'تغيير الشعار';
+
+  @override
+  String get removeLogo => 'إزالة الشعار';
+
+  @override
+  String get companyDetails => 'تفاصيل الشركة';
+
+  @override
+  String get businessLicense => 'رخصة العمل';
+
+  @override
+  String get taxId => 'الرقم الضريبي';
+
+  @override
+  String get taxIdHint => 'أدخل الرقم الضريبي الخاص بك';
+
+  @override
+  String get updateProfile => 'تحديث الملف';
+
+  @override
+  String get profileUpdated => 'تم تحديث الملف بنجاح';
+
+  @override
+  String get logoUpdated => 'تم تحديث الشعار بنجاح';
+
+  @override
+  String get logoRemoved => 'تم إزالة الشعار بنجاح';
+
+  @override
+  String get companySettings => 'إعدادات الشركة';
+
+  @override
+  String get companySettingsSubtitle => 'إدارة إعدادات شركتك';
+
+  @override
+  String get aboutUs => 'من نحن';
+
+  @override
+  String get aboutUsSubtitle => 'تعرف على تاكسي الذهبي السريع';
+
+  @override
+  String get faq => 'الأسئلة الشائعة';
+
+  @override
+  String get faqSubtitle => 'الأسئلة المتكررة';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get privacyPolicySubtitle => 'اقرأ سياسة الخصوصية الخاصة بنا';
+
+  @override
+  String get termsOfService => 'شروط الخدمة';
+
+  @override
+  String get termsOfServiceSubtitle => 'اقرأ شروط الخدمة الخاصة بنا';
+
+  @override
+  String get contactSupport => 'اتصل بالدعم';
+
+  @override
+  String get contactSupportSubtitle => 'احصل على المساعدة من فريق الدعم لدينا';
+
+  @override
+  String get reportProblem => 'الإبلاغ عن مشكلة';
+
+  @override
+  String get reportProblemSubtitle => 'الإبلاغ عن مشكلة أو خطأ';
+
+  @override
+  String get companyNotifications => 'الإشعارات';
+
+  @override
+  String get companyNotificationsSubtitle => 'إدارة تفضيلات الإشعارات';
+
+  @override
+  String get companySecurity => 'الأمان';
+
+  @override
+  String get companySecuritySubtitle => 'كلمة المرور وإعدادات الأمان';
+
+  @override
+  String get companyLanguage => 'اللغة';
+
+  @override
+  String get companyLanguageSubtitle => 'تغيير لغة التطبيق';
+
+  @override
+  String get companyTheme => 'السمة';
+
+  @override
+  String get companyThemeSubtitle => 'تغيير سمة التطبيق';
+
+  @override
+  String get appVersion => 'إصدار التطبيق';
+
+  @override
+  String get roleSelection => 'اختر دورك';
+
+  @override
+  String get roleSelectionSubtitle =>
+      'اختر كيف تريد استخدام تاكسي الذهبي السريع';
+
+  @override
+  String get consumerRole => 'عميل';
+
+  @override
+  String get consumerRoleDescription => 'احجز رحلات وسافر براحة';
+
+  @override
+  String get driverRole => 'سائق';
+
+  @override
+  String get driverRoleDescription => 'اكسب المال من خلال القيادة';
+
+  @override
+  String get companyRole => 'شركة';
+
+  @override
+  String get companyRoleDescription => 'أدر أسطولك بكفاءة';
+
+  @override
+  String get alreadyHaveAccount => 'لديك حساب بالفعل؟';
 }

@@ -1,6 +1,6 @@
 import 'package:fast_golden_taxi/core/network/base/repo/base_repository.dart';
 import 'package:fast_golden_taxi/core/network/network_info.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/home/data/datasources/home_remote_datasource.dart';
 import 'package:fast_golden_taxi/features/user/home/data/parameters/get_available_trips_parameters.dart';
 import 'package:fast_golden_taxi/features/user/home/domain/entities/advertisement.dart';

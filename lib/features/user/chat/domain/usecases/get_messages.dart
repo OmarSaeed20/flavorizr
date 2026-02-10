@@ -1,5 +1,5 @@
 // lib/features/chat/domain/usecases/get_messages.dart
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/chat/domain/entities/message.dart';
 import 'package:fast_golden_taxi/features/user/chat/domain/repositories/chat_repository.dart';
 

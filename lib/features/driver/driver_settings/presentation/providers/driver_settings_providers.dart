@@ -16,7 +16,8 @@ final driverSettingsRemoteDataSourceProvider = Provider<DriverSettingsRemoteData
   return DriverSettingsRemoteDataSourceImpl(ref.watch(apiClientProvider));
 });
 final driverSettingsLocalDataSourceProvider = Provider<DriverSettingsLocalDataSource>((ref) {
-  return DriverSettingsLocalDataSourceImpl(ref.watch(sharedPreferencesProvider));
+  final sharedPreferences = ref.watch(sharedPreferencesProvider).value;
+  return DriverSettingsLocalDataSourceImpl(sharedPreferences!);
 });
 
 /// Provider for DriverSettingsRepository.

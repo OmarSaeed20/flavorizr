@@ -1,4 +1,4 @@
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_driver_settings_parameters.dart';
 import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_language_parameters.dart';
 import 'package:fast_golden_taxi/features/driver/driver_settings/data/parameters/update_notification_parameters.dart';

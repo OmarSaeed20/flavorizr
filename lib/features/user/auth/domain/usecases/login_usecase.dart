@@ -1,6 +1,6 @@
 // lib/features/auth/domain/usecases/login_usecase.dart
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';

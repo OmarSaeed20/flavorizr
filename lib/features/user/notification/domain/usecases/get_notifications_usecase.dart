@@ -1,4 +1,4 @@
-import 'package:fast_golden_taxi/core/network/resluts/dio_reslut.dart';
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/notification/data/parameters/get_notifications_parameters.dart';
 import 'package:fast_golden_taxi/features/user/notification/domain/entities/notification.dart';
 import 'package:fast_golden_taxi/features/user/notification/domain/repositories/notification_repository.dart';
