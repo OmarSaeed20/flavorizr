@@ -3,18 +3,18 @@ import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:fast_golden_taxi/features/onboarding/presentation/controllers/onboarding_controller.dart';
 import 'package:fast_golden_taxi/features/onboarding/presentation/widgets/onboarding_indicator.dart';
 import 'package:fast_golden_taxi/features/onboarding/presentation/widgets/onboarding_page_view.dart';
-import 'package:fast_golden_taxi/shared/presentation/widgets/buttons/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 /// Onboarding screen displayed to first-time users.
 ///
-/// Features:
-/// - Swipeable page view with illustrations
-/// - Skip option
-/// - Progress indicator
-/// - Navigation to login/register
+/// Matches the Figma design with:
+/// - #F2F2F2 background
+/// - White top header bar with back arrow & Skip
+/// - Image area in the center
+/// - White bottom card with rounded top corners, title, description,
+///   dot indicators, and a golden Next button
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -78,76 +78,129 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final state = ref.watch(onboardingControllerProvider);
 
     if (state.isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        backgroundColor: Color(0xFFF2F2F2),
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
     if (state.error != null) {
-      return _buildErrorScreen(theme, state.error!);
+      return _buildErrorScreen(state.error!);
     }
 
     if (state.pages.isEmpty) {
-      return _buildEmptyScreen(theme);
+      return _buildEmptyScreen();
     }
 
+    final mediaQuery = MediaQuery.of(context);
+    final topPadding = mediaQuery.padding.top;
+
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Skip button
-            _buildHeader(theme, state),
-
-            // Page view
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                onPageChanged: _onPageChanged,
-                itemCount: state.pages.length,
-                itemBuilder: (context, index) {
-                  return OnboardingPageView(page: state.pages[index]);
-                },
-              ),
-            ),
-
-            // Indicator and buttons
-            _buildFooter(theme, state),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(ThemeData theme, OnboardingState state) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: const Color(0xFFF2F2F2),
+      body: Stack(
         children: [
-          // Back button (hidden on first page)
-          AnimatedOpacity(
-            opacity: state.isFirstPage ? 0.0 : 1.0,
-            duration: const Duration(milliseconds: 200),
-            child: IconButton(
-              onPressed: state.isFirstPage ? null : _handlePreviousPage,
-              icon: const Icon(Icons.arrow_back_rounded),
+          // ── Image page view (occupies the area between header and bottom card) ──
+          Positioned.fill(
+            top: topPadding + 55,
+            bottom: 302,
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: _onPageChanged,
+              itemCount: state.pages.length,
+              itemBuilder: (context, index) {
+                return OnboardingPageView(page: state.pages[index]);
+              },
             ),
           ),
 
-          // Skip button (hidden on last page)
-          AnimatedOpacity(
-            opacity: state.isLastPage ? 0.0 : 1.0,
-            duration: const Duration(milliseconds: 200),
-            child: TextButton(
-              onPressed: state.isLastPage ? null : _handleSkip,
-              child: Text(
-                'Skip',
-                style: TextStyle(
-                  color: theme.colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.w500,
+          // ── White header bar ──
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            child: Container(
+              height: topPadding + 55,
+              decoration: const BoxDecoration(color: Colors.white),
+              padding: EdgeInsets.only(top: topPadding, left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Back arrow (hidden on first page)
+                  AnimatedOpacity(
+                    opacity: state.isFirstPage ? 0.0 : 1.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: GestureDetector(
+                      onTap: state.isFirstPage ? null : _handlePreviousPage,
+                      child: const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Icon(Icons.arrow_back, size: 24, color: Color(0xFF131313)),
+                      ),
+                    ),
+                  ),
+                  // Skip button (hidden on last page)
+                  AnimatedOpacity(
+                    opacity: state.isLastPage ? 0.0 : 1.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: GestureDetector(
+                      onTap: state.isLastPage ? null : _handleSkip,
+                      child: const Text(
+                        'Skip',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFFFFBF00),
+                          fontSize: 16,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          height: 1.75,
+                          letterSpacing: -1,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // ── Bottom white card ──
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              padding: const EdgeInsets.only(top: 24, left: 20, right: 20, bottom: 32),
+              clipBehavior: Clip.antiAlias,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
                 ),
+                shadows: [
+                  BoxShadow(color: Color(0x3F000000), blurRadius: 14, offset: Offset(0, 4)),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Title & Description
+                  _buildTitleDescription(state),
+                  const SizedBox(height: 20),
+                  // Indicators
+                  OnboardingIndicator(
+                    count: state.pages.length,
+                    currentIndex: state.currentPageIndex,
+                  ),
+                  const SizedBox(height: 20),
+                  // Next button
+                  _buildNextButton(state),
+                ],
               ),
             ),
           ),
@@ -156,27 +209,44 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  Widget _buildFooter(ThemeData theme, OnboardingState state) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
+  Widget _buildTitleDescription(OnboardingState state) {
+    final page = state.currentPage;
+    if (page == null) return const SizedBox.shrink();
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 250),
       child: Column(
+        key: ValueKey(page.id),
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Page indicator
-          OnboardingIndicator(count: state.pages.length, currentIndex: state.currentPageIndex),
-          const SizedBox(height: 32),
-
-          // Progress bar (alternative)
-          // OnboardingProgressBar(progress: state.progress),
-          // const SizedBox(height: 24),
-
-          // Main button
+          // Title
           SizedBox(
             width: double.infinity,
-            child: AppButton.primary(
-              onPressed: state.isCompleting ? null : _handleNextPage,
-              text: state.isLastPage ? 'Get Started' : 'Next',
-              isLoading: state.isCompleting,
-              size: AppButtonSize.large,
+            child: Text(
+              page.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF131313),
+                fontSize: 24,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Description
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              page.description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF686868),
+                fontSize: 14,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
         ],
@@ -184,31 +254,86 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  Widget _buildErrorScreen(ThemeData theme, String error) {
+  Widget _buildNextButton(OnboardingState state) {
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: MaterialButton(
+        onPressed: state.isCompleting ? null : _handleNextPage,
+        color: const Color(0xFFFFBF00),
+        disabledColor: const Color(0xFFFFBF00).withValues(alpha: 0.5),
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: state.isCompleting
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black),
+              )
+            : const Text(
+                'Next',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+      ),
+    );
+  }
+
+  Widget _buildErrorScreen(String error) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F2),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.error_outline_rounded, size: 64, color: theme.colorScheme.error),
+              const Icon(Icons.error_outline_rounded, size: 64, color: Color(0xFFFFBF00)),
               const SizedBox(height: 16),
-              Text('Something went wrong', style: theme.textTheme.titleLarge),
+              const Text(
+                'Something went wrong',
+                style: TextStyle(
+                  color: Color(0xFF131313),
+                  fontSize: 24,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(height: 8),
               Text(
                 error,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
+                style: const TextStyle(
+                  color: Color(0xFF686868),
+                  fontSize: 14,
+                  fontFamily: 'Poppins',
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
-              AppButton.primary(
-                onPressed: () {
-                  ref.read(onboardingControllerProvider.notifier).reload();
-                },
-                text: 'Retry',
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: MaterialButton(
+                  onPressed: () {
+                    ref.read(onboardingControllerProvider.notifier).reload();
+                  },
+                  color: const Color(0xFFFFBF00),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  child: const Text(
+                    'Retry',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -217,21 +342,45 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  Widget _buildEmptyScreen(ThemeData theme) {
+  Widget _buildEmptyScreen() {
     return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F2),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.info_outline_rounded, size: 64, color: theme.colorScheme.primary),
+              const Icon(Icons.info_outline_rounded, size: 64, color: Color(0xFFFFBF00)),
               const SizedBox(height: 16),
-              Text('No onboarding content', style: theme.textTheme.titleLarge),
+              const Text(
+                'No onboarding content',
+                style: TextStyle(
+                  color: Color(0xFF131313),
+                  fontSize: 24,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(height: 24),
-              AppButton.primary(
-                onPressed: () => context.go(Routes.roleSelection),
-                text: 'Continue',
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: MaterialButton(
+                  onPressed: () => context.go(Routes.roleSelection),
+                  color: const Color(0xFFFFBF00),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  child: const Text(
+                    'Continue',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

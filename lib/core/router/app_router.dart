@@ -6,6 +6,8 @@ import 'package:fast_golden_taxi/core/router/route_guards.dart';
 import 'package:fast_golden_taxi/core/router/router_observer.dart';
 import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:fast_golden_taxi/core/router/widgets/widgets.dart';
+import 'package:fast_golden_taxi/features/auth/otp/presentation/pages/otp_verification_page.dart';
+import 'package:fast_golden_taxi/features/auth/presentation/pages/select_login_signup_page.dart';
 import 'package:fast_golden_taxi/features/auth/role_selection/presentation/pages/role_selection_page.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/pages/company_forgot_password_page.dart';
 // Company feature pages
@@ -20,6 +22,7 @@ import 'package:fast_golden_taxi/features/company/company_settings/presentation/
 import 'package:fast_golden_taxi/features/company/company_settings/presentation/pages/company_settings_page.dart';
 import 'package:fast_golden_taxi/features/company/company_settings/presentation/pages/company_terms_page.dart';
 // Driver feature pages
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_forgot_password_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_login_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_register_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_reset_password_page.dart';
@@ -29,13 +32,13 @@ import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/pag
 import 'package:fast_golden_taxi/features/driver/driver_reviews/presentation/pages/driver_reviews_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_settings/presentation/pages/driver_settings_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/pages/driver_trips_page.dart';
+import 'package:fast_golden_taxi/features/language_selection/presentation/pages/language_selection_page.dart';
 import 'package:fast_golden_taxi/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:fast_golden_taxi/features/splash/presentation/pages/splash_page.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/pages/forgot_password_page.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/pages/login_page.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/pages/register_page.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/pages/reset_password_page.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/pages/verify_email_page.dart';
 import 'package:fast_golden_taxi/features/user/chat/presentation/screens/chat_list_screen.dart';
 import 'package:fast_golden_taxi/features/user/chat/presentation/screens/conversation_screen.dart';
 import 'package:fast_golden_taxi/features/user/direct_booking/presentation/pages/direct_booking_page.dart';
@@ -252,10 +255,7 @@ class AppRouter {
     GoRoute(
       path: Routes.languageSelection,
       name: Routes.languageSelectionName,
-      builder: (context, state) => const PlaceholderScreen(
-        title: 'Language Selection',
-        message: 'Select your preferred language',
-      ),
+      builder: (context, state) => const LanguageSelectionPage(),
     ),
     GoRoute(
       path: Routes.error,
@@ -313,8 +313,8 @@ class AppRouter {
       path: Routes.verifyEmail,
       name: Routes.verifyEmailName,
       builder: (context, state) {
-        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
-        return VerifyEmailPage(token: token);
+        final phone = state.uri.queryParameters['phone'] ?? state.extra as String?;
+        return OtpVerificationPage(phone: phone ?? 'N/A');
       },
     ),
     GoRoute(
@@ -324,10 +324,7 @@ class AppRouter {
         final extra = state.extra as Map<String, dynamic>?;
         final phone = extra?['phone'] as String? ?? '';
         final flowContext = extra?['flowContext'] as String? ?? 'registration';
-        return PlaceholderScreen(
-          title: 'Verify Phone',
-          message: 'OTP verification for $phone ($flowContext)',
-        );
+        return OtpVerificationPage(phone: phone, flowContext: flowContext);
       },
     ),
     GoRoute(
@@ -339,6 +336,11 @@ class AppRouter {
       path: Routes.roleSelection,
       name: Routes.roleSelectionName,
       builder: (context, state) => const RoleSelectionPage(),
+    ),
+    GoRoute(
+      path: Routes.selectLoginSignup,
+      name: Routes.selectLoginSignupName,
+      builder: (context, state) => const SelectLoginSignupPage(),
     ),
   ];
 
@@ -593,6 +595,11 @@ class AppRouter {
       path: Routes.driverResetPassword,
       name: Routes.driverResetPasswordName,
       builder: (context, state) => const DriverResetPasswordPage(),
+    ),
+    GoRoute(
+      path: Routes.driverForgotPassword,
+      name: Routes.driverForgotPasswordName,
+      builder: (context, state) => const DriverForgotPasswordPage(),
     ),
     GoRoute(
       path: Routes.driverVerifyPhone,

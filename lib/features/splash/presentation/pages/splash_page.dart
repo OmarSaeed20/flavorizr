@@ -1,5 +1,4 @@
 // lib/features/splash/presentation/pages/splash_page.dart
-import 'package:fast_golden_taxi/config/flavors.dart';
 import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:fast_golden_taxi/features/splash/domain/usecases/check_app_initialization_usecase.dart';
 import 'package:fast_golden_taxi/features/splash/presentation/controllers/splash_controller.dart';
@@ -96,13 +95,7 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
 
     return Scaffold(
       body: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [theme.colorScheme.primary, theme.colorScheme.primaryContainer],
-          ),
-        ),
+        decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.60)),
         child: SafeArea(
           child: Center(
             child: AnimatedBuilder(
@@ -113,27 +106,27 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
                   child: ScaleTransition(scale: _scaleAnimation, child: child),
                 );
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // App Logo/Icon
-                  _buildLogo(theme),
-                  const SizedBox(height: 24),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // App Logo
+                    _buildLogo(),
+                    const SizedBox(height: 22),
 
-                  // App Name
-                  _buildAppName(theme),
-                  const SizedBox(height: 8),
+                    // App Name and Tagline
+                    _buildAppInfo(),
 
-                  // Tagline
-                  _buildTagline(theme),
-                  const SizedBox(height: 48),
+                    const SizedBox(height: 48),
 
-                  // Loading indicator or error
-                  if (state.error != null)
-                    _buildError(theme, state.error!)
-                  else
-                    _buildLoadingIndicator(theme),
-                ],
+                    // Loading indicator or error
+                    if (state.error != null)
+                      _buildError(theme, state.error!)
+                    else
+                      _buildLoadingIndicator(theme),
+                  ],
+                ),
               ),
             ),
           ),
@@ -142,63 +135,78 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
     );
   }
 
-  Widget _buildLogo(ThemeData theme) {
+  Widget _buildLogo() {
     return Container(
-      width: 120,
-      height: 120,
+      width: 68,
+      height: 70,
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.2),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+        image: const DecorationImage(
+          image: AssetImage('assets/icons/app_logo.png'),
+          fit: BoxFit.fill,
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      // Fallback icon if image is not available
+      child: const Icon(Icons.local_taxi_rounded, size: 48, color: Colors.white),
+    );
+  }
+
+  Widget _buildAppInfo() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // App Name
+        const SizedBox(
+          width: 296,
+          child: Text(
+            'Fast Taxi',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 40,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w700,
+            ),
           ),
-        ],
-      ),
-      child: Icon(Icons.flash_on_rounded, size: 64, color: theme.colorScheme.primary),
-    );
-  }
-
-  Widget _buildAppName(ThemeData theme) {
-    return Text(
-      F.title,
-      style: theme.textTheme.headlineLarge?.copyWith(
-        color: theme.colorScheme.onPrimary,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 1.5,
-      ),
-    );
-  }
-
-  Widget _buildTagline(ThemeData theme) {
-    return Text(
-      'Your amazing app tagline',
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
-      ),
+        ),
+        const SizedBox(height: 8),
+        // Tagline
+        SizedBox(
+          width: 296,
+          child: Text(
+            "Reliable rides, anytime, anywhere. Let's get you moving.",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: const Color(0xFFFAFAFA).withValues(alpha: 0.9),
+              fontSize: 16,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              height: 1.50,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildLoadingIndicator(ThemeData theme) {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           width: 32,
           height: 32,
           child: CircularProgressIndicator(
             strokeWidth: 3,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              theme.colorScheme.onPrimary.withValues(alpha: 0.8),
-            ),
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
         const SizedBox(height: 16),
         Text(
           'Loading...',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onPrimary.withValues(alpha: 0.7),
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.7),
+            fontSize: 14,
+            fontFamily: 'Poppins',
           ),
         ),
       ],
@@ -208,13 +216,13 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
   Widget _buildError(ThemeData theme, String error) {
     return Column(
       children: [
-        Icon(Icons.error_outline_rounded, size: 48, color: theme.colorScheme.error),
+        const Icon(Icons.error_outline_rounded, size: 48, color: Colors.white),
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Text(
             error,
-            style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onPrimary),
+            style: const TextStyle(color: Colors.white, fontSize: 14, fontFamily: 'Poppins'),
             textAlign: TextAlign.center,
           ),
         ),
@@ -226,8 +234,9 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
           icon: const Icon(Icons.refresh_rounded),
           label: const Text('Retry'),
           style: ElevatedButton.styleFrom(
-            backgroundColor: theme.colorScheme.surface,
-            foregroundColor: theme.colorScheme.primary,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),
         ),
       ],

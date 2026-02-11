@@ -65,6 +65,10 @@ abstract class Routes {
   static const String verifyPhone = '/auth/verify-phone';
   static const String verifyPhoneName = 'verifyPhone';
 
+  /// Select Login or Signup page (A.5)
+  static const String selectLoginSignup = '/auth/select-login-signup';
+  static const String selectLoginSignupName = 'selectLoginSignup';
+
   /// Role selection page (Consumer/Driver/Company)
   static const String roleSelection = '/auth/role-selection';
   static const String roleSelectionName = 'roleSelection';
@@ -267,6 +271,10 @@ abstract class Routes {
   static const String driverRegister = '/driver/auth/register';
   static const String driverRegisterName = 'driverRegister';
 
+  /// Driver forgot password
+  static const String driverForgotPassword = '/driver/auth/forgot-password';
+  static const String driverForgotPasswordName = 'driverForgotPassword';
+
   /// Driver reset password
   static const String driverResetPassword = '/driver/auth/reset-password';
   static const String driverResetPasswordName = 'driverResetPassword';
@@ -407,6 +415,14 @@ abstract class Routes {
   /// Company registration
   static const String companyRegister = '/company/auth/register';
   static const String companyRegisterName = 'companyRegister';
+
+  /// Company forgot password
+  static const String companyForgotPassword = '/company/auth/forgot-password';
+  static const String companyForgotPasswordName = 'companyForgotPassword';
+
+  /// Company reset password
+  static const String companyResetPassword = '/company/auth/reset-password';
+  static const String companyResetPasswordName = 'companyResetPassword';
 
   // Company Dashboard
   /// Company main dashboard
@@ -588,10 +604,15 @@ abstract class Routes {
       roleSelection,
       languageSelection,
       verifyPhone,
+      selectLoginSignup,
       driverLogin,
       driverRegister,
+      driverForgotPassword,
+      driverResetPassword,
       companyLogin,
       companyRegister,
+      companyForgotPassword,
+      companyResetPassword,
     };
     return !publicRoutes.contains(route);
   }
@@ -629,6 +650,7 @@ abstract class Routes {
     resetPassword => 'Reset Password',
     verifyEmail => 'Verify Email',
     verifyPhone => 'Verify Phone',
+    selectLoginSignup => 'Get Started',
     languageSelection => 'Language Selection',
     onboarding => 'Onboarding',
 
@@ -663,6 +685,8 @@ abstract class Routes {
     // Driver routes
     driverLogin => 'Driver Login',
     driverRegister => 'Driver Registration',
+    driverForgotPassword => 'Driver Forgot Password',
+    driverResetPassword => 'Driver Reset Password',
     driverHome => 'Driver Home',
     driverEarnings => 'Earnings',
     weeklyEarnings => 'Weekly Earnings',
@@ -680,6 +704,9 @@ abstract class Routes {
 
     // Company routes
     companyLogin => 'Company Login',
+    companyRegister => 'Company Registration',
+    companyForgotPassword => 'Company Forgot Password',
+    companyResetPassword => 'Company Reset Password',
     companyDashboard => 'Dashboard',
     companyAnalytics => 'Analytics',
     fleetOverview => 'Fleet',

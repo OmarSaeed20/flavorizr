@@ -1,23 +1,19 @@
 // lib/features/auth/presentation/pages/login_page.dart
-import 'dart:io';
-
 import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/controllers/login_controller.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/providers/auth_providers.dart';
-import 'package:fast_golden_taxi/features/user/auth/presentation/widgets/social_login_buttons.dart';
-import 'package:fast_golden_taxi/shared/presentation/widgets/buttons/app_button.dart';
-import 'package:fast_golden_taxi/shared/presentation/widgets/inputs/app_text_field.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_design_constants.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_scaffold.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/phone_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Login page for phone/password and social authentication.
+/// Login page (Figma-accurate).
 ///
-/// Features:
-/// - Phone/password login form
-/// - Google and Apple sign-in
-/// - Biometric authentication (if available)
-/// - Links to register and forgot password
+/// Layout:
+/// - White AppBar with back arrow + "Login" title
+/// - Background #F2F2F2 with centered logo card
+/// - Bottom sheet with phone input, password input, Login button, footer link
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -26,7 +22,6 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _phoneFocusNode = FocusNode();
@@ -42,42 +37,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _handleLogin() async {
-    context.go(Routes.home);
-    // if (_formKey.currentState?.validate() ?? false) {
-    //   final result = await ref.read(loginControllerProvider.notifier).login();
-
-    //   if (result != null && mounted) {
-    //     // Navigate to home on success
-    //     context.go(Routes.home);
-    //   }
-    // }
-  }
-
-  Future<void> _handleGoogleSignIn() async {
-    final result = await ref
-        .read(loginControllerProvider.notifier)
-        .signInWithGoogle();
-
-    if (result != null && mounted) {
-      context.go(Routes.home);
-    }
-  }
-
-  Future<void> _handleAppleSignIn() async {
-    final result = await ref
-        .read(loginControllerProvider.notifier)
-        .signInWithApple();
-
-    if (result != null && mounted) {
-      context.go(Routes.home);
-    }
-  }
-
-  Future<void> _handleBiometricSignIn() async {
-    final result = await ref
-        .read(loginControllerProvider.notifier)
-        .signInWithBiometrics();
-
+    final result = await ref.read(loginControllerProvider.notifier).login();
     if (result != null && mounted) {
       context.go(Routes.home);
     }
@@ -85,236 +45,65 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final state = ref.watch(loginControllerProvider);
-    final biometricAvailable = ref.watch(biometricAvailableProvider);
-    final biometricEnabled = ref.watch(biometricEnabledProvider);
 
-    // Get biometric values safely
-    final isBiometricAvailable = biometricAvailable.when(
-      data: (value) => value,
-      loading: () => false,
-      error: (_, __) => false,
-    );
-    final isBiometricEnabled = biometricEnabled.when(
-      data: (value) => value,
-      loading: () => false,
-      error: (_, __) => false,
-    );
+    return AuthScaffold(
+      appBarTitle: 'Login',
+      body: Column(
+        children: [
+          // ── Logo card area ──
+          const Expanded(child: Center(child: AuthLogoCard())),
 
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Logo/Icon
-                    Icon(
-                      Icons.lock_outline,
-                      size: 64,
-                      color: theme.colorScheme.primary,
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Title
-                    Text(
-                      'Welcome Back',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-
-                    // Subtitle
-                    Text(
-                      'Sign in to continue',
-                      style: theme.textTheme.bodyLarge?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 32),
-
-                    // Error message
-                    if (state.errorMessage != null) ...[
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.errorContainer,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.error_outline,
-                              color: theme.colorScheme.error,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                state.errorMessage!,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: theme.colorScheme.onErrorContainer,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-
-                    // Phone field
-                    AppTextField(
-                      controller: _phoneController,
-                      focusNode: _phoneFocusNode,
-                      label: 'Phone',
-                      hint: 'Enter your phone number',
-                      errorText: state.phoneError,
-                      enabled: !state.isAnyLoading,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.phone,
-                      onChanged: (value) => ref
-                          .read(loginControllerProvider.notifier)
-                          .setPhone(value),
-                      onSubmitted: (_) => _passwordFocusNode.requestFocus(),
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Password field
-                    PasswordTextField(
-                      controller: _passwordController,
-                      focusNode: _passwordFocusNode,
-                      label: 'Password',
-                      hint: 'Enter your password',
-                      errorText: state.passwordError,
-                      isVisible: state.showPassword,
-                      enabled: !state.isAnyLoading,
-                      textInputAction: TextInputAction.done,
-                      autofillHints: const [AutofillHints.password],
-                      onToggleVisibility: () => ref
-                          .read(loginControllerProvider.notifier)
-                          .togglePasswordVisibility(),
-                      onChanged: (value) => ref
-                          .read(loginControllerProvider.notifier)
-                          .setPassword(value),
-                      onSubmitted: (_) => _handleLogin(),
-                    ),
-                    const SizedBox(height: 8),
-
-                    // Remember me & Forgot password row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Remember me checkbox
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: Checkbox(
-                                value: state.rememberMe,
-                                onChanged: state.isAnyLoading
-                                    ? null
-                                    : (_) => ref
-                                          .read(
-                                            loginControllerProvider.notifier,
-                                          )
-                                          .toggleRememberMe(),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Remember me',
-                              style: theme.textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-
-                        // Forgot password link
-                        TextButton(
-                          onPressed: state.isAnyLoading
-                              ? null
-                              : () => context.push(Routes.forgotPassword),
-                          child: const Text('Forgot password?'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Login button
-                    AppButton.primary(
-                      onPressed: state.isAnyLoading ? null : _handleLogin,
-                      text: 'Sign In',
-                      isLoading: state.isLoading,
-                      loadingText: 'Signing in...',
-                      width: double.infinity,
-                    ),
-
-                    // Biometric button (if available and enabled)
-                    if (isBiometricAvailable && isBiometricEnabled) ...[
-                      const SizedBox(height: 12),
-                      AppButton.outlined(
-                        onPressed: state.isAnyLoading
-                            ? null
-                            : _handleBiometricSignIn,
-                        text: 'Sign in with Biometrics',
-                        icon: Icon(
-                          Platform.isIOS ? Icons.face : Icons.fingerprint,
-                        ),
-                        isLoading: state.isBiometricLoading,
-                      ),
-                    ],
-
-                    // OR divider
-                    const OrDivider(),
-
-                    // Social login buttons
-                    SocialLoginButtons(
-                      onGooglePressed: state.isAnyLoading
-                          ? null
-                          : _handleGoogleSignIn,
-                      onApplePressed: state.isAnyLoading
-                          ? null
-                          : _handleAppleSignIn,
-                      isGoogleLoading: state.isGoogleLoading,
-                      isAppleLoading: state.isAppleLoading,
-                    ),
-
-                    const SizedBox(height: 32),
-
-                    // Register link
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account? ",
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                        TextButton(
-                          onPressed: state.isAnyLoading
-                              ? null
-                              : () => context.push(Routes.register),
-                          child: const Text('Sign Up'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          // ── Bottom sheet ──
+          AuthBottomSheet(
+            padding: AuthDesignConstants.sheetPaddingExtended,
+            spacing: 24,
+            children: [
+              // Phone number field
+              PhoneInputField(
+                controller: _phoneController,
+                focusNode: _phoneFocusNode,
+                label: 'Phone number',
+                hintText: '135 153 968 312 025',
+                errorText: state.phoneError,
+                enabled: !state.isAnyLoading,
+                textInputAction: TextInputAction.next,
+                onChanged: (value) => ref.read(loginControllerProvider.notifier).setPhone(value),
+                onSubmitted: (_) => _passwordFocusNode.requestFocus(),
               ),
-            ),
+
+              // Password field
+              AuthPasswordField(
+                controller: _passwordController,
+                focusNode: _passwordFocusNode,
+                label: 'Password',
+                hintText: 'Enter your password',
+                errorText: state.passwordError,
+                isVisible: state.showPassword,
+                enabled: !state.isAnyLoading,
+                textInputAction: TextInputAction.done,
+                onToggleVisibility: () =>
+                    ref.read(loginControllerProvider.notifier).togglePasswordVisibility(),
+                onChanged: (value) => ref.read(loginControllerProvider.notifier).setPassword(value),
+                onSubmitted: (_) => _handleLogin(),
+              ),
+
+              // Login button
+              AuthPrimaryButton(
+                text: 'Login ',
+                isLoading: state.isLoading,
+                onPressed: _handleLogin,
+              ),
+
+              // Footer link
+              AuthFooterLink(
+                text: "Don't have an account? ",
+                actionText: 'Sign Up',
+                onPressed: () => context.push(Routes.register),
+              ),
+            ],
           ),
-        ),
+        ],
       ),
     );
   }

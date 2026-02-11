@@ -19,8 +19,7 @@ abstract class OnboardingLocalDataSource {
 
 /// Implementation of [OnboardingLocalDataSource].
 class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
-  const OnboardingLocalDataSourceImpl({required SharedPreferences prefs})
-    : _prefs = prefs;
+  const OnboardingLocalDataSourceImpl({required SharedPreferences prefs}) : _prefs = prefs;
 
   final SharedPreferences _prefs;
 
@@ -33,31 +32,31 @@ class OnboardingLocalDataSourceImpl implements OnboardingLocalDataSource {
     return const [
       OnboardingPageModel(
         id: 'welcome',
-        title: 'Welcome to Flavorizr',
+        title: 'Welcome to Fast Taxi',
         description:
-            'Your all-in-one solution for building amazing Flutter apps with flavors and environment configurations.',
+            "Your go-to app for fast, reliable rides. Whether you're heading to work, the airport, or out for a night on the town, we've got you covered",
         imagePath: 'assets/images/onboarding/welcome.png',
       ),
       OnboardingPageModel(
-        id: 'features',
-        title: 'Powerful Features',
+        id: 'trip_booking',
+        title: 'Seamless Trip Booking',
         description:
-            'Multi-environment support, secure authentication, push notifications, and much more built right in.',
-        imagePath: 'assets/images/onboarding/features.png',
+            'Plan and book your trips effortlessly. Choose your destination, select travel dates, and confirm your booking with just a few taps',
+        imagePath: 'assets/images/onboarding/trip_booking.png',
       ),
       OnboardingPageModel(
-        id: 'security',
-        title: 'Secure & Reliable',
+        id: 'vehicle_rentals',
+        title: 'Flexible Vehicle Rentals',
         description:
-            'Built with security best practices including biometric authentication, encrypted storage, and secure API communication.',
-        imagePath: 'assets/images/onboarding/security.png',
+            'Rent the perfect vehicle for your needs. From Bikes to private cars, find and book a rental car that suits your trip and budget',
+        imagePath: 'assets/images/onboarding/vehicle_rentals.png',
       ),
       OnboardingPageModel(
-        id: 'ready',
-        title: 'Ready to Start?',
+        id: 'advertisements',
+        title: 'Add and View Advertisements',
         description:
-            'Create your account or sign in to get started on your journey.',
-        imagePath: 'assets/images/onboarding/ready.png',
+            'Promote your services or browse for deals. Easily add your own advertisements or explore a range of ads to find what interests you',
+        imagePath: 'assets/images/onboarding/advertisements.png',
       ),
     ];
   }

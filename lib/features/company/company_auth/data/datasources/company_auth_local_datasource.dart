@@ -29,10 +29,7 @@ class CompanyAuthLocalDataSource {
   /// Save auth tokens
   Future<void> saveTokens(AuthTokens tokens) async {
     await _secureStorage.write(key: _accessTokenKey, value: tokens.accessToken);
-    await _secureStorage.write(
-      key: _refreshTokenKey,
-      value: tokens.refreshToken,
-    );
+    await _secureStorage.write(key: _refreshTokenKey, value: tokens.refreshToken);
   }
 
   /// Get access token
@@ -49,9 +46,14 @@ class CompanyAuthLocalDataSource {
   Future<AuthTokens?> getTokens() async {
     final accessToken = await getAccessToken();
     final refreshToken = await getRefreshToken();
-
+    // get accessTokenExpiresAt from accessToken
+    final accessTokenExpiresAt = DateTime.now().add(const Duration(hours: 1));
     if (accessToken != null && refreshToken != null) {
-      return AuthTokens(accessToken: accessToken, refreshToken: refreshToken);
+      return AuthTokens(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        accessTokenExpiresAt: accessTokenExpiresAt,
+      );
     }
     return null;
   }
