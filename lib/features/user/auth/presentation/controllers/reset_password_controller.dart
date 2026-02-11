@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ResetPasswordState {
   const ResetPasswordState({
     this.token = '',
+    this.phone = '',
+    this.otp = '',
     this.newPassword = '',
     this.confirmPassword = '',
     this.isLoading = false,
@@ -20,6 +22,8 @@ class ResetPasswordState {
   });
 
   final String token;
+  final String phone;
+  final String otp;
   final String newPassword;
   final String confirmPassword;
   final bool isLoading;
@@ -33,6 +37,8 @@ class ResetPasswordState {
 
   ResetPasswordState copyWith({
     String? token,
+    String? phone,
+    String? otp,
     String? newPassword,
     String? confirmPassword,
     bool? isLoading,
@@ -48,13 +54,13 @@ class ResetPasswordState {
   }) {
     return ResetPasswordState(
       token: token ?? this.token,
+      phone: phone ?? this.phone,
+      otp: otp ?? this.otp,
       newPassword: newPassword ?? this.newPassword,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isLoading: isLoading ?? this.isLoading,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
-      passwordError: clearFieldErrors
-          ? null
-          : passwordError ?? this.passwordError,
+      passwordError: clearFieldErrors ? null : passwordError ?? this.passwordError,
       confirmPasswordError: clearFieldErrors
           ? null
           : confirmPasswordError ?? this.confirmPasswordError,
@@ -79,6 +85,16 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
     return const ResetPasswordState();
   }
 
+  /// Sets the phone number (for forgot password flow).
+  void setPhone(String phone) {
+    state = state.copyWith(phone: phone);
+  }
+
+  /// Sets the OTP code (for forgot password flow).
+  void setOtp(String otp) {
+    state = state.copyWith(otp: otp);
+  }
+
   /// Sets the reset token (from URL parameters).
   void setToken(String token) {
     state = state.copyWith(token: token);
@@ -97,11 +113,7 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
 
   /// Updates the confirm password field.
   void setConfirmPassword(String password) {
-    state = state.copyWith(
-      confirmPassword: password,
-      clearError: true,
-      clearFieldErrors: true,
-    );
+    state = state.copyWith(confirmPassword: password, clearError: true, clearFieldErrors: true);
   }
 
   /// Toggles new password visibility.
@@ -147,11 +159,9 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
     String? passwordError;
     String? confirmPasswordError;
 
-    // Validate token
-    if (state.token.isEmpty) {
-      state = state.copyWith(
-        errorMessage: 'Invalid reset link. Please request a new one.',
-      );
+    // Validate token OR phone+otp
+    if (state.token.isEmpty && (state.phone.isEmpty || state.otp.isEmpty)) {
+      state = state.copyWith(errorMessage: 'Invalid reset link. Please request a new one.');
       return false;
     }
 
@@ -205,10 +215,7 @@ class ResetPasswordController extends AutoDisposeNotifier<ResetPasswordState> {
       );
 
       if (result.error != null) {
-        state = state.copyWith(
-          isLoading: false,
-          errorMessage: result.error!.message,
-        );
+        state = state.copyWith(isLoading: false, errorMessage: result.error!.message);
         return false;
       }
 

@@ -330,6 +330,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get phoneNumberHint => 'Enter your phone number';
 
   @override
+  String get enterPhoneNumber => 'Enter your phone number';
+
+  @override
   String get phoneNumberRequired => 'Phone number is required';
 
   @override
@@ -359,6 +362,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordHint => 'Enter your password';
 
   @override
+  String get enterPassword => 'Enter your password';
+
+  @override
   String get passwordRequired => 'Password is required';
 
   @override
@@ -366,6 +372,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login => 'Login';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get enterNewPassword => 'Enter new password';
+
+  @override
+  String get confirmNewPassword => 'Confirm new password';
+
+  @override
+  String get passwordResetSuccess => 'Password reset successfully!';
 
   @override
   String get loginWithBiometric => 'Login with Biometric';
@@ -520,4 +538,191 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get createAccountSubtitle => 'Fill in your details to get started';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get nameHint => 'Enter your name';
+
+  @override
+  String get enterName => 'Enter your name';
+
+  @override
+  String get fullName => 'Full Name';
+
+  @override
+  String get fullNameHint => 'Enter your full name';
+
+  @override
+  String get enterFullName => 'Enter your full name';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get emailHint => 'Enter your email address';
+
+  @override
+  String get enterEmailAddress => 'Enter your email address';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get confirmPasswordHint => 'Confirm your password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get newPasswordHint => 'Enter new password';
+
+  @override
+  String get createPassword => 'Create a password';
+
+  @override
+  String get passwordRequirements =>
+      '8+ characters, uppercase, lowercase, and a number';
+
+  @override
+  String get agreeToTerms => 'I agree to the ';
+
+  @override
+  String get termsAndConditions => 'Terms & Conditions';
+
+  @override
+  String get termsConditions => 'Terms & Conditions';
+
+  @override
+  String get and => ' and ';
+
+  @override
+  String get sendVerificationCode => 'Send Verification Code';
+
+  @override
+  String get rememberPassword => 'Remember your password? ';
+
+  @override
+  String get resetPasswordTitle => 'Reset Password';
+
+  @override
+  String get resetPasswordSubtitle => 'Create a new password for your account.';
+
+  @override
+  String get resetPasswordDescription =>
+      'Create a new password for your account.';
+
+  @override
+  String get resetPasswordSuccess => 'Password reset successfully!';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get forgotPasswordTitle => 'Forgot Password';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Enter your phone number and we will send you a verification code to reset your password.';
+
+  @override
+  String get forgotPasswordDescription =>
+      'Enter your phone number and we will send you a verification code to reset your password.';
+
+  @override
+  String get nationalId => 'National ID';
+
+  @override
+  String get nationalIdHint => 'Enter your national ID';
+
+  @override
+  String get enterNationalId => 'Enter your national ID';
+
+  @override
+  String get otpVerification => 'OTP Verification';
+
+  @override
+  String get otpSubtitle => 'Enter the 6-digit code sent to';
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get didntReceiveCode => 'Didn\'t receive a code? ';
+
+  @override
+  String get resend => 'Resend';
+
+  @override
+  String get selectAccountType => 'Select account type';
+
+  @override
+  String get selectAccountTypeSubtitle =>
+      'Choose if you are a driver or a company';
+
+  @override
+  String get customer => 'Customer';
+
+  @override
+  String get driver => 'Driver';
+
+  @override
+  String get company => 'Company';
+
+  @override
+  String get driverSignIn => 'Driver Sign In';
+
+  @override
+  String get driverRegistration => 'Driver Registration';
+
+  @override
+  String get companySignIn => 'Company Sign In';
+
+  @override
+  String get companyRegistration => 'Company Registration';
+
+  @override
+  String get nickname => 'Nickname';
+
+  @override
+  String get nicknameHint => 'Enter a nickname';
+
+  @override
+  String get enterCompanyName => 'Enter your company name';
+
+  @override
+  String get enterNickname => 'Enter a nickname';
+
+  @override
+  String get resetPasswordDriverDescription =>
+      'Create a new password for your driver account.';
+
+  @override
+  String get resetPasswordCompanyDescription =>
+      'Create a new password for your company account.';
+
+  @override
+  String get orContinueWith => 'Or continue with';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get continueWithApple => 'Continue with Apple';
 }

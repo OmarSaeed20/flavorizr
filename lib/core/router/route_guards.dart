@@ -128,13 +128,13 @@ class LanguageSelectionGuard extends RouteGuard {
   String? getRedirectPath(BuildContext context, GoRouterState state) => Routes.languageSelection;
 }
 
-/// Guard that checks if email is verified.
-class EmailVerificationGuard extends RouteGuard {
-  const EmailVerificationGuard({required this.isEmailVerified});
-  final Future<bool> Function() isEmailVerified;
+/// Guard that checks if phone is verified.
+class PhoneVerificationGuard extends RouteGuard {
+  const PhoneVerificationGuard({required this.isPhoneVerified});
+  final Future<bool> Function() isPhoneVerified;
 
   @override
-  Future<bool> canActivate(BuildContext context, GoRouterState state) async => isEmailVerified();
+  Future<bool> canActivate(BuildContext context, GoRouterState state) async => isPhoneVerified();
 
   @override
   String? getRedirectPath(BuildContext context, GoRouterState state) => Routes.verifyPhone;

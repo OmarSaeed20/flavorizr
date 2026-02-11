@@ -420,6 +420,10 @@ abstract class Routes {
   static const String companyResetPassword = '/company/auth/reset-password';
   static const String companyResetPasswordName = 'companyResetPassword';
 
+  /// Company verify phone
+  static const String companyVerifyPhone = '/company/auth/verify-phone';
+  static const String companyVerifyPhoneName = 'companyVerifyPhone';
+
   // Company Dashboard
   /// Company main dashboard
   static const String companyDashboard = '/company/dashboard';
@@ -605,10 +609,12 @@ abstract class Routes {
       driverRegister,
       driverForgotPassword,
       driverResetPassword,
+      driverVerifyPhone,
       companyLogin,
       companyRegister,
       companyForgotPassword,
       companyResetPassword,
+      companyVerifyPhone,
     };
     return !publicRoutes.contains(route);
   }

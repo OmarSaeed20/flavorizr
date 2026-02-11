@@ -1,5 +1,6 @@
 // lib/features/auth/domain/entities/user.dart
 import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user_role.dart';
 
 /// Represents an authenticated user in the domain layer.
 ///
@@ -20,7 +21,7 @@ class User {
     this.phoneVerified = false,
     this.isActive = true,
     this.lastLoginAt,
-    this.roles = const ['user'],
+    this.role = UserRole.user,
     this.metadata = const {},
   });
 
@@ -36,10 +37,8 @@ class User {
       phoneVerified: map['phoneVerified'] as bool? ?? false,
       isActive: map['isActive'] as bool? ?? true,
       createdAt: DateTime.parse(map['createdAt'] as String),
-      lastLoginAt: map['lastLoginAt'] != null
-          ? DateTime.parse(map['lastLoginAt'] as String)
-          : null,
-      roles: List<String>.from(map['roles'] as List? ?? ['user']),
+      lastLoginAt: map['lastLoginAt'] != null ? DateTime.parse(map['lastLoginAt'] as String) : null,
+      role: UserRole.fromString(map['role'] as String) ?? UserRole.user,
       metadata: Map<String, dynamic>.from(map['metadata'] as Map? ?? {}),
     );
   }
@@ -75,16 +74,13 @@ class User {
   final DateTime? lastLoginAt;
 
   /// List of roles assigned to the user.
-  final List<String> roles;
+  final UserRole role;
 
   /// Additional metadata about the user.
   final Map<String, dynamic> metadata;
 
   /// Returns true if the user has admin privileges.
-  bool get isAdmin => roles.contains('admin');
-
-  /// Returns true if the user is a moderator.
-  bool get isModerator => roles.contains('moderator') || isAdmin;
+  bool get isAdmin => role == UserRole.company;
 
   /// Returns true if the user has a verified account.
   bool get isVerified => emailVerified || phoneVerified;
@@ -114,7 +110,7 @@ class User {
     bool? isActive,
     DateTime? createdAt,
     DateTime? lastLoginAt,
-    List<String>? roles,
+    UserRole? role,
     Map<String, dynamic>? metadata,
   }) {
     return User(
@@ -128,7 +124,7 @@ class User {
       isActive: isActive ?? this.isActive,
       createdAt: createdAt ?? this.createdAt,
       lastLoginAt: lastLoginAt ?? this.lastLoginAt,
-      roles: roles ?? this.roles,
+      role: role ?? this.role,
       metadata: metadata ?? this.metadata,
     );
   }
@@ -160,7 +156,7 @@ class User {
       'isActive': isActive,
       'createdAt': createdAt.toIso8601String(),
       'lastLoginAt': lastLoginAt?.toIso8601String(),
-      'roles': roles,
+      'role': role.value,
       'metadata': metadata,
     };
   }

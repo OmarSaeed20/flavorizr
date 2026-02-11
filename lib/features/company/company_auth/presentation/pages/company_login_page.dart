@@ -1,19 +1,16 @@
-// lib/features/company/company_auth/presentation/pages/company_login_page.dart
-import 'package:fast_golden_taxi/core/theme/app_colors.dart';
-import 'package:fast_golden_taxi/core/theme/app_text_styles.dart';
+import 'package:fast_golden_taxi/core/router/routes.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/data/parameters/company_login_parameters.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/controllers/company_auth_controller.dart';
 import 'package:fast_golden_taxi/features/company/company_auth/presentation/providers/company_auth_providers.dart';
-import 'package:fast_golden_taxi/features/company/company_auth/presentation/widgets/company_phone_input_widget.dart';
-import 'package:fast_golden_taxi/shared/widgets/loading_overlay.dart';
+import 'package:fast_golden_taxi/l10n/app_localizations.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_design_constants.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_scaffold.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/phone_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-/// Company Login Page
-///
-/// Login page for company accounts.
-/// Supports phone number and password authentication.
+/// Company Admin Login page (Figma-accurate).
 class CompanyLoginPage extends ConsumerStatefulWidget {
   const CompanyLoginPage({super.key});
 
@@ -22,53 +19,59 @@ class CompanyLoginPage extends ConsumerStatefulWidget {
 }
 
 class _CompanyLoginPageState extends ConsumerState<CompanyLoginPage> {
-  final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _phoneIsoCodeController = TextEditingController(text: 'EG');
+  final _phoneFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
   bool _obscurePassword = true;
-  bool _rememberMe = false;
 
   @override
   void dispose() {
     _phoneController.dispose();
     _passwordController.dispose();
-    _phoneIsoCodeController.dispose();
+    _phoneFocusNode.dispose();
+    _passwordFocusNode.dispose();
     super.dispose();
   }
 
   Future<void> _handleLogin() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+    final phone = _phoneController.text.trim();
+    final password = _passwordController.text;
+    if (phone.isEmpty || password.isEmpty) return;
 
-    final parameters = CompanyLoginParameters(
-      phone: _phoneController.text.trim(),
-      phoneIsoCode: _phoneIsoCodeController.text.trim(),
-      password: _passwordController.text,
-      firebaseToken: 'firebase_token_placeholder', // TODO: Get from Firebase
+    final params = CompanyLoginParameters(
+      phone: phone,
+      phoneIsoCode: 'EG',
+      password: password,
+      firebaseToken: '',
     );
 
-    await ref.read(companyAuthControllerProvider.notifier).login(parameters);
+    await ref.read(companyAuthControllerProvider.notifier).login(params);
+
+    if (mounted) {
+      final state = ref.read(companyAuthControllerProvider);
+      state.maybeWhen(
+        authenticated: () {
+          context.go(Routes.companyDashboard);
+        },
+        orElse: () {},
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(companyAuthControllerProvider);
+    final state = ref.watch(companyAuthControllerProvider);
+    final isLoading = state.maybeWhen(loading: () => true, orElse: () => false);
+    final l10n = AppLocalizations.of(context)!;
 
-    ref.listen<CompanyAuthState>(companyAuthControllerProvider, (
-      previous,
-      next,
-    ) {
+    ref.listen(companyAuthControllerProvider, (previous, next) {
       next.maybeWhen(
-        authenticated: () {
-          context.go('/company/home');
-        },
-        error: (error) {
+        error: (exception) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(error.message),
-              backgroundColor: AppColors.of(context).error,
+              content: Text(exception.toString()),
+              backgroundColor: AuthDesignConstants.error,
             ),
           );
         },
@@ -76,165 +79,77 @@ class _CompanyLoginPageState extends ConsumerState<CompanyLoginPage> {
       );
     });
 
-    final isLoading = authState.maybeWhen(
-      loading: () => true,
-      orElse: () => false,
-    );
-
-    return Scaffold(
-      body: Stack(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 48),
-                    // Logo
-                    Center(
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: AppColors.of(context).primary,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Icon(
-                          Icons.business,
-                          size: 60,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    // Title
-                    Text(
-                      'Company Login',
-                      style: AppTextStyles.of(context).headlineLarge,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Welcome back! Login to manage your fleet',
-                      style: AppTextStyles.of(context).bodyMedium.copyWith(
-                        color: AppColors.of(context).textSecondary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 48),
-                    // Phone Input
-                    CompanyPhoneInputWidget(
-                      phoneController: _phoneController,
-                      phoneIsoCodeController: _phoneIsoCodeController,
-                    ),
-                    const SizedBox(height: 24),
-                    // Password Input
-                    TextFormField(
-                      controller: _passwordController,
-                      obscureText: _obscurePassword,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        hintText: 'Enter your password',
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _obscurePassword = !_obscurePassword;
-                            });
-                          },
-                        ),
-                        border: const OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    // Remember Me & Forgot Password
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: _rememberMe,
-                          onChanged: (value) {
-                            setState(() {
-                              _rememberMe = value ?? false;
-                            });
-                          },
-                        ),
-                        const Text('Remember me'),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            context.push('/company/forgot-password');
-                          },
-                          child: const Text('Forgot Password?'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    // Login Button
-                    ElevatedButton(
-                      onPressed: _handleLogin,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+    return AuthScaffold(
+      appBarTitle: l10n.companySignIn,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(AuthDesignConstants.cardBorderRadius),
+              ),
+              child: Column(
+                children: [
+                  PhoneInputField(
+                    controller: _phoneController,
+                    focusNode: _phoneFocusNode,
+                    label: l10n.phone,
+                    hintText: l10n.enterPhoneNumber,
+                    enabled: !isLoading,
+                    textInputAction: TextInputAction.next,
+                    onSubmitted: (_) => _passwordFocusNode.requestFocus(),
+                  ),
+                  const SizedBox(height: 16),
+                  AuthPasswordField(
+                    controller: _passwordController,
+                    focusNode: _passwordFocusNode,
+                    label: l10n.password,
+                    hintText: l10n.enterPassword,
+                    isVisible: !_obscurePassword,
+                    enabled: !isLoading,
+                    textInputAction: TextInputAction.done,
+                    onToggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
+                    onSubmitted: (_) => _handleLogin(),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: isLoading ? null : () => context.go(Routes.companyForgotPassword),
+                      child: Text(
+                        l10n.forgotPassword,
+                        style: const TextStyle(
+                          color: AuthDesignConstants.primary,
+                          fontSize: 12,
+                          fontFamily: AuthDesignConstants.fontBody,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    // Register Link
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account? ",
-                          style: AppTextStyles.of(context).bodyMedium,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.push('/company/register');
-                          },
-                          child: const Text('Register'),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    // Back to Role Selection
-                    TextButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      child: const Text('Back to Role Selection'),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 8),
+                  AuthPrimaryButton(
+                    text: l10n.signIn,
+                    isLoading: isLoading,
+                    onPressed: _handleLogin,
+                  ),
+                ],
               ),
             ),
-          ),
-          if (isLoading) const LoadingOverlay(),
-        ],
+            const SizedBox(height: 24),
+            Center(
+              child: AuthFooterLink(
+                text: '${l10n.dontHaveAccount} ',
+                actionText: l10n.signUp,
+                onPressed: () => context.go(Routes.companyRegister),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

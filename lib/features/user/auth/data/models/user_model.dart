@@ -1,5 +1,6 @@
 // lib/features/auth/data/models/user_model.dart
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/user.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user_role.dart';
 
 /// Data model for User, used for JSON serialization.
 ///
@@ -17,7 +18,7 @@ class UserModel {
     this.phoneVerified = false,
     this.isActive = true,
     this.lastLoginAt,
-    this.roles = const ['user'],
+    this.role = UserRole.user,
     this.metadata = const {},
   });
 
@@ -26,19 +27,11 @@ class UserModel {
     return UserModel(
       id: json['id'] as String? ?? json['uid'] as String,
       email: json['email'] as String,
-      displayName:
-          json['display_name'] as String? ?? json['displayName'] as String?,
+      displayName: json['display_name'] as String? ?? json['displayName'] as String?,
       photoUrl: json['photo_url'] as String? ?? json['photoUrl'] as String?,
-      phoneNumber:
-          json['phone_number'] as String? ?? json['phoneNumber'] as String?,
-      emailVerified:
-          json['email_verified'] as bool? ??
-          json['emailVerified'] as bool? ??
-          false,
-      phoneVerified:
-          json['phone_verified'] as bool? ??
-          json['phoneVerified'] as bool? ??
-          false,
+      phoneNumber: json['phone_number'] as String? ?? json['phoneNumber'] as String?,
+      emailVerified: json['email_verified'] as bool? ?? json['emailVerified'] as bool? ?? false,
+      phoneVerified: json['phone_verified'] as bool? ?? json['phoneVerified'] as bool? ?? false,
       isActive: json['is_active'] as bool? ?? json['isActive'] as bool? ?? true,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
@@ -50,7 +43,7 @@ class UserModel {
           : json['lastLoginAt'] != null
           ? DateTime.parse(json['lastLoginAt'] as String)
           : null,
-      roles: List<String>.from(json['roles'] as List? ?? ['user']),
+      role: UserRole.fromString(json['role'] as String) ?? UserRole.user,
       metadata: Map<String, dynamic>.from(json['metadata'] as Map? ?? {}),
     );
   }
@@ -67,7 +60,7 @@ class UserModel {
     isActive: entity.isActive,
     createdAt: entity.createdAt,
     lastLoginAt: entity.lastLoginAt,
-    roles: entity.roles,
+    role: entity.role,
     metadata: entity.metadata,
   );
 
@@ -76,6 +69,7 @@ class UserModel {
     if (apiUser is Map<String, dynamic>) {
       return UserModel.fromJson(apiUser);
     }
+    // ApiUser
     // Handle ApiUser object if it's a typed object
     return UserModel(
       id: apiUser.id?.toString() ?? '',
@@ -87,7 +81,7 @@ class UserModel {
       phoneVerified: true,
       createdAt: apiUser.createdAt ?? DateTime.now(),
       lastLoginAt: apiUser.updatedAt,
-      roles: ['user'],
+      role: UserRole.fromString(apiUser.role ?? '') ?? UserRole.user,
       metadata: {
         'nickname': apiUser.nickname,
         'country': apiUser.country,
@@ -111,7 +105,7 @@ class UserModel {
   final bool isActive;
   final DateTime createdAt;
   final DateTime? lastLoginAt;
-  final List<String> roles;
+  final UserRole role;
   final Map<String, dynamic> metadata;
 
   // Additional properties for compatibility with API responses
@@ -134,7 +128,7 @@ class UserModel {
       'is_active': isActive,
       'created_at': createdAt.toIso8601String(),
       'last_login_at': lastLoginAt?.toIso8601String(),
-      'roles': roles,
+      'role': role.value,
       'metadata': metadata,
     };
   }
@@ -151,7 +145,7 @@ class UserModel {
     isActive: isActive,
     createdAt: createdAt,
     lastLoginAt: lastLoginAt,
-    roles: roles,
+    role: role,
     metadata: metadata,
   );
 
@@ -167,7 +161,7 @@ class UserModel {
     bool? isActive,
     DateTime? createdAt,
     DateTime? lastLoginAt,
-    List<String>? roles,
+    UserRole? role,
     Map<String, dynamic>? metadata,
   }) {
     return UserModel(
@@ -181,7 +175,7 @@ class UserModel {
       isActive: isActive ?? this.isActive,
       createdAt: createdAt ?? this.createdAt,
       lastLoginAt: lastLoginAt ?? this.lastLoginAt,
-      roles: roles ?? this.roles,
+      role: role ?? this.role,
       metadata: metadata ?? this.metadata,
     );
   }

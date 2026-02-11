@@ -1,161 +1,162 @@
+import 'package:fast_golden_taxi/core/router/routes.dart';
+import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/controllers/driver_auth_controller.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/providers/driver_auth_providers.dart';
-import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/widgets/driver_password_input.dart';
-import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/widgets/driver_phone_input.dart';
+import 'package:fast_golden_taxi/l10n/app_localizations.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_design_constants.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_scaffold.dart';
+import 'package:fast_golden_taxi/shared/presentation/widgets/auth/phone_input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-/// Page for resetting driver password.
+/// Driver Reset Password page (Figma-accurate).
 class DriverResetPasswordPage extends ConsumerStatefulWidget {
-  const DriverResetPasswordPage({super.key});
+  final String? phone;
+  final String? otp;
+  const DriverResetPasswordPage({super.key, this.phone, this.otp});
 
   @override
-  ConsumerState<DriverResetPasswordPage> createState() =>
-      _DriverResetPasswordPageState();
+  ConsumerState<DriverResetPasswordPage> createState() => _DriverResetPasswordPageState();
 }
 
-class _DriverResetPasswordPageState
-    extends ConsumerState<DriverResetPasswordPage> {
-  final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController();
-  final _otpController = TextEditingController();
-  final _newPasswordController = TextEditingController();
+class _DriverResetPasswordPageState extends ConsumerState<DriverResetPasswordPage> {
+  final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _passwordFocusNode = FocusNode();
+  final _confirmPasswordFocusNode = FocusNode();
+
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
   @override
   void dispose() {
-    _phoneController.dispose();
-    _otpController.dispose();
-    _newPasswordController.dispose();
+    _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
     super.dispose();
   }
 
-  void _handleResetPassword() {
-    if (_formKey.currentState!.validate()) {
-      ref
-          .read(driverAuthControllerProvider.notifier)
-          .resetPassword(
-            code: _otpController.text,
-            phone: _phoneController.text,
-            password: _newPasswordController.text,
-            passwordConfirmation: _confirmPasswordController.text,
-          );
+  Future<void> _handleReset() async {
+    final l10n = AppLocalizations.of(context)!;
+    final password = _passwordController.text;
+    final confirm = _confirmPasswordController.text;
+    if (password.isEmpty || confirm.isEmpty) return;
+    if (password != confirm) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.passwordsDoNotMatch),
+          backgroundColor: AuthDesignConstants.error,
+        ),
+      );
+      return;
+    }
+
+    await ref
+        .read(driverAuthControllerProvider.notifier)
+        .resetPassword(
+          code: widget.otp ?? '',
+          phone: widget.phone ?? '',
+          password: password,
+          passwordConfirmation: confirm,
+        );
+
+    if (mounted) {
+      final state = ref.read(driverAuthControllerProvider);
+      if (state.error == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.passwordResetSuccess), backgroundColor: Colors.green),
+        );
+        context.go(Routes.driverLogin);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(driverAuthControllerProvider);
+    final isLoading = state.isLoading;
+    final l10n = AppLocalizations.of(context)!;
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Reset Password')),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 16),
-                const Icon(Icons.lock_reset, size: 80, color: Colors.blue),
-                const SizedBox(height: 24),
-                const Text(
-                  'Reset Password',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Enter your phone, OTP, and new password',
-                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32),
-                DriverPhoneInput(
-                  controller: _phoneController,
-                  enabled: !state.isLoading,
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _otpController,
-                  enabled: !state.isLoading,
-                  keyboardType: TextInputType.number,
-                  maxLength: 6,
-                  decoration: const InputDecoration(
-                    labelText: 'OTP',
-                    hintText: 'Enter 6-digit OTP',
-                    prefixIcon: Icon(Icons.sms),
-                    border: OutlineInputBorder(),
+    ref.listen<DriverAuthState>(driverAuthControllerProvider, (previous, next) {
+      if (next.error != null && next.error!.isNotEmpty && previous?.error != next.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error!), backgroundColor: AuthDesignConstants.error),
+        );
+      }
+    });
+
+    return AuthScaffold(
+      appBarTitle: l10n.resetPassword,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            Text(
+              l10n.resetPasswordDriverDescription,
+              style: const TextStyle(
+                color: AuthDesignConstants.textSecondary,
+                fontSize: 14,
+                fontFamily: AuthDesignConstants.fontBody,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(AuthDesignConstants.cardBorderRadius),
+              ),
+              child: Column(
+                children: [
+                  AuthPasswordField(
+                    controller: _passwordController,
+                    focusNode: _passwordFocusNode,
+                    label: l10n.newPassword,
+                    hintText: l10n.enterNewPassword,
+                    isVisible: !_obscurePassword,
+                    enabled: !isLoading,
+                    textInputAction: TextInputAction.next,
+                    onToggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
+                    onSubmitted: (_) => _confirmPasswordFocusNode.requestFocus(),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter OTP';
-                    }
-                    if (value.length != 6) {
-                      return 'OTP must be 6 digits';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                DriverPasswordInput(
-                  controller: _newPasswordController,
-                  enabled: !state.isLoading,
-                  labelText: 'New Password',
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  enabled: !state.isLoading,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Confirm Password',
-                    hintText: 'Confirm your new password',
-                    prefixIcon: Icon(Icons.lock),
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
-                    }
-                    if (value != _newPasswordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 24),
-                if (state.error != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
+                  const SizedBox(height: 4),
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: Text(
-                      state.error!,
-                      style: const TextStyle(color: Colors.red, fontSize: 14),
-                      textAlign: TextAlign.center,
+                      l10n.passwordRequirements,
+                      style: const TextStyle(
+                        color: AuthDesignConstants.textTertiary,
+                        fontSize: 10,
+                        fontFamily: AuthDesignConstants.fontBody,
+                      ),
                     ),
                   ),
-                ElevatedButton(
-                  onPressed: state.isLoading ? null : _handleResetPassword,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  const SizedBox(height: 16),
+                  AuthPasswordField(
+                    controller: _confirmPasswordController,
+                    focusNode: _confirmPasswordFocusNode,
+                    label: l10n.confirmPassword,
+                    hintText: l10n.confirmNewPassword,
+                    isVisible: !_obscureConfirm,
+                    enabled: !isLoading,
+                    textInputAction: TextInputAction.done,
+                    onToggleVisibility: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                    onSubmitted: (_) => _handleReset(),
                   ),
-                  child: state.isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('Reset Password'),
-                ),
-                const SizedBox(height: 16),
-                TextButton(
-                  onPressed: state.isLoading
-                      ? null
-                      : () {
-                          Navigator.pop(context);
-                        },
-                  child: const Text('Back to Login'),
-                ),
-              ],
+                  const SizedBox(height: 24),
+                  AuthPrimaryButton(
+                    text: l10n.resetPassword,
+                    isLoading: isLoading,
+                    onPressed: _handleReset,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

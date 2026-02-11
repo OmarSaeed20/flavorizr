@@ -329,6 +329,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phoneNumberHint => 'أدخل رقم هاتفك';
 
   @override
+  String get enterPhoneNumber => 'أدخل رقم هاتفك';
+
+  @override
   String get phoneNumberRequired => 'رقم الهاتف مطلوب';
 
   @override
@@ -358,6 +361,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get passwordHint => 'أدخل كلمة المرور';
 
   @override
+  String get enterPassword => 'أدخل كلمة المرور';
+
+  @override
   String get passwordRequired => 'كلمة المرور مطلوبة';
 
   @override
@@ -365,6 +371,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get login => 'تسجيل الدخول';
+
+  @override
+  String get resetPassword => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get enterNewPassword => 'أدخل كلمة مرور جديدة';
+
+  @override
+  String get confirmNewPassword => 'تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get passwordResetSuccess => 'تم إعادة تعيين كلمة المرور بنجاح!';
 
   @override
   String get loginWithBiometric => 'تسجيل الدخول بالبصمة';
@@ -519,4 +537,188 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get alreadyHaveAccount => 'لديك حساب بالفعل؟';
+
+  @override
+  String get signIn => 'تسجيل الدخول';
+
+  @override
+  String get signUp => 'إنشاء حساب';
+
+  @override
+  String get createAccount => 'إنشاء حساب';
+
+  @override
+  String get createAccountSubtitle => 'أدخل بياناتك للبدء';
+
+  @override
+  String get name => 'الاسم';
+
+  @override
+  String get nameHint => 'أدخل اسمك';
+
+  @override
+  String get enterName => 'أدخل اسمك';
+
+  @override
+  String get fullName => 'الاسم الكامل';
+
+  @override
+  String get fullNameHint => 'أدخل اسمك الكامل';
+
+  @override
+  String get enterFullName => 'أدخل اسمك الكامل';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get emailHint => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get enterEmailAddress => 'أدخل بريدك الإلكتروني';
+
+  @override
+  String get phone => 'الهاتف';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get confirmPasswordHint => 'أكد كلمة المرور';
+
+  @override
+  String get newPassword => 'كلمة مرور جديدة';
+
+  @override
+  String get newPasswordHint => 'أدخل كلمة مرور جديدة';
+
+  @override
+  String get createPassword => 'أنشئ كلمة مرور';
+
+  @override
+  String get passwordRequirements => '٨ أحرف على الأقل، حروف كبيرة وصغيرة ورقم';
+
+  @override
+  String get agreeToTerms => 'أوافق على ';
+
+  @override
+  String get termsAndConditions => 'الشروط والأحكام';
+
+  @override
+  String get termsConditions => 'الشروط والأحكام';
+
+  @override
+  String get and => ' و ';
+
+  @override
+  String get sendVerificationCode => 'إرسال رمز التحقق';
+
+  @override
+  String get rememberPassword => 'تتذكر كلمة المرور؟ ';
+
+  @override
+  String get resetPasswordTitle => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get resetPasswordSubtitle => 'أنشئ كلمة مرور جديدة لحسابك.';
+
+  @override
+  String get resetPasswordDescription => 'أنشئ كلمة مرور جديدة لحسابك.';
+
+  @override
+  String get resetPasswordSuccess => 'تم إعادة تعيين كلمة المرور بنجاح!';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمات المرور غير متطابقة';
+
+  @override
+  String get forgotPasswordTitle => 'نسيت كلمة المرور';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'أدخل رقم هاتفك وسنرسل لك رمز تحقق لإعادة تعيين كلمة المرور.';
+
+  @override
+  String get forgotPasswordDescription =>
+      'أدخل رقم هاتفك وسنرسل لك رمز تحقق لإعادة تعيين كلمة المرور.';
+
+  @override
+  String get nationalId => 'الرقم الوطني';
+
+  @override
+  String get nationalIdHint => 'أدخل رقمك الوطني';
+
+  @override
+  String get enterNationalId => 'أدخل رقمك الوطني';
+
+  @override
+  String get otpVerification => 'التحقق من الرمز';
+
+  @override
+  String get otpSubtitle => 'أدخل الرمز المكون من ٦ أرقام المرسل إلى';
+
+  @override
+  String get verify => 'تحقق';
+
+  @override
+  String get didntReceiveCode => 'لم تستلم الرمز؟ ';
+
+  @override
+  String get resend => 'إعادة إرسال';
+
+  @override
+  String get selectAccountType => 'اختر نوع الحساب';
+
+  @override
+  String get selectAccountTypeSubtitle => 'اختر إذا كنت سائقًا أو شركة';
+
+  @override
+  String get customer => 'عميل';
+
+  @override
+  String get driver => 'سائق';
+
+  @override
+  String get company => 'شركة';
+
+  @override
+  String get driverSignIn => 'تسجيل دخول السائق';
+
+  @override
+  String get driverRegistration => 'تسجيل السائق';
+
+  @override
+  String get companySignIn => 'تسجيل دخول الشركة';
+
+  @override
+  String get companyRegistration => 'تسجيل الشركة';
+
+  @override
+  String get nickname => 'الاسم المستعار';
+
+  @override
+  String get nicknameHint => 'أدخل اسمًا مستعارًا';
+
+  @override
+  String get enterCompanyName => 'أدخل اسم شركتك';
+
+  @override
+  String get enterNickname => 'أدخل اسمًا مستعارًا';
+
+  @override
+  String get resetPasswordDriverDescription =>
+      'أنشئ كلمة مرور جديدة لحساب السائق الخاص بك.';
+
+  @override
+  String get resetPasswordCompanyDescription =>
+      'أنشئ كلمة مرور جديدة لحساب الشركة الخاص بك.';
+
+  @override
+  String get orContinueWith => 'أو تابع باستخدام';
+
+  @override
+  String get continueWithGoogle => 'تابع باستخدام جوجل';
+
+  @override
+  String get continueWithApple => 'تابع باستخدام أبل';
 }

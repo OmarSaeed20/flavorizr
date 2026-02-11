@@ -1,21 +1,11 @@
 // lib/features/auth/role_selection/presentation/pages/role_selection_page.dart
 import 'package:fast_golden_taxi/core/router/routes.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user_role.dart';
+import 'package:fast_golden_taxi/l10n/app_localizations.dart';
 import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_design_constants.dart';
 import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-/// Role that a user can select.
-enum _UserRole {
-  customer('customer', 'assets/icons/role_customer.png', Icons.person_outline),
-  driver('Driver', 'assets/icons/role_driver.png', Icons.drive_eta_outlined),
-  company('Company', 'assets/icons/role_company.png', Icons.business_outlined);
-
-  const _UserRole(this.label, this.assetPath, this.fallbackIcon);
-  final String label;
-  final String assetPath;
-  final IconData fallbackIcon;
-}
 
 /// Role Selection Page (Figma-accurate).
 ///
@@ -33,17 +23,11 @@ class RoleSelectionPage extends StatefulWidget {
 }
 
 class _RoleSelectionPageState extends State<RoleSelectionPage> {
-  _UserRole? _selectedRole = _UserRole.customer;
+  UserRole? _selectedRole = UserRole.user;
 
-  void _navigateForRole(_UserRole role) {
-    switch (role) {
-      case _UserRole.customer:
-        context.push(Routes.register);
-      case _UserRole.driver:
-        context.push(Routes.driverRegister);
-      case _UserRole.company:
-        context.push(Routes.companyRegister);
-    }
+  void _navigateForRole(UserRole role) {
+    // Navigate to Select Login/Signup page with role context
+    context.push(Routes.selectLoginSignup, extra: {'role': role.value});
   }
 
   @override
@@ -58,7 +42,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                 child: Column(
-                  children: _UserRole.values.map((role) {
+                  children: UserRole.values.map((role) {
                     final isSelected = _selectedRole == role;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
@@ -76,12 +60,12 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
             ),
 
             // ── Bottom sheet ──
-            const AuthBottomSheet(
+            AuthBottomSheet(
               padding: AuthDesignConstants.sheetPadding,
               children: [
                 AuthSheetHeader(
-                  title: 'Select account type',
-                  subtitle: 'Choose if you are a driver or a company',
+                  title: AppLocalizations.of(context)!.selectAccountType,
+                  subtitle: AppLocalizations.of(context)!.selectAccountTypeSubtitle,
                 ),
               ],
             ),
@@ -96,7 +80,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
 class _RoleCard extends StatelessWidget {
   const _RoleCard({required this.role, required this.isSelected});
 
-  final _UserRole role;
+  final UserRole role;
   final bool isSelected;
 
   @override

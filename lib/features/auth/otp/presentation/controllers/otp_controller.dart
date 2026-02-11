@@ -11,8 +11,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Flow context for OTP verification.
 enum OtpFlowContext {
   registration('registration'),
-  forgotPassword('forgot-password'),
-  phoneChange('phone-change');
+  forgotPassword('forgotPassword'),
+  phoneChange('phone-change'),
+  driverRegistration('driverRegistration'),
+  driverForgotPassword('driverForgotPassword'),
+  companyRegistration('companyRegistration'),
+  companyForgotPassword('companyForgotPassword'),
+  driverAuth('driverAuth'),
+  companyAuth('companyAuth');
 
   const OtpFlowContext(this.value);
   final String value;

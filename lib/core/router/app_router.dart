@@ -34,6 +34,7 @@ import 'package:fast_golden_taxi/features/driver/driver_trips/presentation/pages
 import 'package:fast_golden_taxi/features/language_selection/presentation/pages/language_selection_page.dart';
 import 'package:fast_golden_taxi/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:fast_golden_taxi/features/splash/presentation/pages/splash_page.dart';
+import 'package:fast_golden_taxi/features/user/auth/domain/entities/user_role.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/pages/forgot_password_page.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/pages/login_page.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/pages/register_page.dart';
@@ -304,8 +305,11 @@ class AppRouter {
       path: Routes.resetPassword,
       name: Routes.resetPasswordName,
       builder: (context, state) {
-        final token = state.uri.queryParameters['token'] ?? state.extra as String?;
-        return ResetPasswordPage(token: token);
+        final extra = state.extra as Map<String, dynamic>?;
+        final token = state.uri.queryParameters['token'] ?? extra?['token'] as String?;
+        final phone = extra?['phone'] as String?;
+        final otp = extra?['otp'] as String?;
+        return ResetPasswordPage(token: token, phone: phone, otp: otp);
       },
     ),
     GoRoute(
@@ -313,9 +317,13 @@ class AppRouter {
       name: Routes.verifyPhoneName,
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>?;
-        final phone = extra?['phone'] as String? ?? '';
-        final flowContext = extra?['flowContext'] as String? ?? 'registration';
-        return OtpVerificationPage(phone: phone, flowContext: flowContext);
+        final phone = extra?['phone'] as String? ?? state.uri.queryParameters['phone'] ?? '';
+        final flowContext =
+            extra?['flowContext'] as String? ??
+            state.uri.queryParameters['flowContext'] ??
+            'registration';
+        final role = extra?['role'] as String? ?? UserRole.user.value;
+        return OtpVerificationPage(phone: phone, flowContext: flowContext, role: role);
       },
     ),
     GoRoute(
@@ -585,19 +593,29 @@ class AppRouter {
     GoRoute(
       path: Routes.driverResetPassword,
       name: Routes.driverResetPasswordName,
-      builder: (context, state) => const DriverResetPasswordPage(),
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        return DriverResetPasswordPage(
+          phone: extra?['phone'] as String?,
+          otp: extra?['otp'] as String?,
+        );
+      },
     ),
     GoRoute(
       path: Routes.driverForgotPassword,
       name: Routes.driverForgotPasswordName,
       builder: (context, state) => const DriverForgotPasswordPage(),
     ),
+    // Driver verify phone now redirects to shared OTP page
+    // Kept for backward compatibility, but routes to the shared verifyPhone
     GoRoute(
       path: Routes.driverVerifyPhone,
       name: Routes.driverVerifyPhoneName,
-      builder: (context, state) {
-        final phone = state.uri.queryParameters['phone'] ?? state.extra as String? ?? '';
-        return OtpVerificationPage(phone: phone);
+      redirect: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        final phone = extra?['phone'] as String? ?? state.uri.queryParameters['phone'] ?? '';
+        final flowContext = extra?['flowContext'] as String? ?? 'driverAuth';
+        return '${Routes.verifyPhone}?phone=$phone&flowContext=$flowContext';
       },
     ),
 
@@ -734,20 +752,33 @@ class AppRouter {
       builder: (context, state) => const CompanyRegisterPage(),
     ),
     GoRoute(
-      path: '/company/auth/forgot-password',
-      name: 'companyForgotPassword',
+      path: Routes.companyForgotPassword,
+      name: Routes.companyForgotPasswordName,
       builder: (context, state) => const CompanyForgotPasswordPage(),
     ),
     GoRoute(
-      path: '/company/auth/reset-password',
-      name: 'companyResetPassword',
-      builder: (context, state) => const CompanyResetPasswordPage(),
+      path: Routes.companyResetPassword,
+      name: Routes.companyResetPasswordName,
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        return CompanyResetPasswordPage(
+          phone: extra?['phone'] as String?,
+          verificationCode: extra?['verificationCode'] as String?,
+        );
+      },
     ),
-    // GoRoute(
-    //   path: '/company/auth/verify-phone',
-    //   name: 'companyVerifyPhone',
-    //   builder: (context, state) => const CompanyVerifyPhonePage(),
-    // ),
+    // Company verify phone now redirects to shared OTP page
+    // Kept for backward compatibility, but routes to the shared verifyPhone
+    GoRoute(
+      path: Routes.companyVerifyPhone,
+      name: Routes.companyVerifyPhoneName,
+      redirect: (context, state) {
+        final extra = state.extra as Map<String, dynamic>?;
+        final phone = extra?['phone'] as String? ?? state.uri.queryParameters['phone'] ?? '';
+        final flowContext = extra?['flowContext'] as String? ?? 'companyAuth';
+        return '${Routes.verifyPhone}?phone=$phone&flowContext=$flowContext';
+      },
+    ),
 
     // Company Shell Routes
     ShellRoute(
