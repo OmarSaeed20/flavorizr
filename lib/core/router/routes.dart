@@ -49,10 +49,6 @@ abstract class Routes {
   static const String resetPassword = '/auth/reset-password';
   static const String resetPasswordName = 'resetPassword';
 
-  /// Email verification page.
-  static const String verifyEmail = '/auth/verify-email';
-  static const String verifyEmailName = 'verifyEmail';
-
   /// Onboarding flow.
   static const String onboarding = '/onboarding';
   static const String onboardingName = 'onboarding';
@@ -648,7 +644,6 @@ abstract class Routes {
     register => 'Register',
     forgotPassword => 'Forgot Password',
     resetPassword => 'Reset Password',
-    verifyEmail => 'Verify Email',
     verifyPhone => 'Verify Phone',
     selectLoginSignup => 'Get Started',
     languageSelection => 'Language Selection',

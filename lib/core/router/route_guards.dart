@@ -137,7 +137,7 @@ class EmailVerificationGuard extends RouteGuard {
   Future<bool> canActivate(BuildContext context, GoRouterState state) async => isEmailVerified();
 
   @override
-  String? getRedirectPath(BuildContext context, GoRouterState state) => Routes.verifyEmail;
+  String? getRedirectPath(BuildContext context, GoRouterState state) => Routes.verifyPhone;
 }
 
 /// Guard that checks a feature flag.

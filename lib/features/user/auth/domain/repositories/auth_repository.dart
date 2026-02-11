@@ -19,7 +19,6 @@ import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_passwor
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_magic_link_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_otp_parameters.dart';
-import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_email_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_phone_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_tokens.dart';
@@ -118,9 +117,6 @@ abstract class AuthRepository {
 
   /// Resends email verification link.
   AuthEither<void> resendEmailVerification();
-
-  /// Verifies email with token from verification link.
-  AuthEither<void> verifyEmail(VerifyEmailParameters parameters);
 
   /// Verifies phone number with OTP code.
   AuthEither<AuthResult> verifyPhone(VerifyPhoneParameters parameters);

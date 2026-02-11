@@ -23,7 +23,6 @@ import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_verific
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_magic_link_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_otp_parameters.dart';
-import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_email_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_phone_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_tokens.dart';
@@ -35,8 +34,7 @@ import 'package:local_auth/local_auth.dart';
 typedef GoogleSignInCallback = Future<String?> Function();
 
 /// Callback type for Apple Sign-In.
-typedef AppleSignInCallback =
-    Future<({String idToken, String authorizationCode})?> Function();
+typedef AppleSignInCallback = Future<({String idToken, String authorizationCode})?> Function();
 
 /// Implementation of [AuthRepository].
 ///
@@ -98,14 +96,11 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   // ==================== Authentication ====================
 
   @override
-  AuthEither<AuthResult> signInWithEmail(
-    SignInWithEmailParameters parameters,
-  ) async {
+  AuthEither<AuthResult> signInWithEmail(SignInWithEmailParameters parameters) async {
     // Note: This method is deprecated. Use login() with LoginParameters instead.
     // Kept for backward compatibility.
     final loginParams = LoginParameters(
-      phone: parameters
-          .email, // Using email as phone for now - adjust based on API requirements
+      phone: parameters.email, // Using email as phone for now - adjust based on API requirements
       phoneIsoCode: 'EG', // Default ISO code - should be provided by parameters
       password: parameters.password,
       firebaseToken: '', // Firebase token should be provided
@@ -141,9 +136,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   AuthEither<AuthResult> signInWithGoogle() async {
     // Note: This method is not supported by the new API.
     return const ApiResult.exception(
-      UnknownNetworkException(
-        message: 'Google Sign-In is not supported by the current API.',
-      ),
+      UnknownNetworkException(message: 'Google Sign-In is not supported by the current API.'),
     );
   }
 
@@ -151,20 +144,15 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   AuthEither<AuthResult> signInWithApple() async {
     // Note: This method is not supported by the new API.
     return const ApiResult.exception(
-      UnknownNetworkException(
-        message: 'Apple Sign-In is not supported by the current API.',
-      ),
+      UnknownNetworkException(message: 'Apple Sign-In is not supported by the current API.'),
     );
   }
 
   @override
-  AuthEither<AuthResult> signInWithOtp(
-    SignInWithOtpParameters parameters,
-  ) async {
+  AuthEither<AuthResult> signInWithOtp(SignInWithOtpParameters parameters) async {
     // Note: This method is deprecated. Use verifyPhone() with VerifyPhoneParameters instead.
     final verifyParams = VerifyPhoneParameters(
-      phone: parameters
-          .verificationId, // Using verificationId as phone for compatibility
+      phone: parameters.verificationId, // Using verificationId as phone for compatibility
       verificationCode: parameters.otpCode,
       firebaseToken: '', // Firebase token should be provided
       cancelToken: parameters.cancelToken,
@@ -181,14 +169,10 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   }
 
   @override
-  AuthEither<AuthResult> signInWithMagicLink(
-    SignInWithMagicLinkParameters parameters,
-  ) async {
+  AuthEither<AuthResult> signInWithMagicLink(SignInWithMagicLinkParameters parameters) async {
     // Note: This method is not supported by the new API.
     return const ApiResult.exception(
-      UnknownNetworkException(
-        message: 'Magic link sign-in is not supported by the current API.',
-      ),
+      UnknownNetworkException(message: 'Magic link sign-in is not supported by the current API.'),
     );
   }
 
@@ -231,9 +215,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   // ==================== Password Recovery ====================
 
   @override
-  AuthEither<void> sendPasswordResetEmail(
-    SendPasswordResetEmailParameters parameters,
-  ) async {
+  AuthEither<void> sendPasswordResetEmail(SendPasswordResetEmailParameters parameters) async {
     // Note: This method is deprecated. Use forgetPassword() with ForgetPasswordParameters instead.
     final forgetParams = ForgetPasswordParameters(
       phone: parameters.email,
@@ -246,16 +228,12 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
 
   /// Request password reset code with parameter class.
   AuthEither<void> forgetPassword(ForgetPasswordParameters parameters) async {
-    return executeRemoteRequest<void>(
-      request: () => _remoteDataSource.forgetPassword(parameters),
-    );
+    return executeRemoteRequest<void>(request: () => _remoteDataSource.forgetPassword(parameters));
   }
 
   @override
   AuthEither<void> resetPassword(ResetPasswordParameters parameters) async {
-    return executeRemoteRequest<void>(
-      request: () => _remoteDataSource.resetPassword(parameters),
-    );
+    return executeRemoteRequest<void>(request: () => _remoteDataSource.resetPassword(parameters));
   }
 
   @override
@@ -264,8 +242,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     // Use resetPasswordWithParams() instead.
     return const ApiResult.exception(
       UnknownNetworkException(
-        message:
-            'changePassword is not supported. Use resetPasswordWithParams instead.',
+        message: 'changePassword is not supported. Use resetPasswordWithParams instead.',
       ),
     );
   }
@@ -287,16 +264,12 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     if (result.isSuccess) {
       return ApiResult.success(parameters.phoneNumber);
     } else {
-      return ApiResult.exception(
-        result.error ?? const UnknownNetworkException(),
-      );
+      return ApiResult.exception(result.error ?? const UnknownNetworkException());
     }
   }
 
   /// Send verification code with parameter class.
-  AuthEither<void> sendVerificationCode(
-    SendVerificationCodeParameters parameters,
-  ) async {
+  AuthEither<void> sendVerificationCode(SendVerificationCodeParameters parameters) async {
     return executeRemoteRequest<void>(
       request: () => _remoteDataSource.sendVerificationCode(parameters),
     );
@@ -307,8 +280,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     // Note: This method is not supported by the new API.
     return const ApiResult.exception(
       UnknownNetworkException(
-        message:
-            'sendMagicLink is not supported. Use sendVerificationCode instead.',
+        message: 'sendMagicLink is not supported. Use sendVerificationCode instead.',
       ),
     );
   }
@@ -318,23 +290,13 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     // Note: This method is deprecated. Use sendVerificationCode() with SendVerificationCodeParameters instead.
     return const ApiResult.exception(
       UnknownNetworkException(
-        message:
-            'resendEmailVerification is deprecated. Use sendVerificationCode instead.',
-      ),
-    );
-  }
-
-  @override
-  AuthEither<void> verifyEmail(VerifyEmailParameters parameters) async {
-    // Note: This method is deprecated. Use verifyPhone() with VerifyPhoneParameters instead.
-    return const ApiResult.exception(
-      UnknownNetworkException(
-        message: 'verifyEmail is deprecated. Use verifyPhone instead.',
+        message: 'resendEmailVerification is deprecated. Use sendVerificationCode instead.',
       ),
     );
   }
 
   /// Verify user phone number with parameter class.
+  @override
   AuthEither<AuthResult> verifyPhone(VerifyPhoneParameters parameters) async {
     final result = await executeRemoteRequest<AuthResult>(
       request: () => _remoteDataSource.verifyPhone(parameters),
@@ -365,15 +327,11 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
 
     // Try to fetch from remote if we have tokens
     final tokensResult = await _localDataSource.getTokens();
-    if (tokensResult.isError ||
-        tokensResult.data == null ||
-        tokensResult.data!.isFullyExpired) {
+    if (tokensResult.isError || tokensResult.data == null || tokensResult.data!.isFullyExpired) {
       return const ApiResult.success(null);
     }
 
-    final result = await executeRemoteRequest<UserModel>(
-      request: _remoteDataSource.getCurrentUser,
-    );
+    final result = await executeRemoteRequest<UserModel>(request: _remoteDataSource.getCurrentUser);
 
     if (result.isSuccess && result.data != null) {
       await _localDataSource.saveUser(result.data!);
@@ -391,9 +349,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   AuthEither<AuthTokens> refreshTokens() async {
     final currentTokensResult = await _localDataSource.getTokens();
     if (currentTokensResult.isError || currentTokensResult.data == null) {
-      return const ApiResult.exception(
-        UnauthorizedException(message: 'No tokens available'),
-      );
+      return const ApiResult.exception(UnauthorizedException(message: 'No tokens available'));
     }
 
     final currentTokens = currentTokensResult.data!;
@@ -403,9 +359,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
       );
     }
 
-    final refreshParams = RefreshTokenParameters(
-      refreshToken: currentTokens.refreshToken,
-    );
+    final refreshParams = RefreshTokenParameters(refreshToken: currentTokens.refreshToken);
 
     final result = await executeRemoteRequest<AuthTokens>(
       request: () => _remoteDataSource.refreshToken(refreshParams),
@@ -423,9 +377,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   AuthEither<void> signOut(LogoutParameters parameters) async {
     try {
       final tokensResult = await _localDataSource.getTokens();
-      if (tokensResult.isSuccess &&
-          tokensResult.data != null &&
-          await isConnected) {
+      if (tokensResult.isSuccess && tokensResult.data != null && await isConnected) {
         await _remoteDataSource.logout(parameters);
       }
     } catch (_) {
@@ -438,9 +390,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
 
   @override
   AuthEither<void> signOutAllDevices() async {
-    final result = await executeRemoteRequest<void>(
-      request: _remoteDataSource.signOutAllDevices,
-    );
+    final result = await executeRemoteRequest<void>(request: _remoteDataSource.signOutAllDevices);
 
     if (result.isSuccess) {
       await _clearAuthData();
@@ -469,16 +419,12 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   }
 
   @override
-  AuthEither<void> enableBiometric(
-    SaveBiometricCredentialsParameters parameters,
-  ) async {
+  AuthEither<void> enableBiometric(SaveBiometricCredentialsParameters parameters) async {
     // Get current credentials from a recent login
     // This should be called after a successful email/password login
     final user = _currentUser;
     if (user == null) {
-      return const ApiResult.exception(
-        UnauthorizedException(message: 'Please sign in first'),
-      );
+      return const ApiResult.exception(UnauthorizedException(message: 'Please sign in first'));
     }
 
     // Save credentials for biometric authentication
@@ -504,9 +450,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     final isAvailable = await isBiometricAvailable();
     if (!isAvailable) {
       return const ApiResult.exception(
-        UnknownNetworkException(
-          message: 'Biometric authentication is not available',
-        ),
+        UnknownNetworkException(message: 'Biometric authentication is not available'),
       );
     }
 
@@ -524,10 +468,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     try {
       final authenticated = await _localAuth.authenticate(
         localizedReason: 'Sign in with biometrics',
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-          biometricOnly: true,
-        ),
+        options: const AuthenticationOptions(stickyAuth: true, biometricOnly: true),
       );
 
       if (!authenticated) {
@@ -541,9 +482,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
       );
       return signInWithEmail(params);
     } catch (e) {
-      return ApiResult.exception(
-        NetworkExceptionFactory.mapExceptionToFailure(e),
-      );
+      return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
     }
   }
 

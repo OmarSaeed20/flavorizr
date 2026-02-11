@@ -26,7 +26,6 @@ import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_login_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_register_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_reset_password_page.dart';
-import 'package:fast_golden_taxi/features/driver/driver_auth/presentation/pages/driver_verify_phone_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_home/presentation/pages/driver_home_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_profile/presentation/pages/driver_profile_page.dart';
 import 'package:fast_golden_taxi/features/driver/driver_reviews/presentation/pages/driver_reviews_page.dart';
@@ -307,14 +306,6 @@ class AppRouter {
       builder: (context, state) {
         final token = state.uri.queryParameters['token'] ?? state.extra as String?;
         return ResetPasswordPage(token: token);
-      },
-    ),
-    GoRoute(
-      path: Routes.verifyEmail,
-      name: Routes.verifyEmailName,
-      builder: (context, state) {
-        final phone = state.uri.queryParameters['phone'] ?? state.extra as String?;
-        return OtpVerificationPage(phone: phone ?? 'N/A');
       },
     ),
     GoRoute(
@@ -606,7 +597,7 @@ class AppRouter {
       name: Routes.driverVerifyPhoneName,
       builder: (context, state) {
         final phone = state.uri.queryParameters['phone'] ?? state.extra as String? ?? '';
-        return DriverVerifyPhonePage(phone: phone);
+        return OtpVerificationPage(phone: phone);
       },
     ),
 
