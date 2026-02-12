@@ -1,4 +1,6 @@
 // lib/features/auth/presentation/controllers/login_controller.dart
+import 'package:fast_golden_taxi/core/services/notification_service.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/login_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/usecases/biometric_auth_usecase.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/usecases/login_usecase.dart';
@@ -165,10 +167,11 @@ class LoginController extends AutoDisposeNotifier<LoginState> {
 
     try {
       final result = await _loginUseCase(
-        LoginParams(
+        LoginParameters(
           phone: state.phone.trim(),
           phoneIsoCode: state.phoneIsoCode,
           password: state.password,
+          firebaseToken: NotificationService.instance.fcmToken ?? '',
         ),
       );
 

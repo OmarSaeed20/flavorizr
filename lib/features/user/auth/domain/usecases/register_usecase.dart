@@ -1,7 +1,6 @@
 // lib/features/auth/domain/usecases/register_usecase.dart
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
-import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart'
-    show ApiResult;
+import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart' show ApiResult;
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/register_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
@@ -13,19 +12,24 @@ import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 /// 1. Validates phone number format
 /// 2. Validates password strength
 /// 3. Validates password confirmation
-/// 4. Calls repository to create account
+/// 4. Validates birthdate format (YYYY)
+/// 5. Calls repository to create account
 ///
 /// Password requirements:
 /// - Minimum 8 characters
 /// - At least one uppercase letter
 /// - At least one lowercase letter
 /// - At least one number
-class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
+///
+/// Birthdate format:
+/// - Year only (YYYY), e.g., "1999"
+/// - Must be between 1900 and current year
+class RegisterUseCase implements UseCase<AuthResult, RegisterParameters> {
   RegisterUseCase(this._repository);
   final AuthRepository _repository;
 
   @override
-  UseCaseResult<AuthResult> call(RegisterParams params) async {
+  UseCaseResult<AuthResult> call(RegisterParameters params) async {
     final errors = <String, List<String>>{};
 
     // Validate phone number format
@@ -45,13 +49,13 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
     }
 
     // Validate password confirmation
-    if (params.password != params.confirmPassword) {
+    if (params.password != params.passwordConfirmation) {
       errors['confirmPassword'] = ['Passwords do not match'];
     }
 
-    // Validate display name if provided
-    if (params.displayName != null && params.displayName!.trim().isEmpty) {
-      errors['displayName'] = ['Display name cannot be empty'];
+    // Validate name
+    if (params.name.trim().isEmpty) {
+      errors['name'] = ['Name is required'];
     }
 
     // Validate country ID
@@ -64,36 +68,32 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
       errors['governorateId'] = ['Governorate ID must be greater than 0'];
     }
 
-    // Validate birthdate format
+    // Validate birthdate format (year only: YYYY)
     if (!_isValidBirthdate(params.birthdate)) {
-      errors['birthdate'] = ['Birthdate must be in YYYY-MM-DD format'];
+      errors['birthdate'] = ['Birthdate must be a valid year (YYYY)'];
     }
 
     // Validate gender
-    if (params.gender.toLowerCase() != 'male' &&
-        params.gender.toLowerCase() != 'female') {
+    if (params.gender.toLowerCase() != 'male' && params.gender.toLowerCase() != 'female') {
       errors['gender'] = ['Gender must be either "male" or "female"'];
     }
 
     // Return validation failure if there are errors
     if (errors.isNotEmpty) {
       return ApiResult.exception(
-        ValidationException(
-          message: 'Please fix the errors below',
-          errors: errors,
-        ),
+        ValidationException(message: 'Please fix the errors below', errors: errors),
       );
     }
 
     // Attempt registration
     final registerParams = RegisterParameters(
       companyType: params.companyType,
-      name: params.displayName?.trim() ?? params.name,
+      name: params.name.trim(),
       nickname: params.nickname,
       phone: params.phone.trim(),
       phoneIso2Code: params.phoneIso2Code.trim().toUpperCase(),
       password: params.password,
-      passwordConfirmation: params.confirmPassword,
+      passwordConfirmation: params.passwordConfirmation,
       countryId: params.countryId,
       governorateId: params.governorateId,
       birthdate: params.birthdate,
@@ -114,24 +114,16 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
     return phoneRegex.hasMatch(phone.trim());
   }
 
-  /// Validates birthdate format (YYYY-MM-DD).
+  /// Validates birthdate format (year only: YYYY).
   bool _isValidBirthdate(String birthdate) {
-    final dateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-    if (!dateRegex.hasMatch(birthdate.trim())) {
+    final yearRegex = RegExp(r'^\d{4}$');
+    if (!yearRegex.hasMatch(birthdate.trim())) {
       return false;
     }
     try {
-      final parts = birthdate.split('-');
-      final year = int.parse(parts[0]);
-      final month = int.parse(parts[1]);
-      final day = int.parse(parts[2]);
-      if (year < 1900 || year > DateTime.now().year) {
-        return false;
-      }
-      if (month < 1 || month > 12) {
-        return false;
-      }
-      if (day < 1 || day > 31) {
+      final year = int.parse(birthdate.trim());
+      final currentYear = DateTime.now().year;
+      if (year < 1900 || year > currentYear) {
         return false;
       }
       return true;
@@ -158,41 +150,4 @@ class RegisterUseCase implements UseCase<AuthResult, RegisterParams> {
 
     return errors;
   }
-}
-
-/// Parameters for the registration use case.
-class RegisterParams {
-  const RegisterParams({
-    required this.phone,
-    required this.phoneIso2Code,
-    required this.password,
-    required this.confirmPassword,
-    this.displayName,
-    this.name = '',
-    this.nickname,
-    this.companyType = 'customer',
-    this.countryId = 1,
-    this.governorateId = 1,
-    this.birthdate = '2000-01-01',
-    this.gender = 'male',
-    this.deviceType = 'mobile',
-    this.deviceToken,
-    this.deviceId,
-  });
-
-  final String phone;
-  final String phoneIso2Code;
-  final String password;
-  final String confirmPassword;
-  final String? displayName;
-  final String name;
-  final String? nickname;
-  final String companyType;
-  final int countryId;
-  final int governorateId;
-  final String birthdate;
-  final String gender;
-  final String deviceType;
-  final String? deviceToken;
-  final String? deviceId;
 }

@@ -2,6 +2,30 @@
 import 'package:fast_golden_taxi/features/user/auth/data/models/user_model.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/user_role.dart';
 
+/// Governorate entity
+class Governorate {
+  const Governorate({required this.id, required this.name});
+
+  final int id;
+  final String name;
+
+  Governorate copyWith({int? id, String? name}) {
+    return Governorate(id: id ?? this.id, name: name ?? this.name);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Governorate && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  String toString() => 'Governorate(id: $id, name: $name)';
+}
+
 /// Represents an authenticated user in the domain layer.
 ///
 /// This entity contains all user-related information that the app
@@ -23,6 +47,16 @@ class User {
     this.lastLoginAt,
     this.role = UserRole.user,
     this.metadata = const {},
+    // New fields from API
+    this.nickname,
+    this.governorate,
+    this.birthdate,
+    this.gender,
+    this.isBanned = false,
+    this.avatar,
+    this.referralCode,
+    this.referredBy,
+    this.referralPoints,
   });
 
   /// Creates a user from a map.
@@ -40,6 +74,21 @@ class User {
       lastLoginAt: map['lastLoginAt'] != null ? DateTime.parse(map['lastLoginAt'] as String) : null,
       role: UserRole.fromString(map['role'] as String) ?? UserRole.user,
       metadata: Map<String, dynamic>.from(map['metadata'] as Map? ?? {}),
+      // New fields
+      nickname: map['nickname'] as String?,
+      governorate: map['governorate'] != null
+          ? Governorate(
+              id: map['governorate']['id'] as int,
+              name: map['governorate']['name'] as String,
+            )
+          : null,
+      birthdate: map['birthdate'] as int?,
+      gender: map['gender'] as String?,
+      isBanned: map['isBanned'] as bool? ?? false,
+      avatar: map['avatar'] as String?,
+      referralCode: map['referralCode'] as String?,
+      referredBy: map['referredBy'] as String?,
+      referralPoints: map['referralPoints'] as int?,
     );
   }
 
@@ -79,6 +128,34 @@ class User {
   /// Additional metadata about the user.
   final Map<String, dynamic> metadata;
 
+  // New fields from API
+  /// User's nickname
+  final String? nickname;
+
+  /// User's governorate
+  final Governorate? governorate;
+
+  /// User's birth year
+  final int? birthdate;
+
+  /// User's gender (male/female)
+  final String? gender;
+
+  /// Whether the user is banned
+  final bool isBanned;
+
+  /// User's avatar URL
+  final String? avatar;
+
+  /// User's referral code
+  final String? referralCode;
+
+  /// User who referred this user
+  final String? referredBy;
+
+  /// User's referral points
+  final int? referralPoints;
+
   /// Returns true if the user has admin privileges.
   bool get isAdmin => role == UserRole.company;
 
@@ -112,6 +189,16 @@ class User {
     DateTime? lastLoginAt,
     UserRole? role,
     Map<String, dynamic>? metadata,
+    // New fields
+    String? nickname,
+    Governorate? governorate,
+    int? birthdate,
+    String? gender,
+    bool? isBanned,
+    String? avatar,
+    String? referralCode,
+    String? referredBy,
+    int? referralPoints,
   }) {
     return User(
       id: id ?? this.id,
@@ -126,6 +213,16 @@ class User {
       lastLoginAt: lastLoginAt ?? this.lastLoginAt,
       role: role ?? this.role,
       metadata: metadata ?? this.metadata,
+      // New fields
+      nickname: nickname ?? this.nickname,
+      governorate: governorate ?? this.governorate,
+      birthdate: birthdate ?? this.birthdate,
+      gender: gender ?? this.gender,
+      isBanned: isBanned ?? this.isBanned,
+      avatar: avatar ?? this.avatar,
+      referralCode: referralCode ?? this.referralCode,
+      referredBy: referredBy ?? this.referredBy,
+      referralPoints: referralPoints ?? this.referralPoints,
     );
   }
 
@@ -158,6 +255,18 @@ class User {
       'lastLoginAt': lastLoginAt?.toIso8601String(),
       'role': role.value,
       'metadata': metadata,
+      // New fields
+      'nickname': nickname,
+      'governorate': governorate != null
+          ? {'id': governorate!.id, 'name': governorate!.name}
+          : null,
+      'birthdate': birthdate,
+      'gender': gender,
+      'isBanned': isBanned,
+      'avatar': avatar,
+      'referralCode': referralCode,
+      'referredBy': referredBy,
+      'referralPoints': referralPoints,
     };
   }
 

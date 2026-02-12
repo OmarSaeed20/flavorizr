@@ -75,7 +75,11 @@ class _CompanyRegisterPageState extends ConsumerState<CompanyRegisterPage> {
         authenticated: () {
           context.go(
             Routes.verifyPhone,
-            extra: {'phone': _phoneController.text.trim(), 'flowContext': 'companyRegistration'},
+            extra: {
+              'role': 'company',
+              'phone': _phoneController.text.trim(),
+              'flowContext': 'companyRegistration',
+            },
           );
         },
         orElse: () {},

@@ -9,6 +9,7 @@ import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart'
         ValidationException;
 import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/change_password_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/login_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/logout_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/register_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/reset_password_parameters.dart';
@@ -34,16 +35,10 @@ typedef AuthEither<T> = Future<ApiResult<T>>;
 /// know about the specific implementation details (Firebase, REST, etc.).
 abstract class AuthRepository {
   // ==================== Authentication ====================
-
-  /// Signs in with email and password.
-  ///
-  /// Returns [AuthResult] on success.
-  ///
+  /// Signs in with phone number and password.
+  /// Returns user and tokens on success.
   /// Possible failures:
-  /// - [UnauthorizedException] - Wrong email or password
-  /// - [NoInternetException] - No internet connection
-  /// - [ServerException] - Server error
-  AuthEither<AuthResult> signInWithEmail(SignInWithEmailParameters parameters);
+  AuthEither<AuthResult> login(LoginParameters parameters);
 
   /// Signs in with Google OAuth.
   ///
@@ -70,11 +65,6 @@ abstract class AuthRepository {
   /// First call [sendOtp] to get the verification ID,
   /// then use this method with the OTP code.
   AuthEither<AuthResult> signInWithOtp(SignInWithOtpParameters parameters);
-
-  /// Signs in with magic link (passwordless).
-  ///
-  /// User clicks a link in their email to authenticate.
-  AuthEither<AuthResult> signInWithMagicLink(SignInWithMagicLinkParameters parameters);
 
   // ==================== Registration ====================
 

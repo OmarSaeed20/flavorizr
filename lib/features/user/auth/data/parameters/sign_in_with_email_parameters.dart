@@ -2,77 +2,70 @@ import 'package:dio/dio.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/base_parameters.dart';
 
 /// Sign In With Email API parameters with builder pattern
-/// Used for email and password authentication
-class SignInWithEmailParameters extends Parameters {
-  final String email;
+/// Used for phone and password authentication
+class SignInWithPhoneParameters extends Parameters {
+  final String phone;
   final String password;
   @override
   final CancelToken? cancelToken;
 
-  const SignInWithEmailParameters({
-    required this.email,
-    required this.password,
-    this.cancelToken,
-  });
+  const SignInWithPhoneParameters({required this.phone, required this.password, this.cancelToken});
 
   /// Convert to JSON for API request
   @override
-  Map<String, dynamic> toJson() => {'email': email, 'password': password};
-
+  Map<String, dynamic> toJson() => {'phone': phone, 'password': password};
   /// Create a builder for this parameters type
-  SignInWithEmailParametersBuilder builder() =>
-      SignInWithEmailParametersBuilder();
+  SignInWithPhoneParametersBuilder builder() => SignInWithPhoneParametersBuilder();
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is SignInWithEmailParameters &&
-        other.email == email &&
+    return other is SignInWithPhoneParameters &&
+        other.phone == phone &&
         other.password == password &&
         other.cancelToken == cancelToken;
   }
 
   @override
-  int get hashCode => email.hashCode ^ password.hashCode ^ cancelToken.hashCode;
+  int get hashCode => phone.hashCode ^ password.hashCode ^ cancelToken.hashCode;
 
   @override
   String toString() =>
-      'SignInWithEmailParameters(email: $email, password: ****, cancelToken: $cancelToken)';
+      'SignInWithPhoneParameters(phone: $phone, password: ****, cancelToken: $cancelToken)';
 }
 
-/// Builder for SignInWithEmailParameters
-class SignInWithEmailParametersBuilder
-    extends ParametersBuilder<SignInWithEmailParameters> {
-  String? _email;
+/// Builder for SignInWithPhoneParameters
+class SignInWithPhoneParametersBuilder extends ParametersBuilder<SignInWithPhoneParameters> {
+  String? _phone;
   String? _password;
   CancelToken? _cancelToken;
 
-  SignInWithEmailParametersBuilder();
+  SignInWithPhoneParametersBuilder();
 
-  /// Set email address
-  SignInWithEmailParametersBuilder withEmail(String email) {
-    _email = email;
+  /// Set phone address
+  SignInWithPhoneParametersBuilder withPhone(String phone) {
+    _phone = phone;
     return this;
   }
 
   /// Set password
-  SignInWithEmailParametersBuilder withPassword(String password) {
+  SignInWithPhoneParametersBuilder withPassword(String password) {
     _password = password;
     return this;
   }
 
   /// Set cancel token
   @override
-  SignInWithEmailParametersBuilder withCancelToken(CancelToken? cancelToken) {
+  SignInWithPhoneParametersBuilder withCancelToken(CancelToken? cancelToken) {
     _cancelToken = cancelToken;
     return this;
   }
 
   /// Build the parameters object
   @override
-  SignInWithEmailParameters build() {
-    return SignInWithEmailParameters(
-      email: _email!,
+  SignInWithPhoneParameters build() {
+    return SignInWithPhoneParameters(
+      phone: _phone!,
       password: _password!,
       cancelToken: _cancelToken,
     );

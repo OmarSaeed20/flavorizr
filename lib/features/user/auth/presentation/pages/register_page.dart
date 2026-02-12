@@ -1,4 +1,6 @@
-import 'package:fast_golden_taxi/core/router/routes.dart';
+import 'package:fast_golden_taxi/core/router/route_navigation.dart';
+import 'package:fast_golden_taxi/core/theme/app_theme.dart';
+import 'package:fast_golden_taxi/features/auth/otp/presentation/controllers/otp_controller.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/controllers/register_controller.dart';
 import 'package:fast_golden_taxi/features/user/auth/presentation/widgets/social_login_buttons.dart';
 import 'package:fast_golden_taxi/l10n/app_localizations.dart';
@@ -30,6 +32,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _confirmPasswordFocusNode = FocusNode();
   final _displayNameFocusNode = FocusNode();
 
+  late String _role;
+
+  @override
+  void initState() {
+    super.initState();
+    // Get role from navigation state
+    final state = GoRouterState.of(context);
+    final extra = state.extra as Map<String, dynamic>?;
+    _role = extra?['role'] as String? ?? 'customer';
+  }
+
   @override
   void dispose() {
     _phoneController.dispose();
@@ -47,10 +60,18 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     if (_formKey.currentState?.validate() ?? false) {
       final result = await ref.read(registerControllerProvider.notifier).register();
       if (result != null && mounted) {
+        // Determine the correct flow context based on role
+        final flowContext = switch (_role.toLowerCase()) {
+          'driver' => OtpFlowContext.driverRegistration,
+          'company' => OtpFlowContext.companyRegistration,
+          _ => OtpFlowContext.registration,
+        };
+
         // Navigate to OTP verification after successful registration
-        context.go(
-          Routes.verifyPhone,
-          extra: {'phone': _phoneController.text.trim(), 'flowContext': 'registration'},
+        RouteNavigation.navigateToVerifyPhone(
+          _role,
+          phone: _phoneController.text.trim(),
+          flowContext: flowContext,
         );
       }
     }
@@ -95,7 +116,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         children: [
           // White header bar
           ColoredBox(
-            color: Colors.white,
+            color: context.colorScheme.surface,
             child: SafeArea(
               bottom: false,
               child: SizedBox(
@@ -139,7 +160,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: context.colorScheme.surface,
                         borderRadius: BorderRadius.circular(AuthDesignConstants.cardBorderRadius),
                       ),
                       child: Column(
@@ -296,13 +317,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           ),
           // Bottom sheet with social login
           Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              color: context.colorScheme.surface,
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(AuthDesignConstants.bottomSheetRadius),
                 topRight: Radius.circular(AuthDesignConstants.bottomSheetRadius),
               ),
-              boxShadow: [AuthDesignConstants.bottomSheetShadow],
+              boxShadow: const [AuthDesignConstants.bottomSheetShadow],
             ),
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
             child: Column(

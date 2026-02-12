@@ -1,5 +1,6 @@
 // lib/features/auth/role_selection/presentation/pages/role_selection_page.dart
 import 'package:fast_golden_taxi/core/router/routes.dart';
+import 'package:fast_golden_taxi/core/theme/theme.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/user_role.dart';
 import 'package:fast_golden_taxi/l10n/app_localizations.dart';
 import 'package:fast_golden_taxi/shared/presentation/widgets/auth/auth_design_constants.dart';
@@ -89,11 +90,9 @@ class _RoleCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: context.colorScheme.surface,
         shape: RoundedRectangleBorder(
-          side: isSelected
-              ? const BorderSide(color: AuthDesignConstants.primaryVariant)
-              : BorderSide.none,
+          side: isSelected ? BorderSide(color: context.colorScheme.primary) : BorderSide.none,
           borderRadius: BorderRadius.circular(AuthDesignConstants.roleCardBorderRadius),
         ),
         shadows: const [AuthDesignConstants.cardShadow],
@@ -111,10 +110,10 @@ class _RoleCard extends StatelessWidget {
               fit: BoxFit.contain,
               errorBuilder: (_, __, ___) => DecoratedBox(
                 decoration: BoxDecoration(
-                  color: AuthDesignConstants.primary.withValues(alpha: 0.1),
+                  color: context.colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(7.27),
                 ),
-                child: Icon(role.fallbackIcon, size: 60, color: AuthDesignConstants.primary),
+                child: Icon(role.fallbackIcon, size: 60, color: context.colorScheme.primary),
               ),
             ),
           ),

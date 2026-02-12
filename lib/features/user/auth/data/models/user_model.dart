@@ -20,16 +20,33 @@ class UserModel {
     this.lastLoginAt,
     this.role = UserRole.user,
     this.metadata = const {},
+    // New fields from API
+    this.nickname,
+    this.governorate,
+    this.birthdate,
+    this.gender,
+    this.isBanned = false,
+    this.avatar,
+    this.referralCode,
+    this.referredBy,
+    this.referralPoints,
   });
 
   /// Creates a model from JSON.
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] as String? ?? json['uid'] as String,
-      email: json['email'] as String,
-      displayName: json['display_name'] as String? ?? json['displayName'] as String?,
-      photoUrl: json['photo_url'] as String? ?? json['photoUrl'] as String?,
-      phoneNumber: json['phone_number'] as String? ?? json['phoneNumber'] as String?,
+      id: json['id']?.toString() ?? json['uid'] as String? ?? '',
+      email: json['email'] as String? ?? '',
+      displayName:
+          json['display_name'] as String? ??
+          json['displayName'] as String? ??
+          json['name'] as String?,
+      photoUrl:
+          json['photo_url'] as String? ?? json['photoUrl'] as String? ?? json['avatar'] as String?,
+      phoneNumber:
+          json['phone_number'] as String? ??
+          json['phoneNumber'] as String? ??
+          json['phone'] as String?,
       emailVerified: json['email_verified'] as bool? ?? json['emailVerified'] as bool? ?? false,
       phoneVerified: json['phone_verified'] as bool? ?? json['phoneVerified'] as bool? ?? false,
       isActive: json['is_active'] as bool? ?? json['isActive'] as bool? ?? true,
@@ -45,6 +62,21 @@ class UserModel {
           : null,
       role: UserRole.fromString(json['role'] as String) ?? UserRole.user,
       metadata: Map<String, dynamic>.from(json['metadata'] as Map? ?? {}),
+      // New fields
+      nickname: json['nickname'] as String?,
+      governorate: json['governorate'] != null
+          ? Governorate(
+              id: json['governorate']['id'] as int,
+              name: json['governorate']['name'] as String,
+            )
+          : null,
+      birthdate: json['birthdate'] as int?,
+      gender: json['gender'] as String?,
+      isBanned: json['is_banned'] as bool? ?? json['isBanned'] as bool? ?? false,
+      avatar: json['avatar'] as String?,
+      referralCode: json['referral_code'] as String? ?? json['referralCode'] as String?,
+      referredBy: json['referred_by'] as String? ?? json['referredBy'] as String?,
+      referralPoints: json['referral_points'] as int? ?? json['referralPoints'] as int?,
     );
   }
 
@@ -62,38 +94,17 @@ class UserModel {
     lastLoginAt: entity.lastLoginAt,
     role: entity.role,
     metadata: entity.metadata,
+    // New fields
+    nickname: entity.nickname,
+    governorate: entity.governorate,
+    birthdate: entity.birthdate,
+    gender: entity.gender,
+    isBanned: entity.isBanned,
+    avatar: entity.avatar,
+    referralCode: entity.referralCode,
+    referredBy: entity.referredBy,
+    referralPoints: entity.referralPoints,
   );
-
-  /// Creates a model from an API user response.
-  factory UserModel.fromApiUser(dynamic apiUser) {
-    if (apiUser is Map<String, dynamic>) {
-      return UserModel.fromJson(apiUser);
-    }
-    // ApiUser
-    // Handle ApiUser object if it's a typed object
-    return UserModel(
-      id: apiUser.id?.toString() ?? '',
-      email: apiUser.email ?? '',
-      displayName: apiUser.name ?? apiUser.nickname,
-      photoUrl: apiUser.avatar,
-      phoneNumber: apiUser.phone,
-      emailVerified: apiUser.email != null,
-      phoneVerified: true,
-      createdAt: apiUser.createdAt ?? DateTime.now(),
-      lastLoginAt: apiUser.updatedAt,
-      role: UserRole.fromString(apiUser.role ?? '') ?? UserRole.user,
-      metadata: {
-        'nickname': apiUser.nickname,
-        'country': apiUser.country,
-        'governorate': apiUser.governorate,
-        'birthdate': apiUser.birthdate,
-        'gender': apiUser.gender,
-        'deviceType': apiUser.deviceType,
-        'deviceToken': apiUser.deviceToken,
-        'deviceId': apiUser.deviceId,
-      },
-    );
-  }
 
   final String id;
   final String email;
@@ -108,9 +119,19 @@ class UserModel {
   final UserRole role;
   final Map<String, dynamic> metadata;
 
+  // New fields from API
+  final String? nickname;
+  final Governorate? governorate;
+  final int? birthdate;
+  final String? gender;
+  final bool isBanned;
+  final String? avatar;
+  final String? referralCode;
+  final String? referredBy;
+  final int? referralPoints;
+
   // Additional properties for compatibility with API responses
   String? get name => displayName;
-  String? get nickname => metadata['nickname'] as String?;
   String? get address => metadata['address'] as String?;
   String? get bio => metadata['bio'] as String?;
   String? get image => photoUrl;
@@ -130,6 +151,18 @@ class UserModel {
       'last_login_at': lastLoginAt?.toIso8601String(),
       'role': role.value,
       'metadata': metadata,
+      // New fields
+      'nickname': nickname,
+      'governorate': governorate != null
+          ? {'id': governorate!.id, 'name': governorate!.name}
+          : null,
+      'birthdate': birthdate,
+      'gender': gender,
+      'is_banned': isBanned,
+      'avatar': avatar,
+      'referral_code': referralCode,
+      'referred_by': referredBy,
+      'referral_points': referralPoints,
     };
   }
 
@@ -147,6 +180,16 @@ class UserModel {
     lastLoginAt: lastLoginAt,
     role: role,
     metadata: metadata,
+    // New fields
+    nickname: nickname,
+    governorate: governorate,
+    birthdate: birthdate,
+    gender: gender,
+    isBanned: isBanned,
+    avatar: avatar,
+    referralCode: referralCode,
+    referredBy: referredBy,
+    referralPoints: referralPoints,
   );
 
   /// Creates a copy with modified fields.

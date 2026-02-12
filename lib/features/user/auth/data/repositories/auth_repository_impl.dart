@@ -20,8 +20,6 @@ import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_magic_l
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_otp_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_password_reset_email_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/send_verification_code_parameters.dart';
-import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
-import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_magic_link_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_otp_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/data/parameters/verify_phone_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
@@ -95,31 +93,8 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
 
   // ==================== Authentication ====================
 
-  @override
-  AuthEither<AuthResult> signInWithEmail(SignInWithEmailParameters parameters) async {
-    // Note: This method is deprecated. Use login() with LoginParameters instead.
-    // Kept for backward compatibility.
-    final loginParams = LoginParameters(
-      phone: parameters.email, // Using email as phone for now - adjust based on API requirements
-      phoneIsoCode: 'EG', // Default ISO code - should be provided by parameters
-      password: parameters.password,
-      firebaseToken: '', // Firebase token should be provided
-      deviceType: 'mobile',
-      cancelToken: parameters.cancelToken,
-    );
-
-    final result = await executeRemoteRequest<AuthResult>(
-      request: () => _remoteDataSource.login(loginParams),
-    );
-
-    if (result.isSuccess && result.data != null) {
-      await _saveAuthData(result.data!.user.toModel(), result.data!.tokens);
-    }
-
-    return result;
-  }
-
   /// Login with phone and password using parameter class.
+  @override
   AuthEither<AuthResult> login(LoginParameters parameters) async {
     final result = await executeRemoteRequest<AuthResult>(
       request: () => _remoteDataSource.login(parameters),
@@ -166,14 +141,6 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
     }
 
     return result;
-  }
-
-  @override
-  AuthEither<AuthResult> signInWithMagicLink(SignInWithMagicLinkParameters parameters) async {
-    // Note: This method is not supported by the new API.
-    return const ApiResult.exception(
-      UnknownNetworkException(message: 'Magic link sign-in is not supported by the current API.'),
-    );
   }
 
   // ==================== Registration ====================
@@ -286,7 +253,7 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   }
 
   @override
-  AuthEither<void> resendEmailVerification() async {
+  AuthEither<void> resendOTPVerification() async {
     // Note: This method is deprecated. Use sendVerificationCode() with SendVerificationCodeParameters instead.
     return const ApiResult.exception(
       UnknownNetworkException(
@@ -476,11 +443,13 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
       }
 
       // Sign in with saved credentials
-      final params = SignInWithEmailParameters(
-        email: credentials.email,
+      final params = LoginParameters(
+        phone: credentials.email,
+        phoneIsoCode: 'EG', // Default to Egypt, should be stored in credentials
         password: credentials.password,
+        firebaseToken: '', // Empty token for now, should be refreshed
       );
-      return signInWithEmail(params);
+      return login(params);
     } catch (e) {
       return ApiResult.exception(NetworkExceptionFactory.mapExceptionToFailure(e));
     }
@@ -505,5 +474,11 @@ class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
   void dispose() {
     _authStateController.close();
     _tokenRefreshController.close();
+  }
+
+  @override
+  AuthEither<void> resendEmailVerification() {
+    // TODO: implement resendEmailVerification
+    throw UnimplementedError();
   }
 }

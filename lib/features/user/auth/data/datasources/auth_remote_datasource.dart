@@ -32,9 +32,7 @@ abstract class AuthRemoteDataSource {
   Future<ApiResult<void>> logout(LogoutParameters parameters);
 
   /// Sends verification code to user's phone.
-  Future<ApiResult<void>> sendVerificationCode(
-    SendVerificationCodeParameters parameters,
-  );
+  Future<ApiResult<void>> sendVerificationCode(SendVerificationCodeParameters parameters);
 
   /// Verifies user phone number with verification code.
   Future<ApiResult<AuthResult>> verifyPhone(VerifyPhoneParameters parameters);
@@ -56,9 +54,7 @@ abstract class AuthRemoteDataSource {
 }
 
 /// Implementation of [AuthRemoteDataSource] using BaseRemoteDataSource.
-class AuthRemoteDataSourceImpl
-    with BaseRemoteDataSource
-    implements AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl with BaseRemoteDataSource implements AuthRemoteDataSource {
   const AuthRemoteDataSourceImpl(this._apiClient);
   final ApiClient _apiClient;
 
@@ -98,9 +94,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> sendVerificationCode(
-    SendVerificationCodeParameters parameters,
-  ) async {
+  Future<ApiResult<void>> sendVerificationCode(SendVerificationCodeParameters parameters) async {
     return post<void>(
       path: AuthEndpoints.sendVerificationCode,
       data: parameters.toJson(),
@@ -109,9 +103,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<AuthResult>> verifyPhone(
-    VerifyPhoneParameters parameters,
-  ) async {
+  Future<ApiResult<AuthResult>> verifyPhone(VerifyPhoneParameters parameters) async {
     return post<AuthResult>(
       path: AuthEndpoints.verifyPhone,
       data: parameters.toJson(),
@@ -121,9 +113,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> resetPassword(
-    ResetPasswordParameters parameters,
-  ) async {
+  Future<ApiResult<void>> resetPassword(ResetPasswordParameters parameters) async {
     return post<void>(
       path: AuthEndpoints.resetPassword,
       data: parameters.toJson(),
@@ -132,9 +122,7 @@ class AuthRemoteDataSourceImpl
   }
 
   @override
-  Future<ApiResult<void>> forgetPassword(
-    ForgetPasswordParameters parameters,
-  ) async {
+  Future<ApiResult<void>> forgetPassword(ForgetPasswordParameters parameters) async {
     return post<void>(
       path: AuthEndpoints.forgetPassword,
       data: parameters.toJson(),
@@ -148,9 +136,7 @@ class AuthRemoteDataSourceImpl
       path: AuthEndpoints.profile,
       decoder: (data) {
         final jsonData = data as Map<String, dynamic>;
-        return UserModel.fromJson(
-          jsonData['user'] as Map<String, dynamic>? ?? jsonData,
-        );
+        return UserModel.fromJson(jsonData['user'] as Map<String, dynamic>? ?? jsonData);
       },
     );
   }
@@ -162,9 +148,7 @@ class AuthRemoteDataSourceImpl
 
   /// Refresh authentication tokens
   @override
-  Future<ApiResult<AuthTokens>> refreshToken(
-    RefreshTokenParameters parameters,
-  ) async {
+  Future<ApiResult<AuthTokens>> refreshToken(RefreshTokenParameters parameters) async {
     return post<AuthTokens>(
       path: AuthEndpoints.refreshToken,
       data: parameters.toJson(),
@@ -174,33 +158,49 @@ class AuthRemoteDataSourceImpl
   }
 
   /// Parses auth response containing user and tokens.
+  /// Based on new API response structure:
+  /// {
+  ///   "status": "success",
+  ///   "message": "...",
+  ///   "data": {
+  ///     "user": {...},
+  ///     "token": {
+  ///       "access": {"token": "...", "expiration": ...},
+  ///       "refresh": {"token": "...", "expiration": ...}
+  ///     }
+  ///   }
+  /// }
   AuthResult _parseAuthResponse(Map<String, dynamic> data) {
-    final user = UserModel.fromJson(data['user'] as Map<String, dynamic>);
-    final tokens = _parseTokens(data);
+    // Handle new response structure with nested data
+    final dataMap = data['data'] as Map<String, dynamic>? ?? data;
+    final userMap = dataMap['user'] as Map<String, dynamic>;
+    final tokenMap = dataMap['token'] as Map<String, dynamic>;
+
+    final user = UserModel.fromJson(userMap);
+    final tokens = _parseTokens(tokenMap);
     return AuthResult(user: user.toEntity(), tokens: tokens);
   }
 
   /// Parses tokens from response.
-  /// Based on API_DOCUMENTATION.md
-  AuthTokens _parseTokens(Map<String, dynamic> data) {
-    final expiresIn = data['expires_in'] as int? ?? 3600;
-    final refreshExpiresIn = data['refresh_expires_in'] as int?;
+  /// Based on new API token structure:
+  /// {
+  ///   "access": {"token": "...", "expiration": ...},
+  ///   "refresh": {"token": "...", "expiration": ...}
+  /// }
+  AuthTokens _parseTokens(Map<String, dynamic> tokenData) {
+    final accessData = tokenData['access'] as Map<String, dynamic>;
+    final refreshData = tokenData['refresh'] as Map<String, dynamic>;
 
-    // Handle both 'token' and 'access_token' field names
-    final accessToken =
-        (data['access_token'] as String?) ?? (data['token'] as String?);
-    // Handle both 'refreshToken' and 'refresh_token' field names
-    final refreshToken =
-        (data['refresh_token'] as String?) ?? (data['refreshToken'] as String?);
+    final accessToken = accessData['token'] as String;
+    final accessExpiration = accessData['expiration'] as int;
+    final refreshToken = refreshData['token'] as String;
+    final refreshExpiration = refreshData['expiration'] as int;
 
     return AuthTokens(
-      accessToken: accessToken ?? '',
-      refreshToken: refreshToken ?? '',
-      accessTokenExpiresAt: DateTime.now().add(Duration(seconds: expiresIn)),
-      refreshTokenExpiresAt: refreshExpiresIn != null
-          ? DateTime.now().add(Duration(seconds: refreshExpiresIn))
-          : null,
-      tokenType: data['token_type'] as String? ?? 'Bearer',
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      accessTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(accessExpiration * 1000),
+      refreshTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(refreshExpiration * 1000),
     );
   }
 }

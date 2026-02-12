@@ -98,7 +98,11 @@ class _DriverRegisterPageState extends ConsumerState<DriverRegisterPage> {
       if (state.isAuthenticated) {
         context.go(
           Routes.verifyPhone,
-          extra: {'phone': _phoneController.text.trim(), 'flowContext': 'driverRegistration'},
+          extra: {
+            'role': 'driver',
+            'phone': _phoneController.text.trim(),
+            'flowContext': 'driverRegistration',
+          },
         );
       }
     }

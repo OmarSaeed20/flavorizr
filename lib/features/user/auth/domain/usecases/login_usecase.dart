@@ -1,7 +1,7 @@
 // lib/features/auth/domain/usecases/login_usecase.dart
 import 'package:fast_golden_taxi/core/network/exception/network_exceptions.dart';
 import 'package:fast_golden_taxi/core/network/results/dio_reslut.dart';
-import 'package:fast_golden_taxi/features/user/auth/data/parameters/sign_in_with_email_parameters.dart';
+import 'package:fast_golden_taxi/features/user/auth/data/parameters/login_parameters.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/entities/auth_result.dart';
 import 'package:fast_golden_taxi/features/user/auth/domain/repositories/auth_repository.dart';
 import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
@@ -17,7 +17,7 @@ import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 /// Usage:
 /// ```dart
 /// final result = await loginUseCase(
-///   LoginParams(phone: '01001107528', phoneIsoCode: 'EG', password: 'secret'),
+///   LoginParameters(phone: '01001107528', phoneIsoCode: 'EG', password: 'secret'),
 /// );
 /// if (result.isSuccess) {
 ///   navigateToHome(result.data!.user);
@@ -25,13 +25,13 @@ import 'package:fast_golden_taxi/shared/domain/usecases/usecase.dart';
 ///   showError(result.error!.message);
 /// }
 /// ```
-class LoginUseCase implements UseCase<AuthResult, LoginParams> {
+class LoginUseCase implements UseCase<AuthResult, LoginParameters> {
   /// Creates a login use case with the given repository.
   LoginUseCase(this._repository);
   final AuthRepository _repository;
 
   @override
-  UseCaseResult<AuthResult> call(LoginParams params) async {
+  UseCaseResult<AuthResult> call(LoginParameters params) async {
     // Validate phone number format
     if (!_isValidPhone(params.phone)) {
       return const ApiResult.exception(
@@ -68,12 +68,7 @@ class LoginUseCase implements UseCase<AuthResult, LoginParams> {
       );
     }
 
-    // Attempt login
-    final signInParams = SignInWithEmailParameters(
-      email: params.phone.trim(), // Using phone as email for compatibility
-      password: params.password,
-    );
-    final result = await _repository.signInWithEmail(signInParams);
+    final result = await _repository.login(params);
 
     return result;
   }
@@ -84,23 +79,4 @@ class LoginUseCase implements UseCase<AuthResult, LoginParams> {
     final phoneRegex = RegExp(r'^\+?[0-9]{8,15}$');
     return phoneRegex.hasMatch(phone.trim());
   }
-}
-
-/// Parameters for the login use case.
-class LoginParams {
-  /// Creates login parameters.
-  const LoginParams({
-    required this.phone,
-    required this.phoneIsoCode,
-    required this.password,
-  });
-
-  /// User's phone number.
-  final String phone;
-
-  /// Phone ISO code (e.g., 'EG', 'US').
-  final String phoneIsoCode;
-
-  /// User's password.
-  final String password;
 }

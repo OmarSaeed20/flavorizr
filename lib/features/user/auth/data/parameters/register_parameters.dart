@@ -14,7 +14,7 @@ class RegisterParameters extends Parameters {
   final String passwordConfirmation;
   final int countryId;
   final int governorateId;
-  final String birthdate;
+  final String birthdate; // Format: YYYY (year only)
   final String gender;
   final String? deviceType;
   final String? deviceToken;
@@ -163,9 +163,7 @@ class RegisterParametersBuilder extends ParametersBuilder<RegisterParameters> {
   }
 
   /// Set password confirmation
-  RegisterParametersBuilder withPasswordConfirmation(
-    String passwordConfirmation,
-  ) {
+  RegisterParametersBuilder withPasswordConfirmation(String passwordConfirmation) {
     _passwordConfirmation = passwordConfirmation;
     return this;
   }

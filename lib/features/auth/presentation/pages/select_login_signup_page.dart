@@ -71,13 +71,11 @@ class SelectLoginSignupPage extends StatelessWidget {
   void _navigateToRegister(BuildContext context, String role) {
     switch (role.toLowerCase()) {
       case 'driver':
-        context.push(Routes.driverRegister);
-        break;
+        context.push(Routes.driverRegister, extra: {'role': role});
       case 'company':
-        context.push(Routes.companyRegister);
-        break;
-      default:
-        context.push(Routes.register);
+        context.push(Routes.companyRegister, extra: {'role': role});
+      case 'user':
+        context.push(Routes.register, extra: {'role': role});
     }
   }
 }

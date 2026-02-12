@@ -33,25 +33,25 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
 
     return result.when(
       success: (authResponse, _) async {
-        // Convert ApiAuthResponse to AuthTokens
-        final expiresIn = authResponse.expiresIn ?? 3600;
+        // Convert ApiAuthResponse to AuthTokens using new nested structure
+        final tokenData = authResponse.data.token;
         final tokens = AuthTokens(
-          accessToken: authResponse.accessToken ?? authResponse.token ?? '',
-          refreshToken: authResponse.refreshToken ?? '',
-          accessTokenExpiresAt: DateTime.now().add(
-            Duration(seconds: expiresIn),
+          accessToken: tokenData.access.token,
+          refreshToken: tokenData.refresh.token,
+          accessTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(
+            tokenData.access.expiration * 1000,
           ),
-          tokenType: authResponse.tokenType ?? 'Bearer',
+          refreshTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(
+            tokenData.refresh.expiration * 1000,
+          ),
         );
 
         // Save tokens locally
         await _localDataSource.saveTokens(tokens);
 
-        // Save user data if available
-        if (authResponse.user != null) {
-          final user = UserModel.fromApiUser(authResponse.user!);
-          await _localDataSource.saveUser(user);
-        }
+        // Save user data
+        final user = UserModel.fromJson(authResponse.data.user.toJson());
+        await _localDataSource.saveUser(user);
 
         return ApiResult.success(tokens);
       },
@@ -60,32 +60,30 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
   }
 
   @override
-  Future<ApiResult<AuthTokens>> register(
-    CompanyRegisterParameters parameters,
-  ) async {
+  Future<ApiResult<AuthTokens>> register(CompanyRegisterParameters parameters) async {
     final result = await _remoteDataSource.register(parameters);
 
     return result.when(
       success: (authResponse, _) async {
-        // Convert ApiAuthResponse to AuthTokens
-        final expiresIn = authResponse.expiresIn ?? 3600;
+        // Convert ApiAuthResponse to AuthTokens using new nested structure
+        final tokenData = authResponse.data.token;
         final tokens = AuthTokens(
-          accessToken: authResponse.accessToken ?? authResponse.token ?? '',
-          refreshToken: authResponse.refreshToken ?? '',
-          accessTokenExpiresAt: DateTime.now().add(
-            Duration(seconds: expiresIn),
+          accessToken: tokenData.access.token,
+          refreshToken: tokenData.refresh.token,
+          accessTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(
+            tokenData.access.expiration * 1000,
           ),
-          tokenType: authResponse.tokenType ?? 'Bearer',
+          refreshTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(
+            tokenData.refresh.expiration * 1000,
+          ),
         );
 
         // Save tokens locally
         await _localDataSource.saveTokens(tokens);
 
-        // Save user data if available
-        if (authResponse.user != null) {
-          final user = UserModel.fromApiUser(authResponse.user!);
-          await _localDataSource.saveUser(user);
-        }
+        // Save user data
+        final user = UserModel.fromJson(authResponse.data.user.toJson());
+        await _localDataSource.saveUser(user);
 
         return ApiResult.success(tokens);
       },
@@ -119,32 +117,30 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
   }
 
   @override
-  Future<ApiResult<AuthTokens>> verifyPhone(
-    CompanyVerifyPhoneParameters parameters,
-  ) async {
+  Future<ApiResult<AuthTokens>> verifyPhone(CompanyVerifyPhoneParameters parameters) async {
     final result = await _remoteDataSource.verifyPhone(parameters);
 
     return result.when(
       success: (authResponse, _) async {
-        // Convert ApiAuthResponse to AuthTokens
-        final expiresIn = authResponse.expiresIn ?? 3600;
+        // Convert ApiAuthResponse to AuthTokens using new nested structure
+        final tokenData = authResponse.data.token;
         final tokens = AuthTokens(
-          accessToken: authResponse.accessToken ?? authResponse.token ?? '',
-          refreshToken: authResponse.refreshToken ?? '',
-          accessTokenExpiresAt: DateTime.now().add(
-            Duration(seconds: expiresIn),
+          accessToken: tokenData.access.token,
+          refreshToken: tokenData.refresh.token,
+          accessTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(
+            tokenData.access.expiration * 1000,
           ),
-          tokenType: authResponse.tokenType ?? 'Bearer',
+          refreshTokenExpiresAt: DateTime.fromMillisecondsSinceEpoch(
+            tokenData.refresh.expiration * 1000,
+          ),
         );
 
         // Save tokens locally
         await _localDataSource.saveTokens(tokens);
 
-        // Save user data if available
-        if (authResponse.user != null) {
-          final user = UserModel.fromApiUser(authResponse.user!);
-          await _localDataSource.saveUser(user);
-        }
+        // Save user data
+        final user = UserModel.fromJson(authResponse.data.user.toJson());
+        await _localDataSource.saveUser(user);
 
         return ApiResult.success(tokens);
       },
@@ -153,16 +149,12 @@ class CompanyAuthRepositoryImpl implements CompanyAuthRepository {
   }
 
   @override
-  Future<ApiResult<void>> forgetPassword(
-    CompanyForgetPasswordParameters parameters,
-  ) async {
+  Future<ApiResult<void>> forgetPassword(CompanyForgetPasswordParameters parameters) async {
     return _remoteDataSource.forgetPassword(parameters);
   }
 
   @override
-  Future<ApiResult<void>> resetPassword(
-    CompanyResetPasswordParameters parameters,
-  ) async {
+  Future<ApiResult<void>> resetPassword(CompanyResetPasswordParameters parameters) async {
     return _remoteDataSource.resetPassword(parameters);
   }
 
